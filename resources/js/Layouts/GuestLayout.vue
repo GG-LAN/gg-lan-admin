@@ -11,12 +11,12 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="flex flex-col items-end justify-center dark:bg-gray-900 ">
+    <div class="fixed right-0 m-1">
         <DarkModeButton/>
     </div>
     <div class="flex flex-col items-center justify-center px-6 pt-8 mx-auto md:h-screen pt:mt-0 dark:bg-gray-900">
         <Link href="/">
-            <ApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
+            <ApplicationLogo/>
         </Link>
 
         <!-- Card -->

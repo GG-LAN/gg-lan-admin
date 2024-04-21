@@ -79,13 +79,5 @@ const submit = () => {
         <PrimaryButton class="px-5 py-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" type="submit">
             Se connecter
         </PrimaryButton>
-
-        <!-- Create account -->
-        <div class="text-sm font-medium text-gray-500 dark:text-gray-400">
-            Pas de compte?
-            <Link :href="route('register')" class="ml-auto text-sm text-primary-700 hover:underline dark:text-primary-500">
-                Créer un compte
-            </Link>
-        </div>
     </form>
 </template>

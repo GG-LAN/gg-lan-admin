@@ -3,9 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -20,6 +20,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'pseudo',
+        'birth_date',
+        'image',
+        'admin',
     ];
 
     /**
@@ -43,5 +47,22 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function teams()
+    {
+        return $this->belongsToMany('App\Models\Team')->withPivot('captain');
+    }
+
+    public function tournaments() {
+        return $this->belongsToMany('App\Models\Tournament');
+    }
+
+    public function purchasedPlaces() {
+        return $this->hasMany('App\Models\PurchasedPlace');
+    }
+
+    public function isAdmin() {
+        return $this->admin ? true : false;
     }
 }

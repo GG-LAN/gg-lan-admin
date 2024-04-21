@@ -22,7 +22,6 @@ const props = defineProps({
 let form = useForm({
     name: "",
     pseudo: "",
-    email: "",
     admin: false
 });
 

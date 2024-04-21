@@ -27,6 +27,10 @@ import DropdownNavLink from '@/Components/Navs/DropdownNavLink.vue';
                         <NavLink routename="dashboard" icon="chart-column" iconColor="red" activeFor="Dashboard">
                             Dashboard
                         </NavLink>
+
+                        <NavLink routename="players.index" icon="user" iconColor="blue" activeFor="Players">
+                            Joueurs
+                        </NavLink>
                     </ul>
                 </div>
             </div>

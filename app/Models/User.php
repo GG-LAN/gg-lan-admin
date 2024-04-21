@@ -65,4 +65,29 @@ class User extends Authenticatable
     public function isAdmin() {
         return $this->admin ? true : false;
     }
+
+    public static function getPlayers($numberOfItemsPerPage = 5, $search = null) {
+        $query = (new static);
+
+        // If search parameter is given
+        if ($search) {
+            $query = $query->where(function ($queryWhere) use ($search) {
+                $queryWhere->orWhere("name",   "like", "%{$search}%")
+                      ->orWhere("pseudo", "like", "%{$search}%")
+                      ->orWhere("email",  "like", "%{$search}%");
+            });
+        }
+        
+        return $query
+        ->paginate($numberOfItemsPerPage)
+        ->withQueryString()
+        ->through(function($player) {
+            return [
+                "id"     => $player->id,
+                "name"   => $player->name,
+                "pseudo" => $player->pseudo,
+                "email"  => $player->email
+            ];
+        });
+    }
 }

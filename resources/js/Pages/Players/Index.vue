@@ -3,9 +3,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import PageTitle from '@/Components/Ui/PageTitle.vue';
 import Table from '@/Components/Ui/Table.vue';
-// import DrawerCreate from './Partials/DrawerCreate.vue';
+import DrawerCreate from './Partials/DrawerCreate.vue';
 import DrawerUpdate from './Partials/DrawerUpdate.vue';
-// import DrawerDelete from './Partials/DrawerDelete.vue';
+import DrawerDelete from './Partials/DrawerDelete.vue';
 
 defineOptions({layout: AuthenticatedLayout});
 </script>
@@ -17,15 +17,15 @@ defineOptions({layout: AuthenticatedLayout});
     <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-4">
 
         <Table :rows="$page.props.tableData" :rowsInfo="$page.props.tableRowsInfo" :route="route('players.index')">
-            <!-- <template #drawerCreate="{ drawer }">
-                <DrawerCreate title="Ajouter un serveur" :drawer="drawer"/>
-            </template> -->
+            <template #drawerCreate="{ drawer }">
+                <DrawerCreate title="Ajouter un joueur" :drawer="drawer"/>
+            </template>
             <template #drawerUpdate="{ modelId, drawer }">
                 <DrawerUpdate title="Modifier le joueur" :modelId="modelId" :drawer="drawer"/>
             </template>
-            <!-- <template #drawerDelete="{ modelId, drawer }">
-                <DrawerDelete title="Supprimer le serveur" :modelId="modelId" :drawer="drawer"/>
-            </template> -->
+            <template #drawerDelete="{ modelId, drawer }">
+                <DrawerDelete title="Supprimer le joueur" :modelId="modelId" :drawer="drawer"/>
+            </template>
         </Table>
         
     </div>

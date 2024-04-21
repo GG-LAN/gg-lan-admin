@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Http\Requests\Players\StorePlayerRequest;
 use App\Http\Requests\Players\UpdatePlayerRequest;
 
 class PlayerController extends Controller
@@ -35,9 +36,9 @@ class PlayerController extends Controller
             ],
             "actions" => [
                 "search" => true,
-                // "create" => true,
+                "create" => true,
                 "update" => true,
-                // "delete" => true,
+                "delete" => true,
                 // "show" => [
                 //     "route" => "servers.show"
                 // ]
@@ -62,8 +63,17 @@ class PlayerController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
-        //
+    public function store(StorePlayerRequest $request) {
+        User::create([
+            "name"       => $request->name,
+            "pseudo"     => $request->pseudo,
+            "email"      => $request->email,
+            "password"   => bcrypt($request->password),
+            "birth_date" => $request->birth_date,
+            "admin"      => $request->admin,
+        ]);
+
+        return back();
     }
 
     public function show(string $id) {
@@ -84,8 +94,13 @@ class PlayerController extends Controller
         return back();
     }
 
-    public function destroy(string $id) {
-        //
+    public function destroy(Request $request, User $player) {
+        $player->delete();
+
+        $request->session()->flash('status', 'success');
+        // $request->session()->flash('message', __('responses.player.deleted'));
+
+        return to_route("players.index");
     }
 
     public function showApi(User $player) {

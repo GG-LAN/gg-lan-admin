@@ -22,7 +22,7 @@ const logout = () => {
                     </button>
                     
                     <Link :href="route('dashboard')" class="flex ml-2 md:mr-24">
-                        <ApplicationLogo class="h-8 mr-4"/>
+                        <ApplicationLogo class="h-8 mr-4 bg-gray-800 pr-1"/>
                     </Link>
 
                     <!-- General Search Field -->

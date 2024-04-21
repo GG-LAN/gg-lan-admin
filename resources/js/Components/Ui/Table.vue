@@ -172,14 +172,14 @@ const openDrawer = (drawer, id = null) => {
                 <div class="flex items-center mb-4 sm:mb-0 space-x-3">
                     <!-- Create drawer -->
                     <CreateButton id="create" class="text-sm" icon="plus" v-if="rowsInfo.actions['create']" @click="openDrawer('create')">
-                        <span>Ajouter</span>
+                        <span class="ml-2">Ajouter</span>
                     </CreateButton>
                         
                     <PrimaryButton id="reload" class="text-sm" icon="sync" :loading="loading" @click="refresh">
-                        <span>Rafraîchir</span>
+                        <span class="ml-2">Rafraîchir</span>
                     </PrimaryButton>
 
-                    <slot name="buttons" test="coucou"/>
+                    <slot name="buttons"/>
                 </div>
             </div>
         </div>
@@ -255,11 +255,9 @@ const openDrawer = (drawer, id = null) => {
                                 <!-- Buttons -->
                                 <td class="p-4 space-x-2 whitespace-nowrap" v-if="rowsInfo.actions.update || rowsInfo.actions.delete">
                                     <PrimaryButton :id="'update-'+row.id" class="text-sm" icon="pen-to-square" v-if="rowsInfo.actions.update" @click="openDrawer('update', row.id)">
-                                        <span>Modifier</span>
                                     </PrimaryButton>
 
                                     <DangerButton :id="'delete-'+row.id" class="text-sm" icon="trash-can" v-if="rowsInfo.actions.delete" @click="openDrawer('delete', row.id)">
-                                        <span>Supprimer</span>
                                     </DangerButton>
                                 </td>
                             </tr>

@@ -35,7 +35,7 @@ const props = defineProps({
         ease-in-out
         duration-150"
     >
-        <SvgIcon class="w-4 h-4 mr-2" v-if="icon" :icon="icon" :loading="loading" />
+        <SvgIcon class="w-4 h-4" v-if="icon" :icon="icon" :loading="loading" />
         <slot />
     </button>
 </template>

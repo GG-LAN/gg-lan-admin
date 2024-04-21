@@ -56,9 +56,9 @@ const close = () => {
         <form @submit.prevent="submit">
             <div class="space-y-4">
                 <div>
-                    <InputLabel for="name" value="Nom" />
+                    <InputLabel for="update-name" value="Nom" />
                     <TextInput
-                        id="name"
+                        id="update-name"
                         type="text"
                         v-model="form.name"
                         placeholder="George Abitbol"
@@ -68,9 +68,9 @@ const close = () => {
                 </div>
 
                 <div>
-                    <InputLabel for="pseudo" value="Pseudo" />
+                    <InputLabel for="update-pseudo" value="Pseudo" />
                     <TextInput
-                        id="pseudo"
+                        id="update-pseudo"
                         type="text"
                         v-model="form.pseudo"
                         placeholder="DiGiDiX"
@@ -80,9 +80,9 @@ const close = () => {
                 </div>
 
                 <div>
-                    <InputLabel for="admin" value="Admin" />
+                    <InputLabel for="update-admin" value="Admin" />
                     <Checkbox
-                        id="admin"
+                        id="update-admin"
                         v-model:checked="form.admin"
                     />
                     <InputError class="mt-2" :message="form.errors.admin" />

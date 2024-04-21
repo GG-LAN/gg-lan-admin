@@ -4,7 +4,7 @@ import { Head } from '@inertiajs/vue3';
 import PageTitle from '@/Components/Ui/PageTitle.vue';
 import Table from '@/Components/Ui/Table.vue';
 // import DrawerCreate from './Partials/DrawerCreate.vue';
-// import DrawerUpdate from './Partials/DrawerUpdate.vue';
+import DrawerUpdate from './Partials/DrawerUpdate.vue';
 // import DrawerDelete from './Partials/DrawerDelete.vue';
 
 defineOptions({layout: AuthenticatedLayout});
@@ -20,10 +20,10 @@ defineOptions({layout: AuthenticatedLayout});
             <!-- <template #drawerCreate="{ drawer }">
                 <DrawerCreate title="Ajouter un serveur" :drawer="drawer"/>
             </template> -->
-            <!-- <template #drawerUpdate="{ modelId, drawer }">
-                <DrawerUpdate title="Modifier le serveur" :modelId="modelId" :drawer="drawer"/>
+            <template #drawerUpdate="{ modelId, drawer }">
+                <DrawerUpdate title="Modifier le joueur" :modelId="modelId" :drawer="drawer"/>
             </template>
-            <template #drawerDelete="{ modelId, drawer }">
+            <!-- <template #drawerDelete="{ modelId, drawer }">
                 <DrawerDelete title="Supprimer le serveur" :modelId="modelId" :drawer="drawer"/>
             </template> -->
         </Table>

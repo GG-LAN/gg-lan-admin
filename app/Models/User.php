@@ -46,6 +46,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'admin' => 'bool'
         ];
     }
 
@@ -86,7 +87,8 @@ class User extends Authenticatable
                 "id"     => $player->id,
                 "name"   => $player->name,
                 "pseudo" => $player->pseudo,
-                "email"  => $player->email
+                "email"  => $player->email,
+                "admin"  => $player->admin,
             ];
         });
     }

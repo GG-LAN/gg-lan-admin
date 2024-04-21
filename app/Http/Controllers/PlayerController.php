@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Http\Requests\Players\UpdatePlayerRequest;
 
 class PlayerController extends Controller
 {
@@ -25,11 +26,17 @@ class PlayerController extends Controller
                     "type" => "text",
                     "title" => "Email",
                 ],
+                "admin" => [
+                    "type" => "bool",
+                    "title" => "Role",
+                    "label_true" => "Admin",
+                    "label_false" => "Joueur",
+                ],
             ],
             "actions" => [
                 "search" => true,
                 // "create" => true,
-                // "update" => true,
+                "update" => true,
                 // "delete" => true,
                 // "show" => [
                 //     "route" => "servers.show"
@@ -63,11 +70,25 @@ class PlayerController extends Controller
         //
     }
 
-    public function update(Request $request, string $id) {
-        //
+    public function update(UpdatePlayerRequest $request, User $player) {
+        $player->update([
+            "name"   => $request->name,
+            "pseudo" => $request->pseudo,
+            "admin"  => $request->admin
+        ]);
+
+
+        $request->session()->flash('status', 'success');
+        // $request->session()->flash('message', __('responses.server.updated'));
+
+        return back();
     }
 
     public function destroy(string $id) {
         //
+    }
+
+    public function showApi(User $player) {
+        return $player;
     }
 }

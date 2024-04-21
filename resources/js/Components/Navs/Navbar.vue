@@ -1,6 +1,7 @@
 <script setup>
 import { Link, router } from '@inertiajs/vue3';
 import SvgIcon from '@/Components/Ui/SvgIcon.vue';
+import ApplicationLogo from '@/Components/Ui/ApplicationLogo.vue';
 import DarkModeButton from '@/Components/Ui/DarkModeButton.vue';
 
 const props = defineProps({});
@@ -21,7 +22,8 @@ const logout = () => {
                     </button>
                     
                     <Link :href="route('dashboard')" class="flex ml-2 md:mr-24">
-                        <img src="/logo.png" class="h-8 mr-4" :alt="$page.props.appName" />
+                        <!-- <img src="/logo.png" class="h-8 mr-4" :alt="$page.props.appName" /> -->
+                        <ApplicationLogo class="h-8 mr-4"/>
                         <!-- And/Or -->
                         <!-- <span class="h-8 mr-3"></span>
                         <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">{{ $page.props.appName }}</span> -->

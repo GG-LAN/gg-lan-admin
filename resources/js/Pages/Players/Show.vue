@@ -18,7 +18,7 @@ defineOptions({layout: AuthenticatedLayout});
     
     <div class="col-span-3">
         <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white mb-4">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Equipes</h2>
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Équipes</h2>
             <Table :rows="$page.props.teamsData" :rowsInfo="$page.props.teamsRowsInfo" :route="route('players.show', $page.props.player.id)"/>
         </div>
 

@@ -48,7 +48,7 @@ class Game extends Model {
                 "id"        => $game->id,
                 "name"      => $game->name,
                 "places"    => $game->places,
-                "game_type" => $game->places > 1 ? "En équipe" : "Solo",
+                "game_type" => $game->places > 1 ? "Équipe" : "Solo",
             ];
         });
     }

@@ -20,6 +20,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::apiResource('games', GameController::class);
+    Route::controller(GameController::class)->group(function () {
+        Route::get('/api/games/{game}', 'showApi')->name('games.show.api');
+    });
 });
 
 Route::middleware('auth')->group(function () {

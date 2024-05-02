@@ -39,9 +39,9 @@ class PlayerController extends Controller
                 "create" => true,
                 "update" => true,
                 "delete" => true,
-                // "show" => [
-                //     "route" => "servers.show"
-                // ]
+                "show" => [
+                    "route" => "players.show"
+                ]
             ],
         ];
 
@@ -76,8 +76,77 @@ class PlayerController extends Controller
         return back();
     }
 
-    public function show(string $id) {
-        //
+    public function show(User $player) {
+        $breadcrumbs = [
+            [
+                "label"   => "Joueurs",
+                "route"   => route('players.index'),
+                "active"  => false
+            ],
+            [
+                "label"   => $player->pseudo,
+                "active"  => true
+            ]
+        ];
+
+        $teamsData = $player->teams()->paginate(5);
+
+        $teamsRowsInfo = [
+            "rows" => [
+                "name" => [
+                    "type" => "text",
+                    "title" => "Nom",
+                ],
+                "tournament_name" => [
+                    "type" => "text",
+                    "title" => "Tournois",
+                ],
+                "is_full" => [
+                    "type" => "bool",
+                    "title" => "Status",
+                    "label_true" => "Complète",
+                    "label_false" => "Incomplète",
+                ],
+            ],
+            "actions" => [
+                // "search" => true,
+                // "create" => true,
+                // "update" => true,
+                // "delete" => true,
+                "show" => [
+                    "route" => "teams.show"
+                ]
+            ],
+        ];
+        
+        $soloTournamentsData = $player->tournaments()->paginate(5);
+
+        $soloTournamentsRowsInfo = [
+            "rows" => [
+                "name" => [
+                    "type" => "text",
+                    "title" => "Nom",
+                ]
+            ],
+            "actions" => [
+                // "search" => true,
+                // "create" => true,
+                // "update" => true,
+                // "delete" => true,
+                "show" => [
+                    "route" => "tournaments.show"
+                ]
+            ],
+        ];
+
+        return Inertia::render('Players/Show', [
+            "teamsData" => $teamsData,
+            "teamsRowsInfo" => $teamsRowsInfo,
+            "soloTournamentsData" => $soloTournamentsData,
+            "soloTournamentsRowsInfo" => $soloTournamentsRowsInfo,
+            "breadcrumbs" => $breadcrumbs,
+            "player"      => $player
+        ]);
     }
 
     public function update(UpdatePlayerRequest $request, User $player) {

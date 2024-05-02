@@ -41,8 +41,7 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
+    protected function casts(): array {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
@@ -50,8 +49,7 @@ class User extends Authenticatable
         ];
     }
 
-    public function teams()
-    {
+    public function teams() {
         return $this->belongsToMany('App\Models\Team')->withPivot('captain');
     }
 

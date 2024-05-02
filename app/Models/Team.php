@@ -15,9 +15,9 @@ class Team extends Model {
         'name', 'description', 'image', 'tournament_id',
     ];
 
-    protected $with = ['users'];
+    // protected $with = ['users'];
 
-    protected $appends = ['captain_id'];
+    protected $appends = ['captain_id', 'tournament_name', 'team_slots', 'is_full'];
 
     public function users() {
         return $this->belongsToMany('App\Models\User')->withPivot('captain');
@@ -35,7 +35,16 @@ class Team extends Model {
         return $this->tournament->game->places;
     }
 
+    public function getTeamSlotsAttribute() {
+        return "{$this->users()->count()}/{$this->getTotalPlacesAttribute()}";
+    }
+
     public function getIsFullAttribute() {
-        return ($this->getTotalPlacesAttribute() == $this->users()->count()) ? true : false;
+        $isFull = ($this->getTotalPlacesAttribute() == $this->users()->count()) ? true : false;
+        return "{$isFull}";
+    }
+
+    public function getTournamentNameAttribute() {
+        return "{$this->tournament->name}";
     }
 }

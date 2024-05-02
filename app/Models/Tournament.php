@@ -14,7 +14,7 @@ class Tournament extends Model {
         'name', 'description', 'game_id', 'start_date', 'end_date', 'places', 'cashprize', 'status', 'image', 'type'
     ];
 
-    protected $with = ['teams', 'players'];
+    // protected $with = ['teams', 'players'];
 
     protected $appends = ['register_count', 'isFull'];
 

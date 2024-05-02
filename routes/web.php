@@ -4,8 +4,12 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TournamentController;
+
+
 
 
 
@@ -23,6 +27,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::controller(GameController::class)->group(function () {
         Route::get('/api/games/{game}', 'showApi')->name('games.show.api');
     });
+
+    Route::apiResource('teams', TeamController::class);
+
+    Route::apiResource('tournaments', TournamentController::class);
 });
 
 Route::middleware('auth')->group(function () {

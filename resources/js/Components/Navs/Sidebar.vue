@@ -24,12 +24,20 @@ import DropdownNavLink from '@/Components/Navs/DropdownNavLink.vue';
                             </form>
                         </li>
 
-                        <NavLink routename="dashboard" icon="chart-column" iconColor="red" activeFor="Dashboard">
+                        <NavLink routename="dashboard" icon="chart-column" iconColor="purple" activeFor="Dashboard">
                             Dashboard
                         </NavLink>
 
                         <NavLink routename="players.index" icon="user" iconColor="blue" activeFor="Players">
                             Joueurs
+                        </NavLink>
+
+                        <NavLink routename="teams.index" icon="users" iconColor="green" activeFor="Teams">
+                            Équipes
+                        </NavLink>
+
+                        <NavLink routename="tournaments.index" icon="trophy" iconColor="red" activeFor="Tournaments">
+                            Tournois
                         </NavLink>
                         
                         <NavLink routename="games.index" icon="gamepad" iconColor="gray" activeFor="Games">

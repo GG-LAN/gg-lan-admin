@@ -29,7 +29,6 @@ watch(() => props.modelId, id => {
     if (props.drawer.isVisible()) {
         axios.get(route("players.show.api", id))
         .then(({data}) => {
-            console.log(data.admin);
             form.name   = data.name;
             form.pseudo = data.pseudo;
             form.admin  = data.admin;

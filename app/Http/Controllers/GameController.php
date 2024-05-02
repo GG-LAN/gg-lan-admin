@@ -22,10 +22,6 @@ class GameController extends Controller
                     "type" => "text",
                     "title" => "Joueurs / Equipe",
                 ],
-                "email" => [
-                    "type" => "text",
-                    "title" => "Email",
-                ],
                 "game_type" => [
                     "type" => "text",
                     "title" => "Type",

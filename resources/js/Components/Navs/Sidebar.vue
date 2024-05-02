@@ -31,6 +31,10 @@ import DropdownNavLink from '@/Components/Navs/DropdownNavLink.vue';
                         <NavLink routename="players.index" icon="user" iconColor="blue" activeFor="Players">
                             Joueurs
                         </NavLink>
+                        
+                        <NavLink routename="games.index" icon="gamepad" iconColor="gray" activeFor="Games">
+                            Jeux
+                        </NavLink>
                     </ul>
                 </div>
             </div>

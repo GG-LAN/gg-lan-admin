@@ -3,8 +3,10 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\GameController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\ProfileController;
+
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -16,6 +18,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::controller(PlayerController::class)->group(function () {
         Route::get('/api/players/{player}', 'showApi')->name('players.show.api');
     });
+
+    Route::apiResource('games', GameController::class);
 });
 
 Route::middleware('auth')->group(function () {

@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-// use App\Models\Tournament;
+use App\Models\Tournament;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TeamFactory extends Factory {
@@ -16,7 +16,9 @@ class TeamFactory extends Factory {
             'name' => $this->faker->name,
             'description' => $this->faker->text(100),
             'image' => $this->faker->imageUrl(640, 480),
-            // 'tournament_id' => Tournament::factory()->create()->id
+            'tournament_id' => function() {
+                return Tournament::factory()->create()->id;
+            }
         ];
     }
 }

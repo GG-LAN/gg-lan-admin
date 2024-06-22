@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-// use App\Models\Game;
+use App\Models\Game;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TournamentFactory extends Factory {
@@ -15,7 +15,7 @@ class TournamentFactory extends Factory {
         return [
             'name'        => $this->faker->name,
             'description' => $this->faker->text(100),
-            // 'game_id'     => Game::factory()->create(['places' => 5])->id,
+            'game_id'     => Game::factory()->create(['places' => 5])->id,
             'start_date'  => "2021-05-29",
             'end_date'    => "2021-05-30",
             'places'      => $this->faker->numberBetween(4, 16),

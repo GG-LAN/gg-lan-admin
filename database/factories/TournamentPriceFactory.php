@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-// use App\Models\Tournament;
+use App\Models\Tournament;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TournamentPriceFactory extends Factory
@@ -19,11 +19,15 @@ class TournamentPriceFactory extends Factory
         return [
             'name' => 'GG-LAN #' . $fakeTournamentName,
             'price_id' => 'price_1OtYNqAOwlBXXotYb0NBQROK',
-            // 'tournament_id' => Tournament::factory([
-            //     'name' => 'GG-LAN #' . $fakeTournamentName,
-            //     "type" => "team",
-            //     "status" => "open"
-            // ])->create()->id,
+            'tournament_id' => function() {
+                $fakeTournamentName = $this->faker->numberBetween(1, 20);
+                
+                return Tournament::factory()->create([
+                    'name' => 'GG-LAN #' . $fakeTournamentName,
+                    "type" => "team",
+                    "status" => "open"
+                ])->id;
+            },
             'type' => 'normal',
             'active' => true
         ];

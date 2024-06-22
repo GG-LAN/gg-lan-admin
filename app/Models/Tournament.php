@@ -1,6 +1,7 @@
 <?php   
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Stripe\StripeClient as Stripe;
@@ -72,6 +73,39 @@ class Tournament extends Model {
         ]);
 
         return $session["url"];
+    }
+
+    public static function getTournaments($numberOfItemsPerPage = 5, $search = null) {
+        $query = (new static);
+
+        // If search parameter is given
+        if ($search) {
+            $query = $query->where("name",   "like", "%{$search}%");
+        }
+        
+        return $query
+        ->paginate($numberOfItemsPerPage)
+        ->withQueryString()
+        ->through(function($tournament) {
+            $startDate = new Carbon($tournament->start_date);
+            $startDate = $startDate->format("d/m/Y");
+            
+            $endDate = new Carbon($tournament->end_date);
+            $endDate = $endDate->format("d/m/Y");
+            
+            return [
+                "id"          => $tournament->id,
+                "name"        => $tournament->name,
+                "description" => $tournament->description,
+                "game_id"     => $tournament->game_id,
+                "game"        => $tournament->game->name,
+                "date"        => $startDate . " | " . $endDate,
+                "type"        => $tournament->type == "team" ? "Équipe" : "Solo",
+                "places"      => $tournament->places,
+                "status"      => $tournament->status == "open" ? true : false,
+                "cashprize"   => $tournament->cashprize,
+            ];
+        });
     }
     
     /**

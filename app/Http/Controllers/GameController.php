@@ -88,6 +88,10 @@ class GameController extends Controller
         return back();
     }
 
+    public function indexApi() {
+        return Game::all();
+    }
+
     public function showApi(Game $game) {
         return $game;
     }

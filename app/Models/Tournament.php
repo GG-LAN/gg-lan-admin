@@ -76,11 +76,12 @@ class Tournament extends Model {
     }
 
     public static function getTournaments($numberOfItemsPerPage = 5, $search = null) {
-        $query = (new static);
+        $query = (new static)->orderBy('created_at', 'desc');
 
         // If search parameter is given
         if ($search) {
-            $query = $query->where("name",   "like", "%{$search}%");
+            $query = $query
+                    ->where("name",   "like", "%{$search}%");
         }
         
         return $query

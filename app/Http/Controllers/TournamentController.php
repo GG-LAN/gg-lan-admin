@@ -46,7 +46,7 @@ class TournamentController extends Controller
             ],
             "actions" => [
                 "search" => true,
-                // "create" => true,
+                "create" => true,
                 // "update" => true,
                 // "delete" => true,
                 // "show" => [
@@ -74,7 +74,23 @@ class TournamentController extends Controller
     }
 
     public function store(Request $request) {
-        //
+        Tournament::create([
+            "name"        => $request->name,
+            "description" => $request->description,
+            "game_id"     => $request->game_id,
+            "start_date"  => $request->start_date,
+            "end_date"    => $request->end_date,
+            "places"      => $request->places,
+            "cashprize"   => $request->cashprize,
+            "status"      => $request->status,
+            // "image"       => $request->image,
+            "type"        => $request->type,
+        ]);
+
+        $request->session()->flash('status', 'success');
+        // $request->session()->flash('message', __('responses.tournament.created'));
+
+        return back();
     }
 
     public function show(string $id) {

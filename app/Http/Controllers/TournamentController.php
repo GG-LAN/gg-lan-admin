@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
+use App\Models\TournamentPrice;
+use App\Http\Requests\Tournaments\StoreTournamentRequest;
 
 class TournamentController extends Controller
 {
@@ -73,8 +75,16 @@ class TournamentController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
-        Tournament::create([
+    public function store(StoreTournamentRequest $request) {
+        $path = null;
+            
+        if ($request->hasFile("image")) {
+            $file = $request->file('image');
+
+            $path = $file->store('public/tournament-image');
+        }
+
+        $tournament = Tournament::create([
             "name"        => $request->name,
             "description" => $request->description,
             "game_id"     => $request->game_id,
@@ -83,8 +93,46 @@ class TournamentController extends Controller
             "places"      => $request->places,
             "cashprize"   => $request->cashprize,
             "status"      => $request->status,
-            // "image"       => $request->image,
+            "image"       => $path,
             "type"        => $request->type,
+        ]);
+
+        // Create Stripe Product
+        $product = TournamentPrice::createProduct([
+            "name" => $tournament->name
+        ]);
+
+        // Multiply by 100 because Stripe take amount in cents
+        $normalPrice = $request->normal_place_price * 100;
+        
+        $lastWeekPrice = $request->last_week_place_price;
+        if (!$lastWeekPrice) {
+            $lastWeekPrice = $normalPrice;
+        }
+        else {
+            // Multiply by 100 because Stripe take amount in cents
+            $lastWeekPrice = $lastWeekPrice * 100;
+        }
+
+        // Normal price
+        TournamentPrice::create([
+            "name"          => $tournament->name,
+            "tournament_id" => $tournament->id,
+            "type"          => "normal",
+            "currency"      => "eur",
+            "unit_amount"   => $normalPrice,
+            "product"       => $product->id,
+            "active"        => true
+        ]);
+
+        // Last week price
+        TournamentPrice::create([
+            "name"          => $tournament->name . " Last Week",
+            "tournament_id" => $tournament->id,
+            "type"          => "last_week",
+            "currency"      => "eur",
+            "unit_amount"   => $lastWeekPrice,
+            "product"       => $product->id
         ]);
 
         $request->session()->flash('status', 'success');
@@ -93,11 +141,11 @@ class TournamentController extends Controller
         return back();
     }
 
-    public function show(string $id) {
+    public function show(Tournament $tournament) {
         //
     }
 
-    public function update(Request $request, string $id) {
+    public function update(Request $request, Tournament $tournament) {
         //
     }
 

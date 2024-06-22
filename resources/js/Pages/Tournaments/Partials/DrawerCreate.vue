@@ -49,13 +49,16 @@ let form = useForm({
     places: "",
     cashprize: "",
     status: "",
-    // image: "",
+    image: null,
     type: "",
+    normal_place_price: "",
+    last_week_place_price: ""
 });
 
 const submit = () => {
     form.post(route("tournaments.store"), {
         preserveScroll: true,
+        forceFormData: true,
         onSuccess: () => {
             form.reset();
             props.drawer.hide();
@@ -70,8 +73,9 @@ const close = () => {
 
 <template>
     <BoxDrawer id="drawer-create" :title="props.title" :drawer="props.drawer">
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" enctype='multipart/form-data'>
             <div class="space-y-4">
+                <!-- Name -->
                 <div>
                     <InputLabel for="create-name" value="Nom" />
                     <TextInput
@@ -84,6 +88,7 @@ const close = () => {
                     <InputError class="mt-2" :message="form.errors.name" />
                 </div>
 
+                <!-- Description -->
                 <div>
                     <InputLabel for="create-description" value="Description" />
                     <TextInput
@@ -95,6 +100,7 @@ const close = () => {
                     <InputError class="mt-2" :message="form.errors.description" />
                 </div>
 
+                <!-- Game -->
                 <div>
                     <InputLabel for="create-game_id" value="Jeu" />
                     <SelectInput
@@ -107,6 +113,7 @@ const close = () => {
                     <InputError class="mt-2" :message="form.errors.game_id" />
                 </div>
 
+                <!-- Type -->
                 <div>
                     <InputLabel for="create-type" value="Type" />
                     <SelectInput
@@ -118,6 +125,7 @@ const close = () => {
                     <InputError class="mt-2" :message="form.errors.type" />
                 </div>
 
+                <!-- Start Date -->
                 <div>
                     <InputLabel for="create-start_date" value="Date de début" />
                     <TextInput
@@ -129,6 +137,7 @@ const close = () => {
                     <InputError class="mt-2" :message="form.errors.start_date" />
                 </div>
 
+                <!-- End Date -->
                 <div>
                     <InputLabel for="create-end_date" value="Date de fin" />
                     <TextInput
@@ -140,6 +149,7 @@ const close = () => {
                     <InputError class="mt-2" :message="form.errors.end_date" />
                 </div>
 
+                <!-- Places -->
                 <div>
                     <InputLabel for="create-places" value="Nombre de places" />
                     <TextInput
@@ -152,6 +162,7 @@ const close = () => {
                     <InputError class="mt-2" :message="form.errors.places" />
                 </div>
 
+                <!-- Cashprize -->
                 <div>
                     <InputLabel for="create-cashprize" value="Cashprize" />
                     <TextInput
@@ -164,6 +175,32 @@ const close = () => {
                     <InputError class="mt-2" :message="form.errors.cashprize" />
                 </div>
 
+                <!-- Place price normal -->
+                <div>
+                    <InputLabel for="create-normal_place_price" value="Prix place" />
+                    <TextInput
+                        id="create-normal_place_price"
+                        type="text"
+                        v-model="form.normal_place_price"
+                        placeholder="30"
+                        required
+                    />
+                    <InputError class="mt-2" :message="form.errors.normal_place_price" />
+                </div>
+
+                <!-- Place price last week -->
+                <div>
+                    <InputLabel for="create-last_week_place_price" value="Prix place dernière semaine" />
+                    <TextInput
+                        id="create-last_week_place_price"
+                        type="text"
+                        v-model="form.last_week_place_price"
+                        placeholder="35"
+                    />
+                    <InputError class="mt-2" :message="form.errors.last_week_place_price" />
+                </div>
+
+                <!-- Status -->
                 <div>
                     <InputLabel for="create-status" value="Statut" />
                     <SelectInput
@@ -175,16 +212,17 @@ const close = () => {
                     <InputError class="mt-2" :message="form.errors.status" />
                 </div>
 
-
-                <!-- <div>
+                <!-- Image -->
+                <div>
                     <InputLabel for="create-image" value="Image" />
-                    <TextInput
-                        id="create-image"
-                        type="file"
-                        v-model="form.image"
+                    <input 
+                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        id="create-image" 
+                        type="file" 
+                        @input="form.image = $event.target.files[0]" 
                     />
                     <InputError class="mt-2" :message="form.errors.image" />
-                </div> -->
+                </div>
 
                 <div class="left-0 flex justify-center w-full pb-4 space-x-4 md:px-4 md:absolute">
                     <button :disabled="form.processing" type="submit" class="text-white w-full justify-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">

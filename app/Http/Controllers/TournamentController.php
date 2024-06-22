@@ -48,7 +48,7 @@ class TournamentController extends Controller
                 "search" => true,
                 "create" => true,
                 // "update" => true,
-                // "delete" => true,
+                "delete" => true,
                 // "show" => [
                 //     "route" => "tournaments.show"
                 // ]
@@ -101,7 +101,12 @@ class TournamentController extends Controller
         //
     }
 
-    public function destroy(string $id) {
-        //
+    public function destroy(Request $request, Tournament $tournament) {
+        $tournament->delete();
+
+        $request->session()->flash('status', 'success');
+        // $request->session()->flash('message', __('responses.tournament.deleted'));
+        
+        return back();
     }
 }

@@ -32,6 +32,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::apiResource('teams', TeamController::class);
 
     Route::apiResource('tournaments', TournamentController::class);
+    Route::controller(TournamentController::class)->group(function () {
+        Route::get('/api/tournaments/{tournament}', 'showApi')->name('tournaments.show.api');
+    });
 });
 
 Route::middleware('auth')->group(function () {

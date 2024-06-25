@@ -6,7 +6,9 @@ use Inertia\Inertia;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
 use App\Models\TournamentPrice;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Tournaments\StoreTournamentRequest;
+use App\Http\Requests\Tournaments\UpdateTournamentRequest;
 
 class TournamentController extends Controller
 {
@@ -49,7 +51,7 @@ class TournamentController extends Controller
             "actions" => [
                 "search" => true,
                 "create" => true,
-                // "update" => true,
+                "update" => true,
                 "delete" => true,
                 // "show" => [
                 //     "route" => "tournaments.show"
@@ -145,8 +147,37 @@ class TournamentController extends Controller
         //
     }
 
-    public function update(Request $request, Tournament $tournament) {
-        //
+    public function update(UpdateTournamentRequest $request, Tournament $tournament) {
+        // return dd($request->name);
+        // if ($request->hasFile("image")) {
+        //     $file = $request->file('image');
+
+        //     if ($tournament->image != "") {
+        //         Storage::delete($tournament->image);
+        //     }
+
+        //     $path = $file->store('public/tournament-image');
+        //     $name = $file->getClientOriginalName();
+
+        //     $tournament->image = $path;
+        // }
+
+        $tournament->update([
+            "name"        => $request->name,
+            "description" => $request->description,
+            "game_id"     => $request->game_id,
+            "start_date"  => $request->start_date,
+            "end_date"    => $request->end_date,
+            "places"      => $request->places,
+            "cashprize"   => $request->cashprize,
+            "status"      => $request->status,
+            "type"        => $request->type,
+        ]);
+
+        $request->session()->flash('status', 'success');
+        // $request->session()->flash('message', __('responses.tournament.updated'));
+
+        return back();
     }
 
     public function destroy(Request $request, Tournament $tournament) {
@@ -156,5 +187,9 @@ class TournamentController extends Controller
         // $request->session()->flash('message', __('responses.tournament.deleted'));
         
         return back();
+    }
+
+    public function showApi(Tournament $tournament) {
+        return $tournament;
     }
 }

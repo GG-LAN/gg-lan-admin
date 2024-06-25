@@ -8,6 +8,8 @@ import DangerButton from "@/Components/Forms/DangerButton.vue"
 import CreateButton from "@/Components/Forms/CreateButton.vue"
 import PrimaryButton from "@/Components/Forms/PrimaryButton.vue"
 import TablePagination from '@/Components/Ui/TablePagination.vue';
+import TableLabelBool from '@/Components/Ui/TableLabelBool.vue';
+import TableLabelStatus from '@/Components/Ui/TableLabelStatus.vue';
 
 let drawerCreate;
 let drawerUpdate;
@@ -242,13 +244,12 @@ const openDrawer = (drawer, id = null) => {
                                 <td class="p-4 text-base font-medium overflow-hidden truncate xl:max-w-xs text-gray-900 whitespace-nowrap dark:text-white" @click="rowsInfo.actions.show ? redirectTo(row.id): ''" v-for="(rowInfo, key) in rowsInfo.rows">
                                     <span v-if="rowInfo.type == 'text'">{{ row[key] }}</span>
 
-                                    <div class="flex items-center" v-if="(rowInfo.type == 'bool') && row[key]">
-                                        <div class="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div>
-                                        {{ rowInfo.label_true }}
+                                    <div v-if="rowInfo.type == 'bool'">
+                                        <TableLabelBool :rowInfo="rowInfo" :row="row" :rowKey="key" />
                                     </div>
-                                    <div class="flex items-center" v-if="(rowInfo.type == 'bool') && !row[key]">
-                                        <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
-                                        {{ rowInfo.label_false }}
+
+                                    <div class="flex items-center" v-if="rowInfo.type == 'status'">
+                                        <TableLabelStatus :rowInfo="rowInfo" :row="row" :rowKey="key" />
                                     </div>
                                 </td>
 

@@ -81,9 +81,13 @@ const updatePlayer = () => {
             </div>
 
             <div>
-                <ToggleInput v-model:checked="form.admin" id="admin">
-                    Admin
-                </ToggleInput>
+                <InputLabel for="admin" value="Admin" />
+
+                <ToggleInput 
+                    id="admin"
+                    v-model:checked="form.admin" 
+                />
+                
                 <InputError class="mt-2" :message="form.errors.admin" />
             </div>
 

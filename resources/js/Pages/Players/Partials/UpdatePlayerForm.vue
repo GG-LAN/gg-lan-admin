@@ -3,6 +3,7 @@ import InputError from '@/Components/Forms/InputError.vue';
 import InputLabel from '@/Components/Forms/InputLabel.vue';
 import SubmitButton from '@/Components/Forms/SubmitButton.vue';
 import TextInput from '@/Components/Forms/TextInput.vue';
+import ToggleInput from '@/Components/Forms/ToggleInput.vue';
 import Checkbox from '@/Components/Forms/Checkbox.vue';
 import { useForm } from '@inertiajs/vue3';
 
@@ -80,11 +81,9 @@ const updatePlayer = () => {
             </div>
 
             <div>
-                <InputLabel for="admin" value="Admin" />
-                <Checkbox
-                    id="admin"
-                    v-model:checked="form.admin"
-                />
+                <ToggleInput v-model:checked="form.admin" id="admin">
+                    Admin
+                </ToggleInput>
                 <InputError class="mt-2" :message="form.errors.admin" />
             </div>
 

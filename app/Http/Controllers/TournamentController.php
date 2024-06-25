@@ -112,7 +112,7 @@ class TournamentController extends Controller
             "end_date"    => $request->end_date,
             "places"      => $request->places,
             "cashprize"   => $request->cashprize,
-            "status"      => $request->status,
+            "status"      => "closed",
             "image"       => $path,
             "type"        => $request->type,
         ]);

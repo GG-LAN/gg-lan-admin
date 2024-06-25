@@ -200,18 +200,6 @@ const close = () => {
                     <InputError class="mt-2" :message="form.errors.last_week_place_price" />
                 </div>
 
-                <!-- Status -->
-                <div>
-                    <InputLabel for="create-status" value="Statut" />
-                    <SelectInput
-                        id="create-status"
-                        v-model="form.status"
-                        :data="status"
-                        required
-                    />
-                    <InputError class="mt-2" :message="form.errors.status" />
-                </div>
-
                 <!-- Image -->
                 <div>
                     <InputLabel for="create-image" value="Image" />

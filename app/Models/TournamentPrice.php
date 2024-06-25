@@ -13,6 +13,8 @@ class TournamentPrice extends Model
     protected $fillable = [
         'name', 'price_id', 'tournament_id', 'type', 'active'
     ];
+
+    protected $appends = ['stripe_price'];
     
     /**
      * The attributes that should be cast to native types.
@@ -49,10 +51,10 @@ class TournamentPrice extends Model
         return $model;
     }
 
-    public static function getStripePrice(string $price_id) {
+    public function getStripePriceAttribute() {
         $stripe = new Stripe(config("app.stripe_api_key"));
 
-        return $stripe->prices->retrieve($price_id);
+        return $stripe->prices->retrieve($this->price_id);
     }
 
     public function tournament() {

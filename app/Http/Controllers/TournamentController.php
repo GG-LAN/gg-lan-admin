@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Game;
 use Inertia\Inertia;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
+use Illuminate\Support\Number;
 use App\Models\TournamentPrice;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Tournaments\StoreTournamentRequest;
@@ -53,9 +55,9 @@ class TournamentController extends Controller
                 "create" => true,
                 "update" => true,
                 "delete" => true,
-                // "show" => [
-                //     "route" => "tournaments.show"
-                // ]
+                "show" => [
+                    "route" => "tournaments.show"
+                ]
             ],
         ];
 
@@ -144,7 +146,93 @@ class TournamentController extends Controller
     }
 
     public function show(Tournament $tournament) {
-        //
+        $breadcrumbs = [
+            [
+                "label"   => "Tournois",
+                "route"   => route('tournaments.index'),
+                "active"  => false
+            ],
+            [
+                "label"   => $tournament->name,
+                "active"  => true
+            ]
+        ];
+
+        $pricesData = $tournament->prices()->paginate(5)->through(function($tournamentPrice) {
+            return [
+                "id" => $tournamentPrice->id,
+                "name" => $tournamentPrice->name,
+                "active" => $tournamentPrice->active,
+                "price" => Number::currency($tournamentPrice->stripe_price->unit_amount / 100, 'EUR', 'FR'),
+            ];
+        });
+
+        $pricesRowsInfo = [
+            "rows" => [
+                "name" => [
+                    "type" => "text",
+                    "title" => "Nom",
+                ],
+                "price" => [
+                    "type" => "text",
+                    "title" => "Prix",
+                ],
+                "active" => [
+                    "type" => "bool",
+                    "title" => "Statut",
+                    "label_true" => "Actif",
+                    "label_false" => "Inactif",
+                ],
+            ],
+            "actions" => [
+                // "search" => true,
+                // "create" => true,
+                // "update" => true,
+                // "delete" => true,
+                // "show" => [
+                //     "route" => "teams.show"
+                // ]
+            ],
+        ];
+        
+        // $soloTournamentsData = $player->tournaments()->paginate(5);
+
+        // $soloTournamentsRowsInfo = [
+        //     "rows" => [
+        //         "name" => [
+        //             "type" => "text",
+        //             "title" => "Nom",
+        //         ]
+        //     ],
+        //     "actions" => [
+        //         // "search" => true,
+        //         // "create" => true,
+        //         // "update" => true,
+        //         // "delete" => true,
+        //         "show" => [
+        //             "route" => "tournaments.show"
+        //         ]
+        //     ],
+        // ];
+
+        return Inertia::render('Tournaments/Show', [
+            "pricesData" => $pricesData,
+            "pricesRowsInfo" => $pricesRowsInfo,
+            // "soloTournamentsData" => $soloTournamentsData,
+            // "soloTournamentsRowsInfo" => $soloTournamentsRowsInfo,
+            "games" => Game::all(),
+            "status" => [
+                ["id" => "open", "name" => "Ouvert"],
+                ["id" => "closed", "name" => "Fermé"],
+                ["id" => "finished", "name" => "Terminé"],
+            ],
+            "types" => [
+                ["id" => "team", "name" => "Équipe"],
+                ["id" => "solo", "name" => "Solo"],
+            ],
+            "breadcrumbs" => $breadcrumbs,
+            "tournament"  => $tournament
+        ]);
     }
 
     public function update(UpdateTournamentRequest $request, Tournament $tournament) {

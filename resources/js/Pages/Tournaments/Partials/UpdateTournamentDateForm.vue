@@ -35,7 +35,7 @@ const updateTournament = () => {
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Dates du tournois</h2>
+            <h2 class="text-xl font-black text-gray-900 dark:text-gray-100">Dates du tournois</h2>
         </header>
 
         <form @submit.prevent="updateTournament" class="mt-6 space-y-6">

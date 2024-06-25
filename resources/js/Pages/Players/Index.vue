@@ -14,7 +14,7 @@ defineOptions({layout: AuthenticatedLayout});
     <Head title="Joueurs" />
     <PageTitle title="Joueurs" :breadcrumbs="$page.props.breadcrumbs"/>
 
-    <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-4">
+    <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-4">
 
         <Table :rows="$page.props.tableData" :rowsInfo="$page.props.tableRowsInfo" :route="route('players.index')">
             <template #drawerCreate="{ drawer }">

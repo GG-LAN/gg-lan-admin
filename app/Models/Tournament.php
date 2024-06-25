@@ -103,7 +103,7 @@ class Tournament extends Model {
                 "date"        => $startDate . " | " . $endDate,
                 "type"        => $tournament->type == "team" ? "Équipe" : "Solo",
                 "places"      => $tournament->places,
-                "status"      => $tournament->status == "open" ? true : false,
+                "status"      => $tournament->status,
                 "cashprize"   => $tournament->cashprize,
             ];
         });

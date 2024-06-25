@@ -44,16 +44,32 @@ class TournamentController extends Controller
                     "title" => "Cashprize (€)",
                 ],
                 "status" => [
-                    "type" => "bool",
+                    "type" => "status",
                     "title" => "Statut",
-                    "label_true" => "Ouvert",
-                    "label_false" => "Fermé/Terminé",
+                    "status" => [
+                        [
+                            "id" => "closed",
+                            "text" => "Fermé",
+                            "color" => "red"
+                        ],
+                        [
+                            "id" => "finished",
+                            "text" => "Terminé",
+                            "color" => "orange"
+                        ],
+                        [
+                            "id" => "open",
+                            "text" => "Ouvert",
+                            "color" => "green"
+                        ],
+                    ]
                 ],
+                    
             ],
             "actions" => [
                 "search" => true,
                 "create" => true,
-                "update" => true,
+                // "update" => true,
                 "delete" => true,
                 "show" => [
                     "route" => "tournaments.show"

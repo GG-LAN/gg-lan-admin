@@ -194,32 +194,97 @@ class TournamentController extends Controller
                 // ]
             ],
         ];
+
+        $teamsData = [];
+        $playersData = [];
+        $teamsRowsInfo = [];
+        $playersRowsInfo = [];
+
+        if ($tournament->type == "team") {
+            $teamsData = $tournament->teams()->paginate(5)->through(function($team) {
+                return [
+                    "id" => $team->id,
+                    "name" => $team->name,
+                    "registration_state" => $team->registration_state,
+                ];
+            });
+    
+            $teamsRowsInfo = [
+                "rows" => [
+                    "name" => [
+                        "type" => "text",
+                        "title" => "Nom",
+                    ],
+                    "registration_state" => [
+                        "type" => "status",
+                        "title" => "Statut",
+                        "status" => [
+                            [
+                                "id" => "not_full",
+                                "text" => "Incomplète",
+                                "color" => "red"
+                            ],
+                            [
+                                "id" => "pending",
+                                "text" => "En attente",
+                                "color" => "orange"
+                            ],
+                            [
+                                "id" => "registered",
+                                "text" => "Inscrite",
+                                "color" => "green"
+                            ],
+                        ]
+                    ],
+                ],
+                "actions" => [
+                    // "search" => true,
+                    // "create" => true,
+                    // "update" => true,
+                    // "delete" => true,
+                    // "show" => [
+                    //     "route" => "teams.show"
+                    // ]
+                ],
+            ];
+        }
+        else {
+            $playersData = $tournament->players()->paginate(5)->through(function($player) {
+                return [
+                    "id" => $player->id,
+                    "pseudo" => $player->pseudo,
+                ];
+            });
+    
+            $playersRowsInfo = [
+                "rows" => [
+                    "pseudo" => [
+                        "type" => "text",
+                        "title" => "Pseudo",
+                    ],
+                ],
+                "actions" => [
+                    // "search" => true,
+                    // "create" => true,
+                    // "update" => true,
+                    // "delete" => true,
+                    // "show" => [
+                    //     "route" => "teams.show"
+                    // ]
+                ],
+            ];
+        }
         
-        // $soloTournamentsData = $player->tournaments()->paginate(5);
-
-        // $soloTournamentsRowsInfo = [
-        //     "rows" => [
-        //         "name" => [
-        //             "type" => "text",
-        //             "title" => "Nom",
-        //         ]
-        //     ],
-        //     "actions" => [
-        //         // "search" => true,
-        //         // "create" => true,
-        //         // "update" => true,
-        //         // "delete" => true,
-        //         "show" => [
-        //             "route" => "tournaments.show"
-        //         ]
-        //     ],
-        // ];
-
         return Inertia::render('Tournaments/Show', [
             "pricesData" => $pricesData,
             "pricesRowsInfo" => $pricesRowsInfo,
-            // "soloTournamentsData" => $soloTournamentsData,
-            // "soloTournamentsRowsInfo" => $soloTournamentsRowsInfo,
+
+            "teamsData" => $teamsData,
+            "teamsRowsInfo" => $teamsRowsInfo,
+            
+            "playersData" => $playersData,
+            "playersRowsInfo" => $playersRowsInfo,
+            
             "games" => Game::all(),
             "status" => [
                 ["id" => "open", "name" => "Ouvert"],

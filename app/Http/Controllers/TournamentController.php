@@ -104,6 +104,8 @@ class TournamentController extends Controller
             $path = $file->store('public/tournament-image');
         }
 
+        $game = Game::find($request->game_id);
+
         $tournament = Tournament::create([
             "name"        => $request->name,
             "description" => $request->description,
@@ -114,7 +116,7 @@ class TournamentController extends Controller
             "cashprize"   => $request->cashprize,
             "status"      => "closed",
             "image"       => $path,
-            "type"        => $request->type,
+            "type"        => $game->places > 1 ? "team" : "solo",
         ]);
 
         // Create Stripe Product
@@ -331,6 +333,8 @@ class TournamentController extends Controller
         //     $tournament->image = $path;
         // }
 
+        $game = Game::find($request->game_id);
+
         $tournament->update([
             "name"        => $request->name,
             "description" => $request->description,
@@ -339,8 +343,7 @@ class TournamentController extends Controller
             "end_date"    => $request->end_date,
             "places"      => $request->places,
             "cashprize"   => $request->cashprize,
-            "status"      => $request->status,
-            "type"        => $request->type,
+            "type"        => $game->places > 1 ? "team" : "solo",
         ]);
 
         $request->session()->flash('status', 'success');

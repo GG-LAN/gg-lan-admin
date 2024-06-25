@@ -30,7 +30,6 @@ class UpdateTournamentRequest extends FormRequest
             'places'                => 'required|numeric',
             'cashprize'             => 'nullable|string',
             // 'image'                 => 'nullable|image|url|mimes:png,jpg,jpeg,gif,svg|max:2048',
-            'type'                  => 'string|in:team,solo',
         ];
     }
 }

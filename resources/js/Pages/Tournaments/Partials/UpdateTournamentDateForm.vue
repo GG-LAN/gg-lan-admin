@@ -19,8 +19,6 @@ const form = useForm({
     end_date:    props.tournament.end_date,
     places:      props.tournament.places,
     cashprize:   props.tournament.cashprize,
-    status:      props.tournament.status,
-    type:        props.tournament.type,
 });
 
 const updateTournament = () => {

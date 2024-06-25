@@ -30,7 +30,6 @@ class StoreTournamentRequest extends FormRequest
             'places'                => 'required|numeric',
             'cashprize'             => 'nullable|string',
             'image'                 => 'nullable|image|mimes:png,jpg,jpeg,gif,svg|max:2048',
-            'type'                  => 'string|in:team,solo',
             'normal_place_price'    => 'required|numeric',
             'last_week_place_price' => 'nullable|numeric'
         ];

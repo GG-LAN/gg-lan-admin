@@ -113,18 +113,6 @@ const close = () => {
                     <InputError class="mt-2" :message="form.errors.game_id" />
                 </div>
 
-                <!-- Type -->
-                <div>
-                    <InputLabel for="create-type" value="Type" />
-                    <SelectInput
-                        id="create-type"
-                        v-model="form.type"
-                        :data="type"
-                        required
-                    />
-                    <InputError class="mt-2" :message="form.errors.type" />
-                </div>
-
                 <!-- Start Date -->
                 <div>
                     <InputLabel for="create-start_date" value="Date de début" />

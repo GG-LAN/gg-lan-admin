@@ -12,7 +12,21 @@ defineOptions({layout: AuthenticatedLayout});
 
 <template>
     <Head title="Tournois" />
-    <PageTitle :title="$page.props.tournament.name" :breadcrumbs="$page.props.breadcrumbs"/>
+    <PageTitle :breadcrumbs="$page.props.breadcrumbs">
+        <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
+            {{ $page.props.tournament.name }}
+        </h1>
+
+        <span v-if="$page.props.tournament.status == 'open'" class="bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full dark:bg-green-900 dark:text-green-300" >
+            Ouvert
+        </span>
+        <span v-else-if="$page.props.tournament.status == 'closed'" class="bg-red-100 text-red-800 text-sm font-medium px-3 py-1 rounded-full dark:bg-red-900 dark:text-red-300">
+            Fermé
+        </span>
+        <span v-else class="bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded-full dark:bg-yellow-900 dark:text-yellow-300">
+            Terminé
+        </span>
+    </PageTitle>
 
     <!-- Tournament info -->
     <div class="col-span-2 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">

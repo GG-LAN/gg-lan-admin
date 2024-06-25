@@ -361,4 +361,14 @@ class TournamentController extends Controller
     public function showApi(Tournament $tournament) {
         return $tournament;
     }
+
+    public function openTournament(Request $request, Tournament $tournament) {
+        $tournament->status = "open";
+        $tournament->save();
+
+        $request->session()->flash('status', 'success');
+        // $request->session()->flash('message', __('responses.tournament.opened'));
+
+        return back();
+    }
 }

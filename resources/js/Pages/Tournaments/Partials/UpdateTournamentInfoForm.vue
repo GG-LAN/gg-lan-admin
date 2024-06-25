@@ -25,8 +25,6 @@ const form = useForm({
     end_date:    props.tournament.end_date,
     places:      props.tournament.places,
     cashprize:   props.tournament.cashprize,
-    status:      props.tournament.status,
-    type:        props.tournament.type,
 });
 
 const imageForm = useForm({
@@ -91,19 +89,6 @@ const updateTournament = () => {
                     required
                 />
                 <InputError class="mt-2" :message="form.errors.cashprize" />
-            </div>
-
-            <!-- Status -->
-            <div>
-                <InputLabel for="update-status" value="Statut" />
-                <SelectInput
-                    id="update-status"
-                    class="mt-1 block w-full"
-                    v-model="form.status"
-                    :data="status"
-                    required
-                />
-                <InputError class="mt-2" :message="form.errors.status" />
             </div>
 
             <div class="flex items-center gap-4">

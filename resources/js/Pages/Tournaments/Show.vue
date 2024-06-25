@@ -6,6 +6,7 @@ import Table from '@/Components/Ui/Table.vue';
 import UpdateTournamentInfoForm from './Partials/UpdateTournamentInfoForm.vue';
 import UpdateTournamentDateForm from './Partials/UpdateTournamentDateForm.vue';
 import UpdateTournamentGameForm from './Partials/UpdateTournamentGameForm.vue';
+import OpenTournamentForm from './Partials/OpenTournamentForm.vue';
 
 defineOptions({layout: AuthenticatedLayout});
 </script>
@@ -27,6 +28,10 @@ defineOptions({layout: AuthenticatedLayout});
             Terminé
         </span>
     </PageTitle>
+
+    <div v-if="$page.props.tournament.status == 'closed'" class="col-span-4 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
+        <OpenTournamentForm :tournament="$page.props.tournament"/>
+    </div>
 
     <!-- Tournament info -->
     <div class="col-span-2 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">

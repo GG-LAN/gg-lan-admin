@@ -57,7 +57,7 @@ const close = () => {
                 </div>
 
                 <div>
-                    <InputLabel for="create-places" value="Places" />
+                    <InputLabel for="create-places" value="Joueurs/Équipe" />
                     <TextInput
                         id="create-places"
                         type="number"

@@ -57,7 +57,12 @@ const submit = () => {
 
     <div v-else class="col-span-1 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
         <form @submit.prevent="submit" enctype='multipart/form-data'>
-            <fwb-file-input v-model="form.image" dropzone class="h-64"/>
+            <fwb-file-input v-model="form.image" dropzone class="h-64">
+                <p class="text-xs text-gray-500 dark:text-gray-400">
+                    PNG, JPG, JPEG ou GIF (MAX. 2Mo).
+                </p>
+            </fwb-file-input>
+            <InputError class="mt-2" :message="form.errors.image" />
         
             <div class="flex items-center mt-4">
                 <SubmitButton :form="form">

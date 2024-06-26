@@ -11,6 +11,7 @@ use App\Models\TournamentPrice;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Tournaments\StoreTournamentRequest;
 use App\Http\Requests\Tournaments\UpdateTournamentRequest;
+use App\Http\Requests\Tournaments\UpdateTournamentImageRequest;
 
 class TournamentController extends Controller
 {
@@ -368,7 +369,7 @@ class TournamentController extends Controller
         return back();
     }
 
-    public function updateImage(Request $request, Tournament $tournament) {
+    public function updateImage(UpdateTournamentImageRequest $request, Tournament $tournament) {
         if ($request->hasFile("image")) {
             $file = $request->file('image');
 

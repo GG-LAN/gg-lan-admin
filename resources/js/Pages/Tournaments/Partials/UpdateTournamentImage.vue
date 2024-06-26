@@ -33,7 +33,7 @@ const submit = () => {
 <template>
     <div v-if="props.tournament.image" class="col-span-1 grid grid-cols-2 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
         <div class="col-span-2 flex justify-center items-center">
-            <img class="max-w-full transition-all duration-300 rounded-lg cursor-pointer filter grayscale hover:grayscale-0" :src="$page.props.tournament.image" :alt="$page.props.tournament.name">
+            <img class="max-w-full rounded-lg" :src="$page.props.tournament.image" :alt="$page.props.tournament.name">
         </div>
         
         <form @submit.prevent="submit" enctype='multipart/form-data' class="col-span-2 grid grid-cols-2 flex justify-items-center items-center mt-4 gap-4">

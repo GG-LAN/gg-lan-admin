@@ -11,6 +11,16 @@ import TablePagination from '@/Components/Ui/TablePagination.vue';
 import TableLabelBool from '@/Components/Ui/TableLabelBool.vue';
 import TableLabelStatus from '@/Components/Ui/TableLabelStatus.vue';
 
+import {
+  FwbA,
+  FwbTable,
+  FwbTableBody,
+  FwbTableCell,
+  FwbTableHead,
+  FwbTableHeadCell,
+  FwbTableRow,
+} from 'flowbite-vue'
+
 let drawerCreate;
 let drawerUpdate;
 let drawerDelete;
@@ -51,7 +61,6 @@ let search  = ref();
 if (page.props['filters']) {
     search = ref(page.props.filters.search);
 }
-
 
 const props = defineProps({
     rows: {
@@ -132,7 +141,6 @@ const openDrawer = (drawer, id = null) => {
     }
 
 }
-
 </script>
 
 <template>
@@ -188,86 +196,77 @@ const openDrawer = (drawer, id = null) => {
     </div>
 
     <!-- Table -->
-    <div class="flex flex-col">
-        <div class="overflow-x-auto">
-            <div class="inline-block min-w-full align-middle">
-                <div class="overflow-hidden shadow">
-                    <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
-                        <!-- Headers -->
-                        <thead class="bg-gray-100 dark:bg-gray-700">
-                            <tr>
-                                <!-- Checkbox all -->
-                                <th scope="col" class="p-4">
-                                    <div class="flex items-center" @click="checkAll">
-                                        <input id="checkbox-all" aria-describedby="checkbox-all" type="checkbox" class="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
-                                        <label for="checkbox-all" class="sr-only">checkbox</label>
-                                    </div>
-                                </th>
-
-                                <!-- Headers -->
-                                <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400" v-for="{title} in rowsInfo.rows">
-                                    <div class="flex items-center">
-                                        {{ title }}
-                                        <SvgIcon icon="sort" class="w-3 h-3 ms-1.5"/>
-                                    </div>
-                                </th>
-
-                                <!-- Actions buttons -->
-                                <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400" v-if="rowsInfo.actions.update || rowsInfo.actions.delete">
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
-
-                        <!-- Rows -->
-                        <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-
-                            <tr class="hover:bg-gray-100 dark:hover:bg-gray-700 text-center text-gray-800 dark:text-gray-400" v-if="!rows.data">
-                                <td :colspan="Object.keys(rowsInfo.rows).length + 2" class="py-2" v-if="rowsInfo.actions.update || rowsInfo.actions.delete">Pas de résultats...</td>
-                                <td :colspan="Object.keys(rowsInfo.rows).length + 1" class="py-2" v-else>Pas de résultats...</td>
-                            </tr>
-
-                            <tr class="hover:bg-gray-100 dark:hover:bg-gray-700" v-for="row in rows.data" :key="row.id" :class="rowsInfo.actions.show ? 'cursor-pointer':''" v-else>
-                                <!-- Checkbox -->
-                                <td class="w-4 p-4">
-                                    <div class="flex items-center">
-                                        <input 
-                                            :id="'checkbox-' + row.id"
-                                            type="checkbox"
-                                            class="checkAll w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
-                                        >
-                                        <label :for="'checkbox-' + row.id" class="sr-only">checkbox</label>
-                                    </div>
-                                </td>
-
-                                <!-- Data -->
-                                <td class="p-4 text-base font-medium overflow-hidden truncate xl:max-w-xs text-gray-900 whitespace-nowrap dark:text-white" @click="rowsInfo.actions.show ? redirectTo(row.id): ''" v-for="(rowInfo, key) in rowsInfo.rows">
-                                    <span v-if="rowInfo.type == 'text'">{{ row[key] }}</span>
-
-                                    <div v-if="rowInfo.type == 'bool'">
-                                        <TableLabelBool :rowInfo="rowInfo" :row="row" :rowKey="key" />
-                                    </div>
-
-                                    <div class="flex items-center" v-if="rowInfo.type == 'status'">
-                                        <TableLabelStatus :rowInfo="rowInfo" :row="row" :rowKey="key" />
-                                    </div>
-                                </td>
-
-                                <!-- Buttons -->
-                                <td class="p-4 space-x-2 whitespace-nowrap" v-if="rowsInfo.actions.update || rowsInfo.actions.delete">
-                                    <PrimaryButton :id="'update-'+row.id" class="text-sm" icon="pen-to-square" v-if="rowsInfo.actions.update" @click="openDrawer('update', row.id)">
-                                    </PrimaryButton>
-
-                                    <DangerButton :id="'delete-'+row.id" class="text-sm" icon="trash-can" v-if="rowsInfo.actions.delete" @click="openDrawer('delete', row.id)">
-                                    </DangerButton>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+    <fwb-table hoverable striped>
+        <!-- Head -->
+        <fwb-table-head>
+            <fwb-table-head-cell class="px-4 py-4 font-medium">
+                <div class="flex items-center" @click="checkAll">
+                    <input id="checkbox-all" aria-describedby="checkbox-all" type="checkbox" class="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="checkbox-all" class="sr-only">checkbox</label>
                 </div>
-            </div>
-        </div>
-    </div>
+            </fwb-table-head-cell>
+
+            <fwb-table-head-cell v-for="{title} in rowsInfo.rows" class="px-4 py-4 font-medium">
+                <div class="flex items-center">
+                    {{ title }}
+                    <!-- <SvgIcon icon="sort" class="w-3 h-3 ms-1.5"/> -->
+                </div>
+            </fwb-table-head-cell>
+
+            <fwb-table-head-cell v-if="rowsInfo.actions.update || rowsInfo.actions.delete" class="px-4 py-4 font-medium">
+                Actions
+            </fwb-table-head-cell>
+        </fwb-table-head>
+
+        <!-- Body -->
+        <fwb-table-body class="divide-y divide-gray-200 dark:divide-gray-700">
+            <!-- No data row -->
+            <fwb-table-row v-if="!rows.data" class="text-center">
+                <fwb-table-cell v-if="rowsInfo.actions.update || rowsInfo.actions.delete" :colspan="Object.keys(rowsInfo.rows).length + 2" class="py-2">
+                    Pas de résultats...
+                </fwb-table-cell>
+                <fwb-table-cell v-else :colspan="Object.keys(rowsInfo.rows).length + 1" class="py-2">
+                    Pas de résultats...
+                </fwb-table-cell>
+            </fwb-table-row>
+
+            <fwb-table-row v-for="row in rows.data" :key="row.id" :class="rowsInfo.actions.show ? 'cursor-pointer':''" v-else>
+                <!-- Checkbox -->
+                <fwb-table-cell class="w-4 p-4">
+                    <div class="flex items-center">
+                        <input 
+                            :id="'checkbox-' + row.id"
+                            type="checkbox"
+                            class="checkAll w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+                        >
+                        <label :for="'checkbox-' + row.id" class="sr-only">checkbox</label>
+                    </div>
+                </fwb-table-cell>
+                
+                <!-- Data -->
+                <fwb-table-cell @click="rowsInfo.actions.show ? redirectTo(row.id): ''" v-for="(rowInfo, key) in rowsInfo.rows" class="truncate text-base font-medium p-4 text-gray-900 dark:text-white">
+                    <span v-if="rowInfo.type == 'text'">{{ row[key] }}</span>
+
+                    <div v-if="rowInfo.type == 'bool'">
+                        <TableLabelBool :rowInfo="rowInfo" :row="row" :rowKey="key" />
+                    </div>
+
+                    <div class="flex items-center" v-if="rowInfo.type == 'status'">
+                        <TableLabelStatus :rowInfo="rowInfo" :row="row" :rowKey="key" />
+                    </div>
+                </fwb-table-cell>
+
+                <!-- Action Buttons -->
+                <fwb-table-cell v-if="rowsInfo.actions.update || rowsInfo.actions.delete" class="whitespace-nowrap space-x-2">
+                    <PrimaryButton :id="'update-'+row.id" class="text-sm" icon="pen-to-square" v-if="rowsInfo.actions.update" @click="openDrawer('update', row.id)">
+                    </PrimaryButton>
+
+                    <DangerButton :id="'delete-'+row.id" class="text-sm" icon="trash-can" v-if="rowsInfo.actions.delete" @click="openDrawer('delete', row.id)">
+                    </DangerButton>
+                </fwb-table-cell>
+            </fwb-table-row>
+        </fwb-table-body>
+    </fwb-table>
 
     <!-- Pagination -->
     <TablePagination :rows="rows"/>

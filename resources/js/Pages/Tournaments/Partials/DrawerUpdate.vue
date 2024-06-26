@@ -58,7 +58,6 @@ watch(() => props.modelId, id => {
     if (props.drawer.isVisible()) {
         axios.get(route("tournaments.show.api", id))
         .then(({data}) => {
-            console.log(data);
             form.name                  = data.name;
             form.description           = data.description;
             form.game_id               = data.game_id;

@@ -13,9 +13,9 @@ const props = defineProps({
 <template>
     <PrimaryButton :disabled="form.processing" :class="{ 'opacity-25': form.processing }" type="submit">
         <span><slot/></span>
+        <SvgIcon class="ml-2 w-4 h-4" v-if="form.processing" icon="sync" :loading="form.processing" />
     </PrimaryButton>
 
-    <SvgIcon class="w-4 h-4" v-if="form.processing" icon="sync" :loading="form.processing" />
 
     <Transition
         enter-active-class="transition ease-in-out"

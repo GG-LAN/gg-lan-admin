@@ -102,6 +102,7 @@ class TournamentController extends Controller
             $file = $request->file('image');
 
             $path = $file->store('public/tournament-image');
+            $path = str_replace("public", "/storage", $path);
         }
 
         $game = Game::find($request->game_id);
@@ -160,7 +161,8 @@ class TournamentController extends Controller
         $request->session()->flash('status', 'success');
         // $request->session()->flash('message', __('responses.tournament.created'));
 
-        return back();
+        return to_route('tournaments.show', ['tournament' => $tournament->id]);
+        // return back();
     }
 
     public function show(Tournament $tournament) {
@@ -319,20 +321,6 @@ class TournamentController extends Controller
     }
 
     public function update(UpdateTournamentRequest $request, Tournament $tournament) {
-        // return dd($request->name);
-        // if ($request->hasFile("image")) {
-        //     $file = $request->file('image');
-
-        //     if ($tournament->image != "") {
-        //         Storage::delete($tournament->image);
-        //     }
-
-        //     $path = $file->store('public/tournament-image');
-        //     $name = $file->getClientOriginalName();
-
-        //     $tournament->image = $path;
-        // }
-
         $game = Game::find($request->game_id);
 
         $tournament->update([
@@ -371,6 +359,28 @@ class TournamentController extends Controller
 
         $request->session()->flash('status', 'success');
         // $request->session()->flash('message', __('responses.tournament.opened'));
+
+        return back();
+    }
+
+    public function updateImage(Request $request, Tournament $tournament) {
+        if ($request->hasFile("image")) {
+            $file = $request->file('image');
+
+            if ($tournament->image != "") {
+                $path = str_replace("/storage", "public", $tournament->image);
+                Storage::delete($path);
+            }
+
+            $path = $file->store('public/tournament-image');
+            $path = str_replace("public", "/storage", $path);
+
+            $tournament->image = $path;
+            $tournament->save();
+        }
+
+        $request->session()->flash('status', 'success');
+        // $request->session()->flash('message', __('responses.tournament.updated'));
 
         return back();
     }

@@ -5,7 +5,6 @@ import PageTitle from '@/Components/Ui/PageTitle.vue';
 import Table from '@/Components/Ui/Table.vue';
 import UpdateTournamentInfoForm from './Partials/UpdateTournamentInfoForm.vue';
 import UpdateTournamentDateForm from './Partials/UpdateTournamentDateForm.vue';
-import UpdateTournamentGameForm from './Partials/UpdateTournamentGameForm.vue';
 import OpenTournamentForm from './Partials/OpenTournamentForm.vue';
 import UpdateTournamentImage from './Partials/UpdateTournamentImage.vue';
 
@@ -39,15 +38,11 @@ defineOptions({layout: AuthenticatedLayout});
 
     <!-- Tournament info -->
     <div class="col-span-2 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
-        <UpdateTournamentInfoForm :tournament="$page.props.tournament" :status="$page.props.status"/>
+        <UpdateTournamentInfoForm :tournament="$page.props.tournament" :games="$page.props.games"/>
     </div>
 
     <div class="col-span-1 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
         <UpdateTournamentDateForm :tournament="$page.props.tournament"/>
-    </div>
-
-    <div class="col-span-1 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
-        <UpdateTournamentGameForm :tournament="$page.props.tournament" :games="$page.props.games" :types="$page.props.types"/>
     </div>
 
     <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white col-span-4 mt-4 mb-4">

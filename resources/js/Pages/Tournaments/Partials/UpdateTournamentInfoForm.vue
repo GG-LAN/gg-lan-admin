@@ -4,6 +4,7 @@ import InputLabel from '@/Components/Forms/InputLabel.vue';
 import SubmitButton from '@/Components/Forms/SubmitButton.vue';
 import TextInput from '@/Components/Forms/TextInput.vue';
 import SelectInput from '@/Components/Forms/SelectInput.vue';
+import TextareaInput from '@/Components/Forms/TextareaInput.vue';
 import { useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
@@ -11,7 +12,7 @@ const props = defineProps({
         type: Object,
         required: true
     },
-    status: {
+    games: {
         type: Array,
         required: true
     }
@@ -25,10 +26,6 @@ const form = useForm({
     end_date:    props.tournament.end_date,
     places:      props.tournament.places,
     cashprize:   props.tournament.cashprize,
-});
-
-const imageForm = useForm({
-    image: null,
 });
 
 const updateTournament = () => {
@@ -46,9 +43,9 @@ const updateTournament = () => {
             <h2 class="text-xl font-black text-gray-900 dark:text-gray-100">Informations du tournois</h2>
         </header>
 
-        <form @submit.prevent="updateTournament" class="mt-6 space-y-6">
+        <form @submit.prevent="updateTournament" class="mt-6 grid grid-cols-2 gap-4">
             <!-- Name -->
-            <div>
+            <div class="col-span-1">
                 <InputLabel for="name" value="Nom" />
 
                 <TextInput
@@ -64,21 +61,8 @@ const updateTournament = () => {
                 <InputError :message="form.errors.name" class="mt-2" />
             </div>
 
-            <!-- Description -->
-            <div>
-                <InputLabel for="update-description" value="Description" />
-                <TextInput
-                    id="update-description"
-                    class="mt-1 block w-full"
-                    type="text"
-                    v-model="form.description"
-                    required
-                />
-                <InputError class="mt-2" :message="form.errors.description" />
-            </div>
-
             <!-- Cashprize -->
-            <div>
+            <div class="col-span-1">
                 <InputLabel for="update-cashprize" value="Cashprize" />
                 <TextInput
                     id="update-cashprize"
@@ -91,7 +75,55 @@ const updateTournament = () => {
                 <InputError class="mt-2" :message="form.errors.cashprize" />
             </div>
 
-            <div class="flex items-center gap-4">
+            <!-- Description -->
+            <div class="col-span-2">
+                <InputLabel for="update-description" value="Description" />
+                <TextareaInput
+                    id="update-description"
+                    class="mt-1 block w-full"
+                    type="text"
+                    placeholder="Une description courte du tournois..."
+                    v-model="form.description"
+                    required
+                />
+                <InputError class="mt-2" :message="form.errors.description" />
+            </div>
+
+            <div class="col-span-2">
+                <header>
+                    <h2 class="text-xl font-black text-gray-900 dark:text-gray-100">Jeu du tournois</h2>
+                </header>
+            </div>
+
+            <!-- Game -->
+            <div class="col-span-1">
+                <InputLabel for="update_game-game_id" value="Jeu" />
+                <SelectInput
+                    id="update_game-game_id"
+                    class="mt-1 block w-full"
+                    v-model="form.game_id"
+                    placeholder="Choisir un jeu ..."
+                    :data="props.games"
+                    required
+                />
+                <InputError class="mt-2" :message="form.errors.game_id" />
+            </div>
+
+            <!-- Places -->
+            <div class="col-span-1">
+                <InputLabel for="update_game-places" value="Nombre de places du tournois" />
+                <TextInput
+                    id="update_game-places"
+                    class="mt-1 block w-full"
+                    type="number"
+                    v-model="form.places"
+                    min="1"
+                    required
+                />
+                <InputError class="mt-2" :message="form.errors.places" />
+            </div>
+
+            <div class="col-span-1 flex items-center gap-4">
                 <SubmitButton :form="form">
                     Mettre à jour
                 </SubmitButton>

@@ -307,15 +307,11 @@ class TournamentController extends Controller
             "playersRowsInfo" => $playersRowsInfo,
             
             "games" => Game::all(),
-            "status" => [
-                ["id" => "open", "name" => "Ouvert"],
-                ["id" => "closed", "name" => "Fermé"],
-                ["id" => "finished", "name" => "Terminé"],
-            ],
-            "types" => [
-                ["id" => "team", "name" => "Équipe"],
-                ["id" => "solo", "name" => "Solo"],
-            ],
+            // "status" => [
+            //     ["id" => "open", "name" => "Ouvert"],
+            //     ["id" => "closed", "name" => "Fermé"],
+            //     ["id" => "finished", "name" => "Terminé"],
+            // ],
             "breadcrumbs" => $breadcrumbs,
             "tournament"  => $tournament
         ]);

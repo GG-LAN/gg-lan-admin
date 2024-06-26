@@ -34,8 +34,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::apiResource('tournaments', TournamentController::class);
     Route::controller(TournamentController::class)->group(function () {
         Route::get('/api/tournaments/{tournament}', 'showApi')->name('tournaments.show.api');
-        Route::post('/api/tournaments/{tournament}', 'openTournament')->name('tournaments.openTournament');
-        Route::post('/api/tournaments/{tournament}', 'updateImage')->name('tournaments.updateImage');
+        Route::post('/api/tournaments/{tournament}/openTournament', 'openTournament')->name('tournaments.openTournament');
+        Route::post('/api/tournaments/{tournament}/updateImage', 'updateImage')->name('tournaments.updateImage');
     });
 });
 

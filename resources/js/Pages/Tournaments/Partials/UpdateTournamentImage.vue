@@ -31,44 +31,59 @@ const submit = () => {
 </script>
 
 <template>
-    <div v-if="props.tournament.image" class="col-span-1 grid grid-cols-2 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
-        <div class="col-span-2 flex justify-center items-center">
-            <img class="max-w-full rounded-lg" :src="$page.props.tournament.image" :alt="$page.props.tournament.name">
-        </div>
-        
-        <form @submit.prevent="submit" enctype='multipart/form-data' class="col-span-2 grid grid-cols-2 flex justify-items-center items-center mt-4 gap-4">
-            <div class="col-span-1">
-                <input 
-                    class="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                    id="create-image" 
-                    type="file" 
-                    @input="form.image = $event.target.files[0]" 
-                />
-                <InputError class="mt-2" :message="form.errors.image" />
-            </div>
-    
-            <div class="col-span-1">
-                <SubmitButton :form="form">
-                    Mettre à jour
-                </SubmitButton>
-            </div>
-        </form>
-    </div>
+    <section class="bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
+        <header>
+            <h2 class="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">Image du tournois</h2>
+        </header>
 
-    <div v-else class="col-span-1 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
-        <form @submit.prevent="submit" enctype='multipart/form-data'>
-            <fwb-file-input v-model="form.image" dropzone class="h-64">
-                <p class="text-xs text-gray-500 dark:text-gray-400">
-                    PNG, JPG, JPEG ou GIF (MAX. 2Mo).
-                </p>
-            </fwb-file-input>
-            <InputError class="mt-2" :message="form.errors.image" />
-        
-            <div class="flex items-center mt-4">
-                <SubmitButton :form="form">
-                    Mettre à jour
-                </SubmitButton>
-            </div>
-        </form>
-    </div>
+        <div v-if="props.tournament.image">
+            <form @submit.prevent="submit" enctype='multipart/form-data' class="grid grid-cols-1 gap-4">
+                <div class="col-span-1 flex justify-center items-center">
+                    <InputLabel for="update-image">
+                        <img class="max-w-full rounded-lg cursor-pointer hover:grayscale transition-all duration-300" :src="$page.props.tournament.image" :alt="$page.props.tournament.name">
+                    </InputLabel>
+    
+                    <input
+                        class="hidden"
+                        id="update-image" 
+                        type="file" 
+                        @input="form.image = $event.target.files[0]" 
+                    />
+                </div>
+
+                
+                <div v-if="form.image" class="col-span-1 overflow-hidden truncate hover:text-clip">
+                    <span>
+                        <span class="font-bold">Fichier: </span>
+                        {{ form.image.name }}
+                    </span>
+                </div>
+                
+                <InputError class="mt-2" :message="form.errors.image" />
+                    
+                <div class="col-span-1 flex items-center gap-4">
+                    <SubmitButton :form="form">
+                        Mettre à jour
+                    </SubmitButton>
+                </div>
+            </form>
+        </div>
+    
+        <div v-else class="col-span-1">
+            <form @submit.prevent="submit" enctype='multipart/form-data'>
+                <fwb-file-input v-model="form.image" dropzone class="h-64" id="update-image">
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                        PNG, JPG, JPEG ou GIF (MAX. 2Mo).
+                    </p>
+                </fwb-file-input>
+                <InputError class="mt-2" :message="form.errors.image" />
+            
+                <div class="flex items-center mt-4">
+                    <SubmitButton :form="form">
+                        Mettre à jour
+                    </SubmitButton>
+                </div>
+            </form>
+        </div>
+    </section>
 </template>

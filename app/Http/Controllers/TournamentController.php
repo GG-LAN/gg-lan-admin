@@ -341,6 +341,11 @@ class TournamentController extends Controller
     }
 
     public function destroy(Request $request, Tournament $tournament) {
+        if ($tournament->image != "") {
+            $path = str_replace("/storage", "public", $tournament->image);
+            Storage::delete($path);
+        }
+        
         $tournament->delete();
 
         $request->session()->flash('status', 'success');

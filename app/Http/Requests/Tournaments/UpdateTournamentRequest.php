@@ -23,7 +23,7 @@ class UpdateTournamentRequest extends FormRequest
     {
         return [
             'name'                  => 'required|string|max:50',
-            'description'           => 'string|nullable|max:250',
+            'description'           => 'string|max:250',
             'game_id'               => 'required|numeric|exists:games,id',
             'start_date'            => 'nullable|date',
             'end_date'              => 'nullable|date',

@@ -2,7 +2,6 @@
 import { onMounted } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import SvgIcon from '@/Components/Ui/SvgIcon.vue';
-import { initFlowbite } from 'flowbite';
 
 const props = defineProps({
     breadcrumbs: {
@@ -11,7 +10,6 @@ const props = defineProps({
 });
 
 onMounted(() => {
-    initFlowbite();
 })
 </script>
 

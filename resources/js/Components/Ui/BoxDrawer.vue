@@ -1,10 +1,8 @@
 <script setup>
 import { onMounted } from 'vue';
 import SvgIcon from "@/Components/Ui/SvgIcon.vue";
-import { initFlowbite } from 'flowbite';
 
 onMounted(() => {
-    initFlowbite();
 });
 
 const props = defineProps({

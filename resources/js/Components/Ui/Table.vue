@@ -1,6 +1,6 @@
 <script setup>
 import debounce from 'lodash/debounce';
-import { initFlowbite, Drawer } from 'flowbite';
+import { Drawer } from 'flowbite';
 import { onMounted, ref, watch, getCurrentInstance, nextTick } from 'vue';
 import { usePage, router } from '@inertiajs/vue3';
 import SvgIcon from "@/Components/Ui/SvgIcon.vue";
@@ -27,8 +27,6 @@ let drawerUpdate;
 let drawerDelete;
 
 onMounted(() => {
-    initFlowbite();
-    
     // Unique id for each instance of this component
     uid.value = getCurrentInstance().uid;
 })

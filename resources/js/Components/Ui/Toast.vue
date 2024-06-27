@@ -2,10 +2,8 @@
 import { computed, onMounted } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 import SvgIcon from '@/Components/Ui/SvgIcon.vue';
-import { initFlowbite } from 'flowbite'
 
 onMounted(() => {
-    initFlowbite();
 })
 
 const page = usePage();

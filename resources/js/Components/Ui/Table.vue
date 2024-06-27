@@ -10,6 +10,7 @@ import PrimaryButton from "@/Components/Forms/PrimaryButton.vue"
 import TablePagination from '@/Components/Ui/TablePagination.vue';
 import TableLabelBool from '@/Components/Ui/TableLabelBool.vue';
 import TableLabelStatus from '@/Components/Ui/TableLabelStatus.vue';
+import TableCheckbox from '@/Components/Ui/TableCheckbox.vue';
 
 import {
   FwbA,
@@ -93,9 +94,8 @@ watch(search, debounce(value => {
     });
 }, 300));
 
-const checkAll = () => {
-    const checkboxAll = document.querySelector("#checkbox-all");
-
+const checkAll = (event) => {
+    const checkboxAll = event.target;
     const checkboxes = document.querySelectorAll(".checkAll");
 
     checkboxes.forEach(checkbox => {
@@ -199,20 +199,23 @@ const openDrawer = (drawer, id = null) => {
     <fwb-table hoverable striped>
         <!-- Head -->
         <fwb-table-head>
-            <fwb-table-head-cell class="px-4 py-4 font-medium">
+            <!-- Checkbox -->
+            <fwb-table-head-cell class="px-4 py-4 font-medium" v-if="rowsInfo.actions.checkbox">
                 <div class="flex items-center" @click="checkAll">
                     <input id="checkbox-all" aria-describedby="checkbox-all" type="checkbox" class="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
                     <label for="checkbox-all" class="sr-only">checkbox</label>
                 </div>
             </fwb-table-head-cell>
 
-            <fwb-table-head-cell v-for="{title} in rowsInfo.rows" class="px-4 py-4 font-medium">
+            <!-- Headers -->
+            <fwb-table-head-cell v-for="row in rowsInfo.rows" class="px-4 py-4 font-medium">
                 <div class="flex items-center">
-                    {{ title }}
+                    {{ row.title }}
                     <!-- <SvgIcon icon="sort" class="w-3 h-3 ms-1.5"/> -->
                 </div>
             </fwb-table-head-cell>
 
+            <!-- Actions -->
             <fwb-table-head-cell v-if="rowsInfo.actions.update || rowsInfo.actions.delete" class="px-4 py-4 font-medium">
                 Actions
             </fwb-table-head-cell>
@@ -221,7 +224,7 @@ const openDrawer = (drawer, id = null) => {
         <!-- Body -->
         <fwb-table-body class="divide-y divide-gray-200 dark:divide-gray-700">
             <!-- No data row -->
-            <fwb-table-row v-if="!rows.data" class="text-center">
+            <fwb-table-row v-if="false" class="text-center">
                 <fwb-table-cell v-if="rowsInfo.actions.update || rowsInfo.actions.delete" :colspan="Object.keys(rowsInfo.rows).length + 2" class="py-2">
                     Pas de résultats...
                 </fwb-table-cell>
@@ -232,28 +235,21 @@ const openDrawer = (drawer, id = null) => {
 
             <fwb-table-row v-for="row in rows.data" :key="row.id" :class="rowsInfo.actions.show ? 'cursor-pointer':''" v-else>
                 <!-- Checkbox -->
-                <fwb-table-cell class="w-4 p-4">
-                    <div class="flex items-center">
-                        <input 
-                            :id="'checkbox-' + row.id"
-                            type="checkbox"
-                            class="checkAll w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
-                        >
-                        <label :for="'checkbox-' + row.id" class="sr-only">checkbox</label>
-                    </div>
+                <fwb-table-cell v-if="rowsInfo.actions.checkbox">
+                    <TableCheckbox :checkboxId="rowsInfo.actions.checkbox.id" :row="row" />
                 </fwb-table-cell>
-                
+
                 <!-- Data -->
                 <fwb-table-cell @click="rowsInfo.actions.show ? redirectTo(row.id): ''" v-for="(rowInfo, key) in rowsInfo.rows" class="truncate text-base font-medium p-4 text-gray-900 dark:text-white">
-                    <span v-if="rowInfo.type == 'text'">{{ row[key] }}</span>
-
                     <div v-if="rowInfo.type == 'bool'">
                         <TableLabelBool :rowInfo="rowInfo" :row="row" :rowKey="key" />
                     </div>
-
+                    
                     <div class="flex items-center" v-if="rowInfo.type == 'status'">
                         <TableLabelStatus :rowInfo="rowInfo" :row="row" :rowKey="key" />
                     </div>
+
+                    <span v-if="rowInfo.type == 'text'">{{ row[key] }}</span>
                 </fwb-table-cell>
 
                 <!-- Action Buttons -->

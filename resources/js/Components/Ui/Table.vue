@@ -5,7 +5,7 @@ import { onMounted, ref, watch, getCurrentInstance, nextTick } from 'vue';
 import { usePage, router } from '@inertiajs/vue3';
 import SvgIcon from "@/Components/Ui/SvgIcon.vue";
 import DangerButton from "@/Components/Forms/DangerButton.vue"
-import CreateButton from "@/Components/Forms/CreateButton.vue"
+import SuccessButton from "@/Components/Forms/SuccessButton.vue"
 import PrimaryButton from "@/Components/Forms/PrimaryButton.vue"
 import TablePagination from '@/Components/Ui/TablePagination.vue';
 import TableLabelBool from '@/Components/Ui/TableLabelBool.vue';
@@ -190,9 +190,9 @@ const openDrawer = (drawer, id = null) => {
                 </div>
                 <div class="flex items-center mb-4 sm:mb-0 space-x-3">
                     <!-- Create drawer -->
-                    <CreateButton id="create" class="text-sm" icon="plus" v-if="rowsInfo.actions['create']" @click="openDrawer('create')">
+                    <SuccessButton id="create" class="text-sm" icon="plus" v-if="rowsInfo.actions['create']" @click="openDrawer('create')">
                         <span class="ml-2">Ajouter</span>
-                    </CreateButton>
+                    </SuccessButton>
                         
                     <PrimaryButton id="reload" class="text-sm" icon="sync" :loading="loading" @click="refresh">
                         <span class="ml-2">Rafraîchir</span>

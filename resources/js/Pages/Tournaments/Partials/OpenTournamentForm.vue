@@ -1,5 +1,5 @@
 <script setup>
-import SuccessButton from '@/Components/Forms/SuccessButton.vue';
+import SubmitButton from '@/Components/Forms/SubmitButton.vue';
 // import { router } from '@inertiajs/vue3';
 import { useForm } from '@inertiajs/vue3';
 
@@ -29,6 +29,10 @@ const openTournament = () => {
             </p>
         </header>
 
-        <SuccessButton @click="openTournament" :disabled="form.processing" :class="{ 'opacity-25': form.processing }">Ouvrir le tournois</SuccessButton>
+        <form @submit.prevent="openTournament">
+            <SubmitButton :form="form" color="success" successMessage="Le tournois a bien été ouvert !">
+                Ouvrir le tournois
+            </SubmitButton>
+        </form>
     </section>
 </template>

@@ -17,14 +17,14 @@ defineOptions({layout: AuthenticatedLayout});
     <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-4">
 
         <Table :rows="$page.props.tableData" :rowsInfo="$page.props.tableRowsInfo" :route="route('players.index')">
-            <template #drawerCreate="{ drawer }">
-                <DrawerCreate title="Ajouter un joueur" :drawer="drawer"/>
+            <template #drawerCreate="{ drawer , uid}">
+                <DrawerCreate title="Ajouter un joueur" :drawer="drawer" :uid="uid"/>
             </template>
-            <template #drawerUpdate="{ modelId, drawer }">
-                <DrawerUpdate title="Modifier le joueur" :modelId="modelId" :drawer="drawer"/>
+            <template #drawerUpdate="{ modelId, drawer, uid }">
+                <DrawerUpdate title="Modifier le joueur" :modelId="modelId" :drawer="drawer" :uid="uid"/>
             </template>
-            <template #drawerDelete="{ modelId, drawer }">
-                <DrawerDelete title="Supprimer le joueur" :modelId="modelId" :drawer="drawer"/>
+            <template #drawerDelete="{ modelId, drawer, uid }">
+                <DrawerDelete title="Supprimer le joueur" :modelId="modelId" :drawer="drawer" :uid="uid"/>
             </template>
         </Table>
         

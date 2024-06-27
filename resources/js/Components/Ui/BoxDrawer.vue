@@ -8,7 +8,7 @@ onMounted(() => {
 });
 
 const props = defineProps({
-    id: {
+    uid: {
         type: String,
         required: true
     },
@@ -29,18 +29,18 @@ const close = () => {
 
 <template>
     <div 
-        :id="props.id"
+        :id="props.uid"
         class="fixed top-0 right-0 z-40 w-full h-screen max-w-xs p-4 overflow-y-auto transition-transform translate-x-full bg-white dark:bg-gray-800"
         tabindex="-1"
         aria-labelledby="drawer-label"
         aria-hidden="true"
         data-drawer-placement="right"
-        :data-drawer-target="props.id"
+        :data-drawer-target="props.uid"
     >
         <h5 id="drawer-label" class="inline-flex items-center mb-6 text-sm font-semibold text-gray-500 uppercase dark:text-gray-400">
             {{ props.title }}
         </h5>
-        <button type="button" @click="close" :aria-controls="props.id" class="
+        <button type="button" @click="close" :aria-controls="props.uid" class="
             text-gray-400
             bg-transparent
             hover:bg-gray-200

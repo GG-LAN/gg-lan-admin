@@ -1,7 +1,7 @@
 <script setup>
 import debounce from 'lodash/debounce';
 import { initFlowbite, Drawer } from 'flowbite';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch, getCurrentInstance, nextTick } from 'vue';
 import { usePage, router } from '@inertiajs/vue3';
 import SvgIcon from "@/Components/Ui/SvgIcon.vue";
 import DangerButton from "@/Components/Forms/DangerButton.vue"
@@ -11,7 +11,6 @@ import TablePagination from '@/Components/Ui/TablePagination.vue';
 import TableLabelBool from '@/Components/Ui/TableLabelBool.vue';
 import TableLabelStatus from '@/Components/Ui/TableLabelStatus.vue';
 import TableCheckbox from '@/Components/Ui/TableCheckbox.vue';
-
 import {
   FwbA,
   FwbTable,
@@ -22,42 +21,23 @@ import {
   FwbTableRow,
 } from 'flowbite-vue'
 
+
 let drawerCreate;
 let drawerUpdate;
 let drawerDelete;
 
 onMounted(() => {
     initFlowbite();
-
-    const drawerCreateElement = document.querySelector("#drawer-create");
-    if (drawerCreateElement) {
-        drawerCreate = new Drawer(drawerCreateElement, {
-            placement: "right",
-            backdrop: true,
-        });
-    }
     
-    const drawerUpdateElement = document.querySelector("#drawer-update");
-    if (drawerUpdateElement) {
-        drawerUpdate = new Drawer(drawerUpdateElement, {
-            placement: "right",
-            backdrop: true,
-        });
-    }
-    
-    const drawerDeleteElement = document.querySelector("#drawer-delete");
-    if (drawerDeleteElement) {
-        drawerDelete = new Drawer(drawerDeleteElement, {
-            placement: "right",
-            backdrop: true,
-        });
-    }
+    // Unique id for each instance of this component
+    uid.value = getCurrentInstance().uid;
 })
 
 const page  = usePage();
 let loading = ref(false);
 let modelId = ref();
 let search  = ref();
+let uid = ref();
 
 if (page.props['filters']) {
     search = ref(page.props.filters.search);
@@ -77,6 +57,37 @@ const props = defineProps({
         required: true
     }
 });
+
+watch(
+    () => uid.value,
+    () => {
+        nextTick(() => {
+            const drawerCreateElement = document.querySelector("#drawer-create-" + uid.value);
+            if (drawerCreateElement) {
+                drawerCreate = new Drawer(drawerCreateElement, {
+                    placement: "right",
+                    backdrop: true,
+                });
+            }
+
+            const drawerUpdateElement = document.querySelector("#drawer-update-" + uid.value);
+            if (drawerUpdateElement) {
+                drawerUpdate = new Drawer(drawerUpdateElement, {
+                    placement: "right",
+                    backdrop: true,
+                });
+            }
+            
+            const drawerDeleteElement = document.querySelector("#drawer-delete-" + uid.value);
+            if (drawerDeleteElement) {
+                drawerDelete = new Drawer(drawerDeleteElement, {
+                    placement: "right",
+                    backdrop: true,
+                });
+            }
+        });
+    }
+);
 
 watch(search, debounce(value => {
     router.get(props.route, {
@@ -268,7 +279,7 @@ const openDrawer = (drawer, id = null) => {
     <TablePagination :rows="rows"/>
 
     <!-- CRUD Drawers -->
-    <slot name="drawerCreate" :drawer="drawerCreate" v-if="rows.data"/>
-    <slot name="drawerUpdate" :drawer="drawerUpdate" :modelId="modelId" v-if="rows.data"/>
-    <slot name="drawerDelete" :drawer="drawerDelete" :modelId="modelId" v-if="rows.data"/>
+    <slot name="drawerCreate" :drawer="drawerCreate" :uid="uid" v-if="rows.data"/>
+    <slot name="drawerUpdate" :drawer="drawerUpdate" :modelId="modelId" :uid="uid" v-if="rows.data"/>
+    <slot name="drawerDelete" :drawer="drawerDelete" :modelId="modelId" :uid="uid" v-if="rows.data"/>
 </template>

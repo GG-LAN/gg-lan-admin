@@ -11,6 +11,19 @@ let games = [];
 let status = [];
 let type = [];
 
+const props = defineProps({
+    title: {
+        type: String,
+        required: true
+    },
+    drawer: {
+        type: Object
+    },
+    uid: {
+        type: Number
+    }
+});
+
 onMounted(() => {
     axios.get(route("games.index.api"))
     .then(({data}) => {
@@ -28,17 +41,6 @@ onMounted(() => {
         {id: "solo", name: "Solo"}
     ]
 })
-
-
-const props = defineProps({
-    title: {
-        type: String,
-        required: true
-    },
-    drawer: {
-        type: Object
-    }
-});
 
 let form = useForm({
     name: "",
@@ -72,7 +74,7 @@ const close = () => {
 </script>
 
 <template>
-    <BoxDrawer id="drawer-create" :title="props.title" :drawer="props.drawer">
+    <BoxDrawer :uid="'drawer-create-' + props.uid" :title="props.title" :drawer="props.drawer">
         <form @submit.prevent="submit" enctype='multipart/form-data'>
             <div class="space-y-4">
                 <!-- Name -->
@@ -204,7 +206,7 @@ const close = () => {
                     <button :disabled="form.processing" type="submit" class="text-white w-full justify-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                         Ajouter
                     </button>
-                    <button :disabled="form.processing" @click="close" type="button" data-drawer-dismiss="drawer-create" aria-controls="drawer-create" class="inline-flex w-full justify-center text-gray-500 items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                    <button :disabled="form.processing" @click="close" type="button" :data-drawer-dismiss="'drawer-create-' + props.uid" :aria-controls="'drawer-create-' + props.uid" class="inline-flex w-full justify-center text-gray-500 items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                         <svg aria-hidden="true" class="w-5 h-5 -ml-1 sm:mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                         Annuler
                     </button>

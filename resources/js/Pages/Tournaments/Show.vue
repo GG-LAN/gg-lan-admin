@@ -65,6 +65,4 @@ defineOptions({layout: AuthenticatedLayout});
         <h2 class="text-xl font-black text-gray-900 dark:text-gray-100">Joueurs inscrits</h2>
         <Table :rows="$page.props.playersData" :rowsInfo="$page.props.playersRowsInfo" :route="route('tournaments.show', $page.props.tournament.id)"/>
     </div>
-    <div class="col-span-3">
-    </div>
 </template>

@@ -289,9 +289,9 @@ class TournamentController extends Controller
                     // "create" => true,
                     // "update" => true,
                     // "delete" => true,
-                    // "show" => [
-                    //     "route" => "teams.show"
-                    // ]
+                    "show" => [
+                        "route" => "players.show"
+                    ]
                 ],
             ];
         }

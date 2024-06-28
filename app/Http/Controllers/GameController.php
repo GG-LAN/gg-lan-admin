@@ -62,7 +62,7 @@ class GameController extends Controller
         ]);
 
         $request->session()->flash('status', 'success');
-        // $request->session()->flash('message', __('responses.games.created'));
+        $request->session()->flash('message', __('responses.game.created'));
 
         return back();
     }
@@ -74,7 +74,7 @@ class GameController extends Controller
         ]);
 
         $request->session()->flash('status', 'success');
-        // $request->session()->flash('message', __('responses.games.updated'));
+        $request->session()->flash('message', __('responses.game.updated'));
 
         return back();
     }
@@ -83,7 +83,7 @@ class GameController extends Controller
         $game->delete();
 
         $request->session()->flash('status', 'success');
-        // $request->session()->flash('message', __('responses.games.deleted'));
+        $request->session()->flash('message', __('responses.game.deleted'));
 
         return back();
     }

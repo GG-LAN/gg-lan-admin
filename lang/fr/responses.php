@@ -12,6 +12,11 @@ return [
         "updated" => "Le joueur a été mis à jour !",
         "deleted" => "Le joueur a été supprimé !",
     ],
+    "game" => [
+        "created" => "Le jeu a été créé !",
+        "updated" => "Le jeu a été mis à jour !",
+        "deleted" => "Le jeu a été supprimé !",
+    ],
     "profile" => [
         "updated" => "Votre profil a été mis à jour !",
     ],

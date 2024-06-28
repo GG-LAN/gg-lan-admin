@@ -205,7 +205,7 @@ const openDrawer = (drawer, id = null) => {
     </div>
 
     <!-- Table -->
-    <fwb-table hoverable striped>
+    <fwb-table hoverable striped class="overflow-x-auto">
         <!-- Head -->
         <fwb-table-head>
             <!-- Checkbox -->

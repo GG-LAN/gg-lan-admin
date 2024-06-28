@@ -160,7 +160,7 @@ class TournamentController extends Controller
         ]);
 
         $request->session()->flash('status', 'success');
-        // $request->session()->flash('message', __('responses.tournament.created'));
+        $request->session()->flash('message', __('responses.tournament.created'));
 
         return to_route('tournaments.show', ['tournament' => $tournament->id]);
         // return back();
@@ -332,7 +332,7 @@ class TournamentController extends Controller
         ]);
 
         $request->session()->flash('status', 'success');
-        // $request->session()->flash('message', __('responses.tournament.updated'));
+        $request->session()->flash('message', __('responses.tournament.updated'));
 
         return back();
     }
@@ -346,7 +346,7 @@ class TournamentController extends Controller
         $tournament->delete();
 
         $request->session()->flash('status', 'success');
-        // $request->session()->flash('message', __('responses.tournament.deleted'));
+        $request->session()->flash('message', __('responses.tournament.deleted'));
         
         return back();
     }
@@ -360,7 +360,7 @@ class TournamentController extends Controller
         $tournament->save();
 
         $request->session()->flash('status', 'success');
-        // $request->session()->flash('message', __('responses.tournament.opened'));
+        $request->session()->flash('message', __('responses.tournament.opened'));
 
         return back();
     }
@@ -382,7 +382,7 @@ class TournamentController extends Controller
         }
 
         $request->session()->flash('status', 'success');
-        // $request->session()->flash('message', __('responses.tournament.updated'));
+        $request->session()->flash('message', __('responses.tournament.updated'));
 
         return back();
     }

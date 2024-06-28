@@ -6,12 +6,9 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\PlayerController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TournamentController;
-
-
-
-
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get("/", function() {
@@ -36,6 +33,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/api/tournaments/{tournament}', 'showApi')->name('tournaments.show.api');
         Route::post('/api/tournaments/{tournament}/openTournament', 'openTournament')->name('tournaments.openTournament');
         Route::post('/api/tournaments/{tournament}/updateImage', 'updateImage')->name('tournaments.updateImage');
+    });
+    Route::apiResource('payments', PaymentController::class);
+    Route::controller(PaymentController::class)->group(function () {
     });
 });
 

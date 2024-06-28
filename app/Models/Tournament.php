@@ -40,11 +40,15 @@ class Tournament extends Model {
     }
 
     public function purchasedPlaces() {
-        if (!$this->currentPrice()) {
-            return [];
+        $purchasedPlaces = [];
+        
+        foreach ($this->prices as $price) {
+            foreach ($price->purchasedPlaces as $purchasedPlace) {
+                array_push($purchasedPlaces, $purchasedPlace);
+            }
         }
         
-        return $this->currentPrice()->purchasedPlaces();
+        return $purchasedPlaces;
     }
 
     public function getRegisterCountAttribute() {
@@ -107,6 +111,50 @@ class Tournament extends Model {
                 "cashprize"   => $tournament->cashprize,
             ];
         });
+    }
+
+    public function getPayments() {
+        $paymentList = [];
+
+        foreach ($this->purchasedPlaces() as $purchasedPlace) {
+            array_push($paymentList, [
+                "id" => $purchasedPlace->user->id,
+                "pseudo" => $purchasedPlace->user->pseudo,
+                "tournament_name" => $this->name,
+                "status" => "paid"
+            ]);
+        }
+        
+        $paidPlayersIds = array_column($paymentList, 'id');
+    
+        if ($this->type == "team") {
+            foreach ($this->teams as $team) {
+                foreach ($team->users as $player) {
+                    if(!in_array($player->id, $paidPlayersIds)) {
+                        array_push($paymentList, [
+                            "id" => $player->id,
+                            "pseudo" => $player->pseudo,
+                            "tournament_name" => $this->name,
+                            "status" => "not_paid"
+                        ]);
+                    }
+                }
+            }
+        }
+        else {
+            foreach ($this->players as $player) {
+                if(!in_array($player->id, $paidPlayersIds)) {
+                    array_push($paymentList, [
+                        "id" => $player->id,
+                        "pseudo" => $player->pseudo,
+                        "tournament_name" => $this->name,
+                        "status" => "not_paid"
+                    ]);
+                }
+            }
+        }
+
+        return collect($paymentList);        
     }
     
     /**

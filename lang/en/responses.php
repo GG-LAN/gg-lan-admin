@@ -7,6 +7,11 @@ return [
         "deleted" => "The tournament has been deleted !",
         "opened"  => "The tournament has been opened !",
     ],
+    "player" => [
+        "created" => "The player has been created !",
+        "updated" => "The player has been updated !",
+        "deleted" => "The player has been deleted !",
+    ],
     "profile" => [
         "updated" => "Your profile has been updated !",
     ],

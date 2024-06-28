@@ -73,6 +73,9 @@ class PlayerController extends Controller
             "admin"      => $request->admin,
         ]);
 
+        $request->session()->flash('status', 'success');
+        $request->session()->flash('message', __('responses.player.created'));
+
         return back();
     }
 
@@ -158,7 +161,7 @@ class PlayerController extends Controller
 
 
         $request->session()->flash('status', 'success');
-        // $request->session()->flash('message', __('responses.server.updated'));
+        $request->session()->flash('message', __('responses.player.updated'));
 
         return back();
     }
@@ -167,7 +170,7 @@ class PlayerController extends Controller
         $player->delete();
 
         $request->session()->flash('status', 'success');
-        // $request->session()->flash('message', __('responses.player.deleted'));
+        $request->session()->flash('message', __('responses.player.deleted'));
 
         return to_route("players.index");
     }

@@ -1,7 +1,7 @@
 <script setup>
 import InputError from '@/Components/Forms/InputError.vue';
 import InputLabel from '@/Components/Forms/InputLabel.vue';
-import PrimaryButton from '@/Components/Forms/PrimaryButton.vue';
+import SubmitButton from '@/Components/Forms/SubmitButton.vue';
 import TextInput from '@/Components/Forms/TextInput.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 
@@ -86,16 +86,7 @@ const form = useForm({
             </div>
 
             <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing" type="submit">Sauvegarder</PrimaryButton>
-
-                <Transition
-                    enter-active-class="transition ease-in-out"
-                    enter-from-class="opacity-0"
-                    leave-active-class="transition ease-in-out"
-                    leave-to-class="opacity-0"
-                >
-                    <p v-if="form.recentlySuccessful" class="text-sm text-gray-600 dark:text-gray-400">Sauvegardé.</p>
-                </Transition>
+                <SubmitButton :form="form">Mettre à jour</SubmitButton>
             </div>
         </form>
     </section>

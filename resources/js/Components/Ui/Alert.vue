@@ -9,9 +9,17 @@ onMounted(() => {
 const page = usePage();
 const show = ref(false)
 
+const flash = computed(() =>
+    page.props.flash
+);
+
 watch(
     () => page.props.flash,
     () => {
+        if (!flash.value.status) {
+            return;
+        }
+        
         show.value = true;
 
         setTimeout(() => {
@@ -19,10 +27,6 @@ watch(
         }, 3000);
     }
 )
-
-const flash = computed(() =>
-    page.props.flash
-);
 
 const statusClasses = computed(() => {
     let classes = "";

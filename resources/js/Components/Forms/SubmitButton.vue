@@ -1,8 +1,8 @@
 <script setup>
 import SvgIcon from '@/Components/Ui/SvgIcon.vue';
-import PrimaryButton from '@/Components/Forms/PrimaryButton.vue'
-import SuccessButton from '@/Components/Forms/SuccessButton.vue'
-import { FwbToast } from 'flowbite-vue'
+import PrimaryButton from '@/Components/Forms/PrimaryButton.vue';
+import SuccessButton from '@/Components/Forms/SuccessButton.vue';
+import DangerButton from '@/Components/Forms/DangerButton.vue';
 
 const props = defineProps({
     form: {
@@ -12,10 +12,6 @@ const props = defineProps({
     color: {
         type: String,
         default: "primary"
-    },
-    successMessage: {
-        type: String,
-        default: "Mise à jour réussite !"
     }
 });
 </script>
@@ -30,20 +26,9 @@ const props = defineProps({
         <span><slot/></span>
         <SvgIcon class="ml-2 w-4 h-4" v-if="form.processing" icon="sync" :loading="form.processing" />
     </SuccessButton>
-    
 
-
-    <Transition
-        enter-active-class="transition ease-in-out duration-300"
-        enter-from-class="opacity-0"
-        leave-active-class="transition ease-in-out duration-300"
-        leave-to-class="opacity-0"
-    >
-        <!-- <p v-if="form.recentlySuccessful" class="text-sm text-gray-600 dark:text-gray-400">Mis à jour !</p> -->
-        <fwb-toast type="success" v-if="form.recentlySuccessful" class="fixed top-20 right-7 !bg-green-800 !text-white">
-            <span class="text-sm font-medium">
-                {{ props.successMessage}}
-            </span>
-        </fwb-toast>
-    </Transition>
+    <DangerButton :disabled="form.processing" :class="{ 'opacity-25': form.processing }" type="submit" v-if="color == 'danger'">
+        <span><slot/></span>
+        <SvgIcon class="ml-2 w-4 h-4" v-if="form.processing" icon="sync" :loading="form.processing" />
+    </DangerButton>
 </template>

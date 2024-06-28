@@ -38,11 +38,11 @@ const breadcrumbs = [
         />
     </div>
 
-    <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-1">
+    <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-2">
         <UpdatePasswordForm class="max-w-xl" />
     </div>
 
-    <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-1">
+    <!-- <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-1">
         <DeleteUserForm class="max-w-xl" />
-    </div>
+    </div> -->
 </template>

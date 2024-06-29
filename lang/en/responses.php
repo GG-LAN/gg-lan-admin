@@ -23,4 +23,10 @@ return [
     "password" => [
         "updated" => "Your password has been updated !",
     ],
+    "payment" => [
+        "registered" => "The payment has been registered !",
+    ],
+    "errors" => [
+        "something_went_wrong" => "Something went wrong...",
+    ],
 ];

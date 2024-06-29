@@ -2,25 +2,31 @@
 
 return [
     "tournament" => [
-        "created" => "Le tournoi a été créé !",
-        "updated" => "Le tournoi a été mis à jour !",
-        "deleted" => "Le tournoi a été supprimé !",
-        "opened"  => "Le tournoi a été ouvert !",
+        "created" => "Le tournoi a bien été créé !",
+        "updated" => "Le tournoi a bien été mis à jour !",
+        "deleted" => "Le tournoi a bien été supprimé !",
+        "opened"  => "Le tournoi a bien été ouvert !",
     ],
     "player" => [
-        "created" => "Le joueur a été créé !",
-        "updated" => "Le joueur a été mis à jour !",
-        "deleted" => "Le joueur a été supprimé !",
+        "created" => "Le joueur a bien été créé !",
+        "updated" => "Le joueur a bien été mis à jour !",
+        "deleted" => "Le joueur a bien été supprimé !",
     ],
     "game" => [
-        "created" => "Le jeu a été créé !",
-        "updated" => "Le jeu a été mis à jour !",
-        "deleted" => "Le jeu a été supprimé !",
+        "created" => "Le jeu a bien été créé !",
+        "updated" => "Le jeu a bien été mis à jour !",
+        "deleted" => "Le jeu a bien été supprimé !",
     ],
     "profile" => [
-        "updated" => "Votre profil a été mis à jour !",
+        "updated" => "Votre profil a bien été mis à jour !",
     ],
     "password" => [
-        "updated" => "Votre mot de passe a été mis à jour !",
+        "updated" => "Votre mot de passe a bien été mis à jour !",
+    ],
+    "payment" => [
+        "registered" => "Le paiement a bien été enregistré !"
+    ],
+    "errors" => [
+        "something_went_wrong" => "Quelque chose s'est mal passé...",
     ],
 ];

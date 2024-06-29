@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
+use App\Models\PurchasedPlace;
+use App\Http\Requests\Payments\StorePaymentRequest;
 
 class PaymentController extends Controller
 {
@@ -63,6 +66,14 @@ class PaymentController extends Controller
             ],
             "actions" => [
                 "search" => true,
+                "customActions" => [
+                    [
+                        "type" => "success",
+                        "icon" => "money-bill",
+                        "route" => "payments.store",
+                        "condition" => "props.row.status == 'not_paid'"
+                    ],  
+                ],
                 // "create" => true,
                 // "update" => true,
                 // "delete" => true,
@@ -90,7 +101,25 @@ class PaymentController extends Controller
         ]);
     }
     
-    public function store(Request $request) {
-        //
+    public function store(StorePaymentRequest $request) {
+        $player = User::find($request->id);
+        $tournament = Tournament::find($request->tournament_id);
+        
+        if (!PurchasedPlace::checkExist($player, $tournament)) {
+            $purchasedPlace = PurchasedPlace::create([
+                'user_id' => $player->id,
+                'tournament_price_id' => $tournament->currentPrice()->id
+            ]);
+                        
+            $request->session()->flash('status', 'success');
+            $request->session()->flash('message', __("responses.payment.registered"));
+
+            return back();
+        }
+        
+        $request->session()->flash('status', 'error');
+        $request->session()->flash('message', __('responses.errors.something_went_wrong'));
+
+        return back();
     }
 }

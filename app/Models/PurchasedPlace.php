@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Tournament;
+use App\Models\PurchasedPlace;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PurchasedPlace extends Model
 {
@@ -24,5 +25,12 @@ class PurchasedPlace extends Model
 
     public function tournament() {
         return Tournament::findOrFail($this->tournamentPrice->tournament_id);
+    }
+
+    public static function checkExist(User $user, Tournament $tournament) {
+        return self::
+              where("user_id", $user->id)
+            ->where("tournament_price_id", $tournament->currentPrice()->id)
+            ->exists();
     }
 }

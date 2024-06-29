@@ -120,6 +120,7 @@ class Tournament extends Model {
             array_push($paymentList, [
                 "id" => $purchasedPlace->user->id,
                 "pseudo" => $purchasedPlace->user->pseudo,
+                "tournament_id" => $this->id,
                 "tournament_name" => $this->name,
                 "status" => "paid"
             ]);
@@ -134,6 +135,7 @@ class Tournament extends Model {
                         array_push($paymentList, [
                             "id" => $player->id,
                             "pseudo" => $player->pseudo,
+                            "tournament_id" => $this->id,
                             "tournament_name" => $this->name,
                             "status" => "not_paid"
                         ]);
@@ -147,6 +149,7 @@ class Tournament extends Model {
                     array_push($paymentList, [
                         "id" => $player->id,
                         "pseudo" => $player->pseudo,
+                        "tournament_id" => $this->id,
                         "tournament_name" => $this->name,
                         "status" => "not_paid"
                     ]);

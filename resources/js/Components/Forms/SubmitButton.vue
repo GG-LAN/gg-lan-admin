@@ -12,22 +12,25 @@ const props = defineProps({
     color: {
         type: String,
         default: "primary"
+    },
+    icon: {
+        type: String
     }
 });
 </script>
 
 <template>
-    <PrimaryButton :disabled="form.processing" :class="{ 'opacity-25': form.processing }" type="submit" v-if="color == 'primary'">
+    <PrimaryButton :icon="props.icon" :disabled="form.processing" :class="{ 'opacity-25': form.processing }" type="submit" v-if="color == 'primary'">
         <span><slot/></span>
         <SvgIcon class="ml-2 w-4 h-4" v-if="form.processing" icon="sync" :loading="form.processing" />
     </PrimaryButton>
 
-    <SuccessButton :disabled="form.processing" :class="{ 'opacity-25': form.processing }" type="submit" v-if="color == 'success'">
+    <SuccessButton :icon="props.icon" :disabled="form.processing" :class="{ 'opacity-25': form.processing }" type="submit" v-if="color == 'success'">
         <span><slot/></span>
         <SvgIcon class="ml-2 w-4 h-4" v-if="form.processing" icon="sync" :loading="form.processing" />
     </SuccessButton>
 
-    <DangerButton :disabled="form.processing" :class="{ 'opacity-25': form.processing }" type="submit" v-if="color == 'danger'">
+    <DangerButton :icon="props.icon" :disabled="form.processing" :class="{ 'opacity-25': form.processing }" type="submit" v-if="color == 'danger'">
         <span><slot/></span>
         <SvgIcon class="ml-2 w-4 h-4" v-if="form.processing" icon="sync" :loading="form.processing" />
     </DangerButton>

@@ -21,11 +21,18 @@ onMounted(() => {
         <div id="main-content" class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900">
             <Alert />
             
-            <main>
-                <div class="px-4 pt-6 grid grid-cols-4 gap-4 dark:bg-gray-900">
-                    <slot />
-                </div>
-            </main>
+            <Transition 
+                enter-active-class="transition ease-in-out duration-300" 
+                enter-from-class="opacity-0" 
+                leave-active-class="transition ease-in-out duration-300" 
+                leave-to-class="opacity-0"
+            >
+                <main :key="$page.component">
+                    <div class="px-4 pt-6 grid grid-cols-4 gap-4 dark:bg-gray-900">
+                        <slot />
+                    </div>
+                </main>
+            </Transition>
     
             <Footer />
         </div>

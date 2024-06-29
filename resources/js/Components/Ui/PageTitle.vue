@@ -6,8 +6,7 @@ const props = defineProps({
         type: String
     },
     breadcrumbs: {
-        type: Array,
-        required: true
+        type: Array
     }
 });
 

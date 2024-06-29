@@ -11,6 +11,7 @@ import TablePagination from '@/Components/Ui/TablePagination.vue';
 import TableLabelBool from '@/Components/Ui/TableLabelBool.vue';
 import TableLabelStatus from '@/Components/Ui/TableLabelStatus.vue';
 import TableCheckbox from '@/Components/Ui/TableCheckbox.vue';
+import TableCustomButtonAction from '@/Components/Ui/TableCustomButtonAction.vue';
 import {
   FwbA,
   FwbTable,
@@ -225,7 +226,7 @@ const openDrawer = (drawer, id = null) => {
             </fwb-table-head-cell>
 
             <!-- Actions -->
-            <fwb-table-head-cell v-if="rowsInfo.actions.update || rowsInfo.actions.delete" class="px-4 py-4 font-medium">
+            <fwb-table-head-cell v-if="rowsInfo.actions.update || rowsInfo.actions.delete || rowsInfo.actions.customActions" class="px-4 py-4 font-medium">
                 Actions
             </fwb-table-head-cell>
         </fwb-table-head>
@@ -262,12 +263,14 @@ const openDrawer = (drawer, id = null) => {
                 </fwb-table-cell>
 
                 <!-- Action Buttons -->
-                <fwb-table-cell v-if="rowsInfo.actions.update || rowsInfo.actions.delete" class="whitespace-nowrap space-x-2">
+                <fwb-table-cell v-if="rowsInfo.actions.update || rowsInfo.actions.delete || rowsInfo.actions.customActions" class="whitespace-nowrap space-x-2">
                     <PrimaryButton :id="'update-'+row.id" class="text-sm" icon="pen-to-square" v-if="rowsInfo.actions.update" @click="openDrawer('update', row.id)">
                     </PrimaryButton>
 
                     <DangerButton :id="'delete-'+row.id" class="text-sm" icon="trash-can" v-if="rowsInfo.actions.delete" @click="openDrawer('delete', row.id)">
                     </DangerButton>
+
+                    <TableCustomButtonAction v-if="rowsInfo.actions.customActions" v-for="customAction in rowsInfo.actions.customActions" :key="row.id" :customAction="customAction" :row="row" />
                 </fwb-table-cell>
             </fwb-table-row>
         </fwb-table-body>

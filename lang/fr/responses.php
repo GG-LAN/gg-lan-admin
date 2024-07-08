@@ -17,6 +17,9 @@ return [
         "updated" => "Le jeu a bien été mis à jour !",
         "deleted" => "Le jeu a bien été supprimé !",
     ],
+    "team" => [
+        "updated" => "L'équipe a bien été mise à jour !",
+    ],
     "profile" => [
         "updated" => "Votre profil a bien été mis à jour !",
     ],

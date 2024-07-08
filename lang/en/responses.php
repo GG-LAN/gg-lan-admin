@@ -17,6 +17,9 @@ return [
         "updated" => "The game has been updated !",
         "deleted" => "The game has been deleted !",
     ],
+    "team" => [
+        "updated" => "The team has been updated !",
+    ],
     "profile" => [
         "updated" => "Your profile has been updated !",
     ],

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Team;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Http\Requests\Teams\UpdateTeamRequest;
 
 class TeamController extends Controller
 {
@@ -53,9 +54,9 @@ class TeamController extends Controller
                 // "create" => true,
                 // "update" => true,
                 // "delete" => true,
-                // "show" => [
-                //     "route" => "tournaments.show"
-                // ]
+                "show" => [
+                    "route" => "teams.show"
+                ]
             ],
         ];
 
@@ -81,12 +82,63 @@ class TeamController extends Controller
         //
     }
 
-    public function show(string $id) {
-        //
+    public function show(Team $team) {
+        $breadcrumbs = [
+            [
+                "label"   => "Équipes",
+                "route"   => route('teams.index'),
+                "active"  => false
+            ],
+            [
+                "label"   => $team->name,
+                "active"  => true
+            ]
+        ];
+
+        $playersData = $team->users()->paginate(5)->through(function($player) {
+            return [
+              "id" => $player->id,
+              "pseudo" => $player->pseudo,
+            ];
+        });
+
+        $playersRowsInfo = [
+            "rows" => [
+                "pseudo" => [
+                    "type" => "text",
+                    "title" => "Pseudo",
+                ],
+            ],
+            "actions" => [
+                // "search" => true,
+                // "create" => true,
+                // "update" => true,
+                // "delete" => true,
+                // "show" => [
+                //     "route" => "teams.show"
+                // ]
+            ],
+        ];
+
+        return Inertia::render('Teams/Show', [
+            "playersData" => $playersData,
+            "playersRowsInfo" => $playersRowsInfo,
+            
+            "breadcrumbs" => $breadcrumbs,
+            "team"  => $team
+        ]);
     }
 
-    public function update(Request $request, string $id) {
-        //
+    public function update(UpdateTeamRequest $request, Team $team) {
+        $team->update([
+            "name" => $request->name,
+            "description" => $request->description
+        ]);
+
+        $request->session()->flash('status', 'success');
+        $request->session()->flash('message', __('responses.team.updated'));
+
+        return back();
     }
 
     public function destroy(string $id) {

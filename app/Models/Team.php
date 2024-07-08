@@ -1,6 +1,7 @@
 <?php   
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -46,5 +47,32 @@ class Team extends Model {
 
     public function getTournamentNameAttribute() {
         return "{$this->tournament->name}";
+    }
+
+    public static function getTeams($numberOfItemsPerPage = 5, $search = null) {
+        $query = (new static)->orderBy('created_at', 'desc');
+
+        // If search parameter is given
+        if ($search) {
+            $query = $query
+                    ->where("name",   "like", "%{$search}%");
+        }
+        
+        return $query
+        ->paginate($numberOfItemsPerPage)
+        ->withQueryString()
+        ->through(function($team) {
+            $created_at = new Carbon($team->created_at);
+            $created_at = $created_at->format("d/m/Y");
+                        
+            return [
+                "id"                 => $team->id,
+                "name"               => $team->name,
+                "description"        => $team->description,
+                "tournament_name"    => $team->tournament->name,
+                "registration_state" => $team->registration_state,
+                "created_at"         => $created_at,
+            ];
+        });
     }
 }

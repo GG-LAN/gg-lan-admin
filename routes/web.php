@@ -34,8 +34,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/api/tournaments/{tournament}/openTournament', 'openTournament')->name('tournaments.openTournament');
         Route::post('/api/tournaments/{tournament}/updateImage', 'updateImage')->name('tournaments.updateImage');
     });
+    
     Route::apiResource('payments', PaymentController::class);
     Route::controller(PaymentController::class)->group(function () {
+    });
+
+    Route::apiResource('teams', TeamController::class);
+    Route::controller(TeamController::class)->group(function () {
     });
 });
 

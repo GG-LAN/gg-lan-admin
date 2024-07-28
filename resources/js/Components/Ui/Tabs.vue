@@ -26,7 +26,7 @@ const props = defineProps({
                     :aria-controls="tab.id"
                     aria-selected="false"
                 >
-                    <SvgIcon :icon="tab.icon" v-if="tab.icon" class="w-4 h-4 me-2"/>
+                    <SvgIcon :icon="tab.icon" v-if="tab.icon" :library="tab.library" class="w-4 h-4 me-2"/>
                     {{ tab.label }}
                 </button>
             </li>

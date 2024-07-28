@@ -8,6 +8,7 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TournamentController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -42,6 +43,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::apiResource('teams', TeamController::class);
     Route::controller(TeamController::class)->group(function () {
+    });
+
+    Route::controller(SettingController::class)->group(function () {
+        Route::get('/settings', 'index')->name('settings.index');
     });
 });
 

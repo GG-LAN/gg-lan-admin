@@ -47,6 +47,10 @@ import DropdownNavLink from '@/Components/Navs/DropdownNavLink.vue';
                         <NavLink routename="games.index" icon="gamepad" iconColor="gray" activeFor="Games">
                             Jeux
                         </NavLink>
+
+                        <NavLink routename="settings.index" icon="cog" iconColor="gray" activeFor="Settings">
+                            Paramètres
+                        </NavLink>
                     </ul>
                 </div>
             </div>

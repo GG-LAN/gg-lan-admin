@@ -1,6 +1,6 @@
 <script setup>
 import SvgIcon from '@/Components/Ui/SvgIcon.vue';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const props = defineProps({
     tabId: {
@@ -13,7 +13,13 @@ const props = defineProps({
     }
 })
 
-let activeTab = ref(props.tabs[0].id);
+let activeTab = ref("");
+
+onMounted(() => {
+    if (props.tabs.length) {
+        activeTab.value = props.tabs[0].id;
+    }
+});
 
 const changeActive = id => {
     activeTab.value = id;

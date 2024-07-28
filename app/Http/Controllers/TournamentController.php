@@ -348,7 +348,7 @@ class TournamentController extends Controller
         $request->session()->flash('status', 'success');
         $request->session()->flash('message', __('responses.tournament.deleted'));
         
-        return back();
+        return to_route('tournaments.index');
     }
 
     public function showApi(Tournament $tournament) {

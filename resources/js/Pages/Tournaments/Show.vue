@@ -7,6 +7,7 @@ import UpdateTournamentInfoForm from './Partials/UpdateTournamentInfoForm.vue';
 import UpdateTournamentDateForm from './Partials/UpdateTournamentDateForm.vue';
 import OpenTournamentForm from './Partials/OpenTournamentForm.vue';
 import UpdateTournamentImage from './Partials/UpdateTournamentImage.vue';
+import DeleteTournament from './Partials/DeleteTournament.vue';
 
 defineOptions({layout: AuthenticatedLayout});
 </script>
@@ -64,5 +65,9 @@ defineOptions({layout: AuthenticatedLayout});
     <div v-else class="col-span-2 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">            
         <h2 class="text-xl font-black text-gray-900 dark:text-gray-100">Joueurs inscrits</h2>
         <Table :rows="$page.props.playersData" :rowsInfo="$page.props.playersRowsInfo" :route="route('tournaments.show', $page.props.tournament.id)"/>
+    </div>
+
+    <div class="col-span-4 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
+        <DeleteTournament :tournament="$page.props.tournament"/>
     </div>
 </template>

@@ -6,6 +6,7 @@ import TextInput from '@/Components/Forms/TextInput.vue';
 import SelectInput from '@/Components/Forms/SelectInput.vue';
 import { useForm } from '@inertiajs/vue3';
 import { FwbFileInput } from 'flowbite-vue'
+import DangerButton from '@/Components/Forms/DangerButton.vue';
 
 const props = defineProps({
     tournament: {
@@ -18,12 +19,24 @@ const form = useForm({
     image: null,
 });
 
+const formDelete = useForm({});
+
 const submit = () => {
     form.post(route("tournaments.updateImage", props.tournament.id), {
         preserveScroll: true,
         forceFormData: true,
         onSuccess: () => {
             form.reset();
+        }
+    })
+}
+
+const deleteImage = () => {
+    formDelete.post(route("tournaments.deleteImage", props.tournament.id), {
+        preserveScroll: true,
+        forceFormData: true,
+        onSuccess: () => {
+            formDelete.reset();
         }
     })
 }
@@ -65,6 +78,15 @@ const submit = () => {
                     <SubmitButton :form="form">
                         Mettre à jour
                     </SubmitButton>
+
+                    <DangerButton
+                        :loading="formDelete.processing"
+                        :disabled="formDelete.processing"
+                        :class="{ 'opacity-25': formDelete.processing }"
+                        @click="deleteImage"
+                    >
+                        Supprimer image
+                    </DangerButton>
                 </div>
             </form>
         </div>

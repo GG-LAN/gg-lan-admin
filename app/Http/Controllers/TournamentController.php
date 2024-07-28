@@ -386,4 +386,25 @@ class TournamentController extends Controller
 
         return back();
     }
+    
+    public function deleteImage(Request $request, Tournament $tournament) {
+        if ($tournament->image == "" || $tournament->image === null) {
+            $request->session()->flash('status', 'error');
+            $request->session()->flash('message', __('responses.errors.something_went_wrong'));
+
+            return back();
+        }
+
+        $path = str_replace("/storage", "public", $tournament->image);
+        Storage::delete($path);
+
+        $tournament->update([
+            'image' => null
+        ]);
+
+        $request->session()->flash('status', 'success');
+        $request->session()->flash('message', __('responses.tournament.updated'));
+
+        return back();
+    }
 }

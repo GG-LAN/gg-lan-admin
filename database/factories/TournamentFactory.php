@@ -21,7 +21,7 @@ class TournamentFactory extends Factory {
             'places'      => $this->faker->numberBetween(4, 16),
             'cashprize'   => $this->faker->numberBetween(100, 500),
             'status'      => ['open', 'closed', 'finished'][rand(0, 2)],
-            'image'       => $this->faker->imageUrl(640, 480),
+            // 'image'       => $this->faker->imageUrl(640, 480),
             'type'        => ['solo', 'team'][rand(0, 1)]
         ];
     }

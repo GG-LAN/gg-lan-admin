@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\RuleController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\PaymentController;
@@ -43,6 +44,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::apiResource('teams', TeamController::class);
     Route::controller(TeamController::class)->group(function () {
+    });
+
+    Route::controller(RuleController::class)->group(function () {
+        Route::get('/api/rules', 'showApi')->name('rules.show.api');
+        Route::post('/api/rules', 'update')->name('rules.update');
     });
 
     Route::controller(SettingController::class)->group(function () {

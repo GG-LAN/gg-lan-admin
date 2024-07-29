@@ -32,4 +32,7 @@ return [
     "errors" => [
         "something_went_wrong" => "Quelque chose s'est mal passé...",
     ],
+    "rules" => [
+        "updated" => "Le règlement a bien été mis à jour !"
+    ]
 ];

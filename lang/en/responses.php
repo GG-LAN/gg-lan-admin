@@ -32,4 +32,7 @@ return [
     "errors" => [
         "something_went_wrong" => "Something went wrong...",
     ],
+    "rules" => [
+        "updated" => "The rules has been updated !"
+    ]
 ];

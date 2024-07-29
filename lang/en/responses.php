@@ -34,5 +34,8 @@ return [
     ],
     "rules" => [
         "updated" => "The rules has been updated !"
+    ],
+    "setting" => [
+        "updated" => "The setting has been updated !"
     ]
 ];

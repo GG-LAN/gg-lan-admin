@@ -53,6 +53,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::controller(SettingController::class)->group(function () {
         Route::get('/settings', 'index')->name('settings.index');
+        Route::put('/settings', 'update')->name('settings.update');
     });
 });
 

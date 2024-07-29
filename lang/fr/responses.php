@@ -34,5 +34,8 @@ return [
     ],
     "rules" => [
         "updated" => "Le règlement a bien été mis à jour !"
+    ],
+    "setting" => [
+        "updated" => "Le paramètre a bien été mis à jour !"
     ]
 ];

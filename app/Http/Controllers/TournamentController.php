@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use Inertia\Inertia;
+use App\Models\Setting;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
 use Illuminate\Support\Number;
@@ -180,6 +181,14 @@ class TournamentController extends Controller
         ];
 
         $pricesData = $tournament->prices()->paginate(5)->through(function($tournamentPrice) {
+            if (!Setting::get('stripe_api_key')) {
+                return [
+                    "id" => $tournamentPrice->id,
+                    "name" => $tournamentPrice->name,
+                    "active" => $tournamentPrice->active,
+                ];
+            }
+            
             return [
                 "id" => $tournamentPrice->id,
                 "name" => $tournamentPrice->name,
@@ -187,6 +196,8 @@ class TournamentController extends Controller
                 "price" => Number::currency($tournamentPrice->stripe_price->unit_amount / 100, 'EUR', 'FR'),
             ];
         });
+        
+        // $pricesData = [];
 
         $pricesRowsInfo = [
             "rows" => [

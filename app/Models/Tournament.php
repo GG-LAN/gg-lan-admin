@@ -3,6 +3,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\Team;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Stripe\StripeClient as Stripe;
 use Illuminate\Database\Eloquent\Model;
@@ -64,7 +65,11 @@ class Tournament extends Model {
     }
 
     public function getPaymentLink(Request $request): String {
-        $stripe = new Stripe(config("app.stripe_api_key"));
+        if (!Setting::get('stripe_api_key')) {
+            return null;
+        }
+        
+        $stripe = new Stripe(Setting::get('stripe_api_key'));
 
         $session = $stripe->checkout->sessions->create([
             "success_url" => $request->success_url,

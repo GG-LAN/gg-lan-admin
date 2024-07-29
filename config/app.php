@@ -122,7 +122,4 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
-
-    'stripe_api_key' => env("STRIPE_API_KEY"),
-
 ];

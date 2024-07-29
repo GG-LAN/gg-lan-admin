@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Setting;
 use Stripe\StripeClient as Stripe;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,7 +27,11 @@ class TournamentPrice extends Model
     ];
 
     public static function createProduct(array $attributes) {
-        $stripe = new Stripe(config("app.stripe_api_key"));
+        if (!Setting::get('stripe_api_key')) {
+            return null;
+        }
+
+        $stripe = new Stripe(Setting::get('stripe_api_key'));
 
         $product = $stripe->products->create($attributes);
 
@@ -34,7 +39,11 @@ class TournamentPrice extends Model
     }
 
     public static function create(array $attributes) {
-        $stripe = new Stripe(config("app.stripe_api_key"));
+        if (!Setting::get('stripe_api_key')) {
+            return null;
+        }
+        
+        $stripe = new Stripe(Setting::get('stripe_api_key'));
 
         $price = $stripe->prices->create([
             "nickname"    => $attributes["name"],
@@ -52,7 +61,11 @@ class TournamentPrice extends Model
     }
 
     public function getStripePriceAttribute() {
-        $stripe = new Stripe(config("app.stripe_api_key"));
+        if (!Setting::get('stripe_api_key')) {
+            return null;
+        }
+            
+        $stripe = new Stripe(Setting::get('stripe_api_key'));
 
         return $stripe->prices->retrieve($this->price_id);
     }

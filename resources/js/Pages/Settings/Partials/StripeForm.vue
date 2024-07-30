@@ -8,16 +8,18 @@ import InputLabel from '@/Components/Forms/InputLabel.vue';
 import SubmitButton from '@/Components/Forms/SubmitButton.vue';
 
 const props = defineProps({
-
 });
+
+const settingKey = "stripe_api_key";
 
 const page = usePage();
 const isShowKey = ref(false);
-let stripeKey = page.props.settings.find(element => element.key == "stripe_api_key");
+
+let settingValue = page.props.settings.find(element => element.key == settingKey);
 
 const form = useForm({
-    key: "stripe_api_key",
-    value: stripeKey ? stripeKey.value : ""
+    key: settingKey,
+    value: settingValue ? settingValue.value : ""
 });
 
 const submit = () => {
@@ -46,14 +48,14 @@ const showKey = () => {
 
         <form @submit.prevent="submit" class="mt-6 space-y-6">
             <div>
-                <InputLabel for="update_stripe_key" value="Clé Stripe" />
+                <InputLabel :for="'update_' + settingKey" value="Clé Stripe" />
                 <div class="relative w-full">
                     <button type="button" @click="showKey" class="absolute inset-y-0 end-0 flex items-center pe-3">
                         <SvgIcon class="h-5 w-5 text-gray-500 dark:text-gray-400" icon="eye" v-if="!isShowKey"/>
                         <SvgIcon class="h-5 w-5 text-gray-500 dark:text-gray-400" icon="eye-slash" v-else/>
                     </button>
                     <TextInput
-                        id="update_stripe_key"
+                        :id="'update_' + settingKey"
                         class="mt-1 block w-full pe-10"
                         :type="isShowKey ? 'text' : 'password'"
                         placeholder="ex: sk_test_cNfGvl6MqTzetsdlZGp0hWb3m"

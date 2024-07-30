@@ -5,6 +5,7 @@ import PageTitle from '@/Components/Ui/PageTitle.vue';
 import TabsVertical from '@/Components/Ui/TabsVertical.vue';
 import StripeForm from './Partials/StripeForm.vue';
 import RulesForm from './Partials/RulesForm.vue';
+import LocationForm from './Partials/LocationForm.vue';
 
 defineOptions({layout: AuthenticatedLayout});
 
@@ -19,6 +20,11 @@ let tabs = [
         label: "Stripe",
         icon: "stripe-s",
         library: "fab"
+    },
+    {
+        id: "location",
+        label: "Lieu LAN",
+        icon: "location-dot"
     },
     // {
     //     id: "cron",
@@ -49,6 +55,9 @@ let tabs = [
         </template>
         <template #stripe>
             <StripeForm/>
+        </template>
+        <template #location>
+            <LocationForm/>
         </template>
     </TabsVertical>
 </template>

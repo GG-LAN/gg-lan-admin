@@ -32,7 +32,7 @@ import DropdownNavLink from '@/Components/Navs/DropdownNavLink.vue';
                             Joueurs
                         </NavLink>
 
-                        <NavLink routename="teams.index" icon="users" iconColor="blue" activeFor="Teams">
+                        <NavLink routename="teams.index" icon="users" iconColor="yellow" activeFor="Teams">
                             Équipes
                         </NavLink>
 

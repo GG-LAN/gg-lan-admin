@@ -56,6 +56,10 @@ const iconClasses = computed(() => {
             case "purple":
                 classes = "text-purple-500 group-hover:text-purple-900   dark:text-purple-400 dark:group-hover:text-purple-200";
             break;
+
+            case "yellow":
+                classes = "text-yellow-500 group-hover:text-yellow-900   dark:text-yellow-400 dark:group-hover:text-yellow-200";
+            break;
         
             default:
             break;

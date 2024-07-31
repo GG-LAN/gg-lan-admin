@@ -57,7 +57,7 @@ class FaqController extends Controller
         ]);
 
         $request->session()->flash('status', 'success');
-        $request->session()->flash('message', __('responses.faq.created'));
+        $request->session()->flash('message', __('responses.faqs.created'));
 
         return back();
     }

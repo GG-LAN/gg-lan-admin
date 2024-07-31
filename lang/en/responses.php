@@ -37,5 +37,10 @@ return [
     ],
     "setting" => [
         "updated" => "The setting has been updated !"
+    ],
+    "faqs" => [
+        "created" => "The faq has been created !",
+        "deleted" => "The faq has been deleted !",
+        "updated" => "The faq has been updated !",
     ]
 ];

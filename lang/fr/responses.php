@@ -37,5 +37,10 @@ return [
     ],
     "setting" => [
         "updated" => "Le paramètre a bien été mis à jour !"
+    ],
+    "faqs" => [
+        "created" => "La FAQ a bien été créée !",
+        "deleted" => "La FAQ a bien été supprimée !",
+        "updated" => "La FAQ a bien été mise à jour !",
     ]
 ];

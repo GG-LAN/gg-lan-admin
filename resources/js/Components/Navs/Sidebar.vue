@@ -48,6 +48,10 @@ import DropdownNavLink from '@/Components/Navs/DropdownNavLink.vue';
                             Jeux
                         </NavLink>
 
+                        <NavLink routename="faqs.index" icon="question" iconColor="purple" activeFor="Faqs">
+                            FAQ
+                        </NavLink>
+
                         <NavLink routename="settings.index" icon="cog" iconColor="gray" activeFor="Settings">
                             Paramètres
                         </NavLink>

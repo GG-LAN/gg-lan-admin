@@ -250,7 +250,7 @@ const openDrawer = (drawer, id = null) => {
                 </fwb-table-cell>
 
                 <!-- Data -->
-                <fwb-table-cell @click="rowsInfo.actions.show ? redirectTo(row.id): ''" v-for="(rowInfo, key) in rowsInfo.rows" class="truncate text-base font-medium p-4 text-gray-900 dark:text-white">
+                <td @click="rowsInfo.actions.show ? redirectTo(row.id): ''" v-for="(rowInfo, key) in rowsInfo.rows" class="p-4 text-base font-medium xl:max-w-xs text-gray-900  dark:text-white [&:not(:hover)]:truncate">
                     <div v-if="rowInfo.type == 'bool'">
                         <TableLabelBool :rowInfo="rowInfo" :row="row" :rowKey="key" />
                     </div>
@@ -260,7 +260,7 @@ const openDrawer = (drawer, id = null) => {
                     </div>
 
                     <span v-if="rowInfo.type == 'text'">{{ row[key] }}</span>
-                </fwb-table-cell>
+                </td>
 
                 <!-- Action Buttons -->
                 <fwb-table-cell v-if="rowsInfo.actions.update || rowsInfo.actions.delete || rowsInfo.actions.customActions" class="whitespace-nowrap space-x-2">

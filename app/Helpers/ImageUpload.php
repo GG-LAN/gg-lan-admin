@@ -9,7 +9,11 @@ use Intervention\Image\Drivers\Gd\Driver;
 
 class ImageUpload {
     
-    public static function storeOrUpdate($file, $existingFilepath, $filepath = "storage") {
+    public static function storeOrUpdate($file, $existingFilepath, $filepath = "storage", $filename = null) {
+        if (!$filename) {
+            $filename = Str::uuid();
+        }
+        
         if ($existingFilepath != "") {
             $path = str_replace("/storage", "public", $existingFilepath);
             // dd($path);
@@ -20,7 +24,7 @@ class ImageUpload {
 
         $image = $manager->read($file);
         
-        $path = $filepath . "/" . Str::uuid() . ".webp";
+        $path = $filepath . "/" . $filename . ".webp";
         
         $image->toWebp()->save($path);
         

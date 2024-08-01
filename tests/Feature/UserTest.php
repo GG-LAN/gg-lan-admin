@@ -1,10 +1,8 @@
 <?php
 
-use App\ApiCode;
 use App\Models\Team;
 use App\Models\User;
 use App\Models\Tournament;
-// use Illuminate\Http\Response;
 
 it("can get players", function () {
     $users = User::factory(10)->create();

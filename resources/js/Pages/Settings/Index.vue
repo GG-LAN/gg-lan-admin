@@ -6,6 +6,7 @@ import TabsVertical from '@/Components/Ui/TabsVertical.vue';
 import StripeForm from './Partials/StripeForm.vue';
 import RulesForm from './Partials/RulesForm.vue';
 import LocationForm from './Partials/LocationForm.vue';
+import CoverImageForm from './Partials/CoverImageForm.vue';
 
 defineOptions({layout: AuthenticatedLayout});
 
@@ -26,11 +27,11 @@ let tabs = [
         label: "Lieu LAN",
         icon: "location-dot"
     },
-    // {
-    //     id: "cron",
-    //     label: "Jobs",
-    //     icon: "clock-rotate-left"
-    // },
+    {
+        id: "cover",
+        label: "Image de couverture",
+        icon: "panorama"
+    },
     // {
     //     id: "log",
     //     label: "Logs",
@@ -58,6 +59,9 @@ let tabs = [
         </template>
         <template #location>
             <LocationForm/>
+        </template>
+        <template #cover>
+            <CoverImageForm/>
         </template>
     </TabsVertical>
 </template>

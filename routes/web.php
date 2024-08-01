@@ -56,6 +56,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::controller(SettingController::class)->group(function () {
         Route::get('/settings', 'index')->name('settings.index');
         Route::put('/settings', 'update')->name('settings.update');
+        Route::post('/settings/image', 'updateImage')->name('settings.update.image');
     });
 
     Route::apiResource('faqs', FaqController::class);

@@ -53,7 +53,7 @@ Route::controller(AuthController::class)->group(function() {
 Route::controller(UserController::class)->group(function() {
     Route::get('players', 'index');
     Route::get('players/paginate/{item_per_page}', 'index_paginate');
-    Route::get('players/{player}', 'show')->name("players.show.api");
+    Route::get('players/{player}', 'show');
     Route::get('players/{player}/tournaments', 'playerTournaments');
     Route::get('players/{player}/teams', 'playerTeams');
 });

@@ -20,7 +20,6 @@ class UpdatePlayerRequest extends FormRequest
      */
     public function rules(): array {
         return [
-            "name"   => "required|string|max:50",
             "pseudo" => "required|string|max:50",
             "admin"  => "required|boolean",
         ];

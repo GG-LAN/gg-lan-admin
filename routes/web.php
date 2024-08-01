@@ -20,6 +20,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::apiResource('players', PlayerController::class);
+    Route::controller(PlayerController::class)->group(function () {
+        Route::get('/admin/players/{player}', 'showApi')->name('players.show.api');
+    });
 
     Route::apiResource('games', GameController::class);
 

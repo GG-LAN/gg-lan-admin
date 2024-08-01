@@ -154,7 +154,6 @@ class PlayerController extends Controller
 
     public function update(UpdatePlayerRequest $request, User $player) {
         $player->update([
-            "name"   => $request->name,
             "pseudo" => $request->pseudo,
             "admin"  => $request->admin
         ]);

@@ -23,7 +23,6 @@ const props = defineProps({
 });
 
 let form = useForm({
-    name: "",
     pseudo: "",
     admin: false
 });
@@ -32,7 +31,6 @@ watch(() => props.modelId, id => {
     if (props.drawer.isVisible()) {
         axios.get(route("players.show.api", id))
         .then(({data}) => {
-            form.name   = data.name;
             form.pseudo = data.pseudo;
             form.admin  = data.admin;
         })
@@ -57,18 +55,6 @@ const close = () => {
     <BoxDrawer :uid="'drawer-update-' + props.uid" :title="props.title" :drawer="props.drawer">
         <form @submit.prevent="submit">
             <div class="space-y-4">
-                <div>
-                    <InputLabel for="update-name" value="Nom" />
-                    <TextInput
-                        id="update-name"
-                        type="text"
-                        v-model="form.name"
-                        placeholder="George Abitbol"
-                        required
-                    />
-                    <InputError class="mt-2" :message="form.errors.name" />
-                </div>
-
                 <div>
                     <InputLabel for="update-pseudo" value="Pseudo" />
                     <TextInput

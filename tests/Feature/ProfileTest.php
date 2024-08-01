@@ -51,12 +51,16 @@ test('email verification status is unchanged when the email address is unchanged
 });
 
 test('user can delete their account', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->create([
+        'email'    => 'auth@test.com',
+        'password' => bcrypt('authpassword'),
+        'admin'    => 1
+    ]);
 
     $response = $this
         ->actingAs($user)
         ->delete('/profile', [
-            'password' => 'password',
+            'password' => 'authpassword',
         ]);
 
     $response
@@ -68,7 +72,11 @@ test('user can delete their account', function () {
 });
 
 test('correct password must be provided to delete account', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->create([
+        'email'    => 'auth@test.com',
+        'password' => bcrypt('authpassword'),
+        'admin'    => 1
+    ]);
 
     $response = $this
         ->actingAs($user)

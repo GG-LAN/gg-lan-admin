@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\Api\FaqController;
 use App\Http\Controllers\Api\AuthController;
 // use App\Http\Controllers\Api\RuleController;
-// use App\Http\Controllers\Api\TeamController;
 use App\Http\Controllers\Api\GameController;
+use App\Http\Controllers\Api\TeamController;
 use App\Http\Controllers\Api\UserController;
 // use App\Http\Controllers\Api\TournamentController;
 // use App\Http\Controllers\Api\PurchasedPlaceController;
@@ -74,11 +74,11 @@ Route::controller(GameController::class)->group(function() {
 | Teams Routes
 |--------------------------------------------------------------------------
 */
-// Route::controller(TeamController::class)->group(function() {
-//     Route::get('teams', 'index');
-//     Route::get('teams/paginate/{item_per_page}', 'index_paginate');
-//     Route::get('teams/{team}', 'show');
-// });
+Route::controller(TeamController::class)->group(function() {
+    Route::get('teams', 'index');
+    Route::get('teams/paginate/{item_per_page}', 'index_paginate');
+    Route::get('teams/{team}', 'show');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -139,13 +139,13 @@ Route::controller(GameController::class)->group(function() {
 //     | Auth Teams Routes
 //     |--------------------------------------------------------------------------
 //     */
-//     Route::controller(TeamController::class)->group(function() {
-//         Route::post('teams/create', 'create');
-//         Route::post('teams/{team}/addPlayer/{player}', 'addPlayer');
-//         Route::post('teams/{team}/removePlayer/{player}', 'removePlayer');
-//         Route::put('teams/{team}', 'update');
-//         Route::delete('teams/{team}', 'delete');
-//     });
+    Route::controller(TeamController::class)->group(function() {
+        Route::post('teams/create', 'create');
+        Route::post('teams/{team}/addPlayer/{player}', 'addPlayer');
+        Route::post('teams/{team}/removePlayer/{player}', 'removePlayer');
+        Route::put('teams/{team}', 'update');
+        Route::delete('teams/{team}', 'delete');
+    });
     
 //     /*
 //     |--------------------------------------------------------------------------

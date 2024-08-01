@@ -40,10 +40,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::controller(PaymentController::class)->group(function () {
     });
 
-    Route::apiResource('teams', TeamController::class);
-    Route::controller(TeamController::class)->group(function () {
-    });
-
     Route::controller(RuleController::class)->group(function () {
         Route::get('/api/rules', 'showApi')->name('rules.show.api');
         Route::post('/api/rules', 'update')->name('rules.update');

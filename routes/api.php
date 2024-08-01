@@ -8,8 +8,8 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\GameController;
 use App\Http\Controllers\Api\TeamController;
 use App\Http\Controllers\Api\UserController;
-// use App\Http\Controllers\Api\TournamentController;
-// use App\Http\Controllers\Api\PurchasedPlaceController;
+use App\Http\Controllers\Api\TournamentController;
+use App\Http\Controllers\Api\PurchasedPlaceController;
 
 
 /*
@@ -85,23 +85,23 @@ Route::controller(TeamController::class)->group(function() {
 | Tournaments Routes
 |--------------------------------------------------------------------------
 */
-// Route::controller(TournamentController::class)->group(function() {
-//     Route::get('tournaments', 'index');
-//     Route::get('tournaments/prices', 'prices');
-//     Route::get('tournaments/paginate/{item_per_page}', 'index_paginate');
-//     Route::get('tournaments/{tournament}', 'show');
-//     Route::get('tournaments/{tournament}/purchasedPlaces', 'showPurchasedPlaces');
-// });
+Route::controller(TournamentController::class)->group(function() {
+    Route::get('tournaments', 'index');
+    Route::get('tournaments/prices', 'prices');
+    Route::get('tournaments/paginate/{item_per_page}', 'index_paginate');
+    Route::get('tournaments/{tournament}', 'show')->name('tournaments.show.api');
+    Route::get('tournaments/{tournament}/purchasedPlaces', 'showPurchasedPlaces');
+});
 
 /*
 |--------------------------------------------------------------------------
 | Purchased Places Routes
 |--------------------------------------------------------------------------
 */
-// Route::controller(PurchasedPlaceController::class)->group(function() {
-//     Route::get('purchasedPlaces', 'index');
-//     Route::get('purchasedPlaces/{purchasedPlace}', 'show');
-// });
+Route::controller(PurchasedPlaceController::class)->group(function() {
+    Route::get('purchasedPlaces', 'index');
+    Route::get('purchasedPlaces/{purchasedPlace}', 'show');
+});
 
 // Route::controller(RuleController::class)->group(function () {
 //     Route::get('/rules', 'showApi');
@@ -111,34 +111,24 @@ Route::controller(TeamController::class)->group(function() {
 //     Route::get('/faq', 'index');
 // });
 
-// Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-//     /*
-//     |--------------------------------------------------------------------------
-//     | Auth Players Routes
-//     |--------------------------------------------------------------------------
-//     */
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    /*
+    |--------------------------------------------------------------------------My Workspace
+    
+    | Auth Players Routes
+    |--------------------------------------------------------------------------
+    */
     Route::controller(UserController::class)->group(function() {
         Route::put('players/{player}', 'update');
         Route::delete('players/{player}', 'delete');
         Route::post('players/{player}/leaveTeam/{team}', 'leaveTeam');     
     });
-    
-//     /*
-//     |--------------------------------------------------------------------------
-//     | Auth Games Routes
-//     |--------------------------------------------------------------------------
-//     */
-//     Route::controller(GameController::class)->group(function() {
-//         Route::post('games', 'create');
-//         Route::put('games/{game}', 'update');
-//         Route::delete('games/{game}', 'delete');
-//     });
-    
-//     /*
-//     |--------------------------------------------------------------------------
-//     | Auth Teams Routes
-//     |--------------------------------------------------------------------------
-//     */
+        
+    /*
+    |--------------------------------------------------------------------------
+    | Auth Teams Routes
+    |--------------------------------------------------------------------------
+    */
     Route::controller(TeamController::class)->group(function() {
         Route::post('teams/create', 'create');
         Route::post('teams/{team}/addPlayer/{player}', 'addPlayer');
@@ -147,26 +137,26 @@ Route::controller(TeamController::class)->group(function() {
         Route::delete('teams/{team}', 'delete');
     });
     
-//     /*
-//     |--------------------------------------------------------------------------
-//     | Auth Tournaments Routes
-//     |--------------------------------------------------------------------------
-//     */
-//     Route::controller(TournamentController::class)->group(function() {
-//         Route::post('tournaments', 'create');
-//         Route::post('tournaments/{tournament}/getPaymentLink', 'getPaymentLink');
-//         Route::post('tournaments/{tournament}/register/{player}', 'register');
-//         Route::post('tournaments/{tournament}/unregister/{player}', 'unregister');
-//         Route::put('tournaments/{tournament}', 'update');
-//         Route::delete('tournaments/{tournament}', 'delete');
-//     });
+    /*
+    |--------------------------------------------------------------------------
+    | Auth Tournaments Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(TournamentController::class)->group(function() {
+        Route::post('tournaments', 'create');
+        Route::post('tournaments/{tournament}/getPaymentLink', 'getPaymentLink');
+        Route::post('tournaments/{tournament}/register/{player}', 'register');
+        Route::post('tournaments/{tournament}/unregister/{player}', 'unregister');
+        Route::put('tournaments/{tournament}', 'update');
+        Route::delete('tournaments/{tournament}', 'delete');
+    });
 
-//     /*
-//     |--------------------------------------------------------------------------
-//     | Auth Purchased Places Routes
-//     |--------------------------------------------------------------------------
-//     */
-//     Route::controller(PurchasedPlaceController::class)->group(function() {
-//         Route::post('purchasedPlaces/register/{user}/{tournament}', 'registerPurchase');
-//     });
-// });
+    /*
+    |--------------------------------------------------------------------------
+    | Auth Purchased Places Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(PurchasedPlaceController::class)->group(function() {
+        Route::post('purchasedPlaces/register/{user}/{tournament}', 'registerPurchase');
+    });
+});

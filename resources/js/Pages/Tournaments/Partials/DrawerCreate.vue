@@ -27,7 +27,7 @@ const props = defineProps({
 onMounted(() => {
     axios.get(route("games.index.api"))
     .then(({data}) => {
-        games = data
+        games = data.data
     })
 
     status = [

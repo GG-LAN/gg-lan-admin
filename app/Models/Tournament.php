@@ -52,6 +52,10 @@ class Tournament extends Model {
         return $purchasedPlaces;
     }
 
+    public function checkPlayerIsRegistered(User $user) {
+        return $this->players()->where('user_id', $user->id)->exists();
+    }
+
     public function getRegisterCountAttribute() {
         if ($this->type == "solo") {
             return $this->players()->count();

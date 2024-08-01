@@ -122,4 +122,7 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+
+    'app_front_url_mail_verify' => env("APP_FRONT_URL_MAIL_VERIFY"),
+    'app_front_url_forgot_password' => env("APP_FRONT_URL_FORGOT_PASSWORD"),
 ];

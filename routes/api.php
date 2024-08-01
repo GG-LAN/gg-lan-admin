@@ -3,11 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\Api\FaqController;
-use App\Http\Controllers\Api\GameController;
+use App\Http\Controllers\Api\AuthController;
 // use App\Http\Controllers\Api\RuleController;
 // use App\Http\Controllers\Api\TeamController;
 // use App\Http\Controllers\Api\UserController;
-// use App\Http\Controllers\Api\RegisterController;
+use App\Http\Controllers\Api\GameController;
 // use App\Http\Controllers\Api\TournamentController;
 // use App\Http\Controllers\Api\PurchasedPlaceController;
 
@@ -23,27 +23,27 @@ use App\Http\Controllers\Api\GameController;
 |
 */
 
-// Route::middleware(['auth:sanctum'])->group(function () {
-//     Route::controller(RegisterController::class)->group(function() {
-//         Route::get('user', 'user');
-//         Route::get('email/resend', 'resend')->name('verification.resend');
-//         Route::post('logout', 'logout');
-//     });
-// });
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::controller(AuthController::class)->group(function() {
+        Route::get('user', 'user');
+        Route::get('email/resend', 'resend')->name('verification.resend.api');
+        Route::post('logout', 'logout');
+    });
+});
 
 /*
 |--------------------------------------------------------------------------
 | Authentication Routes
 |--------------------------------------------------------------------------
 */
-// Route::controller(RegisterController::class)->group(function() {
-//     Route::post('register', 'register');
-//     Route::post('login', 'login')->name("login");
-//     Route::get('email/verify/{id}/{hash}', 'verify')->name('verification.verify');
-//     Route::get('not-verified', 'notVerified')->name('verification.notice');
-//     Route::post('forgot-password', 'forgotPassword');
-//     Route::post('reset-password', 'resetPassword');
-// });
+Route::controller(AuthController::class)->group(function() {
+    Route::post('register', 'register');
+    Route::post('login', 'login')->name("login.api");
+    Route::get('email/verify/{id}/{hash}', 'verify')->name('verification.verify.api');
+    Route::get('not-verified', 'notVerified')->name('verification.notice.api');
+    Route::post('forgot-password', 'forgotPassword');
+    Route::post('reset-password', 'resetPassword');
+});
 
 /*
 |--------------------------------------------------------------------------

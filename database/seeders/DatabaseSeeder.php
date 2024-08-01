@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Faq;
 use Illuminate\Database\Seeder;
 use Database\Seeders\TeamSeeder;
 use Database\Seeders\UserSeeder;
@@ -20,5 +21,7 @@ class DatabaseSeeder extends Seeder
             TournamentSeeder::class,
             TeamSeeder::class,
         ]);
+
+        Faq::factory(4)->create();
     }
 }

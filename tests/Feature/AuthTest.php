@@ -3,7 +3,7 @@
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 
-it("test_can_register", function () {
+it("can register player", function () {
     $data = [
         'name' => "Jean-Jacques Margoulin",
         'pseudo' => "Xx_MinecraftBoy_xX",
@@ -32,7 +32,7 @@ it("test_can_register", function () {
 
 });
 
-it("test_cant_register_with_missing_field", function () {
+it("can't register a player with missing field", function () {
     $data = [
         'name' => "Jean-Jacques Margoulin",
         'birth_date' => '1999-01-01',
@@ -55,7 +55,7 @@ it("test_cant_register_with_missing_field", function () {
 });
 
 
-it("test_can_login", function () {
+it("can login a player", function () {
     $user = User::factory()->create([
         'name' => "Test",
         'pseudo' => "Test pseudo",
@@ -76,7 +76,7 @@ it("test_can_login", function () {
     ]);
 });
 
-it("test_cant_login_with_missing_field", function () {
+it("can't login a player with missing field", function () {
     $credentials = [
         "email" => "test@test.com",
     ];
@@ -94,7 +94,7 @@ it("test_cant_login_with_missing_field", function () {
     ]);
 });
 
-it("test_cant_login_if_user_dont_exists", function () {
+it("can't login a player if it doesn't exists", function () {
     $credentials = [
         "email" => "test@test.com",
         "password" => "secret",
@@ -109,7 +109,7 @@ it("test_cant_login_if_user_dont_exists", function () {
 });
 
 
-it("test_can_logout", function () {
+it("can logout a player", function () {
     $user = User::factory()->create([
         'name' => "Test",
         'pseudo' => "Test pseudo",
@@ -128,7 +128,7 @@ it("test_can_logout", function () {
     ]);
 });
 
-it("test_cant_logout_if_not_authenticated", function () {
+it("can't logout a player if not authenticated", function () {
     $this->post("/api/logout")
     ->assertUnauthorized()
     ->assertJson([

@@ -1,12 +1,6 @@
 <?php
 
-use App\ApiCode;
-// use Tests\TestCase;
 use App\Models\Game;
-use App\Models\User;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 it("can get games", function () {
     Game::factory(10)->create();
@@ -30,7 +24,7 @@ it("can get games with pagination", function () {
 
     $result = json_decode($response->getContent(), true);
     
-    $response->assertStatus(ApiCode::SUCCESS);
+    $response->assertOk();
 
     $this->assertEquals($item_per_page, count($result['data']['data']));
 });

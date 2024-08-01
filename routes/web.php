@@ -25,10 +25,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::apiResource('games', GameController::class);
-    Route::controller(GameController::class)->group(function () {
-        Route::get('/api/games', 'indexApi')->name('games.index.api');
-        Route::get('/api/games/{game}', 'showApi')->name('games.show.api');
-    });
 
     Route::apiResource('teams', TeamController::class);
 

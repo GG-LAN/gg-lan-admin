@@ -31,8 +31,8 @@ watch(() => props.modelId, id => {
     if (props.drawer.isVisible()) {
         axios.get(route("games.show.api", id))
         .then(({data}) => {
-            form.name   = data.name;
-            form.places = data.places;
+            form.name   = data.data.name;
+            form.places = data.data.places;
         })
     }
 });

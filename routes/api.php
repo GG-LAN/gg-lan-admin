@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 // use App\Http\Controllers\Api\RuleController;
 // use App\Http\Controllers\Api\TeamController;
-// use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\GameController;
+use App\Http\Controllers\Api\UserController;
 // use App\Http\Controllers\Api\TournamentController;
 // use App\Http\Controllers\Api\PurchasedPlaceController;
 
@@ -50,13 +50,13 @@ Route::controller(AuthController::class)->group(function() {
 | Players Routes
 |--------------------------------------------------------------------------
 */
-// Route::controller(UserController::class)->group(function() {
-//     Route::get('players', 'index');
-//     Route::get('players/paginate/{item_per_page}', 'index_paginate');
-//     Route::get('players/{player}', 'show');
-//     Route::get('players/{player}/tournaments', 'playerTournaments');
-//     Route::get('players/{player}/teams', 'playerTeams');
-// });
+Route::controller(UserController::class)->group(function() {
+    Route::get('players', 'index');
+    Route::get('players/paginate/{item_per_page}', 'index_paginate');
+    Route::get('players/{player}', 'show')->name("players.show.api");
+    Route::get('players/{player}/tournaments', 'playerTournaments');
+    Route::get('players/{player}/teams', 'playerTeams');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -117,11 +117,11 @@ Route::controller(GameController::class)->group(function() {
 //     | Auth Players Routes
 //     |--------------------------------------------------------------------------
 //     */
-//     Route::controller(UserController::class)->group(function() {
-//         Route::put('players/{player}', 'update');
-//         Route::delete('players/{player}', 'delete');
-//         Route::post('players/{player}/leaveTeam/{team}', 'leaveTeam');     
-//     });
+    Route::controller(UserController::class)->group(function() {
+        Route::put('players/{player}', 'update');
+        Route::delete('players/{player}', 'delete');
+        Route::post('players/{player}/leaveTeam/{team}', 'leaveTeam');     
+    });
     
 //     /*
 //     |--------------------------------------------------------------------------

@@ -93,7 +93,7 @@ const deleteImage = () => {
     
         <div v-else class="col-span-1">
             <form @submit.prevent="submit" enctype='multipart/form-data'>
-                <fwb-file-input v-model="form.image" dropzone class="h-64" id="update-image">
+                <fwb-file-input v-model="form.image" dropzone class="h-64 truncate" id="update-image">
                     <p class="text-xs text-gray-500 dark:text-gray-400">
                         PNG, JPG, JPEG ou GIF (MAX. 2Mo).
                     </p>

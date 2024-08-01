@@ -6,6 +6,7 @@ use App\Models\Game;
 use Inertia\Inertia;
 use App\Models\Setting;
 use App\Models\Tournament;
+use App\Helpers\ImageUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Number;
 use App\Models\TournamentPrice;
@@ -379,14 +380,8 @@ class TournamentController extends Controller
     public function updateImage(UpdateTournamentImageRequest $request, Tournament $tournament) {
         if ($request->hasFile("image")) {
             $file = $request->file('image');
-
-            if ($tournament->image != "") {
-                $path = str_replace("/storage", "public", $tournament->image);
-                Storage::delete($path);
-            }
-
-            $path = $file->store('public/tournament-image');
-            $path = str_replace("public", "/storage", $path);
+            
+            $path = ImageUpload::storeOrUpdate($file, $tournament->image, "storage/tournament-image");
 
             $tournament->image = $path;
             $tournament->save();

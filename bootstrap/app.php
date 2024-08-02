@@ -39,5 +39,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Delete unverified accounts that are at least 1 month old
         $schedule->command("account:purge-unverified")->monthly();
+
+        // Clear logs files
+        $schedule->command("logs:clear")->weekly();
     })
     ->create();

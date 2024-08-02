@@ -22,7 +22,10 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->render(function (AuthenticationException $exception) {
-            return ApiResponse::unauthorized(__("responses.unauthenticated"), []);
+        $exceptions->render(function (AuthenticationException $exception, $request) {
+            if (str_contains($request->path(), "api")) {
+                return ApiResponse::unauthorized(__("responses.unauthenticated"), []);
+            }
+            
         });
     })->create();

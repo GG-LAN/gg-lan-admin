@@ -30,9 +30,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::apiResource('tournaments', TournamentController::class);
     Route::controller(TournamentController::class)->group(function () {
-        Route::post('/api/tournaments/{tournament}/openTournament', 'openTournament')->name('tournaments.openTournament');
-        Route::post('/api/tournaments/{tournament}/updateImage', 'updateImage')->name('tournaments.updateImage');
-        Route::post('/api/tournaments/{tournament}/deleteImage', 'deleteImage')->name('tournaments.deleteImage');
+        Route::post('/admin/tournaments/{tournament}/openTournament', 'openTournament')->name('tournaments.openTournament');
+        Route::post('/admin/tournaments/{tournament}/updateImage', 'updateImage')->name('tournaments.updateImage');
+        Route::post('/admin/tournaments/{tournament}/deleteImage', 'deleteImage')->name('tournaments.deleteImage');
     });
     
     Route::apiResource('payments', PaymentController::class);
@@ -40,8 +40,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::controller(RuleController::class)->group(function () {
-        Route::get('/api/rules', 'showApi')->name('rules.show.api');
-        Route::post('/api/rules', 'update')->name('rules.update');
+        Route::get('/admin/rules', 'showApi')->name('rules.show.api');
+        Route::post('/admin/rules', 'update')->name('rules.update');
     });
 
     Route::controller(SettingController::class)->group(function () {
@@ -52,7 +52,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::apiResource('faqs', FaqController::class);
     Route::controller(FaqController::class)->group(function () {
-        Route::get('/api/faqs/{faq}', 'showApi')->name('faqs.show.api');
+        Route::get('/admin/faqs/{faq}', 'showApi')->name('faqs.show.api');
     });
 });
 

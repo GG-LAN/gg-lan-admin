@@ -16,7 +16,7 @@ class Team extends Model {
         'name', 'description', 'image', 'tournament_id',
     ];
 
-    // protected $with = ['users'];
+    protected $with = ['users'];
 
     protected $appends = ['captain_id', 'tournament_name', 'team_slots', 'is_full'];
 

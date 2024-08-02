@@ -92,7 +92,14 @@ class PlayerController extends Controller
             ]
         ];
 
-        $teamsData = $player->teams()->paginate(5);
+        $teamsData = $player->teams()->paginate(5)->through(function ($team) {
+            return [
+                'id'   => $team->id,
+                'name' => $team->name,
+                'tournament_name' => $team->tournament->name,
+                'is_full' => $team->getIsFullAttribute()
+            ];
+        });
 
         $teamsRowsInfo = [
             "rows" => [

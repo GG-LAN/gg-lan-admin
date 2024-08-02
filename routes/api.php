@@ -2,10 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-// use App\Http\Controllers\Api\FaqController;
+use App\Http\Controllers\Api\FaqController;
 use App\Http\Controllers\Api\AuthController;
-// use App\Http\Controllers\Api\RuleController;
 use App\Http\Controllers\Api\GameController;
+use App\Http\Controllers\Api\RuleController;
 use App\Http\Controllers\Api\TeamController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\TournamentController;
@@ -103,18 +103,26 @@ Route::controller(PurchasedPlaceController::class)->group(function() {
     Route::get('purchasedPlaces/{purchasedPlace}', 'show');
 });
 
-// Route::controller(RuleController::class)->group(function () {
-//     Route::get('/rules', 'showApi');
-// });
+/*
+|--------------------------------------------------------------------------
+| Settings/Not Essential Info Routes
+|--------------------------------------------------------------------------
+*/
+Route::controller(RuleController::class)->group(function () {
+    Route::get('/rules', 'show');
+});
+Route::controller(FaqController::class)->group(function () {
+    Route::get('/faq', 'index');
+});
 
-// Route::controller(FaqController::class)->group(function () {
-//     Route::get('/faq', 'index');
-// });
-
+/*
+|--------------------------------------------------------------------------
+| Auth Protected Routes
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     /*
-    |--------------------------------------------------------------------------My Workspace
-    
+    |--------------------------------------------------------------------------
     | Auth Players Routes
     |--------------------------------------------------------------------------
     */

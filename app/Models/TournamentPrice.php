@@ -60,6 +60,12 @@ class TournamentPrice extends Model
         return $model;
     }
 
+    public static function getStripePrice(string $price_id) {
+        $stripe = new Stripe(Setting::get('stripe_api_key'));
+
+        return $stripe->prices->retrieve($price_id);
+    }
+
     public function getStripePriceAttribute() {
         if (!Setting::get('stripe_api_key')) {
             return null;

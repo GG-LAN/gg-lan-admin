@@ -72,7 +72,7 @@ const iconClasses = computed(() => {
 
 <template>
     <li>
-        <Link :href="route(routename)" :class="linkClasses" class="flex items-center p-2 rounded-lg text-base text-gray-900 hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700">
+        <Link :href="route(routename)" :class="linkClasses" class="flex items-center p-2 rounded-lg text-base text-gray-900 hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700" data-drawer-dismiss="sidebar">
             <SvgIcon class="w-5 h-5" :class="iconClasses" :icon="icon" v-if="icon"/>
             <span class="ml-3">
                 <slot />

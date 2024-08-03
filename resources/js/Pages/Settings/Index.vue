@@ -48,7 +48,7 @@ let tabs = [
 
 <template>
     <Head title="Paramètres" />
-    <PageTitle title="Paramètres" />
+    <PageTitle title="Paramètres" :breadcrumbs="$page.props.breadcrumbs"/>
     
     <TabsVertical tabId="settingsTabs" :tabs="tabs">
         <template #rules>

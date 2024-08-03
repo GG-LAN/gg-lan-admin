@@ -1,11 +1,13 @@
 <?php
 
 use App\Helpers\ApiResponse;
+use Sentry\Laravel\Integration;
 use Illuminate\Foundation\Application;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -21,6 +23,9 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
+        // Sentry exceptions catching
+        Integration::handles($exceptions);
+        
         $exceptions->render(function (AuthenticationException $exception, $request) {
             if (str_contains($request->path(), "api")) {
                 return ApiResponse::unauthorized(__("responses.unauthenticated"), []);

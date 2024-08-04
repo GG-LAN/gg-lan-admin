@@ -5,7 +5,8 @@ import Table from '@/Components/Ui/Table.vue'
 import PageTitle from '@/Components/Ui/PageTitle.vue';
 import PlayersStat from './Partials/PlayersStat.vue';
 import TeamsStat from './Partials/TeamsStat.vue';
-import StatCard from '@/Components/Ui/StatCard.vue';
+import PurchasedPlacesStat from './Partials/PurchasedPlacesStat.vue';
+// import StatCard from '@/Components/Ui/StatCard.vue';
 
 defineOptions({layout: AuthenticatedLayout});
 
@@ -21,9 +22,9 @@ defineOptions({layout: AuthenticatedLayout});
 
         <TeamsStat/>
 
-        <StatCard class="col-span-4 lg:col-span-1 md:col-span-2 sm:col-span-4" icon="trophy" color="red" title="Remplissage des tournois" data="59 %"/>
+        <PurchasedPlacesStat/>
 
-        <StatCard class="col-span-4 lg:col-span-1 md:col-span-2 sm:col-span-4" icon="money-bill" color="green" title="Paiements en ligne" data="589"/>
+        <!-- <StatCard class="col-span-4 lg:col-span-1 md:col-span-2 sm:col-span-4" icon="trophy" color="red" title="Remplissage des tournois" data="59 %"/> -->
     </div>
 
     <!-- Content Boxes -->

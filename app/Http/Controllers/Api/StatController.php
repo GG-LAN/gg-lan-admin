@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Tournament;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
+use App\Models\PurchasedPlace;
 
 class StatController extends Controller {
     public function players() {
@@ -21,5 +22,9 @@ class StatController extends Controller {
         }
         
         return ApiResponse::success("", $teamsCount);
+    }
+
+    public function payments() {
+        return ApiResponse::success("", PurchasedPlace::all()->count());
     }
 }

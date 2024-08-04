@@ -18,10 +18,18 @@ class SettingController extends Controller {
                 "value" => decrypt($setting->value)
             ];
         });
+
+        $breadcrumbs = [
+            [
+                "label"   => "Paramètres",
+                "route"   => route('settings.index'),
+                "active"  => true
+            ]
+        ];
         
         return Inertia::render('Settings/Index', [
             "settings" => $settings,
-            "test" => Setting::get('test')
+            "breadcrumbs" => $breadcrumbs
         ]);
     }
 

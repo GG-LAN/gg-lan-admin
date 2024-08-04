@@ -27,7 +27,7 @@ const changeActive = id => {
 </script>
 
 <template>
-    <ul class="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0" :id="props.tabId + '-tab'">
+    <ul class="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0 col-span-4 lg:col-span-1" :id="props.tabId + '-tab'">
         <li class="me-2" role="presentation" v-for="tab in props.tabs">
             <button
                 @click="changeActive(tab.id)"
@@ -45,7 +45,7 @@ const changeActive = id => {
         </li>
     </ul>
 
-    <div :id="props.tabId + '-tab-content'" class="p-6 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-3">
+    <div :id="props.tabId + '-tab-content'" class="p-6 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-4 lg:col-span-3">
         <div class="bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full" v-show="activeTab == tab.id" :id="tab.id" v-for="tab in props.tabs">            
             <slot :name="tab.id"/>
             <slot/>

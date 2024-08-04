@@ -16,7 +16,7 @@ use App\Http\Controllers\TournamentController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get("/", function() {
-        return Inertia::render('Dashboard');
+        return Inertia::render('Dashboard/Dashboard');
     })->name('dashboard');
 
     Route::apiResource('players', PlayerController::class);

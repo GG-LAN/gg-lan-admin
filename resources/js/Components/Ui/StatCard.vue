@@ -15,7 +15,7 @@ const props = defineProps({
         type: String
     },
     data: {
-        type: String
+        default: "..."
     }
 });
 

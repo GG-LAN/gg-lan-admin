@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\RuleController;
 use App\Http\Controllers\TeamController;
@@ -12,7 +13,6 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TournamentController;
-
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get("/", function() {
@@ -54,6 +54,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::controller(FaqController::class)->group(function () {
         Route::get('/admin/faqs/{faq}', 'showApi')->name('faqs.show.api');
     });
+
+    Route::apiResource('logs', LogController::class);
 });
 
 Route::middleware('auth')->group(function () {

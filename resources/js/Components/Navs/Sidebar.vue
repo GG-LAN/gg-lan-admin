@@ -37,6 +37,10 @@ import DropdownNavLink from '@/Components/Navs/DropdownNavLink.vue';
                             FAQ
                         </NavLink>
 
+                        <NavLink routename="logs.index" icon="file-pen" iconColor="red" activeFor="Logs">
+                            Logs
+                        </NavLink>
+
                         <NavLink routename="settings.index" icon="cog" iconColor="gray" activeFor="Settings">
                             Paramètres
                         </NavLink>

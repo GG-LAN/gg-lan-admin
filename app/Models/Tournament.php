@@ -168,6 +168,10 @@ class Tournament extends Model {
 
         return collect($paymentList);        
     }
+
+    public static function getOpenTournaments() {
+        return (new static)->where('status', 'open')->get();
+    }
     
     /**
      * The attributes that should be cast to native types.

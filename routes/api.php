@@ -124,6 +124,7 @@ Route::controller(FaqController::class)->group(function () {
 */
 Route::controller(StatController::class)->group(function () {
     Route::get('/stats/players', 'players')->name('stats.players.api');
+    Route::get('/stats/teams', 'teams')->name('stats.teams.api');
 });
 
 /*

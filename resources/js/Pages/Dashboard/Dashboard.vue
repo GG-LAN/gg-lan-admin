@@ -4,6 +4,7 @@ import { Head } from '@inertiajs/vue3';
 import Table from '@/Components/Ui/Table.vue'
 import PageTitle from '@/Components/Ui/PageTitle.vue';
 import PlayersStat from './Partials/PlayersStat.vue';
+import TeamsStat from './Partials/TeamsStat.vue';
 import StatCard from '@/Components/Ui/StatCard.vue';
 
 defineOptions({layout: AuthenticatedLayout});
@@ -18,7 +19,7 @@ defineOptions({layout: AuthenticatedLayout});
     <div class="grid grid-cols-4 gap-4 col-span-4">
         <PlayersStat/>
 
-        <StatCard class="col-span-4 lg:col-span-1 md:col-span-2 sm:col-span-4" icon="users" color="yellow" title="Equipes" data="24"/>
+        <TeamsStat/>
 
         <StatCard class="col-span-4 lg:col-span-1 md:col-span-2 sm:col-span-4" icon="trophy" color="red" title="Remplissage des tournois" data="59 %"/>
 

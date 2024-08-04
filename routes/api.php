@@ -6,10 +6,12 @@ use App\Http\Controllers\Api\FaqController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\GameController;
 use App\Http\Controllers\Api\RuleController;
+use App\Http\Controllers\Api\StatController;
 use App\Http\Controllers\Api\TeamController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\TournamentController;
 use App\Http\Controllers\Api\PurchasedPlaceController;
+
 
 
 /*
@@ -113,6 +115,16 @@ Route::controller(RuleController::class)->group(function () {
 });
 Route::controller(FaqController::class)->group(function () {
     Route::get('/faq', 'index');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Stats Routes
+|--------------------------------------------------------------------------
+*/
+Route::controller(StatController::class)->group(function () {
+    // Route::get('/faq', 'index');
+    Route::get('/stats/players', 'players')->name('stats.players.api');
 });
 
 /*

@@ -7,9 +7,14 @@ import StatCard from '@/Components/Ui/StatCard.vue';
 const props = defineProps({
 });
 
-
+const stat = ref('...');
 
 onMounted(() => {
+    axios.get(route('stats.players.api'))
+    .then(({data}) => {
+        stat.value = data.data;
+        
+    })
 });
 
 </script>
@@ -20,6 +25,6 @@ onMounted(() => {
         icon="user-check"
         color="blue"
         title="Joueurs"
-        data="589"
+        :data="stat"
     />
 </template>

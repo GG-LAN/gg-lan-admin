@@ -30,7 +30,7 @@ const breadcrumbs = [
     <Head title="Profil" />
     <PageTitle title="Profil" :breadcrumbs="breadcrumbs"/>
 
-    <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-2">
+    <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-4 lg:col-span-2">
         <UpdateProfileInformationForm
             :must-verify-email="mustVerifyEmail"
             :status="status"
@@ -38,7 +38,7 @@ const breadcrumbs = [
         />
     </div>
 
-    <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-2">
+    <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-4 lg:col-span-">
         <UpdatePasswordForm class="max-w-xl" />
     </div>
 

@@ -12,11 +12,11 @@ defineOptions({layout: AuthenticatedLayout});
     <Head title="Joueurs" />
     <PageTitle :title="$page.props.player.pseudo" :breadcrumbs="$page.props.breadcrumbs"/>
 
-    <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-1">
+    <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-4 lg-col-span-1">
         <UpdatePlayerForm :player="$page.props.player"/>
     </div>
     
-    <div class="col-span-3">
+    <div class="col-span-4 lg:col-span-3">
         <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white mb-4">
             <h2 class="text-xl font-black text-gray-900 dark:text-gray-100">Équipes</h2>
             <Table :rows="$page.props.teamsData" :rowsInfo="$page.props.teamsRowsInfo" :route="route('players.show', $page.props.player.id)"/>

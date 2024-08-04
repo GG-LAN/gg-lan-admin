@@ -46,7 +46,7 @@ const showKey = () => {
             </h2>
         </header>
 
-        <form @submit.prevent="submit" class="mt-6 space-y-6">
+        <form @submit.prevent="submit" class="mt-6 space-y-6" autocomplete="off">
             <div>
                 <InputLabel :for="'update_' + settingKey" value="Clé Stripe" />
                 <div class="relative w-full">
@@ -59,6 +59,7 @@ const showKey = () => {
                         class="mt-1 block w-full pe-10"
                         :type="isShowKey ? 'text' : 'password'"
                         placeholder="ex: sk_test_cNfGvl6MqTzetsdlZGp0hWb3m"
+                        autocomplete="off"
                         v-model="form.value"
                     />
                 </div>

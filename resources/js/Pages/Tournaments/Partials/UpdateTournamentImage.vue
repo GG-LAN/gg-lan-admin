@@ -44,7 +44,7 @@ const deleteImage = () => {
 </script>
 
 <template>
-    <section class="bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
+    <section class="bg-white rounded-lg shadow-sm p-4 sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
         <header>
             <h2 class="text-xl font-black text-gray-900 dark:text-gray-100 mb-4">Image du tournois</h2>
         </header>

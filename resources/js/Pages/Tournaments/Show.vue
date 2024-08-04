@@ -35,14 +35,16 @@ defineOptions({layout: AuthenticatedLayout});
     </div>
     
     <!-- Image Display + update image OR Dropzone image -->
-    <UpdateTournamentImage :tournament="$page.props.tournament"/>
+    <div class="col-span-4 lg:col-span-1">
+        <UpdateTournamentImage :tournament="$page.props.tournament"/>
+    </div>
 
     <!-- Tournament info -->
-    <div class="col-span-2 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
+    <div class="col-span-4 lg:col-span-2 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
         <UpdateTournamentInfoForm :tournament="$page.props.tournament" :games="$page.props.games"/>
     </div>
 
-    <div class="col-span-1 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
+    <div class="col-span-4 lg:col-span-1 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
         <UpdateTournamentDateForm :tournament="$page.props.tournament"/>
     </div>
 
@@ -51,18 +53,18 @@ defineOptions({layout: AuthenticatedLayout});
     </h1>
 
     <!-- Tournament Stripe Prices -->
-    <div class="col-span-2 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
+    <div class="col-span-4 lg:col-span-2 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
         <h2 class="text-xl font-black text-gray-900 dark:text-gray-100">Prix disponible(s)</h2>
         <Table :rows="$page.props.pricesData" :rowsInfo="$page.props.pricesRowsInfo" :route="route('tournaments.show', $page.props.tournament.id)"/>
     </div>
     
     <!-- Tournament Related Info -->
-    <div v-if="$page.props.tournament.type == 'team'" class="col-span-2 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
+    <div v-if="$page.props.tournament.type == 'team'" class="col-span-4 lg:col-span-2 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
         <h2 class="text-xl font-black text-gray-900 dark:text-gray-100">Équipes inscrites</h2>
         <Table :rows="$page.props.teamsData" :rowsInfo="$page.props.teamsRowsInfo" :route="route('tournaments.show', $page.props.tournament.id)"/>
     </div>
 
-    <div v-else class="col-span-2 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">            
+    <div v-else class="col-span-4 lg:col-span-2 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">            
         <h2 class="text-xl font-black text-gray-900 dark:text-gray-100">Joueurs inscrits</h2>
         <Table :rows="$page.props.playersData" :rowsInfo="$page.props.playersRowsInfo" :route="route('tournaments.show', $page.props.tournament.id)"/>
     </div>

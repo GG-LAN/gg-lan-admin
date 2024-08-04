@@ -28,18 +28,27 @@ const toggleMode = () => {
 
 onMounted(() => {
     const colorTheme = localStorage.getItem("color-theme");
+    
+    const pageElement = document.documentElement;
+
+    const darkIcon = document.querySelector("#theme-toggle-dark-icon");
+    const lightIcon = document.querySelector("#theme-toggle-light-icon");
 
     if (colorTheme) {
-        const pageElement = document.documentElement;
-
-        const darkIcon = document.querySelector("#theme-toggle-dark-icon");
-        const lightIcon = document.querySelector("#theme-toggle-light-icon");
-
         // Set current class theme
         colorTheme == "dark" ? pageElement.classList.add("dark") : pageElement.classList.remove("dark");
 
         // Display icon of current theme
         colorTheme == "dark" ? lightIcon.classList.toggle("hidden") : darkIcon.classList.toggle("hidden");
+    }
+    else {
+        if (window.matchMedia) {
+            // Set current class theme
+            window.matchMedia('(prefers-color-scheme: dark)') ? pageElement.classList.add("dark") : pageElement.classList.remove("dark");
+
+            // Display icon of current theme
+            window.matchMedia('(prefers-color-scheme: dark)') ? lightIcon.classList.toggle("hidden") : darkIcon.classList.toggle("hidden");
+        }
     }
 });
 </script>

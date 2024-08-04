@@ -21,7 +21,6 @@ onMounted(() => {
 
 <template>
     <StatCard
-        class="col-span-4 lg:col-span-1 md:col-span-2 sm:col-span-4"
         icon="user-check"
         color="blue"
         title="Joueurs"

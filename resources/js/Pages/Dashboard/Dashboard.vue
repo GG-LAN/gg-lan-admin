@@ -7,6 +7,7 @@ import PlayersStat from './Partials/PlayersStat.vue';
 import TeamsStat from './Partials/TeamsStat.vue';
 import PurchasedPlacesStat from './Partials/PurchasedPlacesStat.vue';
 import TournamentsFilling from './Partials/TournamentsFilling.vue';
+import Chart from '@/Components/Ui/Chart.vue';
 
 defineOptions({layout: AuthenticatedLayout});
 
@@ -28,18 +29,10 @@ defineOptions({layout: AuthenticatedLayout});
     </div>
 
     <!-- Content Boxes -->
-    <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-4">
-    </div>
+    <!-- <Chart id="test" class="col-span-4 lg:col-span-1 md:col-span-2 sm:col-span-4"/> -->
 
-    <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-2">
-    </div>
-
-    <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-2">
-    </div>
-
-    <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-1">
-    </div>
-
-    <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-3">
+    <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-gray-200 col-span-4 text-center">
+        <p>De nouvelles fonctionnalités arriveront bientôt...</p>
+        <p>Vous pouvez toujours me contacter pour me proposer des idées.</p>
     </div>
 </template>

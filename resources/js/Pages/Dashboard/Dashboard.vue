@@ -33,6 +33,6 @@ defineOptions({layout: AuthenticatedLayout});
 
     <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-gray-200 col-span-4 text-center">
         <p>De nouvelles fonctionnalités arriveront bientôt...</p>
-        <p>Vous pouvez toujours me contacter pour me proposer des idées.</p>
+        <p>Vous pouvez toujours me contacter pour proposer des idées.</p>
     </div>
 </template>

@@ -7,7 +7,7 @@ import PlayersStat from './Partials/PlayersStat.vue';
 import TeamsStat from './Partials/TeamsStat.vue';
 import PurchasedPlacesStat from './Partials/PurchasedPlacesStat.vue';
 import TournamentsFilling from './Partials/TournamentsFilling.vue';
-import Chart from '@/Components/Ui/Chart.vue';
+// import Chart from '@/Components/Ui/Chart.vue';
 
 defineOptions({layout: AuthenticatedLayout});
 

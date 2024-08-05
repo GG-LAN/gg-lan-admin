@@ -27,8 +27,8 @@ const changeActive = id => {
 </script>
 
 <template>
-    <ul class="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0 col-span-4 lg:col-span-1" :id="props.tabId + '-tab'">
-        <li class="me-2 flex" role="presentation" v-for="tab in props.tabs">
+    <ul class="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 col-span-4 lg:col-span-1" :id="props.tabId + '-tab'">
+        <li class="flex" role="presentation" v-for="tab in props.tabs">
             
             <button
                 @click="changeActive(tab.id)"

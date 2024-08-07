@@ -47,5 +47,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Clear logs files
         $schedule->command("logs:clear")->weekly();
+
+         // Delete tokens expired in personal_access_tokens table
+         $schedule->command("sanctum:prune-expired")->daily();
     })
     ->create();

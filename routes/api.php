@@ -12,8 +12,6 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\TournamentController;
 use App\Http\Controllers\Api\PurchasedPlaceController;
 
-
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -124,7 +122,7 @@ Route::controller(FaqController::class)->group(function () {
 */
 Route::controller(StatController::class)->group(function () {
     Route::get('/stats/players', 'players')->name('stats.players.api');
-    Route::get('/stats/teams', 'teams')->name('stats.teams.api');
+    Route::get('/stats/teams', 'teamsStat')->name('stats.teams.api');
     Route::get('/stats/payments', 'payments')->name('stats.payments.api');
     Route::get('/stats/tournaments/filling', 'tournamentsFilling')->name('stats.tournamentsfilling.api');
 });

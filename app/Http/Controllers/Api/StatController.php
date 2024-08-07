@@ -14,7 +14,7 @@ class StatController extends Controller {
         return ApiResponse::success("", User::all()->count());
     }
 
-    public function teams() {
+    public function teamsStat() {
         $tournaments = Tournament::getOpenTournaments();
         $teamsCount = 0;
 

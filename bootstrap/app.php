@@ -42,6 +42,9 @@ return Application::configure(basePath: dirname(__DIR__))
         // Update the tournament current price accordingly to his start date
         $schedule->command("tournamentPrice:update")->daily();
 
+        // Retrieve the Stripe prices of open tournaments and checks if the price is the same as in db. If not, it updates it.
+        $schedule->command("tournamentPrice:updatePriceFromStripe")->hourly();
+        
         // Delete unverified accounts that are at least 1 month old
         $schedule->command("account:purge-unverified")->monthly();
 

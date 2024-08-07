@@ -29,6 +29,7 @@ class TournamentPriceFactory extends Factory
                 ])->id;
             },
             'type' => 'normal',
+            'price' => '30,00 €',
             'active' => true
         ];
     }

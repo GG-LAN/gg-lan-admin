@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Setting;
+use Illuminate\Support\Number;
 use Stripe\StripeClient as Stripe;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,7 +13,7 @@ class TournamentPrice extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'price_id', 'tournament_id', 'type', 'active'
+        'name', 'price_id', 'price', 'tournament_id', 'type', 'active'
     ];
 
     protected $appends = ['stripe_price'];
@@ -53,7 +54,8 @@ class TournamentPrice extends Model
         ]);
 
         $attributes["price_id"] = $price->id;
-
+        $attributes['price'] = Number::currency($attributes["unit_amount"] / 100, in: $attributes["currency"], locale: config('app.locale'));       
+        
         // Create row in DB
         $model = static::query()->create($attributes);
 

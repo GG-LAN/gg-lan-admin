@@ -42,6 +42,7 @@ class TournamentSeeder extends Seeder
                     'tournament_id' => $tournament->id,
                     'type' => 'last_week',
                     'price_id' => "price_1OtYO6AOwlBXXotY6zNeBkVJ",
+                    'price' => "35,00 €",
                     'active' => false
                 ];
             }), "prices")
@@ -71,6 +72,7 @@ class TournamentSeeder extends Seeder
                     'tournament_id' => $tournament->id,
                     'type' => 'last_week',
                     'price_id' => "price_1OtYO6AOwlBXXotY6zNeBkVJ",
+                    'price' => "35,00 €",
                     'active' => false
                 ];
             }), "prices")

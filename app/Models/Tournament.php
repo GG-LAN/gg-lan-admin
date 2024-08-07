@@ -18,7 +18,7 @@ class Tournament extends Model {
 
     protected $with = ['teams', 'players'];
 
-    protected $appends = ['register_count', 'isFull'];
+    protected $appends = ['register_count', 'isFull', 'price'];
 
     public function game() {
         return $this->belongsTo('App\Models\Game');
@@ -66,6 +66,14 @@ class Tournament extends Model {
 
     public function getIsFullAttribute() {
         return $this->getRegisterCountAttribute() == $this->places ? true:false;
+    }
+
+    public function getPriceAttribute() {
+        if ($this->currentPrice()) {
+            return $this->currentPrice()->price;
+        }
+
+        return null;
     }
 
     public function getPaymentLink(Request $request): String {

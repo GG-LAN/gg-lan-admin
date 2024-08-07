@@ -473,3 +473,39 @@ it("cant_remove_player_from_team_if_hes_not_in_team", function () {
         'message' => __("responses.teams.player_not_in_team")
     ]);
 });
+
+it("can't create a team with a name that is already used", function () {
+    $tournament = Tournament::factory()->create(["type" => "team", "status" => "open"]);
+    
+    $dataTeamOK = [
+        "name"          => "Mangemort",
+        "description"   => "On roule sur la concu",
+        'tournament_id' => $tournament->id,
+        'image'         => ""
+    ];
+
+    $dataTeamKO = [
+        "name"          => "Mangemort",
+        "description"   => "",
+        'tournament_id' => $tournament->id,
+        'image'         => ""
+    ];
+
+    $user = User::factory()->create();
+    
+    $this->actingAs($user)->post('/api/teams/create', $dataTeamOK)
+    ->assertCreated()
+    ->assertJson([
+        "data" => $dataTeamOK
+    ]);
+
+    $this->actingAs($user)->post('/api/teams/create', $dataTeamKO)
+    ->assertUnprocessable()
+    ->assertJson([
+        "data" => [
+            "name" => [
+                __("validation.unique", ["attribute" => "name"])
+            ]
+        ]
+    ]);
+});

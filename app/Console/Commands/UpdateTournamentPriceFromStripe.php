@@ -69,7 +69,9 @@ class UpdateTournamentPriceFromStripe extends Command
                         $isUpdated = true;
 
                         $this->log->info("[" . $tournamentPrice->name . "] Prix mis à jour: " . $formattedStripePrice);
-                        
+                    }
+                    else {
+                        $this->log->info("[" . $tournamentPrice->name . "] Prix identique: " . $tournamentPrice->price . " | " . $formattedStripePrice);
                     }
                 }
             }

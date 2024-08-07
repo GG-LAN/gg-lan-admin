@@ -49,12 +49,12 @@ class TournamentPrice extends Model
         $price = $stripe->prices->create([
             "nickname"    => $attributes["name"],
             "currency"    => $attributes["currency"],
-            "unit_amount" => $attributes["unit_amount"],
+            "unit_amount" => $attributes["unit_amount"] * 100,
             "product"     => $attributes["product"]
         ]);
 
         $attributes["price_id"] = $price->id;
-        $attributes['price'] = Number::currency($attributes["unit_amount"] / 100, in: $attributes["currency"], locale: config('app.locale'));       
+        $attributes['price'] = Number::currency($attributes["unit_amount"], in: $attributes["currency"], locale: config('app.locale'));       
         
         // Create row in DB
         $model = static::query()->create($attributes);

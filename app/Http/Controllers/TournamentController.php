@@ -128,16 +128,11 @@ class TournamentController extends Controller
             "name" => $tournament->name
         ]);
 
-        // Multiply by 100 because Stripe take amount in cents
-        $normalPrice = $request->normal_place_price * 100;
-        
+        $normalPrice = $request->normal_place_price;
         $lastWeekPrice = $request->last_week_place_price;
+        
         if (!$lastWeekPrice) {
             $lastWeekPrice = $normalPrice;
-        }
-        else {
-            // Multiply by 100 because Stripe take amount in cents
-            $lastWeekPrice = $lastWeekPrice * 100;
         }
 
         // Normal price

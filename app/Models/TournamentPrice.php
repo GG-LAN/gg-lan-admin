@@ -16,7 +16,7 @@ class TournamentPrice extends Model
         'name', 'price_id', 'price', 'tournament_id', 'type', 'active'
     ];
 
-    protected $appends = ['stripe_price'];
+    // protected $appends = ['stripe_price'];
     
     /**
      * The attributes that should be cast to native types.

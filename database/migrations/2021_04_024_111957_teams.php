@@ -11,7 +11,7 @@ class Teams extends Migration{
             $table->engine = "InnoDB";
 
             $table->integer('id', true);
-            $table->string("name");
+            $table->string("name")->unique();
             $table->text("description")->nullable();
             $table->text('image')->nullable();
             $table->integer('tournament_id');

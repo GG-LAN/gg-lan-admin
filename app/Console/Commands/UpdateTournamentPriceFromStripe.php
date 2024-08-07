@@ -49,30 +49,25 @@ class UpdateTournamentPriceFromStripe extends Command
             $tournamentPrices = $tournament->prices;
 
             foreach ($tournamentPrices as $tournamentPrice) {
-                if ($tournamentPrice->price) {
-                    // Retrieve Stripe price
-                    $stripePrice = TournamentPrice::getStripePrice($tournamentPrice->price_id);
+                // Retrieve Stripe price
+                $stripePrice = TournamentPrice::getStripePrice($tournamentPrice->price_id);
+                
+                // Convert to "readable" price string
+                $formattedStripePrice = Number::currency(
+                    $stripePrice->unit_amount / 100,
+                    $stripePrice->currency,
+                    config('app.locale')
+                );
+                
+                // If the db price and Stripe price aren't the same, we update the price in db
+                if ($tournamentPrice->price !==  $formattedStripePrice) {
+                    $tournamentPrice->update([
+                        "price" => $formattedStripePrice
+                    ]);
                     
-                    // Convert to "readable" price string
-                    $formattedStripePrice = Number::currency(
-                        $stripePrice->unit_amount / 100,
-                        $stripePrice->currency,
-                        config('app.locale')
-                    );
-                    
-                    // If the db price and Stripe price aren't the same, we update the price in db
-                    if ($tournamentPrice->price !==  $formattedStripePrice) {
-                        $tournamentPrice->update([
-                            "price" => $formattedStripePrice
-                        ]);
-                        
-                        $isUpdated = true;
+                    $isUpdated = true;
 
-                        $this->log->info("[" . $tournamentPrice->name . "] Prix mis à jour: " . $formattedStripePrice);
-                    }
-                    else {
-                        $this->log->info("[" . $tournamentPrice->name . "] Prix identique: " . $tournamentPrice->price . " | " . $formattedStripePrice);
-                    }
+                    $this->log->info("[" . $tournamentPrice->name . "] Prix mis à jour: " . $formattedStripePrice);
                 }
             }
         }

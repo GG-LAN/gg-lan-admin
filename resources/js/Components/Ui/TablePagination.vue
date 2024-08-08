@@ -27,7 +27,7 @@ const props = defineProps({
 
         <!-- Buttons Previous & Next -->
         <div class="flex items-center space-x-3">
-            <Link icon="arrow-left" v-if="rows.prev_page_url" :href="rows.prev_page_url" preserve-scroll class="inline-flex items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+            <!-- <Link icon="arrow-left" v-if="rows.prev_page_url" :href="rows.prev_page_url" preserve-scroll class="inline-flex items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                 <SvgIcon class="w-4 h-4 mr-2" icon="arrow-left" />
                 Précédent
             </Link>
@@ -42,7 +42,49 @@ const props = defineProps({
             <PrimaryButton class="text-sm font-medium cursor-not-allowed" disabled v-else>
                 Suivant
                 <SvgIcon class="w-4 h-4 ml-2" icon="arrow-right" />
-            </PrimaryButton>
+            </PrimaryButton> -->
+            
+            <nav aria-label="Page navigation example">
+                <ul class="flex items-center -space-x-px h-10 text-base">
+                    <li v-if="rows.prev_page_url">
+                        <Link :href="rows.prev_page_url" preserve-scroll class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                            <SvgIcon class="w-4 h-4" icon="chevron-left" />
+                            <span class="sr-only">Previous</span>
+                        </Link>
+                    </li>
+                    <li v-else class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        <SvgIcon class="w-4 h-4" icon="chevron-left" />
+                        <span class="sr-only">Previous</span>
+                    </li>
+
+                    <li v-for="(link, key) in rows.links">
+                        <Link
+                            v-if="key != 0 && key != (rows.links.length - 1)"
+                            :href="link.url"
+                            preserve-scroll
+                            :class="
+                                link.active ? 'z-10 text-blue-600 border-blue-300 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white'
+                                : 'text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+                            "
+                            class="flex items-center justify-center px-4 h-10 leading-tight border"
+                        >
+                            {{ link.label }}
+                        </Link>
+                    </li>
+
+                    <li v-if="rows.next_page_url">
+                        <Link class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" :href="rows.next_page_url" preserve-scroll>
+                            <SvgIcon class="w-4 h-4" icon="chevron-right" />
+                            <span class="sr-only">Next</span>
+                        </Link>
+                    </li>
+                    <li v-else class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        <SvgIcon class="w-4 h-4" icon="chevron-right" />
+                            <span class="sr-only">Next</span>
+                    </li>
+                </ul>
+            </nav>
+
         </div>
     </div>
 </template>

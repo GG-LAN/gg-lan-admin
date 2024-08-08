@@ -35,7 +35,7 @@ const close = () => {
         data-drawer-placement="right"
         :data-drawer-target="props.uid"
     >
-        <h5 id="drawer-label" class="inline-flex items-center mb-6 text-sm font-semibold text-gray-500 uppercase dark:text-gray-400">
+        <h5 id="drawer-label" class="inline-flex items-center mt-16 mb-4 text-sm font-semibold text-gray-500 uppercase dark:text-gray-400">
             {{ props.title }}
         </h5>
         <button type="button" @click="close" :aria-controls="props.uid" class="

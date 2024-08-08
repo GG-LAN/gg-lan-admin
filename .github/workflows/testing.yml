@@ -49,13 +49,11 @@ jobs:
 
     steps:
       - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@main
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST:     ${{ secrets.SSH_HOST }}
-          REMOTE_USER:     ${{ secrets.SSH_USER }}
-          REMOTE_PORT:     ${{ secrets.SSH_PORT }}
-          TARGET:          ${{ secrets.WORK_DIR }}
-          SCRIPT_BEFORE: |
-            php artisan -V
-            git pull
+          key:      ${{ secrets.SSH_PRIVATE_KEY }}
+          host:     ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port:     ${{ secrets.SSH_PORT }}
+          script: |
+            whoami

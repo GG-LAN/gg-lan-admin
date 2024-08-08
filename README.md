@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/GG-LAN/gg-lan-admin/dev/public/logo.png?token=GHSAT0AAAAAACVC44MHAMWHW4K52OHX36KEZVUW5JQ" width="400" alt="GG-LAN Logo" />
+    ![GG-LAN logo](https://github.com/GG-LAN/gg-lan-admin/blob/dev/public/logo.png)
 </p>
 
 [![GG-LAN Testing](https://github.com/GG-LAN/gg-lan-admin/actions/workflows/testing.yml/badge.svg)](https://github.com/GG-LAN/gg-lan-admin/actions/workflows/testing.yml)

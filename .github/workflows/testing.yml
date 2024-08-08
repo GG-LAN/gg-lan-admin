@@ -58,9 +58,14 @@ jobs:
           script: |
             cd /var/www/gg-lan-admin
             git pull
+
+            composer install
+            npm install
+
             php artisan migrate
             php artisan config:cache
             php artisan event:cache
             php artisan route:cache
             php artisan queue:restart
+            
             npm run build

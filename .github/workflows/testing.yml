@@ -44,6 +44,7 @@ jobs:
 
 
   deploy:
+    needs: testing
     runs-on: ubuntu-latest
 
     steps:
@@ -53,6 +54,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST:     ${{ secrets.SSH_HOST }}
           REMOTE_USER:     ${{ secrets.SSH_USER }}
+          REMOTE_PORT:     ${{ secrets.SSH_PORT }}
           TARGET:          ${{ secrets.WORK_DIR }}
           SCRIPT_BEFORE: |
             php artisan -V

@@ -1,6 +1,4 @@
-<p align="center">
-    ![GG-LAN logo](https://github.com/GG-LAN/gg-lan-admin/blob/dev/public/logo.png)
-</p>
+![GG-LAN logo](https://github.com/GG-LAN/gg-lan-admin/blob/dev/public/logo.png)
 
 [![GG-LAN Testing](https://github.com/GG-LAN/gg-lan-admin/actions/workflows/testing.yml/badge.svg)](https://github.com/GG-LAN/gg-lan-admin/actions/workflows/testing.yml)
 

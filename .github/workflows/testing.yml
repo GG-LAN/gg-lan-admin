@@ -57,4 +57,10 @@ jobs:
           port:     ${{ secrets.SSH_PORT }}
           script: |
             cd /var/www/gg-lan-admin
-            php artisan -v
+            git pull
+            php artisan migrate
+            php artisan config:cache
+            php artisan event:cache
+            php artisan route:cache
+            php artisan queue:restart
+            npm run build

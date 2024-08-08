@@ -16,13 +16,13 @@ defineOptions({layout: AuthenticatedLayout});
         <UpdatePlayerForm :player="$page.props.player"/>
     </div>
     
-    <div class="col-span-4 lg:col-span-3">
-        <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white mb-4">
+    <div class="col-span-4 grid grid-cols-4 gap-4">
+        <div class="col-span-4 lg:col-span-2 sm:col-span-4 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
             <h2 class="text-xl font-black text-gray-900 dark:text-gray-100">Équipes</h2>
             <Table :rows="$page.props.teamsData" :rowsInfo="$page.props.teamsRowsInfo" :route="route('players.show', $page.props.player.id)"/>
         </div>
 
-        <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">            
+        <div class="col-span-4 lg:col-span-2 sm:col-span-4 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">            
             <h2 class="text-xl font-black text-gray-900 dark:text-gray-100">Tournois solo</h2>
             <Table :rows="$page.props.soloTournamentsData" :rowsInfo="$page.props.soloTournamentsRowsInfo" :route="route('players.show', $page.props.player.id)"/>
         </div>

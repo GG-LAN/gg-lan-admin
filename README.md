@@ -1,6 +1,8 @@
-<p align="center"><img src="<https://raw.githubusercontent.com/GG-LAN/gg-lan-admin/dev/public/logo.png?token=GHSAT0AAAAAACVC44MGR5USOLSYAVI6SE4EZVUWY7A>" width="400" alt="GG-LAN Logo"></p>
+<p align="center">
+    <img src="https://raw.githubusercontent.com/GG-LAN/gg-lan-admin/dev/public/logo.png?token=GHSAT0AAAAAACVC44MHAMWHW4K52OHX36KEZVUW5JQ" width="400" alt="GG-LAN Logo" />
+</p>
 
-[ ![GG-LAN actions](https://github.com/GG-LAN/gg-lan-admin/actions/workflows/actions.yml/badge.svg)](https://github.com/GG-LAN/gg-lan-admin/actions/workflows/actions.yml)
+[ ![GG-LAN Testing](https://github.com/GG-LAN/gg-lan-admin/actions/workflows/actions.yml/badge.svg)](https://github.com/GG-LAN/gg-lan-admin/actions/workflows/testing.yml)
 
 About Laravel
 

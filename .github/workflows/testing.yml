@@ -1,4 +1,4 @@
-name: GG-LAN actions
+name: GG-LAN Testing
 
 on: [push]
 

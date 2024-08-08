@@ -56,4 +56,5 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port:     ${{ secrets.SSH_PORT }}
           script: |
-            whoami
+            cd /var/www/gg-lan-admin
+            php artisan -v

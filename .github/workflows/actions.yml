@@ -5,7 +5,7 @@ on: [push]
 jobs:
   testing:
     timeout-minutes: 5
-    runs-on: debian-12
+    runs-on: ubuntu-latest
 
     steps:
     - uses: shivammathur/setup-php@v2
@@ -50,7 +50,7 @@ jobs:
   deploy:
     needs: testing
     timeout-minutes: 5
-    runs-on: debian-12
+    runs-on: ubuntu-latest
 
     steps:
       - name: Deploy to Server

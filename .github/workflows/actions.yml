@@ -4,11 +4,11 @@ on: [push]
 
 jobs:
   testing:
-
-    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    runs-on: debian-12
 
     steps:
-    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+    - uses: shivammathur/setup-php@v2
       with:
         php-version: '8.3.9'
 
@@ -49,7 +49,8 @@ jobs:
 
   deploy:
     needs: testing
-    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    runs-on: debian-12
 
     steps:
       - name: Deploy to Server

@@ -32,16 +32,22 @@ class StatController extends Controller {
     public function tournamentsFilling() {
         $tournaments = Tournament::getOpenTournaments();
 
-        $totalPlaces = 0;
         $totalRegistration = 0;
-        
-        $percentage = "0%";
+                
+        $results = [
+            "series" => [],
+            "labels" => []
+        ];
 
         if (!$tournaments->count()) {
             return ApiResponse::success("", $percentage);
         }
         
         foreach ($tournaments as $tournament) {
+            $totalRegistration = 0;
+            
+            array_push($results["labels"], $tournament->name);
+            
             if ($tournament->type == "team") {
                 $totalRegistration += $tournament->teams()->where('registration_state', 'registered')->count();
             }
@@ -49,11 +55,9 @@ class StatController extends Controller {
                 $totalRegistration += $tournament->players()->count();
             }
 
-            $totalPlaces += $tournament->places;
+            array_push($results["series"], Number::format($totalRegistration / $tournament->places * 100, 0));
         }
 
-        $percentage = Number::percentage($totalRegistration / $totalPlaces * 100);
-
-        return ApiResponse::success("", $percentage);
+        return ApiResponse::success("", $results);
     }
 }

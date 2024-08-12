@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import SvgIcon from '@/Components/Ui/SvgIcon.vue';
+// import SvgIcon from '@/Components/Ui/SvgIcon.vue';
 import axios from 'axios';
-import StatCard from '@/Components/Ui/StatCard.vue';
+// import StatCard from '@/Components/Ui/StatCard.vue';
 import ApexCharts from 'apexcharts';
 
 const props = defineProps({

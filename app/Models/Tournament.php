@@ -3,6 +3,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\Team;
+use App\Helpers\Table;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Stripe\StripeClient as Stripe;
@@ -96,9 +97,10 @@ class Tournament extends Model {
         return $session["url"];
     }
 
-    public static function getTournaments($numberOfItemsPerPage = 5, $search = null) {
-        $query = (new static)->orderBy('created_at', 'desc');
+    public static function tableSearch($itemsPerPage = 5, $search = null, $sort = null) {
+        $query = (new static);
 
+        
         // If search parameter is given
         if ($search) {
             $query = $query->whereAny([
@@ -106,8 +108,20 @@ class Tournament extends Model {
             ], "like", "%{$search}%");
         }
         
+        // If sort parameter is given
+        if ($sort) {
+            $query = $query->orderBy(
+                explode(",", $sort)[0],
+                explode(",", $sort)[1]
+            );
+        }
+        // Sort by desc created_at by default
+        else {
+            $query = $query->orderBy('created_at', 'desc');
+        }
+        
         return $query
-        ->paginate($numberOfItemsPerPage)
+        ->paginate($itemsPerPage)
         ->withQueryString()
         ->through(function($tournament) {
             $startDate = new Carbon($tournament->start_date);
@@ -129,6 +143,35 @@ class Tournament extends Model {
                 "cashprize"   => $tournament->cashprize,
             ];
         });
+    }
+
+    public static function table($itemsPerPage = 5, $search = null, $sort = null) {
+        $table = new Table;
+
+        $table->addTextColumn("name", "Nom", true);
+        $table->addTextColumn("game", "Jeu");
+        $table->addTextColumn("date", "Dates Début | Fin");
+        $table->addTextColumn("type", "Type", true);
+        $table->addTextColumn("places", "Places", true);
+        $table->addTextColumn("cashprize", "Cashprize (€)", true);
+        $table->addBadgeColumn("status", "Statut", sortable: true, badges: [
+            Table::Badge("closed", "Fermé", "red"),
+            Table::Badge("finished", "Terminé", "orange"),
+            Table::Badge("open", "Ouvert", "green")
+        ],);
+        
+        if ($sort) {
+            $table->addSort($sort);
+        }
+
+        $table->can("search");
+        $table->can("create");
+        $table->can("delete");
+        $table->can("show", "tournaments.show");
+
+        $table->setData((new static)->tableSearch(search: $search, sort: $sort));
+
+        return $table->generate();
     }
 
     public function getPayments() {

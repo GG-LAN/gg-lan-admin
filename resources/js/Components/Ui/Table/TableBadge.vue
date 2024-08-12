@@ -3,7 +3,7 @@
 import { computed } from 'vue';
 
 const props = defineProps({
-    rowInfo: {
+    column: {
         type: Object,
         required: true
     },
@@ -18,8 +18,8 @@ const props = defineProps({
 })
 
 const badgeColor = computed(() => {
-    let configuration = props.rowInfo.status.find(
-        element => element.id == props.row[props.rowKey]
+    let configuration = props.column.badges.find(
+        element => element.value == props.row[props.rowKey]
     );
 
     let badgeClasses = "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300";
@@ -45,11 +45,11 @@ const badgeColor = computed(() => {
 });
 
 const textDisplay = computed(() => {
-    let configuration = props.rowInfo.status.find(
-        element => element.id == props.row[props.rowKey]
+    let configuration = props.column.badges.find(
+        element => element.value == props.row[props.rowKey]
     );
 
-    return configuration.text;
+    return configuration.label;
 })
 
 </script>

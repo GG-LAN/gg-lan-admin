@@ -2,7 +2,7 @@
 import SvgIcon from '@/Components/Ui/SvgIcon.vue';
 
 const props = defineProps({
-    rowInfo: {
+    column: {
         type: Object,
         required: true
     },
@@ -20,10 +20,10 @@ const props = defineProps({
 <template>
     <div class="flex items-center" v-if="row[rowKey]">
         <div class="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div>
-        {{ rowInfo.label_true }}
+        {{ column.labelTrue }}
     </div>
     <div class="flex items-center" v-else>
         <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
-        {{ rowInfo.label_false }}
+        {{ column.labelFalse }}
     </div>
 </template>

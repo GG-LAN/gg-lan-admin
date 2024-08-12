@@ -2,12 +2,18 @@
 import { Link } from '@inertiajs/vue3';
 import PrimaryButton from "@/Components/Forms/PrimaryButton.vue"
 import SvgIcon from '@/Components/Ui/SvgIcon.vue';
+import { computed } from 'vue';
+
 
 const props = defineProps({
-    rows: {
+    table: {
         type: Object,
         required: true
     }
+});
+
+const rows = computed(() => {
+    return props.table.data;
 });
 </script>
 

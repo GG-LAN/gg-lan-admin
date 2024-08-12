@@ -17,68 +17,8 @@ use App\Http\Requests\Tournaments\UpdateTournamentImageRequest;
 
 class TournamentController extends Controller
 {
-    public function index(Request $request) {
-        $tournaments = Tournament::getTournaments(5, $request->search);
-
-        $rowsInfo = [
-            "rows" => [
-                "name" => [
-                    "type" => "text",
-                    "title" => "Nom",
-                ],
-                "game" => [
-                    "type" => "text",
-                    "title" => "Jeu",
-                ],
-                "date" => [
-                    "type" => "text",
-                    "title" => "Dates Début | Fin",
-                ],
-                "type" => [
-                    "type" => "text",
-                    "title" => "Type",
-                ],
-                "places" => [
-                    "type" => "text",
-                    "title" => "Places",
-                ],
-                "cashprize" => [
-                    "type" => "text",
-                    "title" => "Cashprize (€)",
-                ],
-                "status" => [
-                    "type" => "status",
-                    "title" => "Statut",
-                    "status" => [
-                        [
-                            "id" => "closed",
-                            "text" => "Fermé",
-                            "color" => "red"
-                        ],
-                        [
-                            "id" => "finished",
-                            "text" => "Terminé",
-                            "color" => "orange"
-                        ],
-                        [
-                            "id" => "open",
-                            "text" => "Ouvert",
-                            "color" => "green"
-                        ],
-                    ]
-                ],
-                    
-            ],
-            "actions" => [
-                "search" => true,
-                "create" => true,
-                // "update" => true,
-                "delete" => true,
-                "show" => [
-                    "route" => "tournaments.show"
-                ]
-            ],
-        ];
+    public function index(Request $request) {        
+        $table = Tournament::table(search: $request->search, sort: $request->sort);
 
         $breadcrumbs = [
             [
@@ -89,10 +29,10 @@ class TournamentController extends Controller
         ];
 
         return Inertia::render('Tournaments/Index', [
-            "tableData"     => $tournaments,
-            "tableRowsInfo" => $rowsInfo,
+            "table" => $table,
             "filters" => [
-                "search" => $request->search
+                "search" => $request->search,
+                "sort" => $request->sort
             ],
             "breadcrumbs" => $breadcrumbs,
         ]);

@@ -36,10 +36,12 @@ const page  = usePage();
 let loading = ref(false);
 let modelId = ref();
 let search  = ref();
+let sort    = ref();
 let uid = ref();
 
 if (page.props['filters']) {
     search = ref(page.props.filters.search);
+    sort   = ref(page.props.filters.sort);
 }
 
 const props = defineProps({
@@ -49,40 +51,41 @@ const props = defineProps({
     }
 });
 
-// watch(
-//     () => uid.value,
-//     () => {
-//         nextTick(() => {
-//             const drawerCreateElement = document.querySelector("#drawer-create-" + uid.value);
-//             if (drawerCreateElement) {
-//                 drawerCreate = new Drawer(drawerCreateElement, {
-//                     placement: "right",
-//                     backdrop: true,
-//                 });
-//             }
+watch(
+    () => uid.value,
+    () => {
+        nextTick(() => {
+            const drawerCreateElement = document.querySelector("#drawer-create-" + uid.value);
+            if (drawerCreateElement) {
+                drawerCreate = new Drawer(drawerCreateElement, {
+                    placement: "right",
+                    backdrop: true,
+                });
+            }
 
-//             const drawerUpdateElement = document.querySelector("#drawer-update-" + uid.value);
-//             if (drawerUpdateElement) {
-//                 drawerUpdate = new Drawer(drawerUpdateElement, {
-//                     placement: "right",
-//                     backdrop: true,
-//                 });
-//             }
+            const drawerUpdateElement = document.querySelector("#drawer-update-" + uid.value);
+            if (drawerUpdateElement) {
+                drawerUpdate = new Drawer(drawerUpdateElement, {
+                    placement: "right",
+                    backdrop: true,
+                });
+            }
             
-//             const drawerDeleteElement = document.querySelector("#drawer-delete-" + uid.value);
-//             if (drawerDeleteElement) {
-//                 drawerDelete = new Drawer(drawerDeleteElement, {
-//                     placement: "right",
-//                     backdrop: true,
-//                 });
-//             }
-//         });
-//     }
-// );
+            const drawerDeleteElement = document.querySelector("#drawer-delete-" + uid.value);
+            if (drawerDeleteElement) {
+                drawerDelete = new Drawer(drawerDeleteElement, {
+                    placement: "right",
+                    backdrop: true,
+                });
+            }
+        });
+    }
+);
 
 watch(search, debounce(value => {
     router.get(route(route().current()), {
-        search: value
+        search: value,
+        sort: sort.value
     },{ 
         preserveState: true,
         preserveScroll: true,
@@ -96,6 +99,23 @@ watch(search, debounce(value => {
     });
 }, 300));
 
+watch(sort, value => {
+    router.get(route(route().current()), {
+        search: search.value,
+        sort: value
+    },{ 
+        preserveState: true,
+        preserveScroll: true,
+        replace: true,
+        onStart: () => {
+            loading.value = true;
+        },
+        onFinish: () => {
+            loading.value = false;
+        }
+    });
+})
+
 const checkAll = (event) => {
     const checkboxAll = event.target;
     const checkboxes = document.querySelectorAll(".checkAll");
@@ -106,7 +126,7 @@ const checkAll = (event) => {
 }
 
 const redirectTo = (id) => {
-    router.get(route(props.rowsInfo.actions.show.route, id))
+    router.get(route(props.table.actions.show.route, id))
 }
 
 const refresh = () => {
@@ -143,6 +163,31 @@ const openDrawer = (drawer, id = null) => {
     }
 
 }
+
+const sortColumn = (column) => {
+    let calculatedSort = "";
+    let params = route().queryParams;
+
+    // if (params.sort) {
+    //     if (params.sort.includes(column)) {
+    //         if (params.sort.includes("asc")) {
+    //             calculatedSort = column + ",desc" 
+    //         }            
+    //     }
+    // }
+
+    if (params.sort && params.sort.includes(column + ",asc")) {
+        calculatedSort = column + ",desc" 
+    }
+    else if (params.sort && params.sort.includes(column + ",desc")) {
+        calculatedSort = "";
+    }
+    else {
+        calculatedSort = column + ",asc" 
+    }
+    
+    sort.value = calculatedSort
+}
 </script>
 
 <template>
@@ -152,7 +197,7 @@ const openDrawer = (drawer, id = null) => {
             <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-800">
                 <div class="flex items-center mb-4 sm:mb-0">
                     <!-- Search field -->
-                    <form class="sm:pr-3" v-if="table.actions['search']">
+                    <form class="sm:pr-3" v-if="table.actions.search">
                         <label for="search" class="sr-only">Rechercher</label>
                         <div class="relative mt-1 lg:w-96">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -183,7 +228,7 @@ const openDrawer = (drawer, id = null) => {
                 </div>
                 <div class="flex items-center mb-4 sm:mb-0 space-x-3">
                     <!-- Create drawer -->
-                    <SuccessButton id="create" class="text-sm" icon="plus" v-if="table.actions['create']" @click="openDrawer('create')">
+                    <SuccessButton id="create" class="text-sm" icon="plus" v-if="table.actions.create" @click="openDrawer('create')">
                         <span class="ml-2">Ajouter</span>
                     </SuccessButton>
                         
@@ -202,7 +247,7 @@ const openDrawer = (drawer, id = null) => {
         <!-- Head -->
         <fwb-table-head>
             <!-- Checkbox -->
-            <fwb-table-head-cell class="px-4 py-4 font-medium" v-if="table.actions['checkbox']">
+            <fwb-table-head-cell class="px-4 py-4 font-medium" v-if="table.actions.checkbox">
                 <div class="flex items-center" @click="checkAll">
                     <input id="checkbox-all" aria-describedby="checkbox-all" type="checkbox" class="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
                     <label for="checkbox-all" class="sr-only">checkbox</label>
@@ -210,10 +255,22 @@ const openDrawer = (drawer, id = null) => {
             </fwb-table-head-cell>
 
             <!-- Headers -->
-            <fwb-table-head-cell v-for="column in table.columns" class="px-4 py-4 font-medium">
-                <div class="flex items-center">
+            <fwb-table-head-cell v-for="(column, key) in table.columns" class="px-4 py-4 font-medium">
+                <!-- Sortable Column -->
+                <div class="flex items-center cursor-pointer select-none" v-if="column.sortable" @click="sortColumn(key)">
                     {{ column.title }}
-                    <!-- <SvgIcon icon="sort" class="w-3 h-3 ms-1.5 cursor-pointer" v-if="column.sortable"/> -->
+                    <div v-if="table.sort && table.sort.column == key">
+                        <SvgIcon icon="sort-up" class="w-3 h-3 ms-1.5 cursor-pointer" v-if="table.sort.sort == 'asc'"/>
+                        <SvgIcon icon="sort-down" class="w-3 h-3 ms-1.5 cursor-pointer" v-else/>
+                    </div>
+                    <div v-else>
+                        <SvgIcon icon="sort" class="w-3 h-3 ms-1.5 cursor-pointer"/>
+                    </div>
+                </div>
+
+                <!-- Simple Column -->
+                <div class="flex items-center select-none" v-else>
+                    {{ column.title }}
                 </div>
             </fwb-table-head-cell>
 
@@ -237,42 +294,42 @@ const openDrawer = (drawer, id = null) => {
 
             <fwb-table-row v-for="row in table.data.data" :key="row.id" :class="table.actions.show ? 'cursor-pointer':''" v-else>
                 <!-- Checkbox -->
-                <fwb-table-cell v-if="table.actions['checkbox']">
+                <fwb-table-cell v-if="table.actions.checkbox">
                     <!-- <TableCheckbox :checkboxId="table.actions.checkbox.id" :row="row" /> -->
                 </fwb-table-cell>
 
                 <!-- Data -->
-                <td @click="table.actions.show ? redirectTo(row.id): ''" v-for="(column, key) in table.columns" class="p-4 text-base font-medium xl:max-w-xs text-gray-900  dark:text-white [&:not(:hover)]:truncate">
+                <td v-for="(column, key) in table.columns" @click="table.actions.show ? redirectTo(row.id): ''" class="p-4 text-base font-medium xl:max-w-xs text-gray-900  dark:text-white [&:not(:hover)]:truncate">
                     <div v-if="column.type == 'bool'">
-                        <TableBool :rowInfo="column" :row="row" :rowKey="key" />
+                        <TableBool :column="column" :row="row" :rowKey="key" />
                     </div>
                     
-                    <div class="flex items-center" v-if="column.type == 'badge'">
-                        <TableBadge :rowInfo="column" :row="row" :rowKey="key" />
+                    <div v-if="column.type == 'badge'">
+                        <TableBadge :column="column" :row="row" :rowKey="key" />
                     </div>
 
                     <span v-if="column.type == 'text'">{{ row[key] }}</span>
                 </td>
 
                 <!-- Action Buttons -->
-                <!-- <fwb-table-cell v-if="rowsInfo.actions.update || rowsInfo.actions.delete || rowsInfo.actions.customActions" class="whitespace-nowrap space-x-2">
-                    <PrimaryButton :id="'update-'+row.id" class="text-sm" icon="pen-to-square" v-if="rowsInfo.actions.update" @click="openDrawer('update', row.id)">
+                <fwb-table-cell v-if="table.actions.update || table.actions.delete || table.actions.customActions" class="whitespace-nowrap space-x-2">
+                    <PrimaryButton :id="'update-'+row.id" class="text-sm" icon="pen-to-square" v-if="table.actions.update" @click="openDrawer('update', row.id)">
                     </PrimaryButton>
 
-                    <DangerButton :id="'delete-'+row.id" class="text-sm" icon="trash-can" v-if="rowsInfo.actions.delete" @click="openDrawer('delete', row.id)">
+                    <DangerButton :id="'delete-'+row.id" class="text-sm" icon="trash-can" v-if="table.actions.delete" @click="openDrawer('delete', row.id)">
                     </DangerButton>
 
-                    <TableCustomButtonAction v-if="rowsInfo.actions.customActions" v-for="customAction in rowsInfo.actions.customActions" :key="row.id" :customAction="customAction" :row="row" />
-                </fwb-table-cell> -->
+                    <TableCustomButtonAction v-if="table.actions.customActions" v-for="customAction in table.actions.customActions" :key="row.id" :customAction="customAction" :row="row" />
+                </fwb-table-cell>
             </fwb-table-row>
         </fwb-table-body>
     </fwb-table>
 
     <!-- Pagination -->
-    <!-- <TablePagination :rows="rows"/> -->
+    <TablePagination :table="table"/>
 
     <!-- CRUD Drawers -->
-    <!-- <slot name="drawerCreate" :drawer="drawerCreate" :uid="uid" v-if="rows.data"/> -->
-    <!-- <slot name="drawerUpdate" :drawer="drawerUpdate" :modelId="modelId" :uid="uid" v-if="rows.data"/> -->
-    <!-- <slot name="drawerDelete" :drawer="drawerDelete" :modelId="modelId" :uid="uid" v-if="rows.data"/> -->
+    <slot name="drawerCreate" :drawer="drawerCreate" :uid="uid" v-if="table.data.data"/>
+    <slot name="drawerUpdate" :drawer="drawerUpdate" :modelId="modelId" :uid="uid" v-if="table.data.data"/>
+    <slot name="drawerDelete" :drawer="drawerDelete" :modelId="modelId" :uid="uid" v-if="table.data.data"/>
 </template>

@@ -101,8 +101,9 @@ class Tournament extends Model {
 
         // If search parameter is given
         if ($search) {
-            $query = $query
-                    ->where("name",   "like", "%{$search}%");
+            $query = $query->whereAny([
+                "name"
+            ], "like", "%{$search}%");
         }
         
         return $query

@@ -33,11 +33,11 @@ class Game extends Model {
         $query = (new static);
 
         // If search parameter is given
-        if ($search) {
-            $query = $query->where(function ($queryWhere) use ($search) {
-                $queryWhere->orWhere("name",   "like", "%{$search}%")
-                      ->orWhere("places", "like", "%{$search}%");
-            });
+        if ($search) {            
+            $query = $query->whereAny([
+                "name",
+                "places",
+            ], "like", "%{$search}%");
         }
         
         return $query

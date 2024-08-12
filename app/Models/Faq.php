@@ -18,10 +18,10 @@ class Faq extends Model
 
         // If search parameter is given
         if ($search) {
-            $query = $query->where(function ($queryWhere) use ($search) {
-                $queryWhere->orWhere("question",   "like", "%{$search}%")
-                      ->orWhere("response", "like", "%{$search}%");
-            });
+            $query = $query->whereAny([
+                "question",
+                "response",
+            ], "like", "%{$search}%");
         }
         
         return $query

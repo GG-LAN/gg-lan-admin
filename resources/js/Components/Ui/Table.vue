@@ -7,11 +7,11 @@ import SvgIcon from "@/Components/Ui/SvgIcon.vue";
 import DangerButton from "@/Components/Forms/DangerButton.vue"
 import SuccessButton from "@/Components/Forms/SuccessButton.vue"
 import PrimaryButton from "@/Components/Forms/PrimaryButton.vue"
-import TablePagination from '@/Components/Ui/TablePagination.vue';
-import TableLabelBool from '@/Components/Ui/TableLabelBool.vue';
-import TableLabelStatus from '@/Components/Ui/TableLabelStatus.vue';
-import TableCheckbox from '@/Components/Ui/TableCheckbox.vue';
-import TableCustomButtonAction from '@/Components/Ui/TableCustomButtonAction.vue';
+import TablePagination from '@/Components/Ui/Table/TablePagination.vue';
+import TableBool from '@/Components/Ui/Table/TableBool.vue';
+import TableBadge from '@/Components/Ui/Table/TableBadge.vue';
+import TableCheckbox from '@/Components/Ui/Table/TableCheckbox.vue';
+import TableCustomButtonAction from '@/Components/Ui/Table/TableCustomButtonAction.vue';
 import {
   FwbA,
   FwbTable,
@@ -196,7 +196,7 @@ const openDrawer = (drawer, id = null) => {
                     </SuccessButton>
                         
                     <PrimaryButton id="reload" class="text-sm" icon="sync" :loading="loading" @click="refresh">
-                        <span class="ml-2">Rafraîchir</span>
+                        <!-- <span class="ml-2">Rafraîchir</span> -->
                     </PrimaryButton>
 
                     <slot name="buttons"/>
@@ -220,7 +220,7 @@ const openDrawer = (drawer, id = null) => {
             <!-- Headers -->
             <fwb-table-head-cell v-for="row in rowsInfo.rows" class="px-4 py-4 font-medium">
                 <div class="flex items-center">
-                    {{ row.title }}
+                    {{ row.label }}
                     <!-- <SvgIcon icon="sort" class="w-3 h-3 ms-1.5"/> -->
                 </div>
             </fwb-table-head-cell>
@@ -252,11 +252,11 @@ const openDrawer = (drawer, id = null) => {
                 <!-- Data -->
                 <td @click="rowsInfo.actions.show ? redirectTo(row.id): ''" v-for="(rowInfo, key) in rowsInfo.rows" class="p-4 text-base font-medium xl:max-w-xs text-gray-900  dark:text-white [&:not(:hover)]:truncate">
                     <div v-if="rowInfo.type == 'bool'">
-                        <TableLabelBool :rowInfo="rowInfo" :row="row" :rowKey="key" />
+                        <TableBool :column="rowInfo" :value="row[key]" />
                     </div>
                     
-                    <div class="flex items-center" v-if="rowInfo.type == 'status'">
-                        <TableLabelStatus :rowInfo="rowInfo" :row="row" :rowKey="key" />
+                    <div class="flex items-center" v-if="rowInfo.type == 'badge'">
+                        <TableBadge :column="rowInfo" :value="row[key]" />
                     </div>
 
                     <span v-if="rowInfo.type == 'text'">{{ row[key] }}</span>
@@ -277,7 +277,7 @@ const openDrawer = (drawer, id = null) => {
     </fwb-table>
 
     <!-- Pagination -->
-    <TablePagination :rows="rows"/>
+    <TablePagination :table="rows"/>
 
     <!-- CRUD Drawers -->
     <slot name="drawerCreate" :drawer="drawerCreate" :uid="uid" v-if="rows.data"/>

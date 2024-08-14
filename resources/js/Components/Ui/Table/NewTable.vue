@@ -3,15 +3,20 @@ import debounce from 'lodash/debounce';
 import { Drawer } from 'flowbite';
 import { onMounted, ref, watch, getCurrentInstance, nextTick } from 'vue';
 import { usePage, router } from '@inertiajs/vue3';
+
 import SvgIcon from "@/Components/Ui/SvgIcon.vue";
 import DangerButton from "@/Components/Forms/DangerButton.vue"
 import SuccessButton from "@/Components/Forms/SuccessButton.vue"
 import PrimaryButton from "@/Components/Forms/PrimaryButton.vue"
+
 import TablePagination from '@/Components/Ui/Table/TablePagination.vue';
 import TableBool from '@/Components/Ui/Table/TableBool.vue';
 import TableBadge from '@/Components/Ui/Table/TableBadge.vue';
+import TableEnum from '@/Components/Ui/Table/TableEnum.vue';
 import TableCheckbox from '@/Components/Ui/Table/TableCheckbox.vue';
 import TableCustomButtonAction from '@/Components/Ui/Table/TableCustomButtonAction.vue';
+import FilterButton from '@/Components/Ui/Table/FilterButton.vue';
+
 import {
   FwbA,
   FwbTable,
@@ -22,15 +27,16 @@ import {
   FwbTableRow,
 } from 'flowbite-vue'
 
+const props = defineProps({
+    table: {
+        type: Object,
+        required: true
+    }
+});
 
 let drawerCreate;
 let drawerUpdate;
 let drawerDelete;
-
-onMounted(() => {
-    // Unique id for each instance of this component
-    uid.value = getCurrentInstance().uid;
-})
 
 const page  = usePage();
 let loading = ref(false);
@@ -39,17 +45,18 @@ let search  = ref();
 let sort    = ref();
 let uid = ref();
 
-if (page.props['filters']) {
-    search = ref(page.props.filters.search);
-    sort   = ref(page.props.filters.sort);
+onMounted(() => {
+    // Unique id for each instance of this component
+    uid.value = getCurrentInstance().uid;
+ })
+
+if (page.props.table.sort) {
+    sort = ref(page.props.table.sort);
 }
 
-const props = defineProps({
-    table: {
-        type: Object,
-        required: true
-    }
-});
+if (page.props.table.search) {
+    search = ref(page.props.table.search);
+}
 
 watch(
     () => uid.value,
@@ -126,7 +133,7 @@ const checkAll = (event) => {
 }
 
 const redirectTo = (id) => {
-    router.get(route(props.table.actions.show.route, id))
+    router.get(route(props.table.actions.show, id))
 }
 
 const refresh = () => {
@@ -167,14 +174,6 @@ const openDrawer = (drawer, id = null) => {
 const sortColumn = (column) => {
     let calculatedSort = "";
     let params = route().queryParams;
-
-    // if (params.sort) {
-    //     if (params.sort.includes(column)) {
-    //         if (params.sort.includes("asc")) {
-    //             calculatedSort = column + ",desc" 
-    //         }            
-    //     }
-    // }
 
     if (params.sort && params.sort.includes(column + ",asc")) {
         calculatedSort = column + ",desc" 
@@ -232,10 +231,12 @@ const sortColumn = (column) => {
                         <span class="ml-2">Ajouter</span>
                     </SuccessButton>
                         
+                    
+                    <FilterButton :table="table" v-if="Object.entries(table.filters).length > 0"/>
+                    
                     <PrimaryButton id="reload" class="text-sm" icon="sync" :loading="loading" @click="refresh">
-                        <span class="ml-2">Rafraîchir</span>
+                        <!-- <span class="ml-2">Rafraîchir</span> -->
                     </PrimaryButton>
-
                     <slot name="buttons"/>
                 </div>
             </div>
@@ -258,10 +259,10 @@ const sortColumn = (column) => {
             <fwb-table-head-cell v-for="(column, key) in table.columns" class="px-4 py-4 font-medium">
                 <!-- Sortable Column -->
                 <div class="flex items-center cursor-pointer select-none" v-if="column.sortable" @click="sortColumn(key)">
-                    {{ column.title }}
+                    {{ column.label }}
                     <div v-if="table.sort && table.sort.column == key">
-                        <SvgIcon icon="sort-up" class="w-3 h-3 ms-1.5 cursor-pointer" v-if="table.sort.sort == 'asc'"/>
-                        <SvgIcon icon="sort-down" class="w-3 h-3 ms-1.5 cursor-pointer" v-else/>
+                        <SvgIcon icon="sort-up" class="w-3 h-3 ms-1.5 cursor-pointer text-white" v-if="table.sort.sort == 'asc'"/>
+                        <SvgIcon icon="sort-down" class="w-3 h-3 ms-1.5 cursor-pointer text-white" v-else/>
                     </div>
                     <div v-else>
                         <SvgIcon icon="sort" class="w-3 h-3 ms-1.5 cursor-pointer"/>
@@ -270,7 +271,7 @@ const sortColumn = (column) => {
 
                 <!-- Simple Column -->
                 <div class="flex items-center select-none" v-else>
-                    {{ column.title }}
+                    {{ column.label }}
                 </div>
             </fwb-table-head-cell>
 
@@ -284,10 +285,10 @@ const sortColumn = (column) => {
         <fwb-table-body class="divide-y divide-gray-200 dark:divide-gray-700">
             <!-- No data row -->
             <fwb-table-row v-if="table.data.data.length === 0" class="text-center">
-                <fwb-table-cell v-if="table.actions.update || table.actions.delete" :colspan="table.misc.columnsCount + 2" class="py-2">
+                <fwb-table-cell v-if="table.actions.update || table.actions.delete" :colspan="table.miscs.columns_count + 2" class="py-2">
                     Pas de résultats...
                 </fwb-table-cell>
-                <fwb-table-cell v-else :colspan="table.misc.columnsCount + 1" class="py-2">
+                <fwb-table-cell v-else :colspan="table.miscs.columns_count + 1" class="py-2">
                     Pas de résultats...
                 </fwb-table-cell>
             </fwb-table-row>
@@ -300,15 +301,21 @@ const sortColumn = (column) => {
 
                 <!-- Data -->
                 <td v-for="(column, key) in table.columns" @click="table.actions.show ? redirectTo(row.id): ''" class="p-4 text-base font-medium xl:max-w-xs text-gray-900  dark:text-white [&:not(:hover)]:truncate">
-                    <div v-if="column.type == 'bool'">
-                        <TableBool :column="column" :row="row" :rowKey="key" />
-                    </div>
+                    <span v-if="column.type == 'bool'">
+                        <TableBool :column="column" :value="row[key]" />
+                    </span>
                     
-                    <div v-if="column.type == 'badge'">
-                        <TableBadge :column="column" :row="row" :rowKey="key" />
-                    </div>
+                    <span v-if="column.type == 'badge'">
+                        <TableBadge :column="column" :value="row[key]" />
+                    </span>
 
-                    <span v-if="column.type == 'text'">{{ row[key] }}</span>
+                    <span v-if="column.type == 'enum'">
+                        <TableEnum :column="column" :value="row[key]" />
+                    </span>
+
+                    <span v-if="column.type == 'text' || column.type == 'date' || column.type == 'compact' ">
+                        {{ row[key] }}
+                    </span>
                 </td>
 
                 <!-- Action Buttons -->

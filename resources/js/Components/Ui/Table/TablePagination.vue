@@ -13,6 +13,10 @@ const props = defineProps({
 });
 
 const rows = computed(() => {
+    if (!props.table.data.from) {
+        return props.table;        
+    }
+    
     return props.table.data;
 });
 </script>

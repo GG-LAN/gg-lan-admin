@@ -7,11 +7,7 @@ const props = defineProps({
         type: Object,
         required: true
     },
-    row: {
-        type: Object,
-        required: true
-    },
-    rowKey: {
+    value: {
         type: String,
         required: true
     }
@@ -19,8 +15,8 @@ const props = defineProps({
 
 const badgeColor = computed(() => {
     let configuration = props.column.badges.find(
-        element => element.value == props.row[props.rowKey]
-    );
+        element => element.value == props.value
+    );    
 
     let badgeClasses = "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300";
 
@@ -46,7 +42,7 @@ const badgeColor = computed(() => {
 
 const textDisplay = computed(() => {
     let configuration = props.column.badges.find(
-        element => element.value == props.row[props.rowKey]
+        element => element.value == props.value
     );
 
     return configuration.label;

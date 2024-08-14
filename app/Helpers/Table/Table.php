@@ -46,12 +46,12 @@ class Table {
         
         $table->request = $request;
 
-        $columns = $table->generateColumns();
-        $filters = $table->generateFilters();
-        $actions = $table->generateActions();
-        $miscs   = $table->generateMiscs();
-        $sort    = $table->generateSort();
-        $data    = $table->generateData();
+        $columns = $table->makeColumns();
+        $filters = $table->makeFilters();
+        $actions = $table->makeActions();
+        $miscs   = $table->makeMiscs();
+        $sort    = $table->makeSort();
+        $data    = $table->makeData();
 
         return [
             "columns" => $columns,
@@ -63,7 +63,7 @@ class Table {
         ];
     }
 
-    private function generateColumns() {
+    private function makeColumns() {
         $columns = [];
 
         foreach ($this->columns() as $column) {
@@ -82,11 +82,11 @@ class Table {
         return $columns;
     }
 
-    private function generateFilters() {
+    private function makeFilters() {
         return $this->filters();
     }
 
-    private function generateActions() {
+    private function makeActions() {
         $actions = $this->defaultActions;
 
         foreach ($this->actions() as $key => $action) {
@@ -98,13 +98,13 @@ class Table {
         return $actions;
     }
 
-    private function generateMiscs() {
+    private function makeMiscs() {
         return [
             "columns_count" => count($this->columns()),
         ];
     }
 
-    private function generateSort() {
+    private function makeSort() {
         $sort = $this->request->sort;
         
         if(!$sort) {
@@ -117,7 +117,7 @@ class Table {
         ];
     }
 
-    private function generateData() {
+    private function makeData() {
         $eloquent = $this->modelClass;
 
         $search = $this->request->search;
@@ -150,26 +150,55 @@ class Table {
             $results = ["id" => $model->id];
             
             foreach ($this->columns() as $column) {
-                $key = $column->name;
+                $data = $this->handleColumnToData($model, $column);
                 
-                if (Str::contains($key, ".")) {
-                    $key1 = Str::before($key, ".");
-                    $key2 = Str::after($key, ".");
-
-                    $results[$key] = $model->$key1->$key2;
-                }
-                else if ($column->type == "date") {
-                    $date = new Carbon($model->$key);
-                    $date = $date->format($column->date_format);
-                    
-                    $results[$key] = $date;
-                }
-                else {
-                    $results[$key] = $model->$key;
-                }                
+                $results[$data["key"]] = $data["value"];
             }
             
+            // dd($results);
             return $results;
         });
+    }
+
+    private function handleColumnToData($model, $column) {
+        $key = $column->name;
+        $value = "";
+                
+        if (Str::contains($key, ".")) {
+            $key1 = Str::before($key, ".");
+            $key2 = Str::after($key, ".");
+
+            $value = $model->$key1->$key2;
+        }
+        else {
+            switch ($column->type) {
+                case 'date':
+                    $date = new Carbon($model->$key);
+                    $date = $date->format($column->date_format);
+
+                    $value = $date;
+                break;
+
+                case 'compact':
+                    $value = "";
+                    
+                    // dd($key);
+                    foreach ($column->columns as $colKey => $compactColumn) {
+                        $value .= $colKey ? $column->separator : "";
+                        
+                        $value .= $this->handleColumnToData($model, $compactColumn)["value"];
+                    }
+                break;
+                
+                default:
+                    $value = $model->$key;
+                break;
+            }
+        }
+
+        return [
+            "key" => $key,
+            "value" => $value
+        ];
     }
 }

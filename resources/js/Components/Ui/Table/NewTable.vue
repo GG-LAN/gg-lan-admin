@@ -50,9 +50,6 @@ onMounted(() => {
     uid.value = getCurrentInstance().uid;
  })
 
-if (page.props.table.sort) {
-    sort = ref(page.props.table.sort);
-}
 
 if (page.props.table.search) {
     search = ref(page.props.table.search);

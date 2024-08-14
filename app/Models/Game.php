@@ -28,28 +28,4 @@ class Game extends Model {
     public function tournaments() {
         return $this->hasMany('App\Models\Tournament');
     }
-
-    public static function getGames($numberOfItemsPerPage = 5, $search = null) {
-        $query = (new static);
-
-        // If search parameter is given
-        if ($search) {            
-            $query = $query->whereAny([
-                "name",
-                "places",
-            ], "like", "%{$search}%");
-        }
-        
-        return $query
-        ->paginate($numberOfItemsPerPage)
-        ->withQueryString()
-        ->through(function($game) {
-            return [
-                "id"        => $game->id,
-                "name"      => $game->name,
-                "places"    => $game->places,
-                "game_type" => $game->places > 1 ? "Équipe" : "Solo",
-            ];
-        });
-    }
 }

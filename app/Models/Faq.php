@@ -12,27 +12,4 @@ class Faq extends Model
     protected $fillable = [
         "question", "response"
     ];
-
-    public static function getFaqs($numberOfItemsPerPage = 5, $search = null) {
-        $query = (new static);
-
-        // If search parameter is given
-        if ($search) {
-            $query = $query->whereAny([
-                "question",
-                "response",
-            ], "like", "%{$search}%");
-        }
-        
-        return $query
-        ->paginate($numberOfItemsPerPage)
-        ->withQueryString()
-        ->through(function($faq) {
-            return [
-                "id"        => $faq->id,
-                "question"  => $faq->question,
-                "response"  => $faq->response,
-            ];
-        });
-    }
 }

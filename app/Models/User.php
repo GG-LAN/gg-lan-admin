@@ -65,30 +65,4 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isAdmin() {
         return $this->admin ? true : false;
     }
-
-    public static function getPlayers($numberOfItemsPerPage = 5, $search = null) {
-        $query = (new static);
-
-        // If search parameter is given
-        if ($search) {
-            $query = $query->whereAny([
-                "name",
-                "pseudo",
-                "email"
-            ], "like", "%{$search}%");
-        }
-        
-        return $query
-        ->paginate($numberOfItemsPerPage)
-        ->withQueryString()
-        ->through(function($player) {
-            return [
-                "id"     => $player->id,
-                "name"   => $player->name,
-                "pseudo" => $player->pseudo,
-                "email"  => $player->email,
-                "admin"  => $player->admin,
-            ];
-        });
-    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use Inertia\Inertia;
+use App\Tables\Games;
 use Illuminate\Http\Request;
 use App\Http\Requests\Games\StoreGameRequest;
 use App\Http\Requests\Games\UpdateGameRequest;
@@ -12,31 +13,6 @@ class GameController extends Controller
 {
 
     public function index(Request $request) {
-        $games = Game::getGames(5, $request->search);
-
-        $rowsInfo = [
-            "rows" => [
-                "name" => [
-                    "type" => "text",
-                    "title" => "Nom",
-                ],
-                "places" => [
-                    "type" => "text",
-                    "title" => "Joueurs / Equipe",
-                ],
-                "game_type" => [
-                    "type" => "text",
-                    "title" => "Type",
-                ],
-            ],
-            "actions" => [
-                "search" => true,
-                "create" => true,
-                "update" => true,
-                "delete" => true,
-            ],
-        ];
-
         $breadcrumbs = [
             [
                 "label"   => "Jeux",
@@ -46,11 +22,7 @@ class GameController extends Controller
         ];
 
         return Inertia::render('Games/Index', [
-            "tableData"     => $games,
-            "tableRowsInfo" => $rowsInfo,
-            "filters" => [
-                "search" => $request->search
-            ],
+            "table" => Games::table($request),
             "breadcrumbs" => $breadcrumbs,
         ]);
     }

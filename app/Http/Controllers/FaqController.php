@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Faq;
+use App\Tables\Faqs;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Requests\Faqs\StoreFaqRequest;
@@ -11,27 +12,6 @@ use App\Http\Requests\Faqs\UpdateFaqRequest;
 class FaqController extends Controller
 {
     public function index(Request $request) {
-        $faqs = Faq::getFaqs(5, $request->search);
-
-        $rowsInfo = [
-            "rows" => [
-                "question" =>  [
-                    "type" => "text",
-                    "title" => "Question"
-                ],
-                "response" => [
-                    "type" => "text",
-                    "title" => "Réponse"
-                ]
-            ],
-            "actions" => [
-                "search" => true,
-                "create" => true,
-                "update" => true,
-                "delete" => true,
-            ]
-        ];
-
         $breadcrumbs = [
             [
                 "label"   => "FAQ",
@@ -41,11 +21,7 @@ class FaqController extends Controller
         ];
 
         return Inertia::render('Faqs/Index', [
-            "tableData"     => $faqs,
-            "tableRowsInfo" => $rowsInfo,
-            "filters" => [
-                "search" => $request->search
-            ],
+            "table"       => Faqs::table($request),
             "breadcrumbs" => $breadcrumbs,
         ]);
     }

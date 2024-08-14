@@ -40,24 +40,24 @@ class PaymentController extends Controller
             "rows" => [
                 "pseudo" => [
                     "type" => "text",
-                    "title" => "Joueur",
+                    "label" => "Joueur",
                 ],
                 "tournament_name" => [
                     "type" => "text",
-                    "title" => "Tournois",
+                    "label" => "Tournois",
                 ],
                 "status" => [
-                    "type" => "status",
-                    "title" => "Statut",
-                    "status" => [
+                    "type" => "badge",
+                    "label" => "Statut",
+                    "badges" => [
                         [
-                            "id" => "paid",
-                            "text" => "Payé",
+                            "value" => "paid",
+                            "label" => "Payé",
                             "color" => "green"
                         ],
                         [
-                            "id" => "not_paid",
-                            "text" => "Pas payé",
+                            "value" => "not_paid",
+                            "label" => "Pas payé",
                             "color" => "red"
                         ],
                     ]

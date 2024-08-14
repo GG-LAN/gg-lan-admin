@@ -6,6 +6,7 @@ use App\Models\Game;
 use Inertia\Inertia;
 use App\Models\Setting;
 use App\Models\Tournament;
+use App\Tables\Tournaments;
 use App\Helpers\ImageUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Number;
@@ -17,9 +18,7 @@ use App\Http\Requests\Tournaments\UpdateTournamentImageRequest;
 
 class TournamentController extends Controller
 {
-    public function index(Request $request) {        
-        $table = Tournament::table(search: $request->search, sort: $request->sort);
-
+    public function index(Request $request) {
         $breadcrumbs = [
             [
                 "label"   => "Tournois",
@@ -29,11 +28,7 @@ class TournamentController extends Controller
         ];
 
         return Inertia::render('Tournaments/Index', [
-            "table" => $table,
-            "filters" => [
-                "search" => $request->search,
-                "sort" => $request->sort
-            ],
+            "table" => Tournaments::table($request),
             "breadcrumbs" => $breadcrumbs,
         ]);
     }
@@ -129,15 +124,15 @@ class TournamentController extends Controller
             "rows" => [
                 "name" => [
                     "type" => "text",
-                    "title" => "Nom",
+                    "label" => "Nom",
                 ],
                 "price" => [
                     "type" => "text",
-                    "title" => "Prix",
+                    "label" => "Prix",
                 ],
                 "active" => [
                     "type" => "bool",
-                    "title" => "Statut",
+                    "label" => "Statut",
                     "label_true" => "Actif",
                     "label_false" => "Inactif",
                 ],
@@ -170,40 +165,34 @@ class TournamentController extends Controller
             $teamsRowsInfo = [
                 "rows" => [
                     "name" => [
+                        "name" => "name",
                         "type" => "text",
-                        "title" => "Nom",
+                        "label" => "Nom",
                     ],
                     "registration_state" => [
-                        "type" => "status",
-                        "title" => "Statut",
-                        "status" => [
+                        "name" => "registration_state",
+                        "type" => "badge",
+                        "label" => "Statut",
+                        "badges" => [
                             [
-                                "id" => "not_full",
-                                "text" => "Incomplète",
+                                "value" => "not_full",
+                                "label" => "Incomplète",
                                 "color" => "red"
                             ],
                             [
-                                "id" => "pending",
-                                "text" => "En attente",
+                                "value" => "pending",
+                                "label" => "En attente",
                                 "color" => "orange"
                             ],
                             [
-                                "id" => "registered",
-                                "text" => "Inscrite",
+                                "value" => "registered",
+                                "label" => "Inscrite",
                                 "color" => "green"
                             ],
                         ]
                     ],
                 ],
-                "actions" => [
-                    // "search" => true,
-                    // "create" => true,
-                    // "update" => true,
-                    // "delete" => true,
-                    // "show" => [
-                    //     "route" => "teams.show"
-                    // ]
-                ],
+                "actions" => [],
             ];
         }
         else {
@@ -217,15 +206,12 @@ class TournamentController extends Controller
             $playersRowsInfo = [
                 "rows" => [
                     "pseudo" => [
+                        "name" => "pseudo",
                         "type" => "text",
-                        "title" => "Pseudo",
+                        "label" => "Pseudo",
                     ],
                 ],
                 "actions" => [
-                    // "search" => true,
-                    // "create" => true,
-                    // "update" => true,
-                    // "delete" => true,
                     "show" => [
                         "route" => "players.show"
                     ]
@@ -244,11 +230,6 @@ class TournamentController extends Controller
             "playersRowsInfo" => $playersRowsInfo,
             
             "games" => Game::all(),
-            // "status" => [
-            //     ["id" => "open", "name" => "Ouvert"],
-            //     ["id" => "closed", "name" => "Fermé"],
-            //     ["id" => "finished", "name" => "Terminé"],
-            // ],
             "breadcrumbs" => $breadcrumbs,
             "tournament"  => $tournament
         ]);

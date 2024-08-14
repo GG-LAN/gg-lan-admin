@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Inertia\Inertia;
+use App\Tables\Players;
 use Illuminate\Http\Request;
 use App\Http\Requests\Players\StorePlayerRequest;
 use App\Http\Requests\Players\UpdatePlayerRequest;
@@ -11,40 +12,6 @@ use App\Http\Requests\Players\UpdatePlayerRequest;
 class PlayerController extends Controller
 {
     public function index(Request $request) {
-        $players = User::getPlayers(5, $request->search);
-        
-        $rowsInfo = [
-            "rows" => [
-                "name" => [
-                    "type" => "text",
-                    "title" => "Nom",
-                ],
-                "pseudo" => [
-                    "type" => "text",
-                    "title" => "Pseudo",
-                ],
-                "email" => [
-                    "type" => "text",
-                    "title" => "Email",
-                ],
-                "admin" => [
-                    "type" => "bool",
-                    "title" => "Role",
-                    "label_true" => "Admin",
-                    "label_false" => "Joueur",
-                ],
-            ],
-            "actions" => [
-                "search" => true,
-                "create" => true,
-                "update" => true,
-                "delete" => true,
-                "show" => [
-                    "route" => "players.show"
-                ]
-            ],
-        ];
-
         $breadcrumbs = [
             [
                 "label"   => "Joueurs",
@@ -54,11 +21,7 @@ class PlayerController extends Controller
         ];
 
         return Inertia::render('Players/Index', [
-            "tableData"     => $players,
-            "tableRowsInfo" => $rowsInfo,
-            "filters" => [
-                "search" => $request->search
-            ],
+            "table"       => Players::table($request),
             "breadcrumbs" => $breadcrumbs,
         ]);
     }
@@ -105,15 +68,15 @@ class PlayerController extends Controller
             "rows" => [
                 "name" => [
                     "type" => "text",
-                    "title" => "Nom",
+                    "label" => "Nom",
                 ],
                 "tournament_name" => [
                     "type" => "text",
-                    "title" => "Tournois",
+                    "label" => "Tournois",
                 ],
                 "is_full" => [
                     "type" => "bool",
-                    "title" => "Status",
+                    "label" => "Status",
                     "label_true" => "Complète",
                     "label_false" => "Incomplète",
                 ],
@@ -135,7 +98,7 @@ class PlayerController extends Controller
             "rows" => [
                 "name" => [
                     "type" => "text",
-                    "title" => "Nom",
+                    "label" => "Nom",
                 ]
             ],
             "actions" => [

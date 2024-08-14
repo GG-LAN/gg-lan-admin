@@ -23,7 +23,7 @@ class Table {
 
     protected array $searchableColumnsName = [];
 
-    protected $defaultSort = "created_at,desc";
+    protected $defaultSort = "id,asc";
     
     private Request $request;
 

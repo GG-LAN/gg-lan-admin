@@ -23,7 +23,10 @@ class Table {
 
     protected array $searchableColumnsName = [];
 
+    protected $defaultSort = "created_at,desc";
+    
     private Request $request;
+
 
     public function __construct() {
         $this->modelClass = new $this->model;
@@ -51,6 +54,7 @@ class Table {
         $actions = $table->makeActions();
         $miscs   = $table->makeMiscs();
         $sort    = $table->makeSort();
+        $search  = $table->makeSearch();
         $data    = $table->makeData();
 
         return [
@@ -59,6 +63,7 @@ class Table {
             "filters" => $filters,
             "miscs"   => $miscs,
             "sort"    => $sort,
+            "search"  => $search,
             "data"    => $data,
         ];
     }
@@ -117,6 +122,10 @@ class Table {
         ];
     }
 
+    private function makeSearch() {
+        return $this->request->search;
+    }
+
     private function makeData() {
         $eloquent = $this->modelClass;
 
@@ -139,8 +148,10 @@ class Table {
             );
         }
         else {
-            // Sort by desc created_at by default
-            $eloquent = $eloquent->orderBy('created_at', 'desc');
+            $eloquent = $eloquent->orderBy(
+                explode(",", $this->defaultSort)[0],
+                explode(",", $this->defaultSort)[1]
+            );
         }
         
         return $eloquent

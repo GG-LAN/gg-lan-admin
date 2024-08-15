@@ -129,8 +129,11 @@ class Table {
     private function makeData() {
         $eloquent = $this->modelClass;
 
-        $search = $this->request->search;
-        $sort   = $this->request->sort;
+        $itemsPerPage = $this->itemsPerPage;
+
+        $search  = $this->request->search;
+        $sort    = $this->request->sort;
+        $perPage = $this->request->perPage;
 
         // If search parameter is given
         if ($search) {
@@ -153,9 +156,13 @@ class Table {
                 explode(",", $this->defaultSort)[1]
             );
         }
+
+        if ($perPage) {
+            $itemsPerPage = $perPage;
+        }
         
         return $eloquent
-        ->paginate($this->itemsPerPage)
+        ->paginate($itemsPerPage)
         ->withQueryString()
         ->through(function($model) {
             $results = ["id" => $model->id];
@@ -166,7 +173,6 @@ class Table {
                 $results[$data["key"]] = $data["value"];
             }
             
-            // dd($results);
             return $results;
         });
     }

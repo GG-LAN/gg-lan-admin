@@ -43,6 +43,7 @@ let loading = ref(false);
 let modelId = ref();
 let search  = ref();
 let sort    = ref();
+let perPage = ref();
 let uid = ref();
 
 onMounted(() => {
@@ -53,6 +54,10 @@ onMounted(() => {
 
 if (page.props.table.search) {
     search = ref(page.props.table.search);
+}
+
+if (page.props.table.data.per_page) {
+    perPage = ref(page.props.table.data.per_page);
 }
 
 watch(
@@ -89,7 +94,8 @@ watch(
 watch(search, debounce(value => {
     router.get(route(route().current()), {
         search: value,
-        sort: sort.value
+        sort: sort.value,
+        perPage: perPage.value
     },{ 
         preserveState: true,
         preserveScroll: true,
@@ -103,10 +109,29 @@ watch(search, debounce(value => {
     });
 }, 300));
 
+watch(perPage, value => {
+    router.get(route(route().current()), {
+        search: search.value,
+        sort: sort.value,
+        perPage: value
+    },{ 
+        preserveState: true,
+        preserveScroll: true,
+        replace: true,
+        onStart: () => {
+            loading.value = true;
+        },
+        onFinish: () => {
+            loading.value = false;
+        }
+    });
+})
+
 watch(sort, value => {
     router.get(route(route().current()), {
         search: search.value,
-        sort: value
+        sort: value,
+        perPage: perPage.value
     },{ 
         preserveState: true,
         preserveScroll: true,
@@ -183,6 +208,10 @@ const sortColumn = (column) => {
     }
     
     sort.value = calculatedSort
+}
+
+const updatePerPage = (page) => {
+    perPage.value = page;
 }
 </script>
 
@@ -330,7 +359,7 @@ const sortColumn = (column) => {
     </fwb-table>
 
     <!-- Pagination -->
-    <TablePagination :table="table"/>
+    <TablePagination :table="table" :perPage="perPage" @updatePerPage="(page) => updatePerPage(page)"/>
 
     <!-- CRUD Drawers -->
     <slot name="drawerCreate" :drawer="drawerCreate" :uid="uid" v-if="table.data.data"/>

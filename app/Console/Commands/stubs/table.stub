@@ -1,0 +1,32 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Models\{{ model }};
+use App\Helpers\Table\Table;
+
+class {{ class }} extends Table
+{
+    protected $model = {{ model }}::class;
+
+    public function columns(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    public function filters(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    public function actions(): array
+    {
+        return [
+            //
+        ];
+    }
+}

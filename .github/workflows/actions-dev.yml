@@ -2,7 +2,7 @@ name: GG-LAN CI/CD
 
 on:
   push:
-    branches: ["master"]
+    branches: ["dev"]
 
 jobs:
   testing:
@@ -63,11 +63,11 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port:     ${{ secrets.SSH_PORT }}
           script: |
-            cd /var/www/gg-lan-admin
-            git checkout master
+            cd /var/www/gg-lan-admin-test
+            git checkout dev
             git pull
 
-            composer install --no-dev
+            composer install
             npm install
 
             php artisan migrate

@@ -38,10 +38,6 @@ class StatController extends Controller {
             "series" => [],
             "labels" => []
         ];
-
-        if (!$tournaments->count()) {
-            return ApiResponse::success("", $percentage);
-        }
         
         foreach ($tournaments as $tournament) {
             $totalRegistration = 0;

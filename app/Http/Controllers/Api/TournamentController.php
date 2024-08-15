@@ -115,12 +115,6 @@ class TournamentController extends Controller {
     }
 
     public function getPaymentLink(GetPaymentLinkRequest $request, Tournament $tournament) {
-        // return response()->json([
-        //     "status" => "success",
-        //     "data" => [
-        //         "payment_url" => $tournament->getPaymentLink($request)
-        //     ]
-        // ]);
         return ApiResponse::success("", [
             "payment_url" => $tournament->getPaymentLink($request)
         ]);

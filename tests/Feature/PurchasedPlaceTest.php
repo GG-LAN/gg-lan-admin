@@ -29,7 +29,7 @@ it("can_get_purchased_place", function () {
     ]);
 });
 
-it("can_cant_register_purchase_place_as_another_user", function () {
+it("cant_register_purchase_place_as_another_user", function () {
     $user = User::factory()->create();
     $anotherUser = User::factory()->create();
 
@@ -65,11 +65,12 @@ it("can_register_purchase_place", function () {
 
     $this->assertDatabaseHas("purchased_places", [
         "user_id" => $user->id,
-        'tournament_price_id' => $tournamentPrice->id
+        'tournament_price_id' => $tournamentPrice->id,
+        "paid" => true
     ]);
 });
 
-it("can_cant_register_purchase_place_if_already_purchased", function () {
+it("cant_register_purchase_place_if_already_purchased", function () {
     $user = User::factory()->create();
 
     $tournament = Tournament::factory()->create();

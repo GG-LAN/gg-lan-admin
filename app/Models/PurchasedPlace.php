@@ -12,7 +12,11 @@ class PurchasedPlace extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'tournament_price_id'
+        'user_id', 'tournament_price_id', 'paid',
+    ];
+
+    protected $casts = [
+        'paid' => 'boolean',
     ];
 
     public function user() {
@@ -32,5 +36,29 @@ class PurchasedPlace extends Model
               where("user_id", $user->id)
             ->where("tournament_price_id", $tournament->currentPrice()->id)
             ->exists();
+    }
+
+    public static function register(User $user, Tournament $tournament, $paid = false) {
+        $price = $tournament->currentPrice();
+        
+        $payment = (new static)->firstOrCreate([
+            "user_id" => $user->id,
+            "tournament_price_id" => $price->id
+        ]);
+        
+        $payment->update([
+            "paid" => $paid
+        ]);
+        
+        return $payment;
+    }
+
+    public static function unregister(User $user, Tournament $tournament) {
+        $payment = (new static)->firstOrCreate([
+            "user_id" => $user->id,
+            "tournament_price_id" => $tournament->currentPrice()->id
+        ]);
+
+        return $payment->delete();
     }
 }

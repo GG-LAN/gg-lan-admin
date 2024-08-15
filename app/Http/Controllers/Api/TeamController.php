@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Tournament;
 use App\Events\TeamUpdated;
 use App\Helpers\ApiResponse;
+use App\Models\PurchasedPlace;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Teams\StoreTeamRequest;
@@ -60,9 +61,11 @@ class TeamController extends Controller {
             'image'         => $request->image,
             'tournament_id' => $request->tournament_id
         ]);
+        $captain = Auth::user();
 
         // Add the current player to the team as captain
-        $team->users()->attach(Auth::user(), ['captain' => true]);
+        $team->users()->attach($captain, ['captain' => true]);
+        PurchasedPlace::register($captain, $tournament);
         
         return ApiResponse::created("", $team);
     }
@@ -94,6 +97,7 @@ class TeamController extends Controller {
             }
             
             $team->users()->attach($player);
+            PurchasedPlace::register($player, $team->tournament);
 
             TeamUpdated::dispatch($team);
 
@@ -124,6 +128,7 @@ class TeamController extends Controller {
         }
 
         $team->users()->detach($player);
+        PurchasedPlace::unregister($player, $team->tournament);
 
         TeamUpdated::dispatch($team);
 

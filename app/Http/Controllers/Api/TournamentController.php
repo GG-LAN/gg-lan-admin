@@ -5,6 +5,7 @@ use Auth;
 use App\Models\User;
 use App\Models\Tournament;
 use App\Helpers\ApiResponse;
+use App\Models\PurchasedPlace;
 use App\Models\TournamentPrice;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
@@ -66,6 +67,7 @@ class TournamentController extends Controller {
         
         if(!$tournament->checkPlayerIsRegistered($player)) {
             $tournament->players()->attach($player);
+            PurchasedPlace::register($player, $tournament);
             
             return ApiResponse::success(__("responses.tournaments.registered"), $tournament);
         }
@@ -83,6 +85,7 @@ class TournamentController extends Controller {
 
         if($tournament->checkPlayerIsRegistered($player)) {
             $tournament->players()->detach($player);
+            PurchasedPlace::unregister($player, $tournament);
     
             return ApiResponse::success(__("responses.tournaments.unregistered"), $tournament);
         }

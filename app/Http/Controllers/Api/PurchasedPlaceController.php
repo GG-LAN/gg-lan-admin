@@ -33,10 +33,7 @@ class PurchasedPlaceController extends Controller
 
         // Create new purchased place
         if (!PurchasedPlace::checkExist(Auth::user(), $tournament)) {
-            $purchasedPlace = PurchasedPlace::create([
-                'user_id' => $user->id,
-                'tournament_price_id' => $tournament->currentPrice()->id
-            ]);
+            $purchasedPlace = PurchasedPlace::register($user, $tournament, true);
                         
             return ApiResponse::created(__("responses.purchasedPlaces.registered"), $purchasedPlace);
         }

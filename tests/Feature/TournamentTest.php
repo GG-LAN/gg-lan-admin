@@ -45,7 +45,16 @@ it("can_get_tournament", function () {
 });
 
 it("can_add_player_to_tournament_of_type_solo", function () {
-    $tournament = Tournament::factory()->create([
+    $tournament = Tournament::factory()
+    ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
+        return [
+            'name' => $tournament->name,
+            'tournament_id' => $tournament->id,
+            'type' => 'normal',
+            'active' => true
+        ];
+    }), "prices")
+    ->create([
         'type' => 'solo',
         'status' => 'open'
     ]);
@@ -61,7 +70,16 @@ it("can_add_player_to_tournament_of_type_solo", function () {
 });
 
 it("can_add_player_to_tournament_of_type_solo_as_admin", function () {
-    $tournament = Tournament::factory()->create([
+    $tournament = Tournament::factory()
+    ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
+        return [
+            'name' => $tournament->name,
+            'tournament_id' => $tournament->id,
+            'type' => 'normal',
+            'active' => true
+        ];
+    }), "prices")
+    ->create([
         'type' => 'solo',
         'status' => 'open'
     ]);
@@ -80,7 +98,8 @@ it("can_add_player_to_tournament_of_type_solo_as_admin", function () {
 });
 
 it("cant_add_another_player_to_tournament_of_type_solo", function () {
-    $tournament = Tournament::factory()->create([
+    $tournament = Tournament::factory()
+    ->create([
         'type' => 'solo',
         'status' => 'open'
     ]);
@@ -97,7 +116,16 @@ it("cant_add_another_player_to_tournament_of_type_solo", function () {
 });
 
 it("can_remove_player_from_tournament_of_type_solo", function () {
-    $tournament = Tournament::factory()->create([
+    $tournament = Tournament::factory()
+    ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
+        return [
+            'name' => $tournament->name,
+            'tournament_id' => $tournament->id,
+            'type' => 'normal',
+            'active' => true
+        ];
+    }), "prices")
+    ->create([
         'type' => 'solo',
         'status' => 'open'
     ]);
@@ -115,7 +143,8 @@ it("can_remove_player_from_tournament_of_type_solo", function () {
 });
 
 it("cant_remove_another_player_from_tournament_of_type_solo", function () {
-    $tournament = Tournament::factory()->create([
+    $tournament = Tournament::factory()
+    ->create([
         'type' => 'solo',
         'status' => 'open'
     ]);
@@ -132,7 +161,16 @@ it("cant_remove_another_player_from_tournament_of_type_solo", function () {
 });
 
 it("can_remove_player_from_tournament_of_type_solo_as_admin", function () {
-    $tournament = Tournament::factory()->create([
+    $tournament = Tournament::factory()
+    ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
+        return [
+            'name' => $tournament->name,
+            'tournament_id' => $tournament->id,
+            'type' => 'normal',
+            'active' => true
+        ];
+    }), "prices")
+    ->create([
         'type' => 'solo',
         'status' => 'open'
     ]);
@@ -293,5 +331,60 @@ it("cant_unregister_twice_player_to_same_tournament", function () {
     ->assertJson([
         'status'  => "error",
         'message' => __("responses.tournaments.not_registered")
+    ]);
+});
+
+test("A purchased place is created after registering a player to a tournament", function () {
+    $tournament = Tournament::factory()
+    ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
+        return [
+            'name' => $tournament->name,
+            'tournament_id' => $tournament->id,
+            'type' => 'normal',
+            'active' => true
+        ];
+    }), "prices")
+    ->create([
+        'type' => 'solo',
+        'status' => 'open',
+        'places' => 4
+    ]);    
+
+    $user = User::factory()->create();
+
+    $this->actingAs($user)->post('/api/tournaments/'.$tournament->id.'/register/'.$user->id);
+
+    $this->assertDatabaseHas("purchased_places", [
+        "user_id" => $user->id,
+        'tournament_price_id' => $tournament->currentPrice()->id,
+        "paid" => false,
+    ]);
+});
+
+test("Purchased place is deleted after unregistering a player from a tournament", function () {
+    $tournament = Tournament::factory()
+    ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
+        return [
+            'name' => $tournament->name,
+            'tournament_id' => $tournament->id,
+            'type' => 'normal',
+            'active' => true
+        ];
+    }), "prices")
+    ->create([
+        'type' => 'solo',
+        'status' => 'open',
+        'places' => 4
+    ]);    
+
+    $user = User::factory()->create();
+
+    $tournament->players()->attach($user);
+
+    $this->actingAs($user)->post('/api/tournaments/'.$tournament->id.'/unregister/'.$user->id);
+
+    $this->assertDatabaseMissing("purchased_places", [
+        "user_id" => $user->id,
+        'tournament_price_id' => $tournament->currentPrice()->id,
     ]);
 });

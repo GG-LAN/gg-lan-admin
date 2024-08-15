@@ -1,4 +1,4 @@
-name: GG-LAN CI/CD
+name: GG-LAN CI/CD PROD
 
 on:
   push:

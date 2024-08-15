@@ -29,7 +29,7 @@ class Tournaments extends Table {
             EnumColumn::add("type", "Type", [
                 EnumColumn::Enum("team", "Équipe"),
                 EnumColumn::Enum("solo", "Solo"),
-            ]),
+            ])->sortable(true),
             
             TextColumn::add("places", "Places")->searchable(true)->sortable(true),
             TextColumn::add("cashprize", "Cashprize (€)")->searchable(true)->sortable(true),

@@ -22,11 +22,10 @@ use App\Http\Controllers\Api\PurchasedPlaceController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::controller(AuthController::class)->group(function() {
         Route::get('user', 'user');
-        Route::get('email/resend', 'resend')->name('verification.resend.api');
+        Route::get('email/resend', 'resend')->name('verification.resend.api')->middleware("throttle:3,1");;
         Route::post('logout', 'logout');
     });
 });
@@ -37,11 +36,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::controller(AuthController::class)->group(function() {
-    Route::post('register', 'register');
+    Route::post('register', 'register')->middleware("throttle:3,1");
     Route::post('login', 'login')->name("login.api");
     Route::get('email/verify/{id}/{hash}', 'verify')->name('verification.verify.api');
     Route::get('not-verified', 'notVerified')->name('verification.notice.api');
-    Route::post('forgot-password', 'forgotPassword');
+    Route::post('forgot-password', 'forgotPassword')->middleware("throttle:3,1");;
     Route::post('reset-password', 'resetPassword');
 });
 

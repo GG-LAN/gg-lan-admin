@@ -37,7 +37,7 @@ class TeamSeeder extends Seeder
         */
         
         // 1 registered team of User 2
-        $team = Team::factory()
+        $team1 = Team::factory()
             ->for($openTeamTournament)
             ->hasAttached($captain, ["captain" => true])
             ->has(User::factory(4))
@@ -46,7 +46,7 @@ class TeamSeeder extends Seeder
         ]);
 
         // 1 random registered team
-        Team::factory()
+        $team2 = Team::factory()
             ->for($openTeamTournament)
             ->hasAttached(User::factory(), ["captain" => true])
             ->has(User::factory(4))
@@ -55,7 +55,13 @@ class TeamSeeder extends Seeder
         ]);
 
         // 2 random not full team
-        Team::factory(2)
+        $team3 = Team::factory()
+            ->for($openTeamTournament)
+            ->hasAttached(User::factory(), ["captain" => true])
+            ->has(User::factory(3))
+        ->create();
+        
+        $team4= Team::factory()
             ->for($openTeamTournament)
             ->hasAttached(User::factory(), ["captain" => true])
             ->has(User::factory(3))
@@ -82,7 +88,7 @@ class TeamSeeder extends Seeder
         */
         
         // Register an old team of captain just for history
-        Team::factory()
+        $team5 = Team::factory()
             ->for($finishedTeamTournament)
             ->hasAttached($captain, ["captain" => true])
             ->has(User::factory(4))
@@ -109,20 +115,30 @@ class TeamSeeder extends Seeder
         |--------------------------------------------------------------------------
         */
         
-        // Create purchased places for a team
-        foreach ($team->users as $player) {
-            PurchasedPlace::factory()->create([
-                "user_id" => $player->id,
-                "tournament_price_id" => $openTeamTournament->currentPrice()->id
-            ]);
+        // Create purchased places for teams
+        foreach ($team1->users as $player) {
+            PurchasedPlace::register($player, $openTeamTournament, paid: true);
+        }
+
+        foreach ($team2->users as $player) {
+            PurchasedPlace::register($player, $openTeamTournament);
+        }
+
+        foreach ($team3->users as $player) {
+            PurchasedPlace::register($player, $openTeamTournament);
+        }
+
+        foreach ($team4->users as $player) {
+            PurchasedPlace::register($player, $openTeamTournament, paid: true);
+        }
+
+        foreach ($team5->users as $player) {
+            PurchasedPlace::register($player, $openTeamTournament);
         }
 
         // Create purchased places for solo players
         foreach ($soloUsers as $player) {
-            PurchasedPlace::factory()->create([
-                "user_id" => $player->id,
-                "tournament_price_id" => $openSoloTournament->currentPrice()->id
-            ]);
+            PurchasedPlace::register($player, $openSoloTournament);
         }
     }
 }

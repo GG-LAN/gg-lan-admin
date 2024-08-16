@@ -18,6 +18,7 @@ class Table
         "update" => false,
         "delete" => false,
         "show"   => false,
+        "customActions" => [],
     ];
 
     protected $model;

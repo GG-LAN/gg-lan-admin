@@ -7,7 +7,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
-class Table {
+class Table
+{
     private array $defaultActions = [
         "search" => false,
         "create" => false,
@@ -28,24 +29,34 @@ class Table {
     private Request $request;
 
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->modelClass = new $this->model;
         $this->defaultSort = Str::replace(" ", "", $this->defaultSort);
     }
 
-    protected function columns(): array {
+    protected function resource(): Builder
+    {
+        
+    }
+
+    protected function columns(): array
+    {
         return [];
     }
 
-    protected function filters(): array {
+    protected function filters(): array
+    {
         return [];
     }
 
-    protected function actions(): array {
+    protected function actions(): array
+    {
         return [];
     }
 
-    public static function table(Request $request) {
+    public static function table(Request $request)
+    {
         $table = (new static);
         
         $table->request = $request;
@@ -69,7 +80,8 @@ class Table {
         ];
     }
 
-    private function makeColumns() {
+    private function makeColumns()
+    {
         $columns = [];
 
         foreach ($this->columns() as $column) {
@@ -88,11 +100,13 @@ class Table {
         return $columns;
     }
 
-    private function makeFilters() {
+    private function makeFilters()
+    {
         return $this->filters();
     }
 
-    private function makeActions() {
+    private function makeActions()
+    {
         $actions = $this->defaultActions;
 
         foreach ($this->actions() as $key => $action) {
@@ -104,13 +118,15 @@ class Table {
         return $actions;
     }
 
-    private function makeMiscs() {
+    private function makeMiscs()
+    {
         return [
             "columns_count" => count($this->columns()),
         ];
     }
 
-    private function makeSort() {
+    private function makeSort()
+    {
         $sort = $this->request->sort;
         
         if(!$sort) {
@@ -123,11 +139,13 @@ class Table {
         ];
     }
 
-    private function makeSearch() {
+    private function makeSearch()
+    {
         return $this->request->search;
     }
 
-    private function makeData() {
+    private function makeData()
+    {
         $eloquent     = $this->modelClass;
         $itemsPerPage = $this->itemsPerPage;
 
@@ -177,7 +195,8 @@ class Table {
         });
     }
 
-    private function handleColumnToData($model, $column) {
+    private function handleColumnToData($model, $column)
+    {
         $key = $column->name;
         $value = "";
         

@@ -151,6 +151,7 @@ class Table {
             );
         }
         else {
+            $this->defaultSort = Str::replace(" ", "", $this->defaultSort);
             $eloquent = $eloquent->orderBy(
                 explode(",", $this->defaultSort)[0],
                 explode(",", $this->defaultSort)[1]

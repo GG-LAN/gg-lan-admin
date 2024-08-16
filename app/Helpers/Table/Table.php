@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Table
 {
@@ -18,7 +20,7 @@ class Table
     ];
 
     protected $model;
-    protected $modelClass;
+    protected Model $modelClass;
 
     protected int $itemsPerPage = 5;
 
@@ -32,12 +34,13 @@ class Table
     public function __construct()
     {
         $this->modelClass = new $this->model;
+
         $this->defaultSort = Str::replace(" ", "", $this->defaultSort);
     }
 
-    protected function resource(): Builder
+    protected function resource(): Builder|Model
     {
-        
+        return $this->modelClass;
     }
 
     protected function columns(): array
@@ -146,7 +149,7 @@ class Table
 
     private function makeData()
     {
-        $eloquent     = $this->modelClass;
+        $eloquent     = $this->resource();
         $itemsPerPage = $this->itemsPerPage;
 
         $search  = $this->request->search;

@@ -11,7 +11,6 @@ body *:not(html):not(style):not(br):not(tr):not(code) {
 body {
     -webkit-text-size-adjust: none;
     background-color: #ffffff;
-    /* color: #718096; */
     color: rgb(255 255 255);
     height: 100%;
     line-height: 1.4;
@@ -65,7 +64,7 @@ h3 {
 }
 
 p {
-    color: rgb(255 255 255);
+    color: rgb(255 255 255) !important;
     font-size: 16px;
     line-height: 1.5em;
     margin-top: 0;
@@ -130,7 +129,6 @@ img {
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
     -premailer-width: 100%;
-    /* background-color: #edf2f7; */
     background-color: rgb(29,31,36);
     border-bottom: 1px solid #edf2f7;
     border-top: 1px solid #edf2f7;

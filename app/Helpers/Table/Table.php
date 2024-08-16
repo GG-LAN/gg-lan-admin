@@ -30,6 +30,7 @@ class Table {
 
     public function __construct() {
         $this->modelClass = new $this->model;
+        $this->defaultSort = Str::replace(" ", "", $this->defaultSort);
     }
 
     protected function columns(): array {
@@ -150,7 +151,6 @@ class Table {
             );
         }
         else {
-            $this->defaultSort = Str::replace(" ", "", $this->defaultSort);
             $eloquent = $eloquent->orderBy(
                 explode(",", $this->defaultSort)[0],
                 explode(",", $this->defaultSort)[1]

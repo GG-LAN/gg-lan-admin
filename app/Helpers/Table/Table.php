@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -24,7 +25,7 @@ class Table
 
     protected int $itemsPerPage = 5;
 
-    protected array $searchableColumnsName = [];
+    protected Collection $searchables;
 
     protected $defaultSort = "id,asc";
     
@@ -36,6 +37,8 @@ class Table
         $this->modelClass = new $this->model;
 
         $this->defaultSort = Str::replace(" ", "", $this->defaultSort);
+
+        $this->searchables = collect();
     }
 
     protected function resource(): Builder|Model
@@ -96,7 +99,7 @@ class Table
             $columns[$key] = $column[$key];
 
             if ($column[$key]["searchable"]) {
-                array_push($this->searchableColumnsName, $key);
+                $this->searchables->push($key);
             }
         }
 
@@ -158,8 +161,22 @@ class Table
 
         // If search parameter is given
         if ($search) {
+            $searchablesRelation = $this->searchables->filter(function ($value) {
+                return Str::contains($value, ".");
+            });
+            
+            if($searchablesRelation->count()) {
+                foreach ($searchablesRelation->toArray() as $key => $column) {
+                    $this->searchables->forget($key);
+                    
+                    $eloquent = $eloquent->whereHas(Str::beforeLast($column, "."), function (Builder $query) use ($searchablesRelation, $column, $search) {
+                        $query->where(Str::afterLast($column, "."), 'like', "%$search%");
+                    });
+                }
+            }
+            
             $eloquent = $eloquent->whereAny(
-                $this->searchableColumnsName, 
+                $this->searchables->toArray(), 
                 "like", "%{$search}%"
             );
         }

@@ -26,7 +26,7 @@ class StatController extends Controller {
     }
 
     public function payments() {
-        return ApiResponse::success("", PurchasedPlace::all()->count());
+        return ApiResponse::success("", PurchasedPlace::forOpenTournaments()->where('paid', true)->count());
     }
 
     public function tournamentsFilling() {

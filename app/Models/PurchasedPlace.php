@@ -31,6 +31,10 @@ class PurchasedPlace extends Model
         return Tournament::findOrFail($this->tournamentPrice->tournament_id);
     }
 
+    public static function forOpenTournaments() {
+        return (new static)->whereRelation('tournamentPrice.tournament', 'status', 'open');
+    }
+
     public static function checkExist(User $user, Tournament $tournament) {
         return self::
               where("user_id", $user->id)

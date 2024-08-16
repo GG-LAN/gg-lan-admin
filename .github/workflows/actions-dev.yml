@@ -17,6 +17,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '22.5.1'
+        cache: 'npm'
         
     - uses: actions/checkout@v4
 
@@ -26,12 +27,13 @@ jobs:
     - name: Install Composer Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-    - name: Install NPM Dependencies & Build
-      run: |
-        npm ci
-        npm run build
+    - name: Install NPM Dependencies
+      run: npm ci
 
-    - name: Generate key
+    - name: NPM Build
+      run: npm run build
+
+    - name: Generate artisan key
       run: php artisan key:generate
 
     - name: Directory Permissions
@@ -49,7 +51,7 @@ jobs:
       run: php artisan test
 
 
-  deploy:
+  deploy-to-dev:
     needs: testing
     timeout-minutes: 5
     runs-on: ubuntu-latest
@@ -67,7 +69,7 @@ jobs:
             git checkout dev
             git pull
 
-            composer install
+            composer install --no-progress
             npm install
 
             php artisan migrate
@@ -77,3 +79,19 @@ jobs:
             php artisan queue:restart
 
             npm run build
+
+  push-to-master:
+    needs: testing
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.TOKEN }}
+          branch: master
+          base: dev

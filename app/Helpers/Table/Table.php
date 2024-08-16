@@ -127,8 +127,7 @@ class Table {
     }
 
     private function makeData() {
-        $eloquent = $this->modelClass;
-
+        $eloquent     = $this->modelClass;
         $itemsPerPage = $this->itemsPerPage;
 
         $search  = $this->request->search;
@@ -170,7 +169,7 @@ class Table {
             
             foreach ($this->columns() as $column) {
                 $data = $this->handleColumnToData($model, $column);
-                
+
                 $results[$column->name] = $data["value"];
             }
             
@@ -181,37 +180,44 @@ class Table {
     private function handleColumnToData($model, $column) {
         $key = $column->name;
         $value = "";
+        
+        switch ($column->type) {
+            case 'date':
+                $date = new Carbon($model->$key);
+                $date = $date->format($column->date_format);
+
+                $value = $date;
+            break;
+
+            case 'compact':
+                $value = "";
                 
-        if (Str::contains($key, ".")) {
-            $key1 = Str::before($key, ".");
-            $key2 = Str::after($key, ".");
-
-            $value = $model->$key1->$key2;
-        }
-        else {
-            switch ($column->type) {
-                case 'date':
-                    $date = new Carbon($model->$key);
-                    $date = $date->format($column->date_format);
-
-                    $value = $date;
-                break;
-
-                case 'compact':
-                    $value = "";
+                foreach ($column->columns as $colKey => $compactColumn) {
+                    $value .= $colKey ? $column->separator : "";
                     
-                    // dd($key);
-                    foreach ($column->columns as $colKey => $compactColumn) {
-                        $value .= $colKey ? $column->separator : "";
-                        
-                        $value .= $this->handleColumnToData($model, $compactColumn)["value"];
-                    }
-                break;
+                    $value .= $this->handleColumnToData($model, $compactColumn)["value"];
+                }
+            break;
+
+            case 'text':
+                $strKey = Str::of($key);
                 
-                default:
+                if ($strKey->contains(".")) {
+                    $keys = $strKey->explode(".");                    
+                    $value = $model;
+                    
+                    foreach ($keys as $key) {
+                        $value = $value->$key;
+                    }
+                }
+                else {
                     $value = $model->$key;
-                break;
-            }
+                }
+            break;
+            
+            default:
+                $value = $model->$key;
+            break;
         }
 
         return [

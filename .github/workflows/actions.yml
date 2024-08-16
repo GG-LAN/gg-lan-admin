@@ -22,7 +22,7 @@ jobs:
             git checkout master
             git pull
 
-            composer install --no-dev
+            composer install --no-dev --no-progress --no-interaction
             npm install
 
             php artisan migrate

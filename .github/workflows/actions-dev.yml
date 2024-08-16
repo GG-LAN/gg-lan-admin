@@ -68,7 +68,7 @@ jobs:
             git checkout dev
             git pull
 
-            composer install --no-progress
+            composer install --no-progress --no-interaction
             npm install
 
             php artisan migrate

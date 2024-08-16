@@ -171,7 +171,7 @@ class Table {
             foreach ($this->columns() as $column) {
                 $data = $this->handleColumnToData($model, $column);
                 
-                $results[$data["key"]] = $data["value"];
+                $results[$column->name] = $data["value"];
             }
             
             return $results;

@@ -285,9 +285,9 @@ const updatePerPage = (page) => {
             <fwb-table-head-cell v-for="(column, key) in table.columns" class="px-4 py-4 font-medium">
                 <!-- Sortable Column -->
                 <div class="flex items-center cursor-pointer select-none" v-if="column.sortable" @click="sortColumn(key)">
-                    <div v-if="column.searchable == true">
+                    <!-- <div v-if="column.searchable == true">
                         <SvgIcon icon="magnifying-glass" class="w-2 h-2 mr-1"/>
-                    </div>
+                    </div> -->
                     {{ column.label }}
                     <div v-if="table.sort && table.sort.column == key">
                         <SvgIcon icon="sort-up" class="w-3 h-3 ms-1.5 cursor-pointer text-white" v-if="table.sort.sort == 'asc'"/>
@@ -300,9 +300,9 @@ const updatePerPage = (page) => {
 
                 <!-- Simple Column -->
                 <div class="flex items-center select-none" v-else>
-                    <div v-if="column.searchable == true">
+                    <!-- <div v-if="column.searchable == true">
                         <SvgIcon icon="magnifying-glass" class="w-2 h-2 mr-1"/>
-                    </div>
+                    </div> -->
                     {{ column.label }}
                 </div>
             </fwb-table-head-cell>

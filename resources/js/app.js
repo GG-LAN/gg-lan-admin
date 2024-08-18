@@ -1,18 +1,13 @@
 import './bootstrap';
 import '../css/app.css';
+import './fontawesome-import';
 
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-import { fab } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
-library.add(fas);
-library.add(fab);
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 

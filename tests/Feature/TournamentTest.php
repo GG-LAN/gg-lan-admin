@@ -191,45 +191,6 @@ it("can_remove_player_from_tournament_of_type_solo_as_admin", function () {
     ]);
 });
 
-// it("create_tournament_also_create_stripe_price_in_db", function () {
-//     $data = [
-//         "name"                  => "GG-LAN#12 CS:GO",
-//         "description"           => "Let's rock this LAN",
-//         'game_id'               => strval(Game::factory()->create()->id),
-//         'start_date'            => "2021-05-01",
-//         'end_date'              => "2021-05-02",
-//         "places"                => "20",
-//         'cashprize'             => "296",
-//         'type'                  => 'team',
-//         'normal_place_price'    => 30,
-//         'last_week_place_price' => 35
-//     ];
-
-//     $admin = User::factory()->create([
-//         'admin' => 1
-//     ]);
-    
-//     $this->actingAs($admin)->post('/api/tournaments', $data);
-
-//     $this->assertDatabaseHas("tournament_prices", [
-//         "tournament_id" => $response["id"],
-//         "type" => "normal"
-//     ]);
-
-//     $this->assertDatabaseHas("tournament_prices", [
-//         "tournament_id" => $response["id"],
-//         "type" => "last_week"
-//     ]);
-
-//     // Archive created product.
-//     $stripe = new Stripe(config("app.stripe_api_key"));
-//     foreach ($stripe->products->all(["active" => true])->data as $product) {
-//         if ($product->name != "GG-LAN #test") {
-//             $stripe->products->update($product->id, ["active" => false]);
-//         }
-//     }
-// });
-
 it("get_tournament_purchased_places", function () {
     $user = User::factory()->create();
 

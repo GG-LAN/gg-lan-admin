@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use Auth;
-use App\Models\User;
-use App\Models\Tournament;
 use App\Helpers\ApiResponse;
 use App\Models\PurchasedPlace;
+use App\Models\Tournament;
+use App\Models\User;
+use Auth;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 class PurchasedPlaceController extends Controller
 {
@@ -16,7 +17,8 @@ class PurchasedPlaceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): JsonResponse {
+    public function index(): JsonResponse
+    {
         return ApiResponse::success("", PurchasedPlace::all());
     }
 
@@ -26,18 +28,21 @@ class PurchasedPlaceController extends Controller
      * @param  User  $user
      * @return \Illuminate\Http\Response
      */
-    public function registerPurchase(User $user, Tournament $tournament): JsonResponse {
-        if (Auth::user()->id != $user->id) {            
+    public function registerPurchase(User $user, Tournament $tournament): JsonResponse
+    {
+        Log::info("Register place: user_id: ${$user->id} tournament_id: ${$tournament->id}");
+
+        if (Auth::user()->id != $user->id) {
             return ApiResponse::forbidden(__("responses.purchasedPlaces.cant_register"), []);
         }
 
         // Create new purchased place
         if (!PurchasedPlace::checkExist(Auth::user(), $tournament)) {
             $purchasedPlace = PurchasedPlace::register($user, $tournament, true);
-                        
+
             return ApiResponse::created(__("responses.purchasedPlaces.registered"), $purchasedPlace);
         }
-        
+
         return ApiResponse::forbidden(__("responses.purchasedPlaces.already_registered"), []);
     }
 
@@ -47,7 +52,8 @@ class PurchasedPlaceController extends Controller
      * @param  \App\Models\PurchasedPlace  $purchasedPlace
      * @return \Illuminate\Http\Response
      */
-    public function show(PurchasedPlace $purchasedPlace): JsonResponse {
+    public function show(PurchasedPlace $purchasedPlace): JsonResponse
+    {
         return ApiResponse::success("", $purchasedPlace);
     }
 }

@@ -36,14 +36,11 @@ class PurchasedPlaceController extends Controller
             return ApiResponse::forbidden(__("responses.purchasedPlaces.cant_register"), []);
         }
 
-        // Create new purchased place
-        if (!PurchasedPlace::checkExist(Auth::user(), $tournament)) {
-            $purchasedPlace = PurchasedPlace::register($user, $tournament, true);
+        // Update purchased place
+        $purchasedPlace = PurchasedPlace::register($user, $tournament, true);
 
-            return ApiResponse::created(__("responses.purchasedPlaces.registered"), $purchasedPlace);
-        }
+        return ApiResponse::created(__("responses.purchasedPlaces.registered"), $purchasedPlace);
 
-        return ApiResponse::forbidden(__("responses.purchasedPlaces.already_registered"), []);
     }
 
     /**

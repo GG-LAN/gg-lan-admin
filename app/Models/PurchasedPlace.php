@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Tournament;
 use App\Models\PurchasedPlace;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Tournament;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class PurchasedPlace extends Model
 {
@@ -19,48 +19,51 @@ class PurchasedPlace extends Model
         'paid' => 'boolean',
     ];
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo('App\Models\User');
     }
 
-    function tournamentPrice() {
+    public function tournamentPrice()
+    {
         return $this->belongsTo('App\Models\TournamentPrice');
     }
 
-    public function tournament() {
+    public function tournament()
+    {
         return Tournament::findOrFail($this->tournamentPrice->tournament_id);
     }
 
-    public static function forOpenTournaments() {
-        return (new static)->whereRelation('tournamentPrice.tournament', 'status', 'open');
+    public static function forOpenTournaments()
+    {
+        return (new static )->whereRelation('tournamentPrice.tournament', 'status', 'open');
     }
 
-    public static function checkExist(User $user, Tournament $tournament) {
+    public static function checkExist(User $user, Tournament $tournament)
+    {
         return self::
-              where("user_id", $user->id)
+            where("user_id", $user->id)
             ->where("tournament_price_id", $tournament->currentPrice()->id)
             ->exists();
     }
 
-    public static function register(User $user, Tournament $tournament, $paid = false) {
+    public static function register(User $user, Tournament $tournament, $paid = false)
+    {
         $price = $tournament->currentPrice();
-        
-        $payment = (new static)->firstOrCreate([
-            "user_id" => $user->id,
-            "tournament_price_id" => $price->id
-        ]);
-        
-        $payment->update([
-            "paid" => $paid
-        ]);
-        
+
+        $payment = self::updateOrCreate(
+            ["user_id" => $user->id, "tournament_price_id" => $price->id],
+            ["paid" => $paid]
+        );
+
         return $payment;
     }
 
-    public static function unregister(User $user, Tournament $tournament) {
-        $payment = (new static)->firstOrCreate([
+    public static function unregister(User $user, Tournament $tournament)
+    {
+        $payment = (new static )->firstOrCreate([
             "user_id" => $user->id,
-            "tournament_price_id" => $tournament->currentPrice()->id
+            "tournament_price_id" => $tournament->currentPrice()->id,
         ]);
 
         return $payment->delete();

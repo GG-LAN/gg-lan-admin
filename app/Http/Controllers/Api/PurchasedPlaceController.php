@@ -8,7 +8,6 @@ use App\Models\Tournament;
 use App\Models\User;
 use Auth;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Log;
 
 class PurchasedPlaceController extends Controller
 {
@@ -30,8 +29,6 @@ class PurchasedPlaceController extends Controller
      */
     public function registerPurchase(User $user, Tournament $tournament): JsonResponse
     {
-        Log::info("Register place: user_id: " . $user->id . " tournament_id: " . $tournament->id);
-
         if (Auth::user()->id != $user->id) {
             return ApiResponse::forbidden(__("responses.purchasedPlaces.cant_register"), []);
         }

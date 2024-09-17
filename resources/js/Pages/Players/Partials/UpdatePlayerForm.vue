@@ -1,16 +1,17 @@
 <script setup>
-import InputError from '@/Components/Forms/InputError.vue';
-import InputLabel from '@/Components/Forms/InputLabel.vue';
-import SubmitButton from '@/Components/Forms/SubmitButton.vue';
-import TextInput from '@/Components/Forms/TextInput.vue';
-import ToggleInput from '@/Components/Forms/ToggleInput.vue';
-import Checkbox from '@/Components/Forms/Checkbox.vue';
-import { useForm } from '@inertiajs/vue3';
+import InputError from "@/Components/Forms/InputError.vue";
+import InputLabel from "@/Components/Forms/InputLabel.vue";
+import SubmitButton from "@/Components/Forms/SubmitButton.vue";
+import TextInput from "@/Components/Forms/TextInput.vue";
+import ToggleInput from "@/Components/Forms/ToggleInput.vue";
+import Checkbox from "@/Components/Forms/Checkbox.vue";
+import { useForm } from "@inertiajs/vue3";
+import Col from "@/Components/Ui/Col.vue";
 
 const props = defineProps({
     player: {
         type: Object,
-    }
+    },
 });
 
 const form = useForm({
@@ -23,20 +24,18 @@ const form = useForm({
 const updatePlayer = () => {
     form.put(route("players.update", props.player.id), {
         preserveScroll: true,
-        onSuccess: () => {
-        }
-    })
-}
+        onSuccess: () => {},
+    });
+};
 </script>
 
 <template>
     <section>
-        <header>
-            <h2 class="text-xl font-black text-gray-900 dark:text-gray-100">Informations du joueur</h2>
-        </header>
-
-        <form @submit.prevent="updatePlayer" class="mt-6 space-y-6">
-            <div>
+        <form
+            @submit.prevent="updatePlayer"
+            class="mt-6 grid grid-cols-2 gap-4"
+        >
+            <Col size="2">
                 <InputLabel for="name" value="Nom" />
 
                 <TextInput
@@ -49,9 +48,9 @@ const updatePlayer = () => {
                 />
 
                 <InputError :message="form.errors.name" class="mt-2" />
-            </div>
+            </Col>
 
-            <div>
+            <Col size="2">
                 <InputLabel for="pseudo" value="Pseudo" />
 
                 <TextInput
@@ -64,9 +63,9 @@ const updatePlayer = () => {
                 />
 
                 <InputError :message="form.errors.pseudo" class="mt-2" />
-            </div>
+            </Col>
 
-            <div>
+            <Col size="2">
                 <InputLabel for="email" value="Email" />
 
                 <TextInput
@@ -78,24 +77,21 @@ const updatePlayer = () => {
                 />
 
                 <InputError :message="form.errors.email" class="mt-2" />
-            </div>
+            </Col>
 
-            <div>
+            <Col size="1">
                 <InputLabel for="admin" value="Admin" />
 
-                <ToggleInput 
-                    id="admin"
-                    v-model:checked="form.admin" 
-                />
-                
-                <InputError class="mt-2" :message="form.errors.admin" />
-            </div>
+                <ToggleInput id="admin" v-model:checked="form.admin" />
 
-            <div class="flex items-center gap-4">
-                <SubmitButton :form="form">
-                    Mettre à jour
+                <InputError class="mt-2" :message="form.errors.admin" />
+            </Col>
+
+            <Col size="1" class="flex items-center justify-end">
+                <SubmitButton :form="form" color="success">
+                    {{ __("Update") }}
                 </SubmitButton>
-            </div>
+            </Col>
         </form>
     </section>
 </template>

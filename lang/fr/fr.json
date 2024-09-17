@@ -1,4 +1,27 @@
 {
     "Search": "Rechercher",
-    "No results": "Pas de résultats"
+    "No results": "Pas de résultats",
+    "Update": "Mettre à jour",
+    "Player info": "Informations du joueur",
+    "Teams": "Équipes",
+    "Solo tournaments": "Tournois solo",
+    "Team": "Équipe",
+    "Tournament": "Tournois",
+    "Complete": "Complet",
+    "Incomplete": "Incomplet",
+    "Pending": "En Attente",
+    "Registered": "Inscrit",
+    "Game": "Jeu",
+    "Closed": "Fermé",
+    "Finished": "Terminé",
+    "Open": "Ouvert",
+    "Team Picture": "Image de l'équipe",
+    "Team Info": "Informations de l'équipe",
+    "Team members": "Membres de l'équipe",
+    "Relative Informations": "Informations Relatives",
+    "Captain": "Capitaine",
+    "Player": "Joueur",
+    "Players": "Joueurs",
+    "Member since": "Membre depuis",
+    "Hierarchy": "Hiérarchie"
 }

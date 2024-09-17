@@ -39,11 +39,13 @@ defineOptions({ layout: AuthenticatedLayout });
         <UpdateTeamForm :team="$page.props.team" />
     </Col>
 
-    <h1
-        class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-gray-400 col-span-4 mt-4 mb-4"
-    >
-        {{ __("Relative Informations") }}
-    </h1>
+    <Col size="4" class="my-4" title>
+        <span
+            class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-gray-400"
+        >
+            {{ __("Relative Informations") }}
+        </span>
+    </Col>
 
     <!-- Players -->
     <Col size="4" title="Team members">

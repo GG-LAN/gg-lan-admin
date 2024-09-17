@@ -25,9 +25,9 @@ const bgColor = computed(() =>
 </script>
 
 <template>
-    <div :class="bgColor + ' ' + sizeClass" class="space-y-2">
+    <div :class="bgColor + ' ' + sizeClass">
         <h2
-            class="text-xl font-semibold text-gray-900 dark:text-gray-400"
+            class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4"
             v-if="title"
         >
             {{ __(title) }}

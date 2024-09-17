@@ -222,7 +222,6 @@ class Table
 
                 $results[$column->name] = $data["value"];
             }
-
             return $results;
         };
 
@@ -242,12 +241,14 @@ class Table
 
     private function handleColumnToData($model, $column)
     {
-        $key = $column->name;
+        $key = Str::of($column->name);
+
         $value = "";
 
         switch ($column->type) {
             case 'date':
                 $date = new Carbon($model->$key);
+
                 $date = $date->format($column->date_format);
 
                 $value = $date;
@@ -264,10 +265,10 @@ class Table
                 break;
 
             case 'text':
-                $strKey = Str::of($key);
+            case 'bool':
+                if ($key->contains(".")) {
+                    $keys = $key->explode(".");
 
-                if ($strKey->contains(".")) {
-                    $keys = $strKey->explode(".");
                     $value = $model;
 
                     foreach ($keys as $key) {

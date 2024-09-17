@@ -27,7 +27,6 @@ createInertiaApp({
                 methods: {
                     __: (key) => {
                         let localeFile = props.initialPage.props.localeFile;
-                        console.log(localeFile);
 
                         if (!localeFile) return key;
 

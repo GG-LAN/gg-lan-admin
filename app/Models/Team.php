@@ -1,17 +1,21 @@
-<?php   
+<?php
 namespace App\Models;
 
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\TeamUser;
+use App\Observers\TeamObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Team extends Model {
+#[ObservedBy([TeamObserver::class])]
+class Team extends Model
+{
     use HasFactory;
 
     public const NOT_FULL = "not_full";
-    public const PENDING  = "pending";
+    public const PENDING = "pending";
     public const REGISTERED = "registered";
-    
+
     protected $fillable = [
         'name', 'description', 'image', 'tournament_id',
     ];
@@ -21,32 +25,41 @@ class Team extends Model {
     // protected $appends = ['captain_id', 'tournament_name', 'team_slots', 'is_full'];
     protected $appends = ['captain_id'];
 
-    public function users() {
-        return $this->belongsToMany('App\Models\User')->withPivot('captain');
+    public function users()
+    {
+        return $this->belongsToMany('App\Models\User')
+            ->using(TeamUser::class)
+            ->withPivot('captain');
     }
 
-    public function getCaptainIdAttribute() {
+    public function getCaptainIdAttribute()
+    {
         return $this->users()->where('captain', true)->first()->id;
     }
 
-    public function tournament() {
+    public function tournament()
+    {
         return $this->belongsTo('App\Models\Tournament');
     }
 
-    public function getTotalPlacesAttribute() {
+    public function getTotalPlacesAttribute()
+    {
         return $this->tournament->game->places;
     }
 
-    public function getTeamSlotsAttribute() {
+    public function getTeamSlotsAttribute()
+    {
         return "{$this->users()->count()}/{$this->getTotalPlacesAttribute()}";
     }
 
-    public function getIsFullAttribute() {
+    public function getIsFullAttribute()
+    {
         $isFull = ($this->getTotalPlacesAttribute() == $this->users()->count()) ? true : false;
         return "{$isFull}";
     }
 
-    public function getTournamentNameAttribute() {
+    public function getTournamentNameAttribute()
+    {
         return "{$this->tournament->name}";
     }
 }

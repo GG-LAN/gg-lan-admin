@@ -1,5 +1,6 @@
 import "./bootstrap";
 import "../css/app.css";
+import "./darkmode";
 import "./fontawesome-import";
 
 import { createApp, h } from "vue";

@@ -82,7 +82,11 @@ const close = () => {
             <div class="space-y-4">
                 <!-- Name -->
                 <div>
-                    <InputLabel for="create-name" value="Nom" required="true" />
+                    <InputLabel
+                        for="create-name"
+                        value="Nom"
+                        :required="true"
+                    />
                     <TextInput
                         id="create-name"
                         type="text"
@@ -98,7 +102,7 @@ const close = () => {
                     <InputLabel
                         for="create-description"
                         value="Description"
-                        required="true"
+                        :required="true"
                     />
                     <TextInput
                         id="create-description"
@@ -117,7 +121,7 @@ const close = () => {
                     <InputLabel
                         for="create-game_id"
                         value="Jeu"
-                        required="true"
+                        :required="true"
                     />
                     <SelectInput
                         id="create-game_id"
@@ -134,7 +138,7 @@ const close = () => {
                     <InputLabel
                         for="create-start_date"
                         value="Date de début"
-                        required="true"
+                        :required="true"
                     />
                     <TextInput
                         id="create-start_date"
@@ -153,7 +157,7 @@ const close = () => {
                     <InputLabel
                         for="create-end_date"
                         value="Date de fin"
-                        required="true"
+                        :required="true"
                     />
                     <TextInput
                         id="create-end_date"
@@ -169,7 +173,7 @@ const close = () => {
                     <InputLabel
                         for="create-places"
                         value="Nombre de places"
-                        required="true"
+                        :required="true"
                     />
                     <TextInput
                         id="create-places"
@@ -186,7 +190,7 @@ const close = () => {
                     <InputLabel
                         for="create-cashprize"
                         value="Cashprize"
-                        required="true"
+                        :required="true"
                     />
                     <TextInput
                         id="create-cashprize"
@@ -203,7 +207,7 @@ const close = () => {
                     <InputLabel
                         for="create-normal_place_price"
                         value="Prix place"
-                        required="true"
+                        :required="true"
                     />
                     <TextInput
                         id="create-normal_place_price"

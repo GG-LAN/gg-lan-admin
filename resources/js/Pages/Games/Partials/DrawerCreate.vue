@@ -51,7 +51,11 @@ const close = () => {
         <form @submit.prevent="submit">
             <div class="space-y-4">
                 <div>
-                    <InputLabel for="create-name" value="Nom" required="true" />
+                    <InputLabel
+                        for="create-name"
+                        value="Nom"
+                        :required="true"
+                    />
                     <TextInput
                         id="create-name"
                         type="text"
@@ -66,7 +70,7 @@ const close = () => {
                     <InputLabel
                         for="create-places"
                         value="Joueurs/Équipe"
-                        required="true"
+                        :required="true"
                     />
                     <TextInput
                         id="create-places"

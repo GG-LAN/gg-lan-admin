@@ -59,7 +59,7 @@ const close = () => {
                     <InputLabel
                         for="create-question"
                         value="Question"
-                        required="true"
+                        :required="true"
                     />
                     <TextInput
                         id="create-question"
@@ -75,7 +75,7 @@ const close = () => {
                     <InputLabel
                         for="create-response"
                         value="Réponse"
-                        required="true"
+                        :required="true"
                     />
                     <TextareaInput
                         id="create-response"

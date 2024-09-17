@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -59,7 +60,7 @@ class Table
         return $this->$name;
     }
 
-    protected function resource(): Builder | Model | BelongsToMany
+    protected function resource(): Builder | Model | BelongsToMany | HasMany
     {
         return $this->modelClass;
     }

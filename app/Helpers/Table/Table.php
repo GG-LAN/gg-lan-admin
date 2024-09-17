@@ -28,7 +28,7 @@ class Table
 
     protected Collection $searchables;
 
-    protected $defaultSort = "id,asc";
+    protected string $defaultSort = "id,asc";
 
     protected bool $paginate = true;
 

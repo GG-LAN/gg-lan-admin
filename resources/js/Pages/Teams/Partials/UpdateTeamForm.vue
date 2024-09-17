@@ -1,44 +1,38 @@
 <script setup>
-import InputError from '@/Components/Forms/InputError.vue';
-import InputLabel from '@/Components/Forms/InputLabel.vue';
-import SubmitButton from '@/Components/Forms/SubmitButton.vue';
-import TextInput from '@/Components/Forms/TextInput.vue';
-// import SelectInput from '@/Components/Forms/SelectInput.vue';
-import TextareaInput from '@/Components/Forms/TextareaInput.vue';
-import { useForm } from '@inertiajs/vue3';
+import InputError from "@/Components/Forms/InputError.vue";
+import InputLabel from "@/Components/Forms/InputLabel.vue";
+import SubmitButton from "@/Components/Forms/SubmitButton.vue";
+import TextInput from "@/Components/Forms/TextInput.vue";
+import TextareaInput from "@/Components/Forms/TextareaInput.vue";
+import { useForm } from "@inertiajs/vue3";
+import Col from "@/Components/Ui/Col.vue";
 
 const props = defineProps({
     team: {
         type: Object,
-        required: true
-    }
+        required: true,
+    },
 });
 
 const form = useForm({
-    name:        props.team.name,
+    name: props.team.name,
     description: props.team.description,
 });
 
 const updateTeam = () => {
     form.put(route("teams.update", props.team.id), {
         preserveScroll: true,
-        onSuccess: () => {
-        }
-    })
-}
+        onSuccess: () => {},
+    });
+};
 </script>
 
 <template>
     <section>
-        <header>
-            <h2 class="text-xl font-black text-gray-900 dark:text-gray-100">Informations de l'équipe</h2>
-        </header>
-
         <form @submit.prevent="updateTeam" class="mt-6 grid grid-cols-2 gap-4">
             <!-- Name -->
-            <div class="col-span-1">
+            <Col size="2">
                 <InputLabel for="name" value="Nom" />
-
                 <TextInput
                     id="name"
                     class="mt-1 block w-full"
@@ -48,12 +42,11 @@ const updateTeam = () => {
                     autocomplete="name"
                     required
                 />
-
                 <InputError :message="form.errors.name" class="mt-2" />
-            </div>
+            </Col>
 
             <!-- Description -->
-            <div class="col-span-2">
+            <Col size="2">
                 <InputLabel for="update-description" value="Description" />
                 <TextareaInput
                     id="update-description"
@@ -64,13 +57,13 @@ const updateTeam = () => {
                     required
                 />
                 <InputError class="mt-2" :message="form.errors.description" />
-            </div>
+            </Col>
 
-            <div class="col-span-1 flex items-center gap-4">
-                <SubmitButton :form="form">
+            <Col size="2" class="flex justify-end">
+                <SubmitButton :form="form" color="success">
                     Mettre à jour
                 </SubmitButton>
-            </div>
+            </Col>
         </form>
     </section>
 </template>

@@ -2,17 +2,19 @@
 
 namespace App\Tables;
 
-use App\Models\Team;
-use App\Helpers\Table\Table;
-use App\Helpers\Table\DateColumn;
-use App\Helpers\Table\TextColumn;
 use App\Helpers\Table\BadgeColumn;
+use App\Helpers\Table\DateColumn;
+use App\Helpers\Table\Table;
+use App\Helpers\Table\TextColumn;
+use App\Models\Team;
 
-class Teams extends Table {
+class Teams extends Table
+{
 
     protected $model = Team::class;
 
-    public function columns(): array {
+    public function columns(): array
+    {
         return [
             TextColumn::add("name", "Nom")->searchable(true)->sortable(true),
             TextColumn::add("description", "Description")->searchable(true),
@@ -20,18 +22,20 @@ class Teams extends Table {
             BadgeColumn::add("registration_state", "Statut", [
                 BadgeColumn::Badge("not_full", "Incomplète", "red"),
                 BadgeColumn::Badge("pending", "En Attente", "orange"),
-                BadgeColumn::Badge("registered", "Inscrite", "green")
-            ])->sortable(true),   
+                BadgeColumn::Badge("registered", "Inscrite", "green"),
+            ])->sortable(true),
         ];
     }
 
-    public function filters(): array {
+    public function filters(): array
+    {
         return [
             //
         ];
     }
 
-    public function actions(): array {
+    public function actions(): array
+    {
         return [
             "search" => true,
             "show" => "teams.show",

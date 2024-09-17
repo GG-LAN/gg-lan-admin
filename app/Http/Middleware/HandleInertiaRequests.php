@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
-use Illuminate\Http\Request;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -18,7 +18,7 @@ class HandleInertiaRequests extends Middleware
     /**
      * Determine the current asset version.
      */
-    public function version(Request $request): string|null
+    public function version(Request $request): string | null
     {
         return parent::version($request);
     }
@@ -30,20 +30,31 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $locale = config("app.locale");
+
         return [
-            ...parent::share($request),
+             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
             ],
-            'ziggy' => fn () => [
-                ...(new Ziggy)->toArray(),
+            'ziggy' => fn() => [
+                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
             'flash' => [
-                'status' => fn () => $request->session()->get('status'),
-                'message' => fn () => $request->session()->get('message')
+                'status' => fn() => $request->session()->get('status'),
+                'message' => fn() => $request->session()->get('message'),
             ],
-            "appName" => config("app.name")
+            "appName" => config("app.name"),
+            "localeFile" => function () use ($locale) {
+                $localeFile = base_path('lang/' . $locale . '/' . $locale . '.json');
+
+                if (!file_exists($localeFile)) {
+                    return [];
+                }
+
+                return json_decode(file_get_contents($localeFile), true);
+            },
         ];
     }
 }

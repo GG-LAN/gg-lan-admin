@@ -6,6 +6,7 @@ import NewTable from "@/Components/Ui/Table/NewTable.vue";
 import DrawerCreate from "./Partials/DrawerCreate.vue";
 import DrawerUpdate from "./Partials/DrawerUpdate.vue";
 import DrawerDelete from "./Partials/DrawerDelete.vue";
+import Col from "@/Components/Ui/Col.vue";
 
 defineOptions({ layout: AuthenticatedLayout });
 </script>
@@ -14,8 +15,7 @@ defineOptions({ layout: AuthenticatedLayout });
     <Head title="Joueurs" />
     <PageTitle title="Joueurs" :breadcrumbs="$page.props.breadcrumbs" />
 
-    <!-- <div class="p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white col-span-4"> -->
-    <div class="col-span-4">
+    <Col size="4">
         <NewTable :table="$page.props.table">
             <template #drawerCreate="{ drawer, uid }">
                 <DrawerCreate
@@ -41,5 +41,5 @@ defineOptions({ layout: AuthenticatedLayout });
                 />
             </template>
         </NewTable>
-    </div>
+    </Col>
 </template>

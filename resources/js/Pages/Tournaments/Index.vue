@@ -5,6 +5,7 @@ import PageTitle from "@/Components/Ui/PageTitle.vue";
 import NewTable from "@/Components/Ui/Table/NewTable.vue";
 import DrawerCreate from "./Partials/DrawerCreate.vue";
 import DrawerDelete from "./Partials/DrawerDelete.vue";
+import Col from "@/Components/Ui/Col.vue";
 
 defineOptions({ layout: AuthenticatedLayout });
 </script>
@@ -13,7 +14,7 @@ defineOptions({ layout: AuthenticatedLayout });
     <Head title="Tournois" />
     <PageTitle title="Tournois" :breadcrumbs="$page.props.breadcrumbs" />
 
-    <div class="col-span-4">
+    <Col size="4">
         <NewTable :table="$page.props.table">
             <template #drawerCreate="{ drawer, uid }">
                 <DrawerCreate
@@ -31,5 +32,5 @@ defineOptions({ layout: AuthenticatedLayout });
                 />
             </template>
         </NewTable>
-    </div>
+    </Col>
 </template>

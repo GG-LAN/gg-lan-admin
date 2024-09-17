@@ -31,6 +31,7 @@ import {
     faXmark,
     faEye,
     faEyeSlash,
+    faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faStripeS } from "@fortawesome/free-brands-svg-icons";
@@ -67,7 +68,8 @@ library.add(
     faSortDown,
     faXmark,
     faEye,
-    faEyeSlash
+    faEyeSlash,
+    faCircleCheck
 );
 
 // Brands

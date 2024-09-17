@@ -2,17 +2,17 @@
 
 namespace App\Tables;
 
-use App\Helpers\Table\Table;
-use App\Models\PurchasedPlace;
 use App\Helpers\Table\BoolColumn;
+use App\Helpers\Table\Table;
 use App\Helpers\Table\TextColumn;
+use App\Models\PurchasedPlace;
 use Illuminate\Database\Eloquent\Builder;
 
 class PurchasedPlaces extends Table
 {
     protected $model = PurchasedPlace::class;
 
-    protected $defaultSort = "paid, desc";
+    protected string $defaultSort = "paid, desc";
 
     public function resource(): Builder
     {
@@ -44,8 +44,8 @@ class PurchasedPlaces extends Table
                     "type" => "success",
                     "icon" => "money-bill",
                     "route" => "payments.store",
-                    "condition" => "props.row.paid == false"
-                ],  
+                    "condition" => "props.row.paid == false",
+                ],
             ],
         ];
     }

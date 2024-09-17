@@ -1,25 +1,26 @@
 <script setup>
-import Breadcrumb from '@/Components/Ui/Breadcrumb.vue';
+import Breadcrumb from "@/Components/Ui/Breadcrumb.vue";
 
 const props = defineProps({
     title: {
-        type: String
+        type: String,
     },
     breadcrumbs: {
-        type: Array
-    }
+        type: Array,
+    },
 });
-
 </script>
 
 <template>
-    <div class="mb-4 col-span-full xl:mb-2">
-        <Breadcrumb :breadcrumbs="breadcrumbs"/>
+    <div class="col-span-full space-y-4">
+        <Breadcrumb :breadcrumbs="breadcrumbs" />
 
         <!-- Page Title -->
-        <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white" v-if="title">{{ title }}</h1>
+        <h1 class="text-xl font-semibold sm:text-2xl" v-if="title">
+            {{ title }}
+        </h1>
         <div class="flex items-center justify-between gap-4" v-else>
-            <slot/>
+            <slot />
         </div>
     </div>
 </template>

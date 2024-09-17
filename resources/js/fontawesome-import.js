@@ -28,12 +28,12 @@ import {
     faSort,
     faSortUp,
     faSortDown,
-    faXmark
+    faXmark,
+    faEye,
+    faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
 
-import {
-    faStripeS
-} from '@fortawesome/free-brands-svg-icons';
+import { faStripeS } from "@fortawesome/free-brands-svg-icons";
 
 // Solid
 library.add(
@@ -65,10 +65,10 @@ library.add(
     faSort,
     faSortUp,
     faSortDown,
-    faXmark
+    faXmark,
+    faEye,
+    faEyeSlash
 );
 
 // Brands
-library.add(
-    faStripeS
-);
+library.add(faStripeS);

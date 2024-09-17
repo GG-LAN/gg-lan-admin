@@ -2,30 +2,32 @@
 
 namespace App\Tables;
 
-use App\Models\Game;
 use App\Helpers\Table\Table;
-use App\Helpers\Table\DateColumn;
 use App\Helpers\Table\TextColumn;
-use App\Helpers\Table\BadgeColumn;
+use App\Models\Game;
 
-class Games extends Table {
+class Games extends Table
+{
 
     protected $model = Game::class;
 
-    public function columns(): array {
+    public function columns(): array
+    {
         return [
-            TextColumn::add("name", "Nom")->searchable(true)->sortable(true),
+            TextColumn::add("name", "Jeu")->searchable(true)->sortable(true),
             TextColumn::add("places", "Joueurs / Équipe")->searchable(true)->sortable(true),
         ];
     }
 
-    public function filters(): array {
+    public function filters(): array
+    {
         return [
             //
         ];
     }
 
-    public function actions(): array {
+    public function actions(): array
+    {
         return [
             "search" => true,
             "create" => true,

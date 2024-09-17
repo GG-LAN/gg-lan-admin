@@ -10,19 +10,28 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    title: {
+        type: String,
+    },
 });
 
 const sizeClass = computed(() => "col-span-" + props.size);
 
 const bgColor = computed(() =>
     props.background
-        ? "p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white"
+        ? "p-4 bg-white rounded-lg shadow-md sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white"
         : ""
 );
 </script>
 
 <template>
-    <div :class="bgColor + ' ' + sizeClass">
+    <div :class="bgColor + ' ' + sizeClass" class="space-y-2">
+        <h2
+            class="text-xl font-black text-gray-900 dark:text-gray-400"
+            v-if="title"
+        >
+            {{ __(title) }}
+        </h2>
         <slot />
     </div>
 </template>

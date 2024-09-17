@@ -22,16 +22,16 @@ class StoreTournamentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'                  => 'required|string|max:50',
-            'description'           => 'string|max:250',
-            'game_id'               => 'required|numeric|exists:games,id',
-            'start_date'            => 'nullable|date',
-            'end_date'              => 'nullable|date',
-            'places'                => 'required|numeric',
-            'cashprize'             => 'nullable|string',
-            'image'                 => 'nullable|image|mimes:png,jpg,jpeg,gif,svg|max:2048',
-            'normal_place_price'    => 'required|numeric',
-            'last_week_place_price' => 'nullable|numeric'
+            'name' => 'required|string|max:50',
+            'description' => 'string|max:250',
+            'game_id' => 'required|numeric|exists:games,id',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date',
+            'places' => 'required|numeric',
+            'cashprize' => 'nullable|string',
+            'image' => 'nullable|image|mimes:png,jpg,jpeg,gif,svg,webp|max:2048',
+            'normal_place_price' => 'required|numeric',
+            'last_week_place_price' => 'nullable|numeric',
         ];
     }
 }

@@ -29,7 +29,6 @@ class UpdateTournamentRequest extends FormRequest
             'end_date'              => 'nullable|date',
             'places'                => 'required|numeric',
             'cashprize'             => 'nullable|string',
-            // 'image'                 => 'nullable|image|url|mimes:png,jpg,jpeg,gif,svg|max:2048',
         ];
     }
 }

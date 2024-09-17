@@ -8,6 +8,8 @@ import UpdateTournamentDateForm from "./Partials/UpdateTournamentDateForm.vue";
 import OpenTournamentForm from "./Partials/OpenTournamentForm.vue";
 import UpdateTournamentImage from "./Partials/UpdateTournamentImage.vue";
 import DeleteTournament from "./Partials/DeleteTournament.vue";
+import Col from "@/Components/Ui/Col.vue";
+import NewTable from "@/Components/Ui/Table/NewTable.vue";
 
 defineOptions({ layout: AuthenticatedLayout });
 </script>
@@ -39,86 +41,71 @@ defineOptions({ layout: AuthenticatedLayout });
         </span>
     </PageTitle>
 
-    <div
+    <Col
+        size="4"
+        :background="true"
         v-if="$page.props.tournament.status == 'closed'"
-        class="col-span-4 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white"
     >
         <OpenTournamentForm :tournament="$page.props.tournament" />
-    </div>
+    </Col>
 
     <!-- Image Display + update image OR Dropzone image -->
-    <div class="col-span-4 lg:col-span-1">
+    <Col
+        size="4"
+        :background="true"
+        class="lg:col-span-1"
+        title="Tournament Cover"
+    >
         <UpdateTournamentImage :tournament="$page.props.tournament" />
-    </div>
+    </Col>
 
     <!-- Tournament info -->
-    <div
-        class="col-span-4 lg:col-span-2 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white"
+    <Col
+        size="4"
+        :background="true"
+        class="lg:col-span-2"
+        title="Tournament Info"
     >
-        <UpdateTournamentInfoForm
-            :tournament="$page.props.tournament"
-            :games="$page.props.games"
-        />
-    </div>
+        <UpdateTournamentInfoForm />
+    </Col>
 
-    <div
-        class="col-span-4 lg:col-span-1 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white"
+    <Col
+        size="1"
+        :background="true"
+        class="lg:col-span-1"
+        title="Tournament Dates"
     >
-        <UpdateTournamentDateForm :tournament="$page.props.tournament" />
-    </div>
+        <UpdateTournamentDateForm />
+    </Col>
 
-    <h1
-        class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white col-span-4 mt-4 mb-4"
-    >
-        Informations Relatives
-    </h1>
+    <Col size="4" class="my-4">
+        <span
+            class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-gray-400"
+        >
+            {{ __("Relative Informations") }}
+        </span>
+    </Col>
 
     <!-- Tournament Stripe Prices -->
-    <div
-        class="col-span-4 lg:col-span-2 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white"
-    >
-        <h2 class="text-xl font-black text-gray-900 dark:text-gray-100">
-            Prix disponible(s)
-        </h2>
-        <Table
-            :rows="$page.props.pricesData"
-            :rowsInfo="$page.props.pricesRowsInfo"
-            :route="route('tournaments.show', $page.props.tournament.id)"
-        />
-    </div>
+    <Col size="4" class="lg:col-span-2" title="Available Price(s)">
+        <NewTable :table="$page.props.tournamentPrices" />
+    </Col>
 
     <!-- Tournament Related Info -->
-    <div
+    <Col
+        size="4"
+        class="lg:col-span-2"
+        title="Registered Teams"
         v-if="$page.props.tournament.type == 'team'"
-        class="col-span-4 lg:col-span-2 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white"
     >
-        <h2 class="text-xl font-black text-gray-900 dark:text-gray-100">
-            Équipes inscrites
-        </h2>
-        <Table
-            :rows="$page.props.teamsData"
-            :rowsInfo="$page.props.teamsRowsInfo"
-            :route="route('tournaments.show', $page.props.tournament.id)"
-        />
-    </div>
+        <NewTable :table="$page.props.tournamentTeams" />
+    </Col>
 
-    <div
-        v-else
-        class="col-span-4 lg:col-span-2 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white"
-    >
-        <h2 class="text-xl font-black text-gray-900 dark:text-gray-100">
-            Joueurs inscrits
-        </h2>
-        <Table
-            :rows="$page.props.playersData"
-            :rowsInfo="$page.props.playersRowsInfo"
-            :route="route('tournaments.show', $page.props.tournament.id)"
-        />
-    </div>
+    <Col size="4" class="lg:col-span-2" title="Registered Players" v-else>
+        <NewTable :table="$page.props.tournamentPlayers" />
+    </Col>
 
-    <div
-        class="col-span-4 p-4 bg-white rounded-lg shadow-sm sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white"
-    >
-        <DeleteTournament :tournament="$page.props.tournament" />
-    </div>
+    <Col size="4" class="mt-4">
+        <DeleteTournament />
+    </Col>
 </template>

@@ -1,16 +1,12 @@
 <script setup>
-import SecondaryButton from '@/Components/Forms/SecondaryButton.vue';
-import SubmitButton from '@/Components/Forms/SubmitButton.vue';
-import DangerButton from '@/Components/Forms/DangerButton.vue';
-import Modal from '@/Components/Forms/Modal.vue';
-import { useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import SecondaryButton from "@/Components/Forms/SecondaryButton.vue";
+import SubmitButton from "@/Components/Forms/SubmitButton.vue";
+import DangerButton from "@/Components/Forms/DangerButton.vue";
+import Modal from "@/Components/Forms/Modal.vue";
+import { useForm, usePage } from "@inertiajs/vue3";
+import { ref } from "vue";
 
-const props = defineProps({
-    tournament: {
-        type: Object,
-    }
-});
+const page = usePage();
 
 const confirmingTournamentDeletion = ref(false);
 
@@ -21,7 +17,7 @@ const confirmTournamentDeletion = () => {
 };
 
 const deleteTournament = () => {
-    form.delete(route('tournaments.destroy', props.tournament.id), {
+    form.delete(route("tournaments.destroy", page.props.tournament.id), {
         preserveState: true,
         preserveScroll: true,
         onSuccess: () => closeModal(),
@@ -39,25 +35,27 @@ const closeModal = () => {
 <template>
     <section class="space-y-6 text-center">
         <Modal :show="confirmingTournamentDeletion" @close="closeModal">
-            <div class="p-6">
-                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                    Êtes-vous sûr de vouloir supprimer ce tournois ?
-                </h2>
+            <template #header>
+                {{ __("Are you sure you want to delete this tournament ?") }}
 
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Une fois supprimé, toutes les informations associées seront définitivement perdues.
+                    Une fois supprimé, toutes les informations associées seront
+                    définitivement perdues.
                 </p>
+            </template>
+            <template #body>
+                <div class="flex justify-end">
+                    <SecondaryButton @click="closeModal" class="mr-4">
+                        {{ __("Cancel") }}
+                    </SecondaryButton>
 
-                <form @submit.prevent="deleteTournament">
-                    <div class="mt-6 flex justify-center">
-                        <SubmitButton :form="form" color="danger" successMessage="Le tournois a bien été supprimé !">
-                            Supprimer le tournois
+                    <form @submit.prevent="deleteTournament">
+                        <SubmitButton :form="form" color="danger">
+                            {{ __("Delete tournament") }}
                         </SubmitButton>
-
-                        <SecondaryButton @click="closeModal" class="ml-4"> Annuler </SecondaryButton>
-                    </div>
-                </form>
-            </div>
+                    </form>
+                </div>
+            </template>
         </Modal>
 
         <DangerButton @click="confirmTournamentDeletion">

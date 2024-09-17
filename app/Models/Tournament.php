@@ -1,75 +1,84 @@
-<?php   
+<?php
 namespace App\Models;
 
-use Carbon\Carbon;
-use App\Models\Team;
-use App\Helpers\Table;
 use App\Models\Setting;
+use App\Models\Team;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Stripe\StripeClient as Stripe;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Tournament extends Model {
+class Tournament extends Model
+{
     use HasFactory;
-    
+
     protected $fillable = [
-        'name', 'description', 'game_id', 'start_date', 'end_date', 'places', 'cashprize', 'status', 'image', 'type'
+        'name', 'description', 'game_id', 'start_date', 'end_date', 'places', 'cashprize', 'status', 'image', 'type',
     ];
 
     protected $with = ['teams', 'players'];
 
     protected $appends = ['register_count', 'isFull', 'price'];
 
-    public function game() {
+    public function game()
+    {
         return $this->belongsTo('App\Models\Game');
     }
 
-    public function teams() {
+    public function teams()
+    {
         return $this->hasMany('App\Models\Team');
     }
 
-    public function players() {
-        return $this->belongsToMany('App\Models\User');
+    public function players()
+    {
+        return $this->belongsToMany('App\Models\User')->withTimestamps();
     }
 
-    public function prices() {
+    public function prices()
+    {
         return $this->hasMany("App\Models\TournamentPrice");
     }
-    
-    public function currentPrice() {
+
+    public function currentPrice()
+    {
         return $this->prices()->where("active", true)->first();
     }
 
-    public function purchasedPlaces() {
+    public function purchasedPlaces()
+    {
         $purchasedPlaces = [];
-        
+
         foreach ($this->prices as $price) {
             foreach ($price->purchasedPlaces as $purchasedPlace) {
                 array_push($purchasedPlaces, $purchasedPlace);
             }
         }
-        
+
         return $purchasedPlaces;
     }
 
-    public function checkPlayerIsRegistered(User $user) {
+    public function checkPlayerIsRegistered(User $user)
+    {
         return $this->players()->where('user_id', $user->id)->exists();
     }
 
-    public function getRegisterCountAttribute() {
+    public function getRegisterCountAttribute()
+    {
         if ($this->type == "solo") {
             return $this->players()->count();
         }
 
-        return $this->teams()->where("registration_state", Team::REGISTERED)->count();        
+        return $this->teams()->where("registration_state", Team::REGISTERED)->count();
     }
 
-    public function getIsFullAttribute() {
-        return $this->getRegisterCountAttribute() == $this->places ? true:false;
+    public function getIsFullAttribute()
+    {
+        return $this->getRegisterCountAttribute() == $this->places ? true : false;
     }
 
-    public function getPriceAttribute() {
+    public function getPriceAttribute()
+    {
         if ($this->currentPrice()) {
             return $this->currentPrice()->price;
         }
@@ -77,11 +86,12 @@ class Tournament extends Model {
         return null;
     }
 
-    public function getPaymentLink(Request $request): String {
+    public function getPaymentLink(Request $request): String
+    {
         if (!Setting::get('stripe_api_key')) {
             return null;
         }
-        
+
         $stripe = new Stripe(Setting::get('stripe_api_key'));
 
         $session = $stripe->checkout->sessions->create([
@@ -90,14 +100,15 @@ class Tournament extends Model {
             "mode" => "payment",
             "line_items" => [[
                 "price" => $this->currentPrice()->price_id,
-                "quantity" => 1
-            ]]
+                "quantity" => 1,
+            ]],
         ]);
 
         return $session["url"];
     }
 
-    public function getPayments() {
+    public function getPayments()
+    {
         $paymentList = [];
 
         foreach ($this->purchasedPlaces() as $purchasedPlace) {
@@ -106,48 +117,48 @@ class Tournament extends Model {
                 "pseudo" => $purchasedPlace->user->pseudo,
                 "tournament_id" => $this->id,
                 "tournament_name" => $this->name,
-                "status" => "paid"
+                "status" => "paid",
             ]);
         }
-        
+
         $paidPlayersIds = array_column($paymentList, 'id');
-    
+
         if ($this->type == "team") {
             foreach ($this->teams as $team) {
                 foreach ($team->users as $player) {
-                    if(!in_array($player->id, $paidPlayersIds)) {
+                    if (!in_array($player->id, $paidPlayersIds)) {
                         array_push($paymentList, [
                             "id" => $player->id,
                             "pseudo" => $player->pseudo,
                             "tournament_id" => $this->id,
                             "tournament_name" => $this->name,
-                            "status" => "not_paid"
+                            "status" => "not_paid",
                         ]);
                     }
                 }
             }
-        }
-        else {
+        } else {
             foreach ($this->players as $player) {
-                if(!in_array($player->id, $paidPlayersIds)) {
+                if (!in_array($player->id, $paidPlayersIds)) {
                     array_push($paymentList, [
                         "id" => $player->id,
                         "pseudo" => $player->pseudo,
                         "tournament_id" => $this->id,
                         "tournament_name" => $this->name,
-                        "status" => "not_paid"
+                        "status" => "not_paid",
                     ]);
                 }
             }
         }
 
-        return collect($paymentList);        
+        return collect($paymentList);
     }
 
-    public static function getOpenTournaments() {
-        return (new static)->where('status', 'open')->get();
+    public static function getOpenTournaments()
+    {
+        return (new static )->where('status', 'open')->get();
     }
-    
+
     /**
      * The attributes that should be cast to native types.
      *

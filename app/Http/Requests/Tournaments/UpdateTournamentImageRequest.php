@@ -22,7 +22,7 @@ class UpdateTournamentImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => 'image|mimes:png,jpg,jpeg,gif,svg|max:2048',
+            'image' => 'image|mimes:png,jpg,jpeg,gif,svg,webp|max:2048',
         ];
     }
 }

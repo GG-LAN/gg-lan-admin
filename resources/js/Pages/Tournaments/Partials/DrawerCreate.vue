@@ -187,17 +187,12 @@ const close = () => {
 
                 <!-- Cashprize -->
                 <div>
-                    <InputLabel
-                        for="create-cashprize"
-                        value="Cashprize"
-                        :required="true"
-                    />
+                    <InputLabel for="create-cashprize" value="Cashprize" />
                     <TextInput
                         id="create-cashprize"
                         type="text"
                         v-model="form.cashprize"
                         placeholder="xxx €"
-                        required
                     />
                     <InputError class="mt-2" :message="form.errors.cashprize" />
                 </div>

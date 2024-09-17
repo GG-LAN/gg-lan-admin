@@ -3,12 +3,12 @@
 namespace App\Helpers\Table;
 
 use Carbon\Carbon;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 class Table
 {
@@ -17,7 +17,7 @@ class Table
         "create" => false,
         "update" => false,
         "delete" => false,
-        "show"   => false,
+        "show" => false,
         "customActions" => false,
     ];
 
@@ -29,20 +29,37 @@ class Table
     protected Collection $searchables;
 
     protected $defaultSort = "id,asc";
-    
+
+    protected bool $paginate = true;
+
     private Request $request;
 
-
-    public function __construct()
+    public function __construct(...$args)
     {
         $this->modelClass = new $this->model;
 
         $this->defaultSort = Str::replace(" ", "", $this->defaultSort);
 
         $this->searchables = collect();
+
+        $this->request = request();
+
+        foreach ($args[0] as $key => $arg) {
+            $this->$key = $arg;
+        }
     }
 
-    protected function resource(): Builder|Model
+    public function __set($name, $value)
+    {
+        $this->$name = $value;
+    }
+
+    public function __get($name)
+    {
+        return $this->$name;
+    }
+
+    protected function resource(): Builder | Model | BelongsToMany
     {
         return $this->modelClass;
     }
@@ -62,28 +79,26 @@ class Table
         return [];
     }
 
-    public static function table(Request $request)
+    public static function table(...$args)
     {
-        $table = (new static);
-        
-        $table->request = $request;
+        $table = (new static($args));
 
         $columns = $table->makeColumns();
         $filters = $table->makeFilters();
         $actions = $table->makeActions();
-        $miscs   = $table->makeMiscs();
-        $sort    = $table->makeSort();
-        $search  = $table->makeSearch();
-        $data    = $table->makeData();
+        $miscs = $table->makeMiscs();
+        $sort = $table->makeSort();
+        $search = $table->makeSearch();
+        $data = $table->makeData();
 
         return [
             "columns" => $columns,
             "actions" => $actions,
             "filters" => $filters,
-            "miscs"   => $miscs,
-            "sort"    => $sort,
-            "search"  => $search,
-            "data"    => $data,
+            "miscs" => $miscs,
+            "sort" => $sort,
+            "search" => $search,
+            "data" => $data,
         ];
     }
 
@@ -94,9 +109,8 @@ class Table
         foreach ($this->columns() as $column) {
             $column = $column->generate();
 
-            
             $key = array_key_first($column);
-            
+
             $columns[$key] = $column[$key];
 
             if ($column[$key]["searchable"]) {
@@ -129,20 +143,21 @@ class Table
     {
         return [
             "columns_count" => count($this->columns()),
+            "pagination" => $this->paginate,
         ];
     }
 
     private function makeSort()
     {
         $sort = $this->request->sort;
-        
-        if(!$sort) {
+
+        if (!$sort) {
             return [];
         }
-        
+
         return [
             "column" => explode(",", $sort)[0],
-            "sort" => explode(",", $sort)[1]
+            "sort" => explode(",", $sort)[1],
         ];
     }
 
@@ -153,11 +168,11 @@ class Table
 
     private function makeData()
     {
-        $eloquent     = $this->resource();
+        $eloquent = $this->resource();
         $itemsPerPage = $this->itemsPerPage;
 
-        $search  = $this->request->search;
-        $sort    = $this->request->sort;
+        $search = $this->request->search;
+        $sort = $this->request->sort;
         $perPage = $this->request->perPage;
 
         // If search parameter is given
@@ -165,19 +180,19 @@ class Table
             $searchablesRelation = $this->searchables->filter(function ($value) {
                 return Str::contains($value, ".");
             });
-            
-            if($searchablesRelation->count()) {
+
+            if ($searchablesRelation->count()) {
                 foreach ($searchablesRelation->toArray() as $key => $column) {
                     $this->searchables->forget($key);
-                    
+
                     $eloquent = $eloquent->whereHas(Str::beforeLast($column, "."), function (Builder $query) use ($searchablesRelation, $column, $search) {
                         $query->where(Str::afterLast($column, "."), 'like', "%$search%");
                     });
                 }
             }
-            
+
             $eloquent = $eloquent->whereAny(
-                $this->searchables->toArray(), 
+                $this->searchables->toArray(),
                 "like", "%{$search}%"
             );
         }
@@ -188,8 +203,7 @@ class Table
                 explode(",", $sort)[0],
                 explode(",", $sort)[1]
             );
-        }
-        else {
+        } else {
             $eloquent = $eloquent->orderBy(
                 explode(",", $this->defaultSort)[0],
                 explode(",", $this->defaultSort)[1]
@@ -199,70 +213,79 @@ class Table
         if ($perPage) {
             $itemsPerPage = $perPage;
         }
-        
-        return $eloquent
-        ->paginate($itemsPerPage)
-        ->withQueryString()
-        ->through(function($model) {
+
+        $mapModel = function ($model) {
             $results = ["id" => $model->id];
-            
+
             foreach ($this->columns() as $column) {
                 $data = $this->handleColumnToData($model, $column);
 
                 $results[$column->name] = $data["value"];
             }
-            
+
             return $results;
-        });
+        };
+
+        if ($this->paginate) {
+            $eloquent = $eloquent
+                ->paginate($itemsPerPage)
+                ->withQueryString()
+                ->through($mapModel);
+        } else {
+            $eloquent = [
+                "data" => $eloquent->get()->map($mapModel),
+            ];
+        }
+
+        return $eloquent;
     }
 
     private function handleColumnToData($model, $column)
     {
         $key = $column->name;
         $value = "";
-        
+
         switch ($column->type) {
             case 'date':
                 $date = new Carbon($model->$key);
                 $date = $date->format($column->date_format);
 
                 $value = $date;
-            break;
+                break;
 
             case 'compact':
                 $value = "";
-                
+
                 foreach ($column->columns as $colKey => $compactColumn) {
                     $value .= $colKey ? $column->separator : "";
-                    
+
                     $value .= $this->handleColumnToData($model, $compactColumn)["value"];
                 }
-            break;
+                break;
 
             case 'text':
                 $strKey = Str::of($key);
-                
+
                 if ($strKey->contains(".")) {
-                    $keys = $strKey->explode(".");                    
+                    $keys = $strKey->explode(".");
                     $value = $model;
-                    
+
                     foreach ($keys as $key) {
-                        $value = $value->$key;
+                        $value = $value ? $value->$key : "";
                     }
-                }
-                else {
+                } else {
                     $value = $model->$key;
                 }
-            break;
-            
+                break;
+
             default:
                 $value = $model->$key;
-            break;
+                break;
         }
 
         return [
             "key" => $key,
-            "value" => $value
+            "value" => $value,
         ];
     }
 }

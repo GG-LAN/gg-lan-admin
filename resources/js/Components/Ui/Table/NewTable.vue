@@ -51,12 +51,12 @@ onMounted(() => {
     uid.value = getCurrentInstance().uid;
 });
 
-if (page.props.table.search) {
-    search = ref(page.props.table.search);
+if (props.table.search) {
+    search = ref(props.table.search);
 }
 
-if (page.props.table.data.per_page) {
-    perPage = ref(page.props.table.data.per_page);
+if (props.table.data.per_page) {
+    perPage = ref(props.table.data.per_page);
 }
 
 watch(
@@ -360,7 +360,7 @@ const updatePerPage = (page) => {
 
                 <!-- Simple Column -->
                 <div class="flex items-center select-none" v-else>
-                    {{ column.label }}
+                    {{ __(column.label) }}
                 </div>
             </fwb-table-head-cell>
 

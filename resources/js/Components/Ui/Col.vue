@@ -27,7 +27,7 @@ const bgColor = computed(() =>
 <template>
     <div :class="bgColor + ' ' + sizeClass" class="space-y-2">
         <h2
-            class="text-xl font-black text-gray-900 dark:text-gray-400"
+            class="text-xl font-semibold text-gray-900 dark:text-gray-400"
             v-if="title"
         >
             {{ __(title) }}

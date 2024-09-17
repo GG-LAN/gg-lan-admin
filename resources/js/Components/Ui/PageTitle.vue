@@ -16,7 +16,7 @@ const props = defineProps({
         <Breadcrumb :breadcrumbs="breadcrumbs" />
 
         <!-- Page Title -->
-        <h1 class="text-xl font-semibold sm:text-2xl" v-if="title">
+        <h1 class="text-xl font-bold sm:text-2xl" v-if="title">
             {{ title }}
         </h1>
         <div class="flex items-center justify-between gap-4" v-else>

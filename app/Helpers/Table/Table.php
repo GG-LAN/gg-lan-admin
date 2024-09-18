@@ -34,6 +34,8 @@ class Table
 
     protected bool $paginate = true;
 
+    protected bool $displayPerPage = true;
+
     private Request $request;
 
     public function __construct(...$args)
@@ -146,6 +148,7 @@ class Table
         return [
             "columns_count" => count($this->columns()),
             "pagination" => $this->paginate,
+            "displayPerPage" => $this->displayPerPage,
         ];
     }
 
@@ -247,13 +250,25 @@ class Table
 
         $value = "";
 
+        if ($key->contains(".")) {
+            $keys = $key->explode(".");
+
+            $value = $model;
+
+            foreach ($keys as $key) {
+                $value = $value ? $value->$key : "";
+            }
+        } else {
+            $value = $model->$key;
+        }
+
         switch ($column->type) {
             case 'date':
-                $date = new Carbon($model->$key);
+                $date = new Carbon($value);
 
                 $date = $date->format($column->date_format);
 
-                $value = $model->$key != null ? $date : "";
+                $value = $value != null ? $date : "";
                 break;
 
             case 'compact':
@@ -268,21 +283,11 @@ class Table
 
             case 'text':
             case 'bool':
-                if ($key->contains(".")) {
-                    $keys = $key->explode(".");
-
-                    $value = $model;
-
-                    foreach ($keys as $key) {
-                        $value = $value ? $value->$key : "";
-                    }
-                } else {
-                    $value = $model->$key;
-                }
+                //
                 break;
 
             default:
-                $value = $model->$key;
+                //
                 break;
         }
 

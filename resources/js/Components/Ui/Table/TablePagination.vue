@@ -45,6 +45,7 @@ const updatePerPage = (perPage) => {
 
             <SelectPerPage
                 class="col-span-1"
+                v-if="table.miscs.displayPerPage"
                 :perPage="perPage"
                 @updatePerPage="(perPage) => updatePerPage(perPage)"
             />

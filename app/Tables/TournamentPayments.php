@@ -14,6 +14,8 @@ class TournamentPayments extends Table
 
     protected string $defaultSort = "paid, desc";
 
+    protected bool $displayPerPage = false;
+
     public function resource(): HasManyThrough
     {
         return $this->tournament->purchasedPlaces();

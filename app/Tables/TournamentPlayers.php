@@ -12,7 +12,7 @@ class TournamentPlayers extends Table
 {
     protected $model = User::class;
 
-    protected bool $paginate = false;
+    protected bool $displayPerPage = false;
 
     public function resource(): BelongsToMany
     {

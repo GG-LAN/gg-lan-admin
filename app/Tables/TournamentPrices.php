@@ -12,7 +12,7 @@ class TournamentPrices extends Table
 {
     protected $model = TournamentPrice::class;
 
-    protected bool $paginate = false;
+    protected bool $displayPerPage = false;
 
     public function resource(): HasMany
     {

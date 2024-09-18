@@ -13,7 +13,7 @@ class TournamentTeams extends Table
 {
     protected $model = Team::class;
 
-    protected bool $paginate = false;
+    protected bool $displayPerPage = false;
 
     public function resource(): HasMany
     {

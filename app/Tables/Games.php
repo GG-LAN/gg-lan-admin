@@ -14,8 +14,8 @@ class Games extends Table
     public function columns(): array
     {
         return [
-            TextColumn::add("name", "Jeu")->searchable(true)->sortable(true),
-            TextColumn::add("places", "Joueurs / Équipe")->searchable(true)->sortable(true),
+            TextColumn::add("name", "Game")->searchable(true)->sortable(true),
+            TextColumn::add("places", "Player / Team")->searchable(true)->sortable(true),
         ];
     }
 

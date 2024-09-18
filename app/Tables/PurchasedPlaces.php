@@ -22,9 +22,12 @@ class PurchasedPlaces extends Table
     public function columns(): array
     {
         return [
-            TextColumn::add("user.pseudo", "Joueur")->searchable(true),
-            TextColumn::add("tournamentPrice.tournament.name", "Tournois"),
-            BoolColumn::add("paid", "Statut", "Paiement validé", "En attente de paiement")->sortable(true),
+            TextColumn::add("user.pseudo", "PLayer")->searchable(true),
+            TextColumn::add("tournamentPrice.tournament.name", "Tournament"),
+            BoolColumn::add("paid", "Status",
+                labelTrue: "Payment validated",
+                labelFalse: "Waiting for payment"
+            )->sortable(true),
         ];
     }
 

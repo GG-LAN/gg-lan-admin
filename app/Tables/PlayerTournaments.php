@@ -24,7 +24,7 @@ class PlayerTournaments extends Table
         return [
             TextColumn::add("name", "Tournament"),
             TextColumn::add("game.name", "Game"),
-            BadgeColumn::add("status", "Statut", [
+            BadgeColumn::add("status", "Status", [
                 BadgeColumn::Badge("closed", "Closed", "red"),
                 BadgeColumn::Badge("finished", "Finished", "orange"),
                 BadgeColumn::Badge("open", "Open", "green"),

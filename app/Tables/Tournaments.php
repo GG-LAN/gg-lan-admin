@@ -20,26 +20,26 @@ class Tournaments extends Table
     public function columns(): array
     {
         return [
-            TextColumn::add("name", "Nom")->searchable(true)->sortable(true),
-            TextColumn::add("game.name", "Jeu"),
+            TextColumn::add("name", "Name")->searchable(true)->sortable(true),
+            TextColumn::add("game.name", "Game"),
 
-            CompactColumn::add("date", "Dates Début | Fin", columns: [
-                DateColumn::add("start_date", format: "d/m/Y")->sortable(true),
-                DateColumn::add("end_date", format: "d/m/Y")->sortable(true),
+            CompactColumn::add("date", "Dates Start | End", columns: [
+                DateColumn::add("start_date", format: "d/m/Y"),
+                DateColumn::add("end_date", format: "d/m/Y"),
             ]),
 
             EnumColumn::add("type", "Type", [
-                EnumColumn::Enum("team", "Équipe"),
+                EnumColumn::Enum("team", "Team"),
                 EnumColumn::Enum("solo", "Solo"),
             ])->sortable(true),
 
             TextColumn::add("places", "Places")->searchable(true)->sortable(true),
-            TextColumn::add("cashprize", "Cashprize (€)")->searchable(true)->sortable(true),
+            TextColumn::add("cashprize", "Cashprice (€)")->searchable(true)->sortable(true),
 
-            BadgeColumn::add("status", "Statut", [
-                BadgeColumn::Badge("closed", "Fermé", "red"),
-                BadgeColumn::Badge("finished", "Terminé", "orange"),
-                BadgeColumn::Badge("open", "Ouvert", "green"),
+            BadgeColumn::add("status", "Status", [
+                BadgeColumn::Badge("closed", "Closed", "red"),
+                BadgeColumn::Badge("finished", "Finished", "orange"),
+                BadgeColumn::Badge("open", "Open", "green"),
             ])->sortable(true),
         ];
     }

@@ -16,9 +16,9 @@ class Players extends Table
     {
         return [
             TextColumn::add("pseudo", "Pseudo")->searchable(true)->sortable(true),
-            TextColumn::add("name", "Nom")->searchable(true)->sortable(true),
+            TextColumn::add("name", "Name")->searchable(true)->sortable(true),
             TextColumn::add("email", "Email")->searchable(true)->sortable(true),
-            BoolColumn::add("admin", "Rôle", labelTrue: "Admin", labelFalse: "Joueur")->sortable(true),
+            BoolColumn::add("admin", "Role", labelTrue: "Admin", labelFalse: "Player")->sortable(true),
         ];
     }
 

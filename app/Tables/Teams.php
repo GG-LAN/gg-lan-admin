@@ -18,11 +18,11 @@ class Teams extends Table
         return [
             TextColumn::add("name", "Nom")->searchable(true)->sortable(true),
             TextColumn::add("description", "Description")->searchable(true),
-            DateColumn::add("created_at", "Créée le", format: "d/m/Y")->searchable(true)->sortable(true),
-            BadgeColumn::add("registration_state", "Statut", [
-                BadgeColumn::Badge("not_full", "Incomplète", "red"),
-                BadgeColumn::Badge("pending", "En Attente", "orange"),
-                BadgeColumn::Badge("registered", "Inscrite", "green"),
+            DateColumn::add("created_at", "Created at", format: "d/m/Y")->searchable(true)->sortable(true),
+            BadgeColumn::add("registration_state", "Status", [
+                BadgeColumn::Badge("not_full", "Incomplete", "red"),
+                BadgeColumn::Badge("pending", "Pending", "orange"),
+                BadgeColumn::Badge("registered", "Registered", "green"),
             ])->sortable(true),
         ];
     }

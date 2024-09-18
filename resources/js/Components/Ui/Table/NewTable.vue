@@ -337,7 +337,7 @@ const updatePerPage = (page) => {
                     v-if="column.sortable"
                     @click="sortColumn(key)"
                 >
-                    {{ column.label }}
+                    {{ __(column.label) }}
                     <div v-if="table.sort && table.sort.column == key">
                         <SvgIcon
                             icon="sort-up"

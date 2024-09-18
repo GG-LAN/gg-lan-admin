@@ -34,7 +34,7 @@ class UpdateApiTeamRequest extends FormRequest
     }
 
     public function failedAuthorization() {
-        throw new HttpResponseException(ApiResponse::forbidden(__("responses.teams.not_captain"), []));
+        throw new HttpResponseException(ApiResponse::forbidden(__("responses.team.not_captain"), []));
         
     }
 

@@ -26,7 +26,7 @@ class TeamPlayers extends Table
     {
         return [
             TextColumn::add("pseudo", "Player"),
-            DateColumn::add("created_at", "Member since", "d/m/Y"),
+            DateColumn::add("pivot.created_at", "Member since", "d/m/Y"),
             BoolColumn::add("pivot.captain", "Hierarchy",
                 labelTrue: "Captain",
                 labelFalse: "Player",

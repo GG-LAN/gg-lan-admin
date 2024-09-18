@@ -111,7 +111,20 @@ class TournamentController extends Controller
             ],
             [
                 "label" => $tournament->name,
+                "status" => $tournament->status,
                 "active" => true,
+                "choices" => Tournament::orderByDesc("created_at")->get()->map(function ($mappedTournament) use ($tournament) {
+                    if ($mappedTournament->id == $tournament->id) {
+                        return;
+                    }
+
+                    return [
+                        "label" => $mappedTournament->name,
+                        "status" => $mappedTournament->status,
+                        "route" => route("tournaments.show", $mappedTournament->id),
+                    ];
+                }),
+
             ],
         ];
 
@@ -130,7 +143,7 @@ class TournamentController extends Controller
             "tournamentTeams" => fn() => TournamentTeams::table(tournament: $tournament),
             "tournamentPlayers" => fn() => TournamentPlayers::table(tournament: $tournament),
             "games" => Game::all(),
-            "breadcrumbs" => $breadcrumbs,
+            "breadcrumbs" => fn() => $breadcrumbs,
         ]);
     }
 

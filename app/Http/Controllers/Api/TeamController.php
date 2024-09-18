@@ -12,12 +12,6 @@ use Illuminate\Support\Facades\Auth;
 
 class TeamController extends Controller
 {
-
-    public function __construct()
-    {
-
-    }
-
     /**
      * Return all the teams
      */

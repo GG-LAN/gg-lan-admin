@@ -12,12 +12,6 @@ use Illuminate\Http\JsonResponse;
 
 class TournamentController extends Controller
 {
-
-    public function __construct()
-    {
-
-    }
-
     /**
      * Return all tournaments
      */

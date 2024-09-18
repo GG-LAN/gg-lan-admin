@@ -100,7 +100,7 @@ onMounted(() => {
 
                     <div
                         id="breadcrumb-dropdown"
-                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-md w-auto dark:bg-gray-700"
+                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-md w-64 h-44 overflow-y-scroll dark:bg-gray-700 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-gray-700 dark:[&::-webkit-scrollbar-thumb]:bg-gray-500"
                     >
                         <ul
                             class="py-2 text-sm text-gray-700 dark:text-gray-200"
@@ -109,7 +109,7 @@ onMounted(() => {
                                 <Link
                                     :href="choice.route"
                                     v-if="choice"
-                                    class="block px-4 py-2 flex items-center space-x-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    class="block px-4 py-2 flex items-center space-x-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white overflow-hidden"
                                 >
                                     <span
                                         v-if="choice.status == 'closed'"
@@ -129,7 +129,9 @@ onMounted(() => {
                                     >
                                     </span>
 
-                                    <span>{{ choice.label }}</span>
+                                    <span class="" :title="choice.label">
+                                        {{ choice.label }}
+                                    </span>
                                 </Link>
                             </li>
                         </ul>

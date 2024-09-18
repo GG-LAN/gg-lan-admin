@@ -9,6 +9,7 @@ use App\Http\Requests\Tournaments\UpdateTournamentRequest;
 use App\Models\Game;
 use App\Models\Tournament;
 use App\Models\TournamentPrice;
+use App\Tables\TournamentPayments;
 use App\Tables\TournamentPlayers;
 use App\Tables\TournamentPrices;
 use App\Tables\Tournaments;
@@ -128,20 +129,12 @@ class TournamentController extends Controller
             ],
         ];
 
-        $tournamentTeams = [];
-        $tournamentPlayers = [];
-
-        if ($tournament->type == "team") {
-            $tournamentTeams = TournamentTeams::table(tournament: $tournament);
-        } else {
-            $tournamentPlayers = TournamentPlayers::table(tournament: $tournament);
-        }
-
         return Inertia::render('Tournaments/Show', [
             "tournament" => $tournament,
             "tournamentPrices" => fn() => TournamentPrices::table(tournament: $tournament),
             "tournamentTeams" => fn() => TournamentTeams::table(tournament: $tournament),
             "tournamentPlayers" => fn() => TournamentPlayers::table(tournament: $tournament),
+            "tournamentPayments" => fn() => TournamentPayments::table(tournament: $tournament),
             "games" => Game::all(),
             "breadcrumbs" => fn() => $breadcrumbs,
         ]);

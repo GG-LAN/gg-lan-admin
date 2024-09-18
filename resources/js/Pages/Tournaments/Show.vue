@@ -105,6 +105,10 @@ defineOptions({ layout: AuthenticatedLayout });
         <NewTable :table="$page.props.tournamentPlayers" />
     </Col>
 
+    <Col size="4" class="lg:col-span-2" title="Online Payments">
+        <NewTable :table="$page.props.tournamentPayments" />
+    </Col>
+
     <Col size="4" class="mt-4">
         <DeleteTournament />
     </Col>

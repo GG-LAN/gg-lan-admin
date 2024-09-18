@@ -22,11 +22,11 @@ const updatePerPage = (perPage) => {
 <template>
     <div
         class="sticky bottom-0 right-0 items-center w-full sm:flex sm:justify-between"
-        v-if="table.miscs.pagination"
+        v-if="table.miscs.pagination && table.data.total > table.data.per_page"
     >
-        <div class="flex items-center mb-4 sm:mb-0 grid grid-cols-2">
+        <div class="flex items-center mb-4 sm:mb-0 grid grid-cols-2 space-y-2">
             <span
-                class="text-sm font-normal text-gray-500 dark:text-gray-400 col-span-2 mb-2"
+                class="text-sm font-normal text-gray-500 dark:text-gray-400 col-span-2"
             >
                 Affiche
                 <span class="font-semibold text-gray-900 dark:text-white">

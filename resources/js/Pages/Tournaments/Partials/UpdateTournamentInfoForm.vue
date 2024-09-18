@@ -81,7 +81,7 @@ const updateTournament = () => {
 
         <Col size="2">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
-                Jeu du tournois
+                {{ __("Tournament Game") }}
             </h2>
         </Col>
 

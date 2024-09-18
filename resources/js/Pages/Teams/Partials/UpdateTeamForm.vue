@@ -52,7 +52,7 @@ const updateTeam = () => {
                     id="update-description"
                     class="mt-1 block w-full"
                     type="text"
-                    placeholder="Une description courte du tournois..."
+                    :placeholder="__('Short description of the team') + '...'"
                     v-model="form.description"
                     required
                 />

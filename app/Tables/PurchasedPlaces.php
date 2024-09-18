@@ -22,7 +22,7 @@ class PurchasedPlaces extends Table
     public function columns(): array
     {
         return [
-            TextColumn::add("user.pseudo", "PLayer")->searchable(true),
+            TextColumn::add("user.pseudo", "Player")->searchable(true),
             TextColumn::add("tournamentPrice.tournament.name", "Tournament"),
             BoolColumn::add("paid", "Status",
                 labelTrue: "Payment validated",

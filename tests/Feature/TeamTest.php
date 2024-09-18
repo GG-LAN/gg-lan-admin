@@ -888,3 +888,78 @@ test("Has random last player, assert that team registration state change to 'reg
         "registration_state" => Team::PENDING,
     ]);
 });
+
+test("Has captain, assert that removing a player from the team that is full and registered will also update the registration state of the team ", function () {
+    $tournament = Tournament::factory()
+        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
+            return [
+                'name' => $tournament->name,
+                'tournament_id' => $tournament->id,
+                'type' => 'normal',
+                'active' => true,
+            ];
+        }), "prices")
+        ->createQuietly([
+            "status" => "open",
+            "type" => "team",
+            "places" => 10,
+            "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
+        ]);
+
+    $captain = User::factory()->createQuietly();
+
+    $player = User::factory()->createQuietly();
+
+    // Create a full team.
+    $team = Team::factory()
+        ->hasAttached($captain, ['captain' => true])
+        ->hasAttached(User::factory()->count(3))
+        ->hasAttached($player)
+        ->for($tournament)
+        ->createQuietly(["registration_state" => Team::REGISTERED]);
+
+    $this->actingAs($captain)->post('/api/teams/' . $team->id . '/removePlayer/' . $player->id);
+
+    $this->assertDatabaseHas("teams", [
+        "id" => $team->id,
+        "registration_state" => Team::NOT_FULL,
+    ]);
+});
+
+test("Has captain, assert that removing a player from the team that is full and pending will also update the registration state of the team ", function () {
+    $tournament = Tournament::factory()
+        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
+            return [
+                'name' => $tournament->name,
+                'tournament_id' => $tournament->id,
+                'type' => 'normal',
+                'active' => true,
+            ];
+        }), "prices")
+        ->createQuietly([
+            "status" => "open",
+            "type" => "team",
+            "places" => 1,
+            "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
+        ]);
+
+    $captain = User::factory()->createQuietly();
+
+    $player = User::factory()->createQuietly();
+
+    // Create a full team.
+    $team = Team::factory()
+        ->hasAttached($captain, ['captain' => true])
+        ->hasAttached(User::factory()->count(3))
+        ->hasAttached($player)
+        ->for($tournament)
+        ->createQuietly(["registration_state" => Team::PENDING]);
+
+    $this->actingAs($captain)->post('/api/teams/' . $team->id . '/removePlayer/' . $player->id);
+
+    $this->assertDatabaseHas("teams", [
+        "id" => $team->id,
+        "registration_state" => Team::NOT_FULL,
+    ]);
+});
+

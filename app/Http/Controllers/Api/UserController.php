@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers\Api;
 
-use App\Events\TeamUpdated;
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Users\UpdateUserRequest;
@@ -116,7 +115,6 @@ class UserController extends Controller
         }
 
         $team->users()->detach($player);
-        TeamUpdated::dispatch($team);
 
         return ApiResponse::success(__("responses.users.team_left"), []);
     }

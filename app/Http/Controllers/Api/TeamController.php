@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers\Api;
 
-use App\Events\TeamUpdated;
 use App\Helpers\ApiResponse;
 use App\Http\Requests\Teams\StoreTeamRequest;
 use App\Http\Requests\Teams\UpdateApiTeamRequest;
@@ -90,17 +89,12 @@ class TeamController extends Controller
     {
         // If the team is "not_full"
         if ($team->registration_state == Team::NOT_FULL) {
-            $countPlayers = $team->users()->count();
-
             // If the player is already in the team
             if ($team->users->where('id', $player->id)->first()) {
                 return ApiResponse::forbidden(__("responses.team.player_in_team"), []);
             }
 
             $team->users()->attach($player);
-            // PurchasedPlace::register($player, $team->tournament);
-
-            TeamUpdated::dispatch($team);
 
             return ApiResponse::success(__("responses.team.player_added"), $team);
         } else {
@@ -129,8 +123,6 @@ class TeamController extends Controller
         }
 
         $team->users()->detach($player);
-
-        TeamUpdated::dispatch($team);
 
         return ApiResponse::success(__("responses.team.player_removed"), $team);
     }

@@ -20,7 +20,7 @@ class Tournaments extends Table
     public function columns(): array
     {
         return [
-            TextColumn::add("name", "Name")->searchable(true)->sortable(true),
+            TextColumn::add("name", "Tournament")->searchable(true)->sortable(true),
             TextColumn::add("game.name", "Game"),
 
             CompactColumn::add("date", "Dates Start | End", columns: [

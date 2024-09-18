@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -42,27 +42,34 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @return array<string, string>
      */
-    protected function casts(): array {
+    protected function casts(): array
+    {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'admin' => 'bool'
+            'admin' => 'bool',
         ];
     }
 
-    public function teams() {
-        return $this->belongsToMany('App\Models\Team')->withPivot('captain');
+    public function teams()
+    {
+        return $this->belongsToMany('App\Models\Team')
+            ->withPivot('captain')
+            ->withTimestamps();
     }
 
-    public function tournaments() {
+    public function tournaments()
+    {
         return $this->belongsToMany('App\Models\Tournament');
     }
 
-    public function purchasedPlaces() {
+    public function purchasedPlaces()
+    {
         return $this->hasMany('App\Models\PurchasedPlace');
     }
 
-    public function isAdmin() {
+    public function isAdmin()
+    {
         return $this->admin ? true : false;
     }
 }

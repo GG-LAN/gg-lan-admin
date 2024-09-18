@@ -29,7 +29,8 @@ class Team extends Model
     {
         return $this->belongsToMany('App\Models\User')
             ->using(TeamUser::class)
-            ->withPivot('captain');
+            ->withPivot('captain')
+            ->withTimestamps();
     }
 
     public function getCaptainAttribute()

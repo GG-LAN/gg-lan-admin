@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\PurchasedPlace;
 use App\Models\Tournament;
+use App\Models\TournamentPrice;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -31,7 +32,7 @@ class PurchasedPlace extends Model
 
     public function tournament()
     {
-        return Tournament::findOrFail($this->tournamentPrice->tournament_id);
+        return $this->tournamentPrice->tournament();
     }
 
     public static function forOpenTournaments()

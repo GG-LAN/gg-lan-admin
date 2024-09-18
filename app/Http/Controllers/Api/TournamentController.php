@@ -42,7 +42,7 @@ class TournamentController extends Controller
             return ApiResponse::unprocessable(__("responses.tournament.not_exists"), []);
         }
 
-        return ApiResponse::success("", $tournament->purchasedPlaces());
+        return ApiResponse::success("", $tournament->purchasedPlaces);
     }
 
     /**

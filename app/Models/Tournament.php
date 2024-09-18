@@ -47,15 +47,7 @@ class Tournament extends Model
 
     public function purchasedPlaces()
     {
-        $purchasedPlaces = [];
-
-        foreach ($this->prices as $price) {
-            foreach ($price->purchasedPlaces as $purchasedPlace) {
-                array_push($purchasedPlaces, $purchasedPlace);
-            }
-        }
-
-        return $purchasedPlaces;
+        return $this->hasManyThrough(PurchasedPlace::class, TournamentPrice::class);
     }
 
     public function checkPlayerIsRegistered(User $user)

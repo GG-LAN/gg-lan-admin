@@ -22,7 +22,7 @@
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
     </head>
-    <body class="bg-gray-100 dark:bg-gray-900">
+    <body class="bg-gray-100 dark:bg-gray-900 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full dark:[&::-webkit-scrollbar-track]:bg-gray-900 dark:[&::-webkit-scrollbar-thumb]:bg-gray-800 dark:[&::-webkit-scrollbar-thumb]:rounded-full">
         @inertia
     </body>
 </html>

@@ -70,7 +70,7 @@ defineOptions({ layout: AuthenticatedLayout });
     </Col>
 
     <Col
-        size="1"
+        size="4"
         :background="true"
         class="lg:col-span-1"
         title="Tournament Dates"

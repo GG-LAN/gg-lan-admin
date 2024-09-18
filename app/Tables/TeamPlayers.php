@@ -29,7 +29,9 @@ class TeamPlayers extends Table
             DateColumn::add("created_at", "Member since", "d/m/Y"),
             BoolColumn::add("pivot.captain", "Hierarchy",
                 labelTrue: "Captain",
-                labelFalse: "Player"
+                labelFalse: "Player",
+                iconTrue: "star",
+                iconFalse: "user"
             ),
         ];
     }

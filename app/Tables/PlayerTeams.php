@@ -3,6 +3,7 @@
 namespace App\Tables;
 
 use App\Helpers\Table\BadgeColumn;
+use App\Helpers\Table\BoolColumn;
 use App\Helpers\Table\Table;
 use App\Helpers\Table\TextColumn;
 use App\Models\User;
@@ -24,6 +25,12 @@ class PlayerTeams extends Table
         return [
             TextColumn::add("name", "Team"),
             TextColumn::add("tournament.name", "Tournament"),
+            BoolColumn::add("pivot.captain", "Hierarchy",
+                labelTrue: "Captain",
+                labelFalse: "Player",
+                iconTrue: "star",
+                iconFalse: "user"
+            ),
             BadgeColumn::add("registration_state", "Statut", [
                 BadgeColumn::Badge("not_full", "Incomplete", "red"),
                 BadgeColumn::Badge("pending", "Pending", "orange"),

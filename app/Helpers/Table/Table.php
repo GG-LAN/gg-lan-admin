@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -60,7 +61,7 @@ class Table
         return $this->$name;
     }
 
-    protected function resource(): Builder | Model | BelongsToMany | HasMany
+    protected function resource(): Builder | Model | BelongsToMany | HasMany | HasManyThrough
     {
         return $this->modelClass;
     }
@@ -252,7 +253,7 @@ class Table
 
                 $date = $date->format($column->date_format);
 
-                $value = $date;
+                $value = $model->$key != null ? $date : "";
                 break;
 
             case 'compact':

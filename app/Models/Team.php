@@ -23,7 +23,7 @@ class Team extends Model
     protected $with = ['users'];
 
     // protected $appends = ['captain_id', 'tournament_name', 'team_slots', 'is_full'];
-    protected $appends = ['captain_id'];
+    protected $appends = ['captain', 'captain_id'];
 
     public function users()
     {
@@ -32,9 +32,14 @@ class Team extends Model
             ->withPivot('captain');
     }
 
+    public function getCaptainAttribute()
+    {
+        return $this->users()->where('captain', true)->first();
+    }
+
     public function getCaptainIdAttribute()
     {
-        return $this->users()->where('captain', true)->first()->id;
+        return $this->getCaptainAttribute()->id;
     }
 
     public function tournament()

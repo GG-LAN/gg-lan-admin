@@ -44,7 +44,7 @@ class TournamentTeams extends Table
     public function actions(): array
     {
         return [
-            //
+            "show" => "teams.show",
         ];
     }
 }

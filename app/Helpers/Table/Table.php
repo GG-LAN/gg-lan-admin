@@ -231,8 +231,10 @@ class Table
         };
 
         if ($this->paginate) {
+            $pageName = Str::of($this->modelClass::class)->afterLast("\\")->snake()->toString();
+
             $eloquent = $eloquent
-                ->paginate($itemsPerPage)
+                ->paginate($itemsPerPage, pageName: $pageName)
                 ->withQueryString()
                 ->through($mapModel);
         } else {

@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::get('user', 'user');
-        Route::get('email/resend', 'resend')->name('verification.resend.api')->middleware("throttle:3,1");;
+        Route::get('email/resend', 'resend')->name('verification.resend.api')->middleware("throttle:3,1");
         Route::post('logout', 'logout');
     });
 });
@@ -40,7 +40,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login')->name("login.api");
     Route::get('email/verify/{id}/{hash}', 'verify')->name('verification.verify.api');
     Route::get('not-verified', 'notVerified')->name('verification.notice.api');
-    Route::post('forgot-password', 'forgotPassword')->middleware("throttle:3,1");;
+    Route::post('forgot-password', 'forgotPassword')->middleware("throttle:3,1");
     Route::post('reset-password', 'resetPassword');
 });
 

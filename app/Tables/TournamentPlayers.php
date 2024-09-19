@@ -38,7 +38,7 @@ class TournamentPlayers extends Table
     public function actions(): array
     {
         return [
-            //
+            "show" => "players.show",
         ];
     }
 }

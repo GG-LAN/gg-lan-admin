@@ -3,11 +3,14 @@ namespace App\Models;
 
 use App\Models\Setting;
 use App\Models\Team;
+use App\Observers\TournamentObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Stripe\StripeClient as Stripe;
 
+#[ObservedBy([TournamentObserver::class])]
 class Tournament extends Model
 {
     use HasFactory;

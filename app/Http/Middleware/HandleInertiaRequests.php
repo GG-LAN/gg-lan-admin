@@ -55,6 +55,7 @@ class HandleInertiaRequests extends Middleware
 
                 return json_decode(file_get_contents($localeFile), true);
             },
+            "mapbox_token" => config("app.mapbox_token"),
         ];
     }
 }

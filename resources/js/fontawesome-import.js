@@ -34,6 +34,7 @@ import {
     faCircleCheck,
     faStar,
     faAngleDown,
+    faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faStripeS } from "@fortawesome/free-brands-svg-icons";
@@ -73,7 +74,8 @@ library.add(
     faEyeSlash,
     faCircleCheck,
     faStar,
-    faAngleDown
+    faAngleDown,
+    faMagnifyingGlass
 );
 
 // Brands

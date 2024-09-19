@@ -60,5 +60,7 @@
     "Places": "Places",
     "Cashprice (€)": "Cashprize (€)",
     "Online Payments": "Paiements en ligne",
-    "Cancel": "Annuler"
+    "Cancel": "Annuler",
+    "Address": "Adresse",
+    "You can't search an empty address.": "Vous ne pouvez pas rechercher une adresse vide."
 }

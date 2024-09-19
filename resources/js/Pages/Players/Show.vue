@@ -21,13 +21,13 @@ defineOptions({ layout: AuthenticatedLayout });
         <UpdatePlayerForm :player="$page.props.player" />
     </Col>
 
-    <div class="col-span-4 grid grid-cols-4 gap-4">
-        <Col size="2" title="Teams">
+    <Col size="4" class="grid grid-cols-4 gap-4">
+        <Col size="4" class="lg:col-span-2" title="Teams">
             <NewTable :table="$page.props.playerTeams" />
         </Col>
 
-        <Col size="2" title="Solo tournaments">
+        <Col size="4" class="lg:col-span-2" title="Solo tournaments">
             <NewTable :table="$page.props.playerTournaments" />
         </Col>
-    </div>
+    </Col>
 </template>

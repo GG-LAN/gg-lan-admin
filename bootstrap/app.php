@@ -1,19 +1,19 @@
 <?php
 
 use App\Helpers\ApiResponse;
-use Sentry\Laravel\Integration;
-use Illuminate\Foundation\Application;
-use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-
+use Sentry\Laravel\Integration;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
-        api: __DIR__.'/../routes/api.php',
-        commands: __DIR__.'/../routes/console.php',
+        web: __DIR__ . '/../routes/web.php',
+        api: __DIR__ . '/../routes/api.php',
+        commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
@@ -25,10 +25,18 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
         // Sentry exceptions catching
         Integration::handles($exceptions);
-        
+
         $exceptions->render(function (AuthenticationException $exception, $request) {
             if (str_contains($request->path(), "api")) {
                 return ApiResponse::unauthorized(__("responses.unauthenticated"), []);
+            }
+        });
+
+        $exceptions->render(function (NotFoundHttpException $exception, $request) {
+            if (str_contains($request->path(), "api")) {
+                return ApiResponse::unprocessable(__("responses.went_wrong"), []);
+            } else {
+                return back();
             }
         });
     })
@@ -44,7 +52,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Retrieve the Stripe prices of open tournaments and checks if the price is the same as in db. If not, it updates it.
         $schedule->command("tournamentPrice:updatePriceFromStripe")->hourly();
-        
+
         // Delete unverified accounts that are at least 1 month old
         $schedule->command("account:purge-unverified")->monthly();
 

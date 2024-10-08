@@ -30,9 +30,10 @@ class TeamObserver implements ShouldHandleEventsAfterCommit
     /**
      * Handle the Team "deleted" event.
      */
-    public function deleted(Team $team): void
+    public function deleting(Team $team): void
     {
-        //
+        // Manually remove all players of the team to trigger TeamUserObserver
+        $team->users()->sync([]);
     }
 
     /**

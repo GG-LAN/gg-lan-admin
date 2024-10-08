@@ -66,8 +66,13 @@ class TeamController extends Controller
         return back();
     }
 
-    public function destroy(string $id)
+    public function destroy(Request $request, Team $team)
     {
-        //
+        $team->delete();
+
+        $request->session()->flash('status', 'success');
+        $request->session()->flash('message', __('responses.team.deleted'));
+
+        return to_route('teams.index');
     }
 }

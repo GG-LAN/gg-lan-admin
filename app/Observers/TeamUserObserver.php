@@ -36,13 +36,15 @@ class TeamUserObserver implements ShouldHandleEventsAfterCommit
         PurchasedPlace::unregister($user, $tournament);
 
         // Updates the registration_state accordingly to if the team is full and if the tournament is full.
-        $this->updateTeamRegistrationState($team);
+        $needToRegisterOldestPendingTeam = $this->updateTeamRegistrationState($team);
 
         // If the tournament is not full, it will search the oldest pending team and register it to the tournament.
-        $this->registerOldestPendingTeam($tournament);
+        if ($needToRegisterOldestPendingTeam) {
+            $this->registerOldestPendingTeam($tournament);
+        }
     }
 
-    private function updateTeamRegistrationState(Team $team): void
+    private function updateTeamRegistrationState(Team $team): bool
     {
         if ($team->isFull) {
             if ($team->tournament->isFull) {
@@ -57,9 +59,13 @@ class TeamUserObserver implements ShouldHandleEventsAfterCommit
 
         if ($team->isDirty("registration_state")) {
             $team->registration_state_updated_at = now()->toDateTimeString();
+
+            $team->save();
+
+            return true;
         }
 
-        $team->save();
+        return false;
     }
 
     private function registerOldestPendingTeam(Tournament $tournament): void

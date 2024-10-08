@@ -62,11 +62,12 @@ class PurchasedPlace extends Model
 
     public static function unregister(User $user, Tournament $tournament)
     {
-        $payment = (new static )->firstOrCreate([
-            "user_id" => $user->id,
-            "tournament_price_id" => $tournament->currentPrice()->id,
-        ]);
+        $payment = self::where("user_id", $user->id)
+            ->where("tournament_price_id", $tournament->currentPrice()->id)
+            ->first();
 
-        return $payment->delete();
+        if ($payment && !$payment->paid) {
+            return $payment->delete();
+        }
     }
 }

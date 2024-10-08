@@ -7,6 +7,7 @@ import RegistrationStateTeam from "./Partials/RegistrationStateTeam.vue";
 import TeamImage from "./Partials/TeamImage.vue";
 import UpdateTeamForm from "./Partials/UpdateTeamForm.vue";
 import Col from "@/Components/Ui/Col.vue";
+import DeleteTeam from "./Partials/DeleteTeam.vue";
 
 defineOptions({ layout: AuthenticatedLayout });
 </script>
@@ -50,5 +51,9 @@ defineOptions({ layout: AuthenticatedLayout });
     <!-- Players -->
     <Col size="4" title="Team members">
         <NewTable :table="$page.props.teamPlayers" />
+    </Col>
+
+    <Col size="4" class="mt-4">
+        <DeleteTeam />
     </Col>
 </template>

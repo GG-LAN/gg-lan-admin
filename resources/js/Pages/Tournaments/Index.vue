@@ -6,6 +6,7 @@ import NewTable from "@/Components/Ui/Table/NewTable.vue";
 import DrawerCreate from "./Partials/DrawerCreate.vue";
 import DrawerDelete from "./Partials/DrawerDelete.vue";
 import Col from "@/Components/Ui/Col.vue";
+import TournamentCreateModal from "./Partials/TournamentCreateModal.vue";
 
 defineOptions({ layout: AuthenticatedLayout });
 </script>
@@ -14,6 +15,7 @@ defineOptions({ layout: AuthenticatedLayout });
     <Head title="Tournois" />
     <PageTitle title="Tournois" :breadcrumbs="$page.props.breadcrumbs" />
 
+    <TournamentCreateModal />
     <Col size="4">
         <NewTable :table="$page.props.table">
             <template #drawerCreate="{ drawer, uid }">

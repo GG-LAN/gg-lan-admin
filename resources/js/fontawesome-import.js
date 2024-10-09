@@ -32,6 +32,11 @@ import {
     faEye,
     faEyeSlash,
     faCircleCheck,
+    faStar,
+    faAngleDown,
+    faMagnifyingGlass,
+    faInfo,
+    faCalendarDays,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faStripeS } from "@fortawesome/free-brands-svg-icons";
@@ -69,7 +74,12 @@ library.add(
     faXmark,
     faEye,
     faEyeSlash,
-    faCircleCheck
+    faCircleCheck,
+    faStar,
+    faAngleDown,
+    faMagnifyingGlass,
+    faInfo,
+    faCalendarDays
 );
 
 // Brands

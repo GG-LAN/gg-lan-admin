@@ -2,7 +2,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import PageTitle from "@/Components/Ui/PageTitle.vue";
-import Table from "@/Components/Ui/Table.vue";
 import UpdateTournamentInfoForm from "./Partials/UpdateTournamentInfoForm.vue";
 import UpdateTournamentDateForm from "./Partials/UpdateTournamentDateForm.vue";
 import OpenTournamentForm from "./Partials/OpenTournamentForm.vue";

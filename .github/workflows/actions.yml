@@ -32,5 +32,3 @@ jobs:
             php artisan queue:restart
 
             npm run build
-
-            chmod -R 777 storage bootstrap/cache

@@ -79,6 +79,8 @@ jobs:
 
             npm run build
 
+            chmod -R 777 storage bootstrap/cache
+
   push-to-master:
     needs: testing
     runs-on: ubuntu-latest

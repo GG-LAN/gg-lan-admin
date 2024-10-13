@@ -1,23 +1,24 @@
 <script setup>
-import { computed } from 'vue';
+import { computed } from "vue";
 
 const props = defineProps({
     column: {
         type: Object,
-        required: true
+        required: true,
     },
     value: {
         type: String,
-        required: true
-    }
-})
+        required: true,
+    },
+});
 
-const enumValue = computed(() => 
-    props.column.enums[props.value] ? props.column.enums[props.value] : props.value
+const enumValue = computed(() =>
+    props.column.enums[props.value]
+        ? props.column.enums[props.value]
+        : props.value
 );
 </script>
 
-
 <template>
-    <span>{{ enumValue }}</span>
+    <span>{{ __(enumValue) }}</span>
 </template>

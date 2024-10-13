@@ -19,6 +19,7 @@ class Teams extends Table
             TextColumn::add("name", "Nom")->searchable(true)->sortable(true),
             TextColumn::add("description", "Description")->searchable(true),
             DateColumn::add("created_at", "Created at", format: "d/m/Y")->searchable(true)->sortable(true),
+            TextColumn::add("team_slots", "Player / Team"),
             BadgeColumn::add("registration_state", "Status", [
                 BadgeColumn::Badge("not_full", "Incomplete", "red"),
                 BadgeColumn::Badge("pending", "Pending", "orange"),

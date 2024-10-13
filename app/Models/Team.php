@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use App\Models\TeamUser;
+use App\Models\Tournament;
 use App\Observers\TeamObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,7 +24,7 @@ class Team extends Model
     protected $with = ['users'];
 
     // protected $appends = ['captain_id', 'tournament_name', 'team_slots', 'is_full'];
-    protected $appends = ['captain', 'captain_id'];
+    protected $appends = ['captain', 'captain_id', 'team_slots'];
 
     public function users()
     {
@@ -48,14 +49,14 @@ class Team extends Model
         return $this->belongsTo('App\Models\Tournament');
     }
 
-    public function getTotalPlacesAttribute()
+    public function getTotalPlacesAttribute(): int
     {
-        return $this->tournament->game->places;
+        return Tournament::where("id", $this->tournament_id)->first()->game->places;
     }
 
-    public function getTeamSlotsAttribute()
+    public function getTeamSlotsAttribute(): string
     {
-        return "{$this->users()->count()}/{$this->getTotalPlacesAttribute()}";
+        return "{$this->users()->count()} / {$this->getTotalPlacesAttribute()}";
     }
 
     public function getIsFullAttribute()

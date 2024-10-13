@@ -23,7 +23,6 @@ class Team extends Model
 
     protected $with = ['users'];
 
-    // protected $appends = ['captain_id', 'tournament_name', 'team_slots', 'is_full'];
     protected $appends = ['captain', 'captain_id', 'team_slots'];
 
     public function users()

@@ -21,7 +21,12 @@ class AuthController extends Controller
 
     public function user()
     {
-        return ApiResponse::success("", Auth::user()->makeVisible(['email', 'name', 'birth_date']));
+        return ApiResponse::success(
+            "",
+            User::with("purchasedPlaces")
+                ->find(Auth::id())
+                ->makeVisible(['email', 'name', 'birth_date'])
+        );
     }
 
     /**

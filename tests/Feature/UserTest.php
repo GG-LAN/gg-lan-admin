@@ -9,7 +9,7 @@ use App\Models\User;
 it("can get players", function () {
     $users = User::factory(10)->createQuietly();
 
-    $users = User::without("purchasedPlaces")->get(['id', 'pseudo', 'image', 'created_at', 'updated_at']);
+    $users = User::all(['id', 'pseudo', 'image', 'created_at', 'updated_at']);
 
     $this->get('/api/players')
         ->assertOk()
@@ -22,7 +22,7 @@ it("can get players with pagination", function () {
     User::factory(10)->createQuietly();
 
     $item_per_page = 5;
-    $users = User::without("purchasedPlaces")->paginate($item_per_page, ['id', 'pseudo', 'image', 'created_at', 'updated_at']);
+    $users = User::paginate($item_per_page, ['id', 'pseudo', 'image', 'created_at', 'updated_at']);
 
     $response = $this->get('/api/players/paginate/' . $item_per_page);
 
@@ -39,7 +39,7 @@ it("can get a player", function () {
     $response = $this->get('/api/players/' . $user->id)
         ->assertOk()
         ->assertJson([
-            "data" => $user->without("purchasedPlaces")->first(['id', 'pseudo', 'image'])->toArray(),
+            "data" => $user->only(['id', 'pseudo', 'image']),
         ]);
 });
 

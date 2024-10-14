@@ -26,7 +26,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return ApiResponse::success("", User::without("purchasedPlaces")->get($this->fieldsToShow));
+        return ApiResponse::success("", User::all($this->fieldsToShow));
     }
 
     /**
@@ -34,7 +34,7 @@ class UserController extends Controller
      */
     public function index_paginate(Request $request, $item_per_page)
     {
-        return ApiResponse::success("", User::without("purchasedPlaces")->paginate($item_per_page, $this->fieldsToShow));
+        return ApiResponse::success("", User::paginate($item_per_page, $this->fieldsToShow));
     }
 
     /**
@@ -42,7 +42,7 @@ class UserController extends Controller
      */
     public function show(User $player)
     {
-        return ApiResponse::success("", $player->without("purchasedPlaces")->first($this->fieldsToShow));
+        return ApiResponse::success("", $player->only($this->fieldsToShow));
     }
 
     /**

@@ -27,8 +27,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'admin',
     ];
 
-    protected $with = ["purchasedPlaces"];
-
     /**
      * The attributes that should be hidden for serialization.
      *

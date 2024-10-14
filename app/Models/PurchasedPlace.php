@@ -16,6 +16,8 @@ class PurchasedPlace extends Model
         'user_id', 'tournament_price_id', 'paid',
     ];
 
+    protected $appends = ["tournament_id"];
+
     protected $casts = [
         'paid' => 'boolean',
     ];
@@ -33,6 +35,11 @@ class PurchasedPlace extends Model
     public function tournament()
     {
         return $this->tournamentPrice->tournament();
+    }
+
+    public function getTournamentIdAttribute()
+    {
+        return $this->tournament()->without(["teams", "players"])->first()->id;
     }
 
     public static function forOpenTournaments()

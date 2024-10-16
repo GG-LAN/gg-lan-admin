@@ -1,21 +1,20 @@
 <?php
 
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Application;
 use App\Http\Controllers\FaqController;
-use App\Http\Controllers\LogController;
 use App\Http\Controllers\GameController;
-use App\Http\Controllers\RuleController;
-use App\Http\Controllers\TeamController;
-use App\Http\Controllers\PlayerController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RuleController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TournamentController;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get("/", function() {
+Route::middleware(['auth', 'verified', 'admin'])->group(function () {
+    Route::get("/", function () {
         return Inertia::render('Dashboard/Dashboard');
     })->name('dashboard');
 
@@ -34,7 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/admin/tournaments/{tournament}/updateImage', 'updateImage')->name('tournaments.updateImage');
         Route::post('/admin/tournaments/{tournament}/deleteImage', 'deleteImage')->name('tournaments.deleteImage');
     });
-    
+
     Route::apiResource('payments', PaymentController::class);
     Route::controller(PaymentController::class)->group(function () {
     });
@@ -64,4 +63,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

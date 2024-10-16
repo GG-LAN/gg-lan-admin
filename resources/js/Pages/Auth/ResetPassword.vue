@@ -3,6 +3,7 @@ import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/Forms/InputError.vue';
 import InputLabel from '@/Components/Forms/InputLabel.vue';
 import PrimaryButton from '@/Components/Forms/PrimaryButton.vue';
+import SubmitButton from "@/Components/Forms/SubmitButton.vue";
 import TextInput from '@/Components/Forms/TextInput.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 
@@ -84,9 +85,9 @@ const submit = () => {
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Réinitialiser
-            </PrimaryButton>
+            <SubmitButton :form="form" color="success">
+                {{ __("Reset") }}
+            </SubmitButton>
         </div>
     </form>
 </template>

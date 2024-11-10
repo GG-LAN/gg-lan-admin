@@ -2,7 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import PageTitle from "@/Components/Ui/PageTitle.vue";
-import NewTable from "@/Components/Ui/Table/NewTable.vue";
+import Table from "@/Components/Ui/Table/Table.vue";
 import DrawerCreate from "./Partials/DrawerCreate.vue";
 import DrawerDelete from "./Partials/DrawerDelete.vue";
 import DrawerUpdate from "./Partials/DrawerUpdate.vue";
@@ -16,7 +16,7 @@ defineOptions({ layout: AuthenticatedLayout });
     <PageTitle title="FAQ" :breadcrumbs="$page.props.breadcrumbs" />
 
     <Col size="4">
-        <NewTable :table="$page.props.table">
+        <Table :table="$page.props.table">
             <template #drawerCreate="{ drawer, uid }">
                 <DrawerCreate
                     title="Ajouter une question"
@@ -40,6 +40,6 @@ defineOptions({ layout: AuthenticatedLayout });
                     :uid="uid"
                 />
             </template>
-        </NewTable>
+        </Table>
     </Col>
 </template>

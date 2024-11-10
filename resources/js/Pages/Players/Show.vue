@@ -2,10 +2,9 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import PageTitle from "@/Components/Ui/PageTitle.vue";
-import Table from "@/Components/Ui/Table.vue";
 import UpdatePlayerForm from "./Partials/UpdatePlayerForm.vue";
 import Col from "@/Components/Ui/Col.vue";
-import NewTable from "@/Components/Ui/Table/NewTable.vue";
+import Table from "@/Components/Ui/Table/Table.vue";
 
 defineOptions({ layout: AuthenticatedLayout });
 </script>
@@ -23,11 +22,11 @@ defineOptions({ layout: AuthenticatedLayout });
 
     <Col size="4" class="grid grid-cols-4 gap-4">
         <Col size="4" class="lg:col-span-2" title="Teams">
-            <NewTable :table="$page.props.playerTeams" />
+            <Table :table="$page.props.playerTeams" />
         </Col>
 
         <Col size="4" class="lg:col-span-2" title="Solo tournaments">
-            <NewTable :table="$page.props.playerTournaments" />
+            <Table :table="$page.props.playerTournaments" />
         </Col>
     </Col>
 </template>

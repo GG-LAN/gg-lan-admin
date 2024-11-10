@@ -2,14 +2,13 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import PageTitle from "@/Components/Ui/PageTitle.vue";
-import Table from "@/Components/Ui/Table.vue";
 import UpdateTournamentInfoForm from "./Partials/UpdateTournamentInfoForm.vue";
 import UpdateTournamentDateForm from "./Partials/UpdateTournamentDateForm.vue";
 import OpenTournamentForm from "./Partials/OpenTournamentForm.vue";
 import UpdateTournamentImage from "./Partials/UpdateTournamentImage.vue";
 import DeleteTournament from "./Partials/DeleteTournament.vue";
 import Col from "@/Components/Ui/Col.vue";
-import NewTable from "@/Components/Ui/Table/NewTable.vue";
+import Table from "@/Components/Ui/Table/Table.vue";
 
 defineOptions({ layout: AuthenticatedLayout });
 </script>
@@ -88,7 +87,7 @@ defineOptions({ layout: AuthenticatedLayout });
 
     <!-- Tournament Stripe Prices -->
     <Col size="4" class="lg:col-span-2" title="Available Price(s)">
-        <NewTable :table="$page.props.tournamentPrices" />
+        <Table :table="$page.props.tournamentPrices" />
     </Col>
 
     <!-- Tournament Related Info -->
@@ -98,15 +97,15 @@ defineOptions({ layout: AuthenticatedLayout });
         title="Registered Teams"
         v-if="$page.props.tournament.type == 'team'"
     >
-        <NewTable :table="$page.props.tournamentTeams" />
+        <Table :table="$page.props.tournamentTeams" />
     </Col>
 
     <Col size="4" class="lg:col-span-2" title="Registered Players" v-else>
-        <NewTable :table="$page.props.tournamentPlayers" />
+        <Table :table="$page.props.tournamentPlayers" />
     </Col>
 
     <Col size="4" class="lg:col-span-2" title="Online Payments">
-        <NewTable :table="$page.props.tournamentPayments" />
+        <Table :table="$page.props.tournamentPayments" />
     </Col>
 
     <Col size="4" class="mt-4">

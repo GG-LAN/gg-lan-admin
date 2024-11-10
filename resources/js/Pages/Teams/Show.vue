@@ -2,7 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import PageTitle from "@/Components/Ui/PageTitle.vue";
-import NewTable from "@/Components/Ui/Table/NewTable.vue";
+import Table from "@/Components/Ui/Table/Table.vue";
 import RegistrationStateTeam from "./Partials/RegistrationStateTeam.vue";
 import TeamImage from "./Partials/TeamImage.vue";
 import UpdateTeamForm from "./Partials/UpdateTeamForm.vue";
@@ -50,7 +50,7 @@ defineOptions({ layout: AuthenticatedLayout });
 
     <!-- Players -->
     <Col size="4" title="Team members">
-        <NewTable :table="$page.props.teamPlayers" />
+        <Table :table="$page.props.teamPlayers" />
     </Col>
 
     <Col size="4" class="mt-4">

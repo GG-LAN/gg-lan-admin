@@ -46,15 +46,7 @@ class TeamPlayers extends Table
     public function actions(): array
     {
         return [
-            "show" => "players.show",
-            "customActions" => [
-                [
-                    "type" => "success",
-                    "icon" => "star",
-                    "route" => "teams.changeCaptain",
-                    "condition" => "props.row['pivot.captain'] == false",
-                ],
-            ],
+            "show" => "players.show"
         ];
     }
 }

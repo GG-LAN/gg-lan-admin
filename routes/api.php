@@ -87,6 +87,7 @@ Route::controller(TeamController::class)->group(function () {
 Route::controller(TournamentController::class)->group(function () {
     Route::get('tournaments', 'index');
     Route::get('tournaments/prices', 'prices');
+    Route::get('tournaments/{tournament}/available-teams', 'availableTeams');
     Route::get('tournaments/paginate/{item_per_page}', 'index_paginate');
     Route::get('tournaments/{tournament}', 'show')->name('tournaments.show.api');
     Route::get('tournaments/{tournament}/purchasedPlaces', 'showPurchasedPlaces');

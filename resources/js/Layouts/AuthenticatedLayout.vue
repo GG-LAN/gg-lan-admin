@@ -23,12 +23,7 @@ onMounted(() => {
         >
             <Alert />
 
-            <Transition
-                enter-active-class="transition ease-in-out duration-300"
-                enter-from-class="opacity-0"
-                leave-active-class="transition ease-in-out duration-300"
-                leave-to-class="opacity-0"
-            >
+            <Transition name="fade" mode="out-in">
                 <main :key="$page.component">
                     <div
                         class="px-4 pt-6 grid grid-cols-4 gap-4 dark:bg-gray-900"
@@ -42,3 +37,15 @@ onMounted(() => {
         </div>
     </div>
 </template>
+
+<style>
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s ease-out;
+}
+</style>

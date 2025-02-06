@@ -13,6 +13,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "sentry/sentry-laravel": "^4.7",
+        "spatie/laravel-discord-alerts": "^1.6",
         "stripe/stripe-php": "^14.10",
         "tightenco/ziggy": "^2.0"
     },
@@ -54,6 +55,10 @@
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
+        ],
+        "up": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#c4b5fd,#fb7185\" \" sail up\" \"npm run dev\" --names=server,vite"
         ]
     },
     "extra": {

@@ -1,9 +1,9 @@
 <?php
-
 namespace App\Observers;
 
 // use App\Models\PurchasedPlace;
 use App\Models\Team;
+use App\Notifications\TeamRegistered;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 
 class TeamObserver implements ShouldHandleEventsAfterCommit
@@ -24,7 +24,9 @@ class TeamObserver implements ShouldHandleEventsAfterCommit
      */
     public function updated(Team $team): void
     {
-        //
+        if ($team->registration_state == Team::REGISTERED) {
+            $team->notify(new TeamRegistered);
+        }
     }
 
     /**

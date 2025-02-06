@@ -7,14 +7,15 @@ use App\Observers\TeamObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 #[ObservedBy([TeamObserver::class])]
 class Team extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
-    public const NOT_FULL = "not_full";
-    public const PENDING = "pending";
+    public const NOT_FULL   = "not_full";
+    public const PENDING    = "pending";
     public const REGISTERED = "registered";
 
     protected $fillable = [

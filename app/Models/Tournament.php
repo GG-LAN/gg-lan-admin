@@ -5,6 +5,7 @@ use App\Models\Setting;
 use App\Models\Team;
 use App\Observers\TournamentObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -83,7 +84,7 @@ class Tournament extends Model
 
     public function getPaymentLink(Request $request): String
     {
-        if (!Setting::get('stripe_api_key')) {
+        if (! Setting::get('stripe_api_key')) {
             return null;
         }
 
@@ -91,10 +92,10 @@ class Tournament extends Model
 
         $session = $stripe->checkout->sessions->create([
             "success_url" => $request->success_url,
-            "cancel_url" => $request->cancel_url,
-            "mode" => "payment",
-            "line_items" => [[
-                "price" => $this->currentPrice()->price_id,
+            "cancel_url"  => $request->cancel_url,
+            "mode"        => "payment",
+            "line_items"  => [[
+                "price"    => $this->currentPrice()->price_id,
                 "quantity" => 1,
             ]],
         ]);
@@ -108,11 +109,11 @@ class Tournament extends Model
 
         foreach ($this->purchasedPlaces() as $purchasedPlace) {
             array_push($paymentList, [
-                "id" => $purchasedPlace->user->id,
-                "pseudo" => $purchasedPlace->user->pseudo,
-                "tournament_id" => $this->id,
+                "id"              => $purchasedPlace->user->id,
+                "pseudo"          => $purchasedPlace->user->pseudo,
+                "tournament_id"   => $this->id,
                 "tournament_name" => $this->name,
-                "status" => "paid",
+                "status"          => "paid",
             ]);
         }
 
@@ -121,26 +122,26 @@ class Tournament extends Model
         if ($this->type == "team") {
             foreach ($this->teams as $team) {
                 foreach ($team->users as $player) {
-                    if (!in_array($player->id, $paidPlayersIds)) {
+                    if (! in_array($player->id, $paidPlayersIds)) {
                         array_push($paymentList, [
-                            "id" => $player->id,
-                            "pseudo" => $player->pseudo,
-                            "tournament_id" => $this->id,
+                            "id"              => $player->id,
+                            "pseudo"          => $player->pseudo,
+                            "tournament_id"   => $this->id,
                             "tournament_name" => $this->name,
-                            "status" => "not_paid",
+                            "status"          => "not_paid",
                         ]);
                     }
                 }
             }
         } else {
             foreach ($this->players as $player) {
-                if (!in_array($player->id, $paidPlayersIds)) {
+                if (! in_array($player->id, $paidPlayersIds)) {
                     array_push($paymentList, [
-                        "id" => $player->id,
-                        "pseudo" => $player->pseudo,
-                        "tournament_id" => $this->id,
+                        "id"              => $player->id,
+                        "pseudo"          => $player->pseudo,
+                        "tournament_id"   => $this->id,
                         "tournament_name" => $this->name,
-                        "status" => "not_paid",
+                        "status"          => "not_paid",
                     ]);
                 }
             }
@@ -152,6 +153,11 @@ class Tournament extends Model
     public static function getOpenTournaments()
     {
         return (new static )->where('status', 'open')->get();
+    }
+
+    public function teamsNotFull(): Collection
+    {
+        return $this->teams->where("registration_state", "!=", Team::REGISTERED);
     }
 
     /**

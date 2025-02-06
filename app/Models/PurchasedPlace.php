@@ -1,8 +1,6 @@
 <?php
-
 namespace App\Models;
 
-use App\Models\PurchasedPlace;
 use App\Models\Tournament;
 use App\Models\TournamentPrice;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -73,7 +71,7 @@ class PurchasedPlace extends Model
             ->where("tournament_price_id", $tournament->currentPrice()->id)
             ->first();
 
-        if ($payment && !$payment->paid) {
+        if ($payment && ! $payment->paid) {
             return $payment->delete();
         }
     }

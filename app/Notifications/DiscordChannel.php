@@ -2,6 +2,7 @@
 namespace App\Notifications;
 
 use Illuminate\Notifications\Notification;
+use Spatie\DiscordAlerts\Facades\DiscordAlert;
 
 class DiscordChannel
 {
@@ -10,8 +11,17 @@ class DiscordChannel
      */
     public function send(object $notifiable, Notification $notification): void
     {
-        $notification->toDiscord($notifiable);
+        $message = $notification->toDiscord($notifiable);
 
-        // Send notification to the $notifiable instance...
+        DiscordAlert::message("", [
+            [
+                "timestamp"   => now(),
+                'title'       => $message->title,
+                'description' => $message->description,
+                'color'       => $message->color,
+                'author'      => $message->author,
+                "fields"      => $message->fields,
+            ],
+        ]);
     }
 }

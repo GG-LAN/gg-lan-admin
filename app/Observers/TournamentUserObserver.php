@@ -13,6 +13,8 @@ class TournamentUserObserver
         $tournament = $tournamentUser->tournament;
 
         PurchasedPlace::register($player, $tournament);
+
+        $player->notify(new PlayerRegistered($tournament));
     }
 
     public function updated(TournamentUser $tournamentUser): void

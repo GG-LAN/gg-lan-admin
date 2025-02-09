@@ -2,11 +2,11 @@
 namespace App\Notifications;
 
 use App\Models\Team;
+use App\Notifications\Messages\DiscordMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
-use Spatie\DiscordAlerts\Facades\DiscordAlert;
 
 class TeamRegistered extends Notification
 {
@@ -41,7 +41,7 @@ class TeamRegistered extends Notification
             ->line('Thank you for using our application!');
     }
 
-    public function toDiscord(Team $team): void
+    public function toDiscord(Team $team): DiscordMessage
     {
         $tournament = $team->tournament;
 
@@ -84,42 +84,27 @@ class TeamRegistered extends Notification
 
         $availableSlots = $tournament->places - $tournament->register_count;
 
-        DiscordAlert::message("", [
-            [
-                "timestamp"   => now(),
-                'title'       => "Une nouvelle équipe s'est inscrite !",
-                'description' => $team->name,
-                'color'       => '#ff0000',
-                'author'      => [
-                    'name'     => config("app.name"),
-                    'url'      => config("app.url"),
-                    'icon_url' => config("app.url") . "/favicon.png",
-                ],
-                "fields"      => [
-                    [
-                        "name"   => "Joueurs",
-                        "inline" => true,
-                        "value"  => $players,
-                    ],
-                    [
-                        "name"   => "",
-                        "inline" => true,
-                        "value"  => "",
-                    ],
-                    [
-                        "name"   => "Tounoi",
-                        "inline" => true,
-                        "value"  => "
-                        {$gameEmoji} {$tournament->name}
-                        {$tournament->places} slots
-                        {$tournament->register_count} équipes inscrites
-                        {$tournament->teamsNotFull()->count()} équipes incomplètes
-                        {$availableSlots} slots disponible
-                    ",
-                    ],
-                ],
-            ],
-        ]);
+        return (new DiscordMessage())
+            ->title("Une nouvelle équipe s'est inscrite !")
+            ->description($team->name)
+            ->color("#ff0000")
+            ->field([
+                "name"   => "Joueurs",
+                "inline" => true,
+                "value"  => $players,
+            ])
+            ->emptyField()
+            ->field([
+                "name"   => "Tournoi",
+                "inline" => true,
+                "value"  => "
+                    {$gameEmoji}{$tournament->name}
+                    {$tournament->places} slots
+                    {$tournament->register_count} équipes inscrites
+                    {$tournament->teamsNotFull()->count()} équipes incomplètes
+                    {$availableSlots} slots disponible
+                ",
+            ]);
     }
 
     /**

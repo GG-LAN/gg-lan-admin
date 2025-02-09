@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Seeders;
 
 use App\Models\Game;
@@ -18,12 +17,12 @@ class TournamentSeeder extends Seeder
     {
         // Create a game for Tournament
         $gameCsgo = Game::factory()->create([
-            "name" => "CS:GO",
+            "name"   => "CS2",
             "places" => 5,
         ]);
 
         $gameTrackmania = Game::factory()->create([
-            "name" => "Trackmania",
+            "name"   => "Trackmania",
             "places" => 1,
         ]);
 
@@ -31,100 +30,100 @@ class TournamentSeeder extends Seeder
         Tournament::factory()
             ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
                 return [
-                    'name' => $tournament->name,
+                    'name'          => $tournament->name,
                     'tournament_id' => $tournament->id,
-                    'type' => 'normal',
-                    'active' => true,
+                    'type'          => 'normal',
+                    'active'        => true,
                 ];
             }), "prices")
             ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
                 return [
-                    'name' => $tournament->name . " Last Week",
+                    'name'          => $tournament->name . " Last Week",
                     'tournament_id' => $tournament->id,
-                    'type' => 'last_week',
-                    'price_id' => "price_1OtYO6AOwlBXXotY6zNeBkVJ",
-                    'price' => "35,00 €",
-                    'active' => false,
+                    'type'          => 'last_week',
+                    'price_id'      => "price_1OtYO6AOwlBXXotY6zNeBkVJ",
+                    'price'         => "35,00 €",
+                    'active'        => false,
                 ];
             }), "prices")
             ->for($gameCsgo)
             ->create([
-                "id" => 1,
-                'name' => 'GG-LAN #18 CS:GO',
-                "type" => "team",
-                "status" => "open",
+                "id"         => 1,
+                'name'       => 'GG-LAN #18 CS2',
+                "type"       => "team",
+                "status"     => "open",
                 "start_date" => today()->addMonths(2),
-                "end_date" => today()->addMonths(2)->addDays(1),
+                "end_date"   => today()->addMonths(2)->addDays(1),
             ]);
 
         // Create a open solo tournament (id: 2)
         Tournament::factory()
             ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
                 return [
-                    'name' => $tournament->name,
+                    'name'          => $tournament->name,
                     'tournament_id' => $tournament->id,
-                    'type' => 'normal',
-                    'active' => true,
+                    'type'          => 'normal',
+                    'active'        => true,
                 ];
             }), "prices")
             ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
                 return [
-                    'name' => $tournament->name . " Last Week",
+                    'name'          => $tournament->name . " Last Week",
                     'tournament_id' => $tournament->id,
-                    'type' => 'last_week',
-                    'price_id' => "price_1OtYO6AOwlBXXotY6zNeBkVJ",
-                    'price' => "35,00 €",
-                    'active' => false,
+                    'type'          => 'last_week',
+                    'price_id'      => "price_1OtYO6AOwlBXXotY6zNeBkVJ",
+                    'price'         => "35,00 €",
+                    'active'        => false,
                 ];
             }), "prices")
             ->for($gameTrackmania)
             ->create([
-                "id" => 2,
-                'name' => 'GG-LAN #18 Trackmania',
-                "type" => "solo",
-                "status" => "open",
+                "id"         => 2,
+                'name'       => 'GG-LAN #18 Trackmania',
+                "type"       => "solo",
+                "status"     => "open",
                 "start_date" => today()->addMonths(2),
-                "end_date" => today()->addMonths(2)->addDays(1),
+                "end_date"   => today()->addMonths(2)->addDays(1),
             ]);
 
         // Create a finished team tournament (id: 3)
         Tournament::factory()
             ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
                 return [
-                    'name' => $tournament->name,
+                    'name'          => $tournament->name,
                     'tournament_id' => $tournament->id,
-                    'type' => 'normal',
-                    'active' => true,
+                    'type'          => 'normal',
+                    'active'        => true,
                 ];
             }), "prices")
             ->for($gameCsgo)
             ->create([
-                "id" => 3,
-                'name' => 'GG-LAN #17 CS:GO',
-                "type" => "team",
-                "status" => "finished",
+                "id"         => 3,
+                'name'       => 'GG-LAN #17 CS2',
+                "type"       => "team",
+                "status"     => "finished",
                 "start_date" => today()->subMonths(4),
-                "end_date" => today()->subMonths(4)->addDays(1),
+                "end_date"   => today()->subMonths(4)->addDays(1),
             ]);
 
         // Create a finished team tournament (id: 4)
         Tournament::factory()
             ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
                 return [
-                    'name' => $tournament->name,
+                    'name'          => $tournament->name,
                     'tournament_id' => $tournament->id,
-                    'type' => 'normal',
-                    'active' => true,
+                    'type'          => 'normal',
+                    'active'        => true,
                 ];
             }), "prices")
             ->for($gameTrackmania)
             ->create([
-                "id" => 4,
-                'name' => 'GG-LAN #17 Trackmania',
-                "type" => "solo",
-                "status" => "finished",
+                "id"         => 4,
+                'name'       => 'GG-LAN #17 Trackmania',
+                "type"       => "solo",
+                "status"     => "finished",
                 "start_date" => today()->subMonths(4),
-                "end_date" => today()->subMonths(4)->addDays(1),
+                "end_date"   => today()->subMonths(4)->addDays(1),
             ]);
     }
 }

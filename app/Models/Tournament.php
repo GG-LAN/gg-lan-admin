@@ -36,7 +36,9 @@ class Tournament extends Model
 
     public function players()
     {
-        return $this->belongsToMany('App\Models\User')->withTimestamps();
+        return $this->belongsToMany('App\Models\User')
+            ->using(TournamentUser::class)
+            ->withTimestamps();
     }
 
     public function prices()

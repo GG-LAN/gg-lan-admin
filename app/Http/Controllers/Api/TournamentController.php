@@ -3,7 +3,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\ApiResponse;
 use App\Http\Requests\Tournaments\GetPaymentLinkRequest;
-use App\Models\PurchasedPlace;
 use App\Models\Team;
 use App\Models\Tournament;
 use App\Models\TournamentPrice;
@@ -68,7 +67,6 @@ class TournamentController extends Controller
 
         if (! $tournament->checkPlayerIsRegistered($player)) {
             $tournament->players()->attach($player);
-            PurchasedPlace::register($player, $tournament);
 
             return ApiResponse::success(__("responses.tournament.registered"), $tournament);
         }
@@ -87,7 +85,6 @@ class TournamentController extends Controller
 
         if ($tournament->checkPlayerIsRegistered($player)) {
             $tournament->players()->detach($player);
-            PurchasedPlace::unregister($player, $tournament);
 
             return ApiResponse::success(__("responses.tournament.unregistered"), $tournament);
         }

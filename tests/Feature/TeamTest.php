@@ -1,11 +1,9 @@
 <?php
-
 namespace Tests\Feature;
 
 use App\Models\Game;
 use App\Models\Team;
 use App\Models\Tournament;
-use App\Models\TournamentPrice;
 use App\Models\User;
 
 it("get_teams", function () {
@@ -26,7 +24,7 @@ it("get_teams_with_pagination", function () {
         ->createQuietly();
 
     $item_per_page = 5;
-    $teams = Team::paginate($item_per_page);
+    $teams         = Team::paginate($item_per_page);
 
     $response = $this->get('/api/teams/paginate/' . $item_per_page);
 
@@ -51,23 +49,15 @@ it("get_team", function () {
 
 it("create_team", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name' => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type' => 'normal',
-                'active' => true,
-            ];
-        }), "prices")
         ->createQuietly([
-            'type' => 'team',
+            'type'   => 'team',
             'status' => 'open',
             'places' => 4,
         ]);
 
     $data = [
-        "name" => "Mangemort",
-        "description" => "On roule sur la concu",
+        "name"          => "Mangemort",
+        "description"   => "On roule sur la concu",
         'tournament_id' => $tournament->id,
     ];
 
@@ -82,23 +72,15 @@ it("create_team", function () {
 
 test("creating a team also adds you as captain of it", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name' => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type' => 'normal',
-                'active' => true,
-            ];
-        }), "prices")
         ->createQuietly([
-            'type' => 'team',
+            'type'   => 'team',
             'status' => 'open',
             'places' => 4,
         ]);
 
     $data = [
-        "name" => "Mangemort",
-        "description" => "On roule sur la concu",
+        "name"          => "Mangemort",
+        "description"   => "On roule sur la concu",
         'tournament_id' => $tournament->id,
     ];
 
@@ -115,23 +97,15 @@ test("creating a team also adds you as captain of it", function () {
 
 test("A purchased place is created for the captain after creating a team", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name' => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type' => 'normal',
-                'active' => true,
-            ];
-        }), "prices")
         ->createQuietly([
-            'type' => 'team',
+            'type'   => 'team',
             'status' => 'open',
             'places' => 4,
         ]);
 
     $data = [
-        "name" => "Mangemort",
-        "description" => "On roule sur la concu",
+        "name"          => "Mangemort",
+        "description"   => "On roule sur la concu",
         'tournament_id' => $tournament->id,
     ];
 
@@ -140,24 +114,16 @@ test("A purchased place is created for the captain after creating a team", funct
     $this->actingAs($user)->post('/api/teams/create', $data);
 
     $this->assertDatabaseHas("purchased_places", [
-        "user_id" => $user->id,
+        "user_id"             => $user->id,
         'tournament_price_id' => $tournament->currentPrice()->id,
-        "paid" => false,
+        "paid"                => false,
     ]);
 });
 
 test("A purchased place is created for the player that has been added to a team", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name' => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type' => 'normal',
-                'active' => true,
-            ];
-        }), "prices")
         ->createQuietly([
-            'type' => 'team',
+            'type'   => 'team',
             'status' => 'open',
             'places' => 4,
         ]);
@@ -173,24 +139,16 @@ test("A purchased place is created for the player that has been added to a team"
     $this->actingAs($player)->post('/api/teams/' . $team->id . '/addPlayer/' . $player->id);
 
     $this->assertDatabaseHas("purchased_places", [
-        "user_id" => $player->id,
+        "user_id"             => $player->id,
         'tournament_price_id' => $tournament->currentPrice()->id,
-        "paid" => false,
+        "paid"                => false,
     ]);
 });
 
 test("Purchased place is delete for the player that has been removed from a team", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name' => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type' => 'normal',
-                'active' => true,
-            ];
-        }), "prices")
         ->createQuietly([
-            'type' => 'team',
+            'type'   => 'team',
             'status' => 'open',
             'places' => 4,
         ]);
@@ -210,30 +168,22 @@ test("Purchased place is delete for the player that has been removed from a team
     $this->actingAs($captain)->post('/api/teams/' . $team->id . '/removePlayer/' . $player->id);
 
     $this->assertDatabaseMissing("purchased_places", [
-        "user_id" => $player->id,
+        "user_id"             => $player->id,
         'tournament_price_id' => $tournament->currentPrice()->id,
     ]);
 });
 
 it("cant_create_team_on_closed_tournament", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name' => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type' => 'normal',
-                'active' => true,
-            ];
-        }), "prices")
         ->createQuietly([
-            'type' => 'team',
+            'type'   => 'team',
             'status' => 'closed',
             'places' => 4,
         ]);
 
     $data = [
-        "name" => "Mangemort",
-        "description" => "On roule sur la concu",
+        "name"          => "Mangemort",
+        "description"   => "On roule sur la concu",
         'tournament_id' => $tournament->id,
     ];
 
@@ -242,30 +192,22 @@ it("cant_create_team_on_closed_tournament", function () {
     $this->actingAs($user)->post('/api/teams/create', $data)
         ->assertForbidden()
         ->assertJson([
-            'status' => "error",
+            'status'  => "error",
             'message' => __("responses.team.register.cant_closed"),
         ]);
 });
 
 it("cant_create_team_on_finished_tournament", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name' => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type' => 'normal',
-                'active' => true,
-            ];
-        }), "prices")
         ->createQuietly([
-            'type' => 'team',
+            'type'   => 'team',
             'status' => 'finished',
             'places' => 4,
         ]);
 
     $data = [
-        "name" => "Mangemort",
-        "description" => "On roule sur la concu",
+        "name"          => "Mangemort",
+        "description"   => "On roule sur la concu",
         'tournament_id' => $tournament->id,
     ];
 
@@ -274,29 +216,21 @@ it("cant_create_team_on_finished_tournament", function () {
     $this->actingAs($user)->post('/api/teams/create', $data)
         ->assertForbidden()
         ->assertJson([
-            'status' => "error",
+            'status'  => "error",
             'message' => __("responses.team.register.cant_closed"),
         ]);
 });
 
 it("cant_create_team_on_solo_tournament", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name' => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type' => 'normal',
-                'active' => true,
-            ];
-        }), "prices")
         ->createQuietly([
-            'type' => 'solo',
+            'type'   => 'solo',
             'places' => 4,
         ]);
 
     $data = [
-        "name" => "Mangemort",
-        "description" => "On roule sur la concu",
+        "name"          => "Mangemort",
+        "description"   => "On roule sur la concu",
         'tournament_id' => $tournament->id,
     ];
 
@@ -305,16 +239,16 @@ it("cant_create_team_on_solo_tournament", function () {
     $this->actingAs($user)->post('/api/teams/create', $data)
         ->assertForbidden()
         ->assertJson([
-            'status' => "error",
+            'status'  => "error",
             'message' => __("responses.team.register.cant_solo"),
         ]);
 });
 
 it("can_update_team_as_captain", function () {
     $updated_data = [
-        "name" => "Mangemort updated",
+        "name"        => "Mangemort updated",
         "description" => "On roule sur la concu updated",
-        'image' => "",
+        'image'       => "",
     ];
 
     $user = User::factory()->createQuietly();
@@ -334,9 +268,9 @@ it("can_update_team_as_captain", function () {
 
 it("cant_update_team_as_not_captain_of_it", function () {
     $updated_data = [
-        "name" => "Mangemort updated",
+        "name"        => "Mangemort updated",
         "description" => "On roule sur la concu updated",
-        'image' => "",
+        'image'       => "",
     ];
 
     $user = User::factory()->createQuietly();
@@ -352,16 +286,16 @@ it("cant_update_team_as_not_captain_of_it", function () {
     $this->actingAs($user)->put('/api/teams/' . $team->id, $updated_data)
         ->assertForbidden()
         ->assertJson([
-            'status' => "error",
+            'status'  => "error",
             'message' => __("responses.team.not_captain"),
         ]);
 });
 
 it("cant_update_team_if_not_in_team", function () {
     $updated_data = [
-        "name" => "Mangemort updated",
+        "name"        => "Mangemort updated",
         "description" => "On roule sur la concu updated",
-        'image' => "",
+        'image'       => "",
     ];
 
     $user = User::factory()->createQuietly();
@@ -377,16 +311,16 @@ it("cant_update_team_if_not_in_team", function () {
     $this->actingAs($user)->put('/api/teams/' . $team->id, $updated_data)
         ->assertForbidden()
         ->assertJson([
-            'status' => "error",
+            'status'  => "error",
             'message' => __("responses.team.not_captain"),
         ]);
 });
 
 it("cant_update_team_if_not_captain", function () {
     $updated_data = [
-        "name" => "Mangemort updated",
+        "name"        => "Mangemort updated",
         "description" => "On roule sur la concu updated",
-        'image' => "",
+        'image'       => "",
     ];
 
     $user = User::factory()->createQuietly();
@@ -400,7 +334,7 @@ it("cant_update_team_if_not_captain", function () {
     $this->actingAs($user)->put('/api/teams/' . $team->id, $updated_data)
         ->assertForbidden()
         ->assertJson([
-            'status' => "error",
+            'status'  => "error",
             'message' => __("responses.team.not_captain"),
         ]);
 });
@@ -408,18 +342,10 @@ it("cant_update_team_if_not_captain", function () {
 it("team_captain_can_add_player_to_team", function () {
     // Tournament with a game of 5 places per team
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name' => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type' => 'normal',
-                'active' => true,
-            ];
-        }), "prices")
         ->createQuietly([
-            "status" => "open",
-            "type" => "team",
-            "places" => 10,
+            "status"  => "open",
+            "type"    => "team",
+            "places"  => 10,
             "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
         ]);
 
@@ -436,7 +362,7 @@ it("team_captain_can_add_player_to_team", function () {
     $this->actingAs($captain)->post('/api/teams/' . $team->id . '/addPlayer/' . $player->id)
         ->assertOk()
         ->assertJson([
-            'status' => "success",
+            'status'  => "success",
             'message' => __("responses.team.player_added"),
         ]);
 });
@@ -444,18 +370,10 @@ it("team_captain_can_add_player_to_team", function () {
 it("player_can_add_himself_to_team", function () {
     // Tournament with a game of 5 places per team
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name' => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type' => 'normal',
-                'active' => true,
-            ];
-        }), "prices")
         ->createQuietly([
-            "status" => "open",
-            "type" => "team",
-            "places" => 10,
+            "status"  => "open",
+            "type"    => "team",
+            "places"  => 10,
             "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
         ]);
 
@@ -470,7 +388,7 @@ it("player_can_add_himself_to_team", function () {
     $this->actingAs($player)->post('/api/teams/' . $team->id . '/addPlayer/' . $player->id)
         ->assertOk()
         ->assertJson([
-            'status' => "success",
+            'status'  => "success",
             'message' => __("responses.team.player_added"),
         ]);
 });
@@ -478,9 +396,9 @@ it("player_can_add_himself_to_team", function () {
 it("player_cant_add_himself_if_hes_already_in_the_team", function () {
     // Tournament with a game of 5 places per team
     $tournament = Tournament::factory()->createQuietly([
-        "status" => "open",
-        "type" => "team",
-        "places" => 10,
+        "status"  => "open",
+        "type"    => "team",
+        "places"  => 10,
         "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
     ]);
 
@@ -495,7 +413,7 @@ it("player_cant_add_himself_if_hes_already_in_the_team", function () {
     $this->actingAs($player)->post('/api/teams/' . $team->id . '/addPlayer/' . $player->id)
         ->assertForbidden()
         ->assertJson([
-            'status' => "error",
+            'status'  => "error",
             'message' => __("responses.team.player_in_team"),
         ]);
 });
@@ -503,9 +421,9 @@ it("player_cant_add_himself_if_hes_already_in_the_team", function () {
 it("team_captain_cant_add_player_if_team_is_full", function () {
     // Tournament with a game of 5 places per team
     $tournament = Tournament::factory()->createQuietly([
-        "status" => "open",
-        "type" => "team",
-        "places" => 10,
+        "status"  => "open",
+        "type"    => "team",
+        "places"  => 10,
         "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
     ]);
 
@@ -522,7 +440,7 @@ it("team_captain_cant_add_player_if_team_is_full", function () {
     $this->actingAs($captain)->post('/api/teams/' . $team->id . '/addPlayer/' . $player->id)
         ->assertForbidden()
         ->assertJson([
-            'status' => "error",
+            'status'  => "error",
             'message' => __("responses.team.full"),
         ]);
 });
@@ -530,9 +448,9 @@ it("team_captain_cant_add_player_if_team_is_full", function () {
 it("player_cant_add_himself_if_team_is_full", function () {
     // Tournament with a game of 5 places per team
     $tournament = Tournament::factory()->createQuietly([
-        "status" => "open",
-        "type" => "team",
-        "places" => 10,
+        "status"  => "open",
+        "type"    => "team",
+        "places"  => 10,
         "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
     ]);
 
@@ -547,7 +465,7 @@ it("player_cant_add_himself_if_team_is_full", function () {
     $this->actingAs($player)->post('/api/teams/' . $team->id . '/addPlayer/' . $player->id)
         ->assertForbidden()
         ->assertJson([
-            'status' => "error",
+            'status'  => "error",
             'message' => __("responses.team.full"),
         ]);
 });
@@ -555,9 +473,9 @@ it("player_cant_add_himself_if_team_is_full", function () {
 it("cant_remove_player_from_team_if_not_captain_of_it", function () {
     // Tournament with a game of 5 places per team
     $tournament = Tournament::factory()->createQuietly([
-        "status" => "open",
-        "type" => "team",
-        "places" => 10,
+        "status"  => "open",
+        "type"    => "team",
+        "places"  => 10,
         "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
     ]);
 
@@ -572,7 +490,7 @@ it("cant_remove_player_from_team_if_not_captain_of_it", function () {
     $this->actingAs($player)->post('/api/teams/' . $team->id . '/removePlayer/' . $player->id)
         ->assertForbidden()
         ->assertJson([
-            'status' => "error",
+            'status'  => "error",
             'message' => __("responses.team.not_captain"),
         ]);
 });
@@ -580,9 +498,9 @@ it("cant_remove_player_from_team_if_not_captain_of_it", function () {
 it("cant_remove_player_from_team_if_random_player", function () {
     // Tournament with a game of 5 places per team
     $tournament = Tournament::factory()->createQuietly([
-        "status" => "open",
-        "type" => "team",
-        "places" => 10,
+        "status"  => "open",
+        "type"    => "team",
+        "places"  => 10,
         "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
     ]);
 
@@ -597,7 +515,7 @@ it("cant_remove_player_from_team_if_random_player", function () {
     $this->actingAs($player)->post('/api/teams/' . $team->id . '/removePlayer/' . $player->id)
         ->assertForbidden()
         ->assertJson([
-            'status' => "error",
+            'status'  => "error",
             'message' => __("responses.team.not_captain"),
         ]);
 });
@@ -605,18 +523,10 @@ it("cant_remove_player_from_team_if_random_player", function () {
 it("team_captain_can_remove_player_from_team", function () {
     // Tournament with a game of 5 places per team
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name' => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type' => 'normal',
-                'active' => true,
-            ];
-        }), "prices")
         ->createQuietly([
-            "status" => "open",
-            "type" => "team",
-            "places" => 10,
+            "status"  => "open",
+            "type"    => "team",
+            "places"  => 10,
             "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
         ]);
 
@@ -633,7 +543,7 @@ it("team_captain_can_remove_player_from_team", function () {
     $this->actingAs($captain)->post('/api/teams/' . $team->id . '/removePlayer/' . $player->id)
         ->assertOk()
         ->assertJson([
-            'status' => "success",
+            'status'  => "success",
             'message' => __("responses.team.player_removed"),
         ]);
 });
@@ -641,9 +551,9 @@ it("team_captain_can_remove_player_from_team", function () {
 it("team_captain_cant_remove_captain_from_team", function () {
     // Tournament with a game of 5 places per team
     $tournament = Tournament::factory()->createQuietly([
-        "status" => "open",
-        "type" => "team",
-        "places" => 10,
+        "status"  => "open",
+        "type"    => "team",
+        "places"  => 10,
         "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
     ]);
 
@@ -660,7 +570,7 @@ it("team_captain_cant_remove_captain_from_team", function () {
     $this->actingAs($captain)->post('/api/teams/' . $team->id . '/removePlayer/' . $captain->id)
         ->assertForbidden()
         ->assertJson([
-            'status' => "error",
+            'status'  => "error",
             'message' => __("responses.team.cant_remove_captain"),
         ]);
 });
@@ -668,9 +578,9 @@ it("team_captain_cant_remove_captain_from_team", function () {
 it("cant_remove_player_from_team_if_hes_not_in_team", function () {
     // Tournament with a game of 5 places per team
     $tournament = Tournament::factory()->createQuietly([
-        "status" => "open",
-        "type" => "team",
-        "places" => 10,
+        "status"  => "open",
+        "type"    => "team",
+        "places"  => 10,
         "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
     ]);
 
@@ -687,35 +597,27 @@ it("cant_remove_player_from_team_if_hes_not_in_team", function () {
     $this->actingAs($captain)->post('/api/teams/' . $team->id . '/removePlayer/' . $player->id)
         ->assertForbidden()
         ->assertJson([
-            'status' => "error",
+            'status'  => "error",
             'message' => __("responses.team.player_not_in_team"),
         ]);
 });
 
 it("can't create a team with a name that is already used", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name' => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type' => 'normal',
-                'active' => true,
-            ];
-        }), "prices")
         ->createQuietly(["type" => "team", "status" => "open"]);
 
     $dataTeamOK = [
-        "name" => "Mangemort",
-        "description" => "On roule sur la concu",
+        "name"          => "Mangemort",
+        "description"   => "On roule sur la concu",
         'tournament_id' => $tournament->id,
-        'image' => "",
+        'image'         => "",
     ];
 
     $dataTeamKO = [
-        "name" => "Mangemort",
-        "description" => "",
+        "name"          => "Mangemort",
+        "description"   => "",
         'tournament_id' => $tournament->id,
-        'image' => "",
+        'image'         => "",
     ];
 
     $user = User::factory()->createQuietly();
@@ -739,18 +641,10 @@ it("can't create a team with a name that is already used", function () {
 
 test("Has captain, assert that team registration state change to 'registered' when team become full and it remains enough tournament places", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name' => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type' => 'normal',
-                'active' => true,
-            ];
-        }), "prices")
         ->createQuietly([
-            "status" => "open",
-            "type" => "team",
-            "places" => 10,
+            "status"  => "open",
+            "type"    => "team",
+            "places"  => 10,
             "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
         ]);
 
@@ -768,25 +662,17 @@ test("Has captain, assert that team registration state change to 'registered' wh
     $this->actingAs($captain)->post('/api/teams/' . $team->id . '/addPlayer/' . $lastPlayer->id);
 
     $this->assertDatabaseHas("teams", [
-        "id" => $team->id,
+        "id"                 => $team->id,
         "registration_state" => Team::REGISTERED,
     ]);
 });
 
 test("Has captain, assert that team registration state change to 'pending' when team become full and tournament is full", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name' => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type' => 'normal',
-                'active' => true,
-            ];
-        }), "prices")
         ->createQuietly([
-            "status" => "open",
-            "type" => "team",
-            "places" => 1,
+            "status"  => "open",
+            "type"    => "team",
+            "places"  => 1,
             "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
         ]);
 
@@ -810,25 +696,17 @@ test("Has captain, assert that team registration state change to 'pending' when 
     $this->actingAs($captain)->post('/api/teams/' . $team->id . '/addPlayer/' . $lastPlayer->id);
 
     $this->assertDatabaseHas("teams", [
-        "id" => $team->id,
+        "id"                 => $team->id,
         "registration_state" => Team::PENDING,
     ]);
 });
 
 test("Has random last player, assert that team registration state change to 'registered' when team become full and it remains enough tournament places", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name' => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type' => 'normal',
-                'active' => true,
-            ];
-        }), "prices")
         ->createQuietly([
-            "status" => "open",
-            "type" => "team",
-            "places" => 10,
+            "status"  => "open",
+            "type"    => "team",
+            "places"  => 10,
             "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
         ]);
 
@@ -844,25 +722,17 @@ test("Has random last player, assert that team registration state change to 'reg
     $this->actingAs($lastPlayer)->post('/api/teams/' . $team->id . '/addPlayer/' . $lastPlayer->id);
 
     $this->assertDatabaseHas("teams", [
-        "id" => $team->id,
+        "id"                 => $team->id,
         "registration_state" => Team::REGISTERED,
     ]);
 });
 
 test("Has random last player, assert that team registration state change to 'registered' when team become full and tournament is full", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name' => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type' => 'normal',
-                'active' => true,
-            ];
-        }), "prices")
         ->createQuietly([
-            "status" => "open",
-            "type" => "team",
-            "places" => 1,
+            "status"  => "open",
+            "type"    => "team",
+            "places"  => 1,
             "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
         ]);
 
@@ -884,25 +754,17 @@ test("Has random last player, assert that team registration state change to 'reg
     $this->actingAs($lastPlayer)->post('/api/teams/' . $team->id . '/addPlayer/' . $lastPlayer->id);
 
     $this->assertDatabaseHas("teams", [
-        "id" => $team->id,
+        "id"                 => $team->id,
         "registration_state" => Team::PENDING,
     ]);
 });
 
 test("Has captain, assert that removing a player from the team that is full and registered will also update the registration state of the team ", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name' => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type' => 'normal',
-                'active' => true,
-            ];
-        }), "prices")
         ->createQuietly([
-            "status" => "open",
-            "type" => "team",
-            "places" => 10,
+            "status"  => "open",
+            "type"    => "team",
+            "places"  => 10,
             "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
         ]);
 
@@ -921,25 +783,17 @@ test("Has captain, assert that removing a player from the team that is full and 
     $this->actingAs($captain)->post('/api/teams/' . $team->id . '/removePlayer/' . $player->id);
 
     $this->assertDatabaseHas("teams", [
-        "id" => $team->id,
+        "id"                 => $team->id,
         "registration_state" => Team::NOT_FULL,
     ]);
 });
 
 test("Has captain, assert that removing a player from the team that is full and pending will also update the registration state of the team ", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name' => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type' => 'normal',
-                'active' => true,
-            ];
-        }), "prices")
         ->createQuietly([
-            "status" => "open",
-            "type" => "team",
-            "places" => 1,
+            "status"  => "open",
+            "type"    => "team",
+            "places"  => 1,
             "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
         ]);
 
@@ -958,8 +812,7 @@ test("Has captain, assert that removing a player from the team that is full and 
     $this->actingAs($captain)->post('/api/teams/' . $team->id . '/removePlayer/' . $player->id);
 
     $this->assertDatabaseHas("teams", [
-        "id" => $team->id,
+        "id"                 => $team->id,
         "registration_state" => Team::NOT_FULL,
     ]);
 });
-

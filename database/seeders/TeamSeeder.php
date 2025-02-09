@@ -75,6 +75,9 @@ class TeamSeeder extends Seeder
         // Register 4 users for Open Solo Tournament
         $openSoloTournament->players()->attach($captain);
         foreach ($soloUsers as $soloUser) {
+            // Disable fire events for TournamentUserObserver
+            $openSoloTournament::unsetEventDispatcher();
+
             $openSoloTournament->players()->attach($soloUser);
         }
 

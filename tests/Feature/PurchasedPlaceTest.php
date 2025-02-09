@@ -2,7 +2,6 @@
 use App\Models\PurchasedPlace;
 use App\Models\Team;
 use App\Models\Tournament;
-use App\Models\TournamentPrice;
 use App\Models\User;
 
 it("can_get_purchased_places", function () {
@@ -32,53 +31,47 @@ it("can_get_purchased_place", function () {
 it("updates the purchased place on solo tournament", function () {
     $user = User::factory()->create();
 
-    $tournament = Tournament::factory()->create([
-        'type' => 'solo',
-        'status' => 'open',
-    ]);
-
-    $tournamentPrice = TournamentPrice::factory()->create([
-        'tournament_id' => $tournament->id,
-    ]);
+    $tournament = Tournament::factory()
+        ->create([
+            'type'   => 'solo',
+            'status' => 'open',
+        ]);
 
     // Register player in tournament
     $this->actingAs($user)->post('/api/tournaments/' . $tournament->id . '/register/' . $user->id);
 
     $this->assertDatabaseHas("purchased_places", [
-        "user_id" => $user->id,
-        'tournament_price_id' => $tournamentPrice->id,
-        "paid" => false,
+        "user_id"             => $user->id,
+        'tournament_price_id' => $tournament->currentPrice()->id,
+        "paid"                => false,
     ]);
 
     $this->actingAs($user)->post("api/purchasedPlaces/register/" . $user->id . "/" . $tournament->id)
         ->assertCreated()
         ->assertJson([
-            "status" => "created",
+            "status"  => "created",
             "message" => __("responses.purchasedPlaces.registered"),
-            "data" => [
-                "user_id" => $user->id,
-                "tournament_price_id" => $tournamentPrice->id,
+            "data"    => [
+                "user_id"             => $user->id,
+                "tournament_price_id" => $tournament->currentPrice()->id,
             ],
         ]);
 
     $this->assertDatabaseHas("purchased_places", [
-        "user_id" => $user->id,
-        'tournament_price_id' => $tournamentPrice->id,
-        "paid" => true,
+        "user_id"             => $user->id,
+        'tournament_price_id' => $tournament->currentPrice()->id,
+        "paid"                => true,
     ]);
 });
 
 it("updates the purchased place on team tournament", function () {
     $user = User::factory()->create();
 
-    $tournament = Tournament::factory()->create([
-        'type' => 'team',
-        'status' => 'open',
-    ]);
-
-    $tournamentPrice = TournamentPrice::factory()->create([
-        'tournament_id' => $tournament->id,
-    ]);
+    $tournament = Tournament::factory()
+        ->create([
+            'type'   => 'team',
+            'status' => 'open',
+        ]);
 
     $team = Team::factory()
         ->hasAttached(User::factory()->create(), ['captain' => true])
@@ -90,25 +83,25 @@ it("updates the purchased place on team tournament", function () {
     $this->actingAs($user)->post('/api/teams/' . $team->id . '/addPlayer/' . $user->id);
 
     $this->assertDatabaseHas("purchased_places", [
-        "user_id" => $user->id,
-        'tournament_price_id' => $tournamentPrice->id,
-        "paid" => false,
+        "user_id"             => $user->id,
+        'tournament_price_id' => $tournament->currentPrice()->id,
+        "paid"                => false,
     ]);
 
     $this->actingAs($user)->post("api/purchasedPlaces/register/" . $user->id . "/" . $tournament->id)
         ->assertCreated()
         ->assertJson([
-            "status" => "created",
+            "status"  => "created",
             "message" => __("responses.purchasedPlaces.registered"),
-            "data" => [
-                "user_id" => $user->id,
-                "tournament_price_id" => $tournamentPrice->id,
+            "data"    => [
+                "user_id"             => $user->id,
+                "tournament_price_id" => $tournament->currentPrice()->id,
             ],
         ]);
 
     $this->assertDatabaseHas("purchased_places", [
-        "user_id" => $user->id,
-        'tournament_price_id' => $tournamentPrice->id,
-        "paid" => true,
+        "user_id"             => $user->id,
+        'tournament_price_id' => $tournament->currentPrice()->id,
+        "paid"                => true,
     ]);
 });

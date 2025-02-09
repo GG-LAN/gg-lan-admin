@@ -3,7 +3,6 @@ namespace Database\Seeders;
 
 use App\Models\Game;
 use App\Models\Tournament;
-use App\Models\TournamentPrice;
 use Illuminate\Database\Seeder;
 
 class TournamentSeeder extends Seeder
@@ -28,24 +27,6 @@ class TournamentSeeder extends Seeder
 
         // Create a open team tournament (id: 1)
         Tournament::factory()
-            ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-                return [
-                    'name'          => $tournament->name,
-                    'tournament_id' => $tournament->id,
-                    'type'          => 'normal',
-                    'active'        => true,
-                ];
-            }), "prices")
-            ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-                return [
-                    'name'          => $tournament->name . " Last Week",
-                    'tournament_id' => $tournament->id,
-                    'type'          => 'last_week',
-                    'price_id'      => "price_1OtYO6AOwlBXXotY6zNeBkVJ",
-                    'price'         => "35,00 €",
-                    'active'        => false,
-                ];
-            }), "prices")
             ->for($gameCsgo)
             ->create([
                 "id"         => 1,
@@ -58,24 +39,6 @@ class TournamentSeeder extends Seeder
 
         // Create a open solo tournament (id: 2)
         Tournament::factory()
-            ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-                return [
-                    'name'          => $tournament->name,
-                    'tournament_id' => $tournament->id,
-                    'type'          => 'normal',
-                    'active'        => true,
-                ];
-            }), "prices")
-            ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-                return [
-                    'name'          => $tournament->name . " Last Week",
-                    'tournament_id' => $tournament->id,
-                    'type'          => 'last_week',
-                    'price_id'      => "price_1OtYO6AOwlBXXotY6zNeBkVJ",
-                    'price'         => "35,00 €",
-                    'active'        => false,
-                ];
-            }), "prices")
             ->for($gameTrackmania)
             ->create([
                 "id"         => 2,
@@ -88,14 +51,6 @@ class TournamentSeeder extends Seeder
 
         // Create a finished team tournament (id: 3)
         Tournament::factory()
-            ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-                return [
-                    'name'          => $tournament->name,
-                    'tournament_id' => $tournament->id,
-                    'type'          => 'normal',
-                    'active'        => true,
-                ];
-            }), "prices")
             ->for($gameCsgo)
             ->create([
                 "id"         => 3,
@@ -108,14 +63,6 @@ class TournamentSeeder extends Seeder
 
         // Create a finished team tournament (id: 4)
         Tournament::factory()
-            ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-                return [
-                    'name'          => $tournament->name,
-                    'tournament_id' => $tournament->id,
-                    'type'          => 'normal',
-                    'active'        => true,
-                ];
-            }), "prices")
             ->for($gameTrackmania)
             ->create([
                 "id"         => 4,

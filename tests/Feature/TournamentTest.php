@@ -4,7 +4,6 @@ use App\Models\Game;
 use App\Models\PurchasedPlace;
 use App\Models\Team;
 use App\Models\Tournament;
-use App\Models\TournamentPrice;
 use App\Models\User;
 
 it("can_get_tournaments", function () {
@@ -33,7 +32,8 @@ it("can_get_tournaments_with_pagination", function () {
 });
 
 it("can_get_tournament", function () {
-    $tournament = Tournament::factory()->create();
+    $tournament = Tournament::factory()
+        ->create();
 
     $this->get('/api/tournaments/' . $tournament->id)
         ->assertOk()
@@ -44,14 +44,6 @@ it("can_get_tournament", function () {
 
 it("can_add_player_to_tournament_of_type_solo", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name'          => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type'          => 'normal',
-                'active'        => true,
-            ];
-        }), "prices")
         ->create([
             'type'   => 'solo',
             'status' => 'open',
@@ -69,14 +61,6 @@ it("can_add_player_to_tournament_of_type_solo", function () {
 
 it("can_add_player_to_tournament_of_type_solo_as_admin", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name'          => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type'          => 'normal',
-                'active'        => true,
-            ];
-        }), "prices")
         ->create([
             'type'   => 'solo',
             'status' => 'open',
@@ -115,14 +99,6 @@ it("cant_add_another_player_to_tournament_of_type_solo", function () {
 
 it("can_remove_player_from_tournament_of_type_solo", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name'          => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type'          => 'normal',
-                'active'        => true,
-            ];
-        }), "prices")
         ->create([
             'type'   => 'solo',
             'status' => 'open',
@@ -160,14 +136,6 @@ it("cant_remove_another_player_from_tournament_of_type_solo", function () {
 
 it("can_remove_player_from_tournament_of_type_solo_as_admin", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name'          => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type'          => 'normal',
-                'active'        => true,
-            ];
-        }), "prices")
         ->create([
             'type'   => 'solo',
             'status' => 'open',
@@ -192,14 +160,11 @@ it("can_remove_player_from_tournament_of_type_solo_as_admin", function () {
 it("get_tournament_purchased_places", function () {
     $user = User::factory()->create();
 
-    $tournament = Tournament::factory()->create();
-
-    $tournamentPrice = TournamentPrice::factory()->create([
-        'tournament_id' => $tournament->id,
-    ]);
+    $tournament = Tournament::factory()
+        ->create();
 
     $purchasedPlaces = PurchasedPlace::factory(4)->create([
-        'tournament_price_id' => $tournamentPrice->id,
+        'tournament_price_id' => $tournament->currentPrice()->id,
     ]);
 
     $this->actingAs($user)->get("api/tournaments/" . $tournament->id . "/purchasedPlaces")
@@ -210,11 +175,12 @@ it("get_tournament_purchased_places", function () {
 });
 
 it("cant_register_player_if_tournament_is_full", function () {
-    $tournament = Tournament::factory()->create([
-        'type'   => 'solo',
-        'status' => 'open',
-        'places' => 4,
-    ]);
+    $tournament = Tournament::factory()
+        ->create([
+            'type'   => 'solo',
+            'status' => 'open',
+            'places' => 4,
+        ]);
 
     $players = User::factory(4)->create();
     foreach ($players as $player) {
@@ -232,11 +198,12 @@ it("cant_register_player_if_tournament_is_full", function () {
 });
 
 it("cant_register_player_to_a_team_tournament", function () {
-    $tournament = Tournament::factory()->create([
-        'type'   => 'team',
-        'status' => 'open',
-        'places' => 4,
-    ]);
+    $tournament = Tournament::factory()
+        ->create([
+            'type'   => 'team',
+            'status' => 'open',
+            'places' => 4,
+        ]);
 
     $user = User::factory()->create();
 
@@ -249,11 +216,12 @@ it("cant_register_player_to_a_team_tournament", function () {
 });
 
 it("cant_register_twice_player_to_same_tournament", function () {
-    $tournament = Tournament::factory()->create([
-        'type'   => 'solo',
-        'status' => 'open',
-        'places' => 4,
-    ]);
+    $tournament = Tournament::factory()
+        ->create([
+            'type'   => 'solo',
+            'status' => 'open',
+            'places' => 4,
+        ]);
 
     $user = User::factory()->create();
 
@@ -270,11 +238,12 @@ it("cant_register_twice_player_to_same_tournament", function () {
 });
 
 it("cant_unregister_twice_player_to_same_tournament", function () {
-    $tournament = Tournament::factory()->create([
-        'type'   => 'solo',
-        'status' => 'open',
-        'places' => 4,
-    ]);
+    $tournament = Tournament::factory()
+        ->create([
+            'type'   => 'solo',
+            'status' => 'open',
+            'places' => 4,
+        ]);
 
     $user = User::factory()->create();
 
@@ -295,14 +264,6 @@ it("cant_unregister_twice_player_to_same_tournament", function () {
 
 test("A purchased place is created after registering a player to a tournament", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name'          => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type'          => 'normal',
-                'active'        => true,
-            ];
-        }), "prices")
         ->create([
             'type'   => 'solo',
             'status' => 'open',
@@ -322,14 +283,6 @@ test("A purchased place is created after registering a player to a tournament", 
 
 test("Purchased place is deleted after unregistering a player from a tournament", function () {
     $tournament = Tournament::factory()
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name'          => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type'          => 'normal',
-                'active'        => true,
-            ];
-        }), "prices")
         ->create([
             'type'   => 'solo',
             'status' => 'open',
@@ -356,31 +309,13 @@ it("can list all unregistered teams for a open tournament", function () {
 
     $tournament = Tournament::factory()
         ->for($game)
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name'          => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type'          => 'normal',
-                'active'        => true,
-            ];
-        }), "prices")
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name'          => $tournament->name . " Last Week",
-                'tournament_id' => $tournament->id,
-                'type'          => 'last_week',
-                'price_id'      => "price_1OtYO6AOwlBXXotY6zNeBkVJ",
-                'price'         => "35,00 €",
-                'active'        => false,
-            ];
-        }), "prices")
         ->create(["status" => "open", "type" => "team"]);
 
     $teams_full = Team::factory(4)
         ->for($tournament)
         ->hasAttached(User::factory(), ["captain" => true])
         ->has(User::factory(4))
-        ->create([
+        ->createQuietly([
             "registration_state" => Team::REGISTERED,
         ]);
 
@@ -416,53 +351,17 @@ it("don't list unregistered teams of another tournament for a open tournament", 
 
     $tournamentCSGO = Tournament::factory()
         ->for($gameCSGO)
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name'          => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type'          => 'normal',
-                'active'        => true,
-            ];
-        }), "prices")
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name'          => $tournament->name . " Last Week",
-                'tournament_id' => $tournament->id,
-                'type'          => 'last_week',
-                'price_id'      => "price_1OtYO6AOwlBXXotY6zNeBkVJ",
-                'price'         => "35,00 €",
-                'active'        => false,
-            ];
-        }), "prices")
         ->create(["status" => "open", "type" => "team"]);
 
     $tournamentTrackmania = Tournament::factory()
         ->for($gameTRACKMANIA)
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name'          => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type'          => 'normal',
-                'active'        => true,
-            ];
-        }), "prices")
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name'          => $tournament->name . " Last Week",
-                'tournament_id' => $tournament->id,
-                'type'          => 'last_week',
-                'price_id'      => "price_1OtYO6AOwlBXXotY6zNeBkVJ",
-                'price'         => "35,00 €",
-                'active'        => false,
-            ];
-        }), "prices")
         ->create(["status" => "open", "type" => "team"]);
 
     $teams_full_csgo = Team::factory(4)
         ->for($tournamentCSGO)
         ->hasAttached(User::factory(), ["captain" => true])
         ->has(User::factory(4))
-        ->create([
+        ->createQuietly([
             "registration_state" => Team::REGISTERED,
         ]);
 
@@ -477,7 +376,7 @@ it("don't list unregistered teams of another tournament for a open tournament", 
     $teams_full_trackmania = Team::factory(4)
         ->for($tournamentTrackmania)
         ->hasAttached(User::factory(), ["captain" => true])
-        ->create([
+        ->createQuietly([
             "registration_state" => Team::REGISTERED,
         ]);
 
@@ -506,24 +405,6 @@ it("don't list unregistered teams if it's not a team tournament", function () {
 
     $tournament = Tournament::factory()
         ->for($game)
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name'          => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type'          => 'normal',
-                'active'        => true,
-            ];
-        }), "prices")
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name'          => $tournament->name . " Last Week",
-                'tournament_id' => $tournament->id,
-                'type'          => 'last_week',
-                'price_id'      => "price_1OtYO6AOwlBXXotY6zNeBkVJ",
-                'price'         => "35,00 €",
-                'active'        => false,
-            ];
-        }), "prices")
         ->create(["status" => "open", "type" => "solo"]);
 
     $this->get("/api/tournaments/{$tournament->id}/available-teams")
@@ -543,24 +424,6 @@ it("don't list unregistered teams if the tournament is closed/finished", functio
 
     $tournament = Tournament::factory()
         ->for($game)
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name'          => $tournament->name,
-                'tournament_id' => $tournament->id,
-                'type'          => 'normal',
-                'active'        => true,
-            ];
-        }), "prices")
-        ->has(TournamentPrice::factory()->state(function (array $attributes, Tournament $tournament) {
-            return [
-                'name'          => $tournament->name . " Last Week",
-                'tournament_id' => $tournament->id,
-                'type'          => 'last_week',
-                'price_id'      => "price_1OtYO6AOwlBXXotY6zNeBkVJ",
-                'price'         => "35,00 €",
-                'active'        => false,
-            ];
-        }), "prices")
         ->create(["status" => "closed"]);
 
     $this->get("/api/tournaments/{$tournament->id}/available-teams")

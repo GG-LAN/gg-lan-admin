@@ -13,6 +13,10 @@ class DiscordChannel
     {
         $message = $notification->toDiscord($notifiable);
 
+        if (config("app.env") == "testing") {
+            return;
+        }
+
         DiscordAlert::message("", [
             [
                 "timestamp"   => now(),

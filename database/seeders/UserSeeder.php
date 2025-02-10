@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Seeders;
 
 use App\Models\User;
@@ -10,18 +9,19 @@ class UserSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run() {
+    public function run()
+    {
         // Create admin user (id: 1)
         User::factory()->create([
             'email'    => 'admin@admin.com',
             'password' => bcrypt('admin'),
-            'admin'    => 1
+            'admin'    => 1,
         ]);
-        
+
         // Create normal user (id: 2)
         User::factory()->create([
             'email'    => 'test@test.com',
-            'password' => bcrypt('secret'),
+            'password' => bcrypt('password'),
         ]);
     }
 }

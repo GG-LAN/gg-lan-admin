@@ -2,6 +2,11 @@
 
 @config 'tailwind.config.js';
 
+/* Simple */
+.fi-simple-main {
+    @apply bg-white shadow dark:bg-gray-800;
+}
+
 /* Sidebar */
 .fi-sidebar-item {
     @apply transition duration-150 ease-in-out rounded-lg !important;
@@ -41,30 +46,40 @@
     @apply font-medium !important;
 }
 
-.fi-sidebar-nav a[href*="dashboard"] svg {
-    @apply text-purple-600 dark:text-purple-500;
-}
-
-.fi-sidebar-nav a[href*="sites"] svg {
-    @apply text-blue-600 dark:text-blue-500;
-}
-
-.fi-sidebar-nav a[href*="databases"] svg {
-    @apply text-red-600 dark:text-red-500;
-}
-
-.fi-sidebar-nav a[href*="backups"] svg {
     @apply text-green-600 dark:text-green-500;
 }
-
-.fi-sidebar-nav a[href*="settings"] svg {
-    @apply text-gray-600 dark:text-gray-500;
+/* Forms */
+.fi-fo-field-wrp-label {
+    @apply text-gray-900 dark:text-gray-400;
 }
 
-.fi-sidebar-nav a[href*="logs"] svg {
-    @apply text-red-600 dark:text-red-500;
+.fi-input {
+    @apply
+    p-2.5
+    sm:text-sm
+    bg-gray-50 
+    dark:bg-gray-700 
+    text-gray-900
+    dark:text-white
+    border
+    border-gray-300 
+    dark:border-gray-600
+    dark:placeholder-gray-400
+    focus:ring-primary-500
+    focus:border-primary-500
+    dark:focus:ring-primary-500
+    dark:focus:border-primary-500;
 }
 
-.fi-sidebar-nav a[href*="queue-monitors"] svg {
-    @apply text-orange-600 dark:text-orange-500;
+/* Buttons */
+.fi-btn-color-primary {
+    @apply
+    text-white 
+    bg-primary-700
+    dark:bg-primary-600
+    hover:bg-primary-800
+    dark:hover:bg-primary-700
+    transition
+    ease-in-out
+    duration-150;
 }

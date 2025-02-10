@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\Teams;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -22,7 +21,7 @@ class UpdateTeamRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'        => 'required|string|max:50|unique:teams',
+            'name'        => 'required|string|max:50',
             'description' => 'string|max:250',
         ];
     }

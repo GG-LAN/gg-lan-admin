@@ -37,7 +37,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
  */
 Route::controller(AuthController::class)->group(function () {
     Route::post('register', 'register')->middleware("throttle:3,1");
-    Route::post('login', 'login')->name("login.api");
+    Route::post('login', 'login')->name("login");
     Route::get('email/verify/{id}/{hash}', 'verify')->name('verification.verify.api');
     Route::get('not-verified', 'notVerified')->name('verification.notice.api');
     Route::post('forgot-password', 'forgotPassword')->middleware("throttle:3,1");

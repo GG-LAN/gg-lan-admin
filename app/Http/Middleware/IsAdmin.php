@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Middleware;
 
 use Closure;
@@ -25,7 +24,7 @@ class IsAdmin
 
             $request->session()->regenerateToken();
 
-            return redirect()->route("login");
+            return redirect()->route("filament.admin.auth.login");
         }
     }
 }

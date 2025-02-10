@@ -7,27 +7,13 @@ export default {
         "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
-        "./node_modules/flowbite/**/*.js",
-        "./node_modules/flowbite-vue/**/*.{js,jsx,ts,tsx,vue}",
+        // "./node_modules/flowbite/**/*.js",
+        // "./node_modules/flowbite-vue/**/*.{js,jsx,ts,tsx,vue}",
         "./resources/js/**/*.vue",
     ],
 
     theme: {
         extend: {
-            colors: {
-                primary: {
-                    50: "#eff6ff",
-                    100: "#dbeafe",
-                    200: "#bfdbfe",
-                    300: "#93c5fd",
-                    400: "#60a5fa",
-                    500: "#3b82f6",
-                    600: "#2563eb",
-                    700: "#1d4ed8",
-                    800: "#1e40af",
-                    900: "#1e3a8a",
-                },
-            },
             fontFamily: {
                 sans: [
                     "Inter",
@@ -83,11 +69,11 @@ export default {
             },
         },
     },
-    darkMode: "class",
+    // darkMode: "class",
     plugins: [
-        forms,
-        require("flowbite/plugin")({
-            charts: true,
-        }),
+        // forms,
+        // require("flowbite/plugin")({
+        //     charts: true,
+        // }),
     ],
 };

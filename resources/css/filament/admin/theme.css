@@ -21,16 +21,16 @@
     @apply text-base !important;
 }
 
-.fi-sidebar-item-icon {
-    @apply text-danger-600 dark:text-danger-600;
-}
-
 .fi-sidebar-group-items {
     @apply pb-2 space-y-2 !important;
 }
 
 .fi-active .fi-sidebar-item-label {
     @apply text-gray-700 dark:text-gray-200 !important;
+}
+
+.fi-active > .fi-sidebar-item-button .fi-sidebar-item-icon {
+    @apply text-danger-600 dark:text-danger-600 !important;
 }
 
 

@@ -20,6 +20,10 @@
     @apply text-base !important;
 }
 
+.fi-sidebar-item-icon {
+    @apply text-danger-600 dark:text-danger-600;
+}
+
 .fi-sidebar-group-items {
     @apply pb-2 space-y-2 !important;
 }

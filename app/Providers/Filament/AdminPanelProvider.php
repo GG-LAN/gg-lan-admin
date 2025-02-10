@@ -145,14 +145,10 @@ class AdminPanelProvider extends PanelProvider
             ->font('Inter')
             ->discoverResources(app_path('Filament/Resources'), 'App\\Filament\\Resources')
             ->discoverPages(app_path('Filament/Pages'), 'App\\Filament\\Pages')
-            ->pages([
-                Pages\Dashboard::class,
-            ])
+            ->pages([])
             ->discoverWidgets(app_path('Filament/Widgets'), 'App\\Filament\\Widgets')
-            ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
-            ])
+            ->widgets([])
+            ->discoverClusters(app_path('Filament/Clusters'), 'App\\Filament\\Clusters')
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

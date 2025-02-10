@@ -13,7 +13,7 @@
 }
 
 .fi-sidebar-item-active {
-    @apply ease-in-out bg-gray-100 dark:bg-gray-900 rounded-lg !important;
+    @apply ease-in-out bg-gray-100 dark:bg-gray-800 rounded-lg !important;
 }
 
 .fi-sidebar-item-label {
@@ -46,8 +46,6 @@
     @apply font-medium !important;
 }
 
-    @apply text-green-600 dark:text-green-500;
-}
 /* Forms */
 .fi-fo-field-wrp-label {
     @apply text-gray-900 dark:text-gray-400;

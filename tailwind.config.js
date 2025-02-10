@@ -60,13 +60,6 @@ export default {
                     "monospace",
                 ],
             },
-            transitionProperty: {
-                width: "width",
-            },
-            textDecoration: ["active"],
-            minWidth: {
-                kanban: "28rem",
-            },
         },
     },
     // darkMode: "class",

@@ -136,6 +136,7 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->revealablePasswords(false)
             ->colors($this->colors)
+            ->viteTheme("resources/css/filament/admin/theme.css")
             ->maxContentWidth(MaxWidth::Full)
             ->simplePageMaxContentWidth(MaxWidth::ExtraLarge)
             ->font('Inter')

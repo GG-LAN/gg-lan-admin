@@ -1,3 +1,70 @@
-@import '../../../../vendor/filament/filament/resources/css/theme.css';
+@import '/vendor/filament/filament/resources/css/theme.css';
 
 @config 'tailwind.config.js';
+
+/* Sidebar */
+.fi-sidebar-item {
+    @apply transition duration-150 ease-in-out rounded-lg !important;
+}
+
+.fi-sidebar-item-active {
+    @apply ease-in-out bg-gray-100 dark:bg-gray-900 rounded-lg !important;
+}
+
+.fi-sidebar-item-label {
+    @apply text-base !important;
+}
+
+.fi-sidebar-group-items {
+    @apply pb-2 space-y-2 !important;
+}
+
+.fi-active .fi-sidebar-item-label {
+    @apply text-gray-700 dark:text-gray-200 !important;
+}
+
+/* Decoment this if you want to have the same background that the topbar. */
+/* .fi-sidebar {
+    @apply bg-white dark:bg-gray-900 !important;
+} */
+
+/* Layout */
+.fi-badge {
+    @apply text-sm font-medium me-2 px-2.5 py-0.5 rounded-full ring-0 !important;
+}
+
+.fi-fo-field-wrp-label span {
+    @apply text-gray-900 dark:text-gray-400 !important;
+}
+
+.fi-dropdown-list-item-label, .fi-ta-text-item-label {
+    @apply font-medium !important;
+}
+
+.fi-sidebar-nav a[href*="dashboard"] svg {
+    @apply text-purple-600 dark:text-purple-500;
+}
+
+.fi-sidebar-nav a[href*="sites"] svg {
+    @apply text-blue-600 dark:text-blue-500;
+}
+
+.fi-sidebar-nav a[href*="databases"] svg {
+    @apply text-red-600 dark:text-red-500;
+}
+
+.fi-sidebar-nav a[href*="backups"] svg {
+    @apply text-green-600 dark:text-green-500;
+}
+
+.fi-sidebar-nav a[href*="settings"] svg {
+    @apply text-gray-600 dark:text-gray-500;
+}
+
+.fi-sidebar-nav a[href*="logs"] svg {
+    @apply text-red-600 dark:text-red-500;
+}
+
+.fi-sidebar-nav a[href*="queue-monitors"] svg {
+    @apply text-orange-600 dark:text-orange-500;
+}

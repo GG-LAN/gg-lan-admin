@@ -11,8 +11,8 @@ class DiscordMessage
         private array $fields = []
     ) {
         $this->author = [
-            'name'     => config("app.name"),
-            'url'      => config("app.url"),
+            'name'     => "GG-LAN",
+            'url'      => "https://gglan.fr",
             'icon_url' => config("app.url") . "/favicon.png",
         ];
     }

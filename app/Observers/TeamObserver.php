@@ -22,9 +22,9 @@ class TeamObserver implements ShouldHandleEventsAfterCommit
     /**
      * Handle the Team "updated" event.
      */
-    public function updated(Team $team): void
+    public function updating(Team $team): void
     {
-        if ($team->registration_state == Team::REGISTERED) {
+        if ($team->isDirty("registration_state") && $team->registration_state == Team::REGISTERED) {
             $team->notify(new TeamRegistered);
         }
     }

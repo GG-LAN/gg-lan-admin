@@ -61,6 +61,10 @@
     @apply sm:p-6 lg:p-4 !important;
 }
 
+.fi-header-heading {
+    @apply font-bold dark:text-gray-400;
+}
+
 
 /* #### Forms #### */
 .fi-fo-field-wrp-label {

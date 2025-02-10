@@ -2,12 +2,13 @@
 
 @config 'tailwind.config.js';
 
-/* Simple */
+/* #### Simple #### */
 .fi-simple-main {
     @apply bg-white shadow dark:bg-gray-800;
 }
 
-/* Sidebar */
+
+/* #### Sidebar #### */
 .fi-sidebar-item {
     @apply transition duration-150 ease-in-out rounded-lg !important;
 }
@@ -32,12 +33,14 @@
     @apply text-gray-700 dark:text-gray-200 !important;
 }
 
-/* Topbar */
+
+/* #### Topbar #### */
 .fi-topbar nav, .fi-sidebar-header {
     @apply bg-white dark:bg-gray-800 !important;
 }
 
-/* Layout */
+
+/* #### Layout #### */
 .fi-badge {
     @apply text-sm font-medium me-2 px-2.5 py-0.5 rounded-full ring-0 !important;
 }
@@ -58,7 +61,8 @@
     @apply sm:p-6 lg:p-4 !important;
 }
 
-/* Forms */
+
+/* #### Forms #### */
 .fi-fo-field-wrp-label {
     @apply text-gray-900 dark:text-gray-400;
 }
@@ -81,7 +85,8 @@
     dark:focus:border-primary-500;
 }
 
-/* Buttons */
+
+/* #### Buttons #### */
 .fi-btn-color-primary {
     @apply
     text-white 

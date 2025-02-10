@@ -13,7 +13,7 @@ class DiscordMessage
         $this->author = [
             'name'     => "GG-LAN",
             'url'      => "https://gglan.fr",
-            'icon_url' => config("app.url") . "/favicon.png",
+            'icon_url' => "https://gglan.fr/favicon-discord.png",
         ];
     }
 

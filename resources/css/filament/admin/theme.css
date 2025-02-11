@@ -2,6 +2,10 @@
 
 @config 'tailwind.config.js';
 
+.fi-body {
+    @apply bg-gray-100 dark:bg-gray-900;
+}
+
 /* #### Simple #### */
 .fi-simple-main {
     @apply bg-white shadow dark:bg-gray-800;

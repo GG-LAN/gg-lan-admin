@@ -77,8 +77,9 @@ class PlayerResource extends Resource
                     ->searchable()
                     ->sortable(),
                 IconColumn::make('admin')
-                    ->translateLabel()
-                    ->boolean(),
+                    ->label(__("Role"))
+                    ->boolean()
+                    ->sortable(),
 
                 TextColumn::make('birth_date')
                     ->translateLabel()

@@ -104,8 +104,16 @@
 
 
 /* #### Table #### */
+.fi-ta-empty-state {
+    @apply bg-white dark:bg-gray-800;
+}
+
 .fi-ta-ctn, .fi-ta-selection-indicator {
     @apply ring-0 shadow-none bg-gray-100 dark:bg-gray-900 divide-none;
+}
+
+.fi-ta-filter-indicators {
+    @apply mb-2 rounded-lg;
 }
 
 .fi-ta-content {

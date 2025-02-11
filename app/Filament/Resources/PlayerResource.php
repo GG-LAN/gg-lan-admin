@@ -99,7 +99,8 @@ class PlayerResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Filter::make("is_admin")
+                    ->query(fn(Builder $query): Builder => $query->where("admin", true)),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

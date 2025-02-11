@@ -13,6 +13,10 @@
 
 
 /* #### Sidebar #### */
+/* .fi-sidebar {
+    @apply bg-gray-50 shadow dark:bg-gray-800;
+} */
+
 .fi-sidebar-item {
     @apply transition duration-150 ease-in-out rounded-lg !important;
 }
@@ -167,6 +171,16 @@ td.fi-ta-cell .fi-ta-text-item-label {
 
 .fi-ta-text {
     @apply px-3 py-5;
+}
+
+
+/* #### Widgets #### */
+.fi-wi-stats-overview-stat {
+    @apply bg-white dark:bg-gray-800 ring-0;
+}
+
+.fi-wi-stats-overview-stat-label {
+    @apply font-semibold;
 }
 
 

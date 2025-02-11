@@ -71,5 +71,12 @@
     "Once deleted, all related informations will also be deleted.": "Une fois supprimé, toutes les informations associées seront définitivement perdues.",
     "Send": "Envoyer",
     "Reset": "Réinitialiser",
-    "Settings": "Paramètres"
+    "Settings": "Paramètres",
+    "Edit": "Modifier",
+    "Age": "Âge",
+    "years": "ans",
+    "Is admin": "Est admin",
+    "Email address copied !": "Adresse email copiée !",
+    "Delete Player": "Supprimer le joueur",
+    "Add": "Ajouter"
 }

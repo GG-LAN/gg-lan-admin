@@ -205,6 +205,31 @@ td.fi-ta-cell .fi-ta-text-item-label {
     duration-150;
 }
 
+.fi-btn-color-success {
+    @apply
+    text-white 
+    bg-success-700
+    dark:bg-success-600
+    hover:bg-success-800
+    dark:hover:bg-success-700
+    transition
+    ease-in-out
+    duration-150;
+}
+
+.fi-btn-color-gray {
+    @apply
+    text-white
+    dark:text-gray-400 
+    bg-white
+    dark:bg-gray-800
+    hover:bg-gray-100
+    dark:hover:bg-gray-700
+    transition
+    ease-in-out
+    duration-150;
+}
+
 
 /* #### Icon #### */
 .fi-icon-btn-badge-ctn {

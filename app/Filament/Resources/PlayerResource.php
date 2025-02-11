@@ -2,6 +2,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PlayerResource\Pages;
+use App\Filament\Resources\PlayerResource\Pages\ShowPlayer;
 use App\Models\User;
 use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
@@ -178,7 +179,7 @@ class PlayerResource extends Resource
     {
         return [
             'index' => Pages\ListPlayers::route('/'),
-            // 'create' => Pages\CreatePlayer::route('/create'),
+            'view'  => ShowPlayer::route('/{record}/edit'),
         ];
     }
 }

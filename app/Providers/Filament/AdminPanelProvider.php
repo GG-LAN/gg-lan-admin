@@ -19,6 +19,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Saade\FilamentLaravelLog\FilamentLaravelLogPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -152,8 +153,11 @@ class AdminPanelProvider extends PanelProvider
             ->discoverClusters(app_path('Filament/Clusters'), 'App\\Filament\\Clusters')
             ->plugins([
                 FilamentJobsMonitorPlugin::make()
-                    ->navigationGroup(__("Settings"))
+                    ->navigationGroup(__("Monitoring"))
                     ->navigationIcon("fas-microchip"),
+                FilamentLaravelLogPlugin::make()
+                    ->navigationGroup(__("Monitoring"))
+                    ->navigationIcon("fas-file-pen"),
             ])
             ->middleware([
                 EncryptCookies::class,

@@ -81,11 +81,6 @@ class PlayerResource extends Resource
                     ->boolean()
                     ->sortable(),
 
-                TextColumn::make('birth_date')
-                    ->translateLabel()
-                    ->date()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('email_verified_at')
                     ->translateLabel()
                     ->dateTime()

@@ -166,7 +166,7 @@ td.fi-ta-cell .fi-ta-text-item-label {
 }
 
 .fi-ta-text {
-    @apply px-3 py-4;
+    @apply px-3 py-5;
 }
 
 

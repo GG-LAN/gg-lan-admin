@@ -182,3 +182,9 @@ td.fi-ta-cell .fi-ta-text-item-label {
     ease-in-out
     duration-150;
 }
+
+
+/* #### Icon #### */
+.fi-icon-btn-badge-ctn {
+    @apply bg-transparent !important;
+}

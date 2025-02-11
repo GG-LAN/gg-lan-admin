@@ -57,10 +57,16 @@ class PurchasedPlace extends Model
     {
         $price = $tournament->currentPrice();
 
-        $payment = self::updateOrCreate(
-            ["user_id" => $user->id, "tournament_price_id" => $price->id],
-            ["paid" => $paid]
-        );
+        $payment = self::firstOrNew([
+            "user_id"             => $user->id,
+            "tournament_price_id" => $price->id,
+        ]);
+
+        if (! $payment->paid) {
+            $payment->paid = $paid;
+        }
+
+        $payment->save();
 
         return $payment;
     }

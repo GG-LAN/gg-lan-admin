@@ -9,9 +9,12 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class PlayerResource extends Resource
 {
@@ -103,7 +106,21 @@ class PlayerResource extends Resource
                     ->query(fn(Builder $query): Builder => $query->where("admin", true)),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Action::make("edit")
+                    ->form([
+                        TextInput::make('pseudo')
+                            ->translateLabel()
+                            ->required()
+                            ->maxLength(255),
+                        Toggle::make('admin')
+                            ->translateLabel()
+                            ->required(),
+                    ])
+                    ->action(function (User $player) {
+
+                    }),
+                // Tables\Actions\EditAction::make()
+                // ->iconButton("fas-pen"),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

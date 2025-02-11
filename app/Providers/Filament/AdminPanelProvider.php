@@ -10,6 +10,7 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Facades\FilamentIcon;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -164,5 +165,14 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->databaseTransactions()
             ->spa();
+    }
+
+    public function boot(): void
+    {
+        FilamentIcon::register([
+            "tables::header-cell.sort-button"      => "fas-sort",
+            "tables::header-cell.sort-asc-button"  => "fas-sort-up",
+            "tables::header-cell.sort-desc-button" => "fas-sort-down",
+        ]);
     }
 }

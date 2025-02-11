@@ -79,6 +79,7 @@
     @apply
     p-2.5
     sm:text-sm
+    rounded-lg
     bg-gray-50 
     dark:bg-gray-700 
     text-gray-900
@@ -91,6 +92,81 @@
     focus:border-primary-500
     dark:focus:ring-primary-500
     dark:focus:border-primary-500;
+}
+
+.fi-input-wrp {
+    @apply bg-gray-50 dark:bg-gray-700;
+}
+
+
+/* #### Table #### */
+.fi-ta-ctn, .fi-ta-selection-indicator {
+    @apply ring-0 shadow-none bg-gray-100 dark:bg-gray-900 divide-none;
+}
+
+.fi-ta-content {
+    @apply rounded-lg;
+}
+
+.fi-ta-table thead {
+    @apply bg-gray-50 dark:bg-gray-700;
+}
+
+.fi-ta-table tbody {
+    @apply divide-gray-200 dark:divide-gray-700;
+}
+
+.fi-ta-header-cell {
+    @apply py-3;
+}
+
+.fi-ta-row {
+    @apply
+    bg-white
+    dark:bg-gray-800
+    [&:not(:last-child)]:border-b
+    [&:not(:last-child)]:dark:border-gray-700
+    hover:bg-gray-50
+    dark:hover:bg-gray-600
+    cursor-pointer;
+}
+
+.fi-ta-header-cell-label {
+    @apply
+    text-xs
+    uppercase
+    font-bold
+    text-gray-700
+    dark:text-gray-400;
+}
+
+.fi-ta-header-cell-sort-icon {
+    @apply h-3 w-3;
+}
+
+thead .fi-ta-cell div {
+    @apply pr-3 py-0;
+}
+
+td.fi-ta-cell:nth-child(2) .fi-ta-text-item-label {
+    @apply
+    text-gray-900
+    dark:text-white
+    whitespace-nowrap;
+}
+
+td.fi-ta-cell .fi-ta-text-item-label {
+    @apply
+    text-base
+    font-medium
+    max-w-xs
+    text-gray-500
+    dark:text-gray-400
+    [&:not(:hover)]:truncate;
+}
+
+.fi-ta-text {
+    @apply px-3 py-4;
 }
 
 

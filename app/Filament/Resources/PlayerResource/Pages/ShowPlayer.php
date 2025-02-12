@@ -77,7 +77,7 @@ class ShowPlayer extends Page implements HasForms, HasTable
             ->statePath('data');
     }
 
-    public function update()
+    public function update(): void
     {
         $this->record->update($this->form->getState());
 

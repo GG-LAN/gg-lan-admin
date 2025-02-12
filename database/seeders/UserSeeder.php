@@ -19,9 +19,17 @@ class UserSeeder extends Seeder
         ]);
 
         // Create normal user (id: 2)
-        User::factory()->create([
-            'email'    => 'test@test.com',
-            'password' => bcrypt('password'),
-        ]);
+        User::factory()
+            ->openSoloTournament(3)
+            ->createQuietly([
+                'email'    => 'test@test.com',
+                'password' => bcrypt('password'),
+            ]);
+
+        // Some solo users
+        User::factory(3)
+            ->openSoloTournament(3)
+            ->finishedSoloTournament(4)
+            ->createQuietly();
     }
 }

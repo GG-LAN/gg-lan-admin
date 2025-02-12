@@ -1,12 +1,10 @@
 <?php
-
 namespace Database\Seeders;
 
 use App\Models\Faq;
-use Illuminate\Database\Seeder;
 use Database\Seeders\TeamSeeder;
 use Database\Seeders\UserSeeder;
-use Database\Seeders\TournamentSeeder;
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,10 +13,10 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run() {
+    public function run()
+    {
         $this->call([
             UserSeeder::class,
-            TournamentSeeder::class,
             TeamSeeder::class,
         ]);
 

@@ -84,4 +84,9 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     {
         return $this->admin ? true : false;
     }
+
+    public function participationsQuery()
+    {
+        return Participation::where("user_id", $this->id);
+    }
 }

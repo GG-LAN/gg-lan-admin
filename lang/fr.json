@@ -13,6 +13,7 @@
     "Incomplete": "Incomplet",
     "Pending": "En Attente",
     "Registered": "Inscrit",
+    "Not_full": "Incomplète",
     "Game": "Jeu",
     "Closed": "Fermé",
     "Finished": "Terminé",
@@ -78,5 +79,6 @@
     "Is admin": "Est admin",
     "Email address copied !": "Adresse email copiée !",
     "Delete Player": "Supprimer le joueur",
-    "Add": "Ajouter"
+    "Add": "Ajouter",
+    "No existing participations": "Aucune participation existante"
 }

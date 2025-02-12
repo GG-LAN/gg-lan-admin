@@ -24,6 +24,15 @@ class Tournament extends Model
 
     protected $appends = ['register_count', 'isFull', 'price'];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'cashprize' => 'string',
+    ];
+
     public function game()
     {
         return $this->belongsTo('App\Models\Game');
@@ -162,13 +171,10 @@ class Tournament extends Model
         return $this->teams->where("registration_state", "!=", Team::REGISTERED);
     }
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'cashprize' => 'string',
-    ];
+    public function delete()
+    {
+        TournamentPrice::archiveTournamentProduct($this);
 
+        return parent::delete();
+    }
 }

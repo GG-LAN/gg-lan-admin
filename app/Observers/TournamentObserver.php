@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Observers;
 
 use App\Models\Tournament;
@@ -14,11 +13,6 @@ class TournamentObserver implements ShouldHandleEventsAfterCommit
             return;
         }
 
-        TournamentPrice::archiveTournamentProduct($tournament);
-    }
-
-    public function deleting(Tournament $tournament): void
-    {
         TournamentPrice::archiveTournamentProduct($tournament);
     }
 }

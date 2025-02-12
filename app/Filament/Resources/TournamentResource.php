@@ -2,6 +2,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TournamentResource\Pages;
+use App\Filament\Resources\TournamentResource\Pages\ShowTournament;
 use App\Models\Game;
 use App\Models\Tournament;
 use App\Models\TournamentPrice;
@@ -178,8 +179,7 @@ class TournamentResource extends Resource
     {
         return [
             "index" => Pages\ListTournaments::route("/"),
-            // "create" => Pages\CreateTournament::route("/create"),
-            // "edit" => Pages\EditTournament::route("/{record}/edit"),
+            "view"  => ShowTournament::route("/{record}"),
         ];
     }
 

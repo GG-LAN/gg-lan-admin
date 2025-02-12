@@ -174,10 +174,8 @@ td.fi-ta-cell .fi-ta-text-item-label {
     @apply
     text-base
     font-medium
-    max-w-xs
     text-gray-500
-    dark:text-gray-400
-    [&:not(:hover)]:truncate;
+    dark:text-gray-400;
 }
 
 .fi-ta-text {

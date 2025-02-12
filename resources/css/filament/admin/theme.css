@@ -196,6 +196,7 @@ td.fi-ta-cell .fi-ta-text-item-label {
 /* #### Buttons #### */
 .fi-btn-color-primary {
     @apply
+    shadow
     text-white
     text-base
     bg-primary-700
@@ -209,6 +210,7 @@ td.fi-ta-cell .fi-ta-text-item-label {
 
 .fi-btn-color-success {
     @apply
+    shadow
     text-white
     text-base
     bg-success-700
@@ -222,7 +224,7 @@ td.fi-ta-cell .fi-ta-text-item-label {
 
 .fi-btn-color-gray {
     @apply
-    text-white
+    shadow
     text-base
     dark:text-gray-400 
     bg-white
@@ -238,4 +240,9 @@ td.fi-ta-cell .fi-ta-text-item-label {
 /* #### Icon #### */
 .fi-icon-btn-badge-ctn {
     @apply bg-transparent !important;
+}
+
+/* #### Modal #### */
+.fi-modal-window {
+    @apply bg-gray-100 dark:bg-gray-800;
 }

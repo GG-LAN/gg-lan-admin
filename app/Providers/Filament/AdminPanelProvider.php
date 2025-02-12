@@ -186,15 +186,22 @@ class AdminPanelProvider extends PanelProvider
             "tables::actions.filter"                   => "fas-filter",
             "tables::actions.toggle-columns"           => "fas-table-columns",
             "tables::search-field"                     => "fas-magnifying-glass",
+            "tables::filters.remove-all-button"        => "fas-xmark",
+            "tables::empty-state"                      => "fas-xmark",
+            "tables::filters.remove-all-button"        => "fas-xmark",
 
             "forms::components.builder.actions.delete" => "fas-trash-can",
 
             "actions::delete-action"                   => "fas-trash-can",
 
+            "notifications::notification.close-button" => "fas-xmark",
             "notifications::notification.danger"       => "fas-circle-xmark",
             "notifications::notification.info"         => "fas-circle-info",
             "notifications::notification.success"      => "fas-circle-check",
             "notifications::notification.warning"      => "fas-circle-exclamation",
+
+            "modal.close-button"                       => "fas-xmark",
+            "badge.delete-button"                      => "fas-xmark",
         ]);
     }
 }

@@ -249,7 +249,7 @@ class TournamentResource extends Resource
                 Step::make(__("Dates"))
                     ->columns(2)
                     ->description("")
-                    ->icon("fas-calendar")
+                    ->icon("fas-calendar-days")
                     ->schema([
                         DatePicker::make("start_date")
                             ->translateLabel()

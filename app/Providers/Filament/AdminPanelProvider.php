@@ -180,9 +180,21 @@ class AdminPanelProvider extends PanelProvider
     public function boot(): void
     {
         FilamentIcon::register([
-            "tables::header-cell.sort-button"      => "fas-sort",
-            "tables::header-cell.sort-asc-button"  => "fas-sort-up",
-            "tables::header-cell.sort-desc-button" => "fas-sort-down",
+            "tables::header-cell.sort-button"          => "fas-sort",
+            "tables::header-cell.sort-asc-button"      => "fas-sort-up",
+            "tables::header-cell.sort-desc-button"     => "fas-sort-down",
+            "tables::actions.filter"                   => "fas-filter",
+            "tables::actions.toggle-columns"           => "fas-table-columns",
+            "tables::search-field"                     => "fas-magnifying-glass",
+
+            "forms::components.builder.actions.delete" => "fas-trash-can",
+
+            "actions::delete-action"                   => "fas-trash-can",
+
+            "notifications::notification.danger"       => "fas-circle-xmark",
+            "notifications::notification.info"         => "fas-circle-info",
+            "notifications::notification.success"      => "fas-circle-check",
+            "notifications::notification.warning"      => "fas-circle-exclamation",
         ]);
     }
 }

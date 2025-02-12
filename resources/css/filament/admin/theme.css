@@ -61,8 +61,12 @@
     @apply font-medium !important;
 }
 
+.fi-section {
+    @apply shadow-md;
+}
+
 .fi-section-content-ctn {
-    @apply bg-white rounded-lg shadow-sm  dark:bg-gray-800 text-gray-900 dark:text-white;
+    @apply bg-white rounded-lg dark:bg-gray-800 text-gray-900 dark:text-white;
 }
 
 .fi-section-content {
@@ -117,7 +121,7 @@
 }
 
 .fi-ta-content {
-    @apply rounded-lg;
+    @apply rounded-lg shadow-md;
 }
 
 .fi-ta-table thead tr {
@@ -139,8 +143,7 @@
     [&:not(:last-child)]:border-b
     [&:not(:last-child)]:dark:border-gray-700
     hover:bg-gray-50
-    dark:hover:bg-gray-600
-    cursor-pointer;
+    dark:hover:bg-gray-600;
 }
 
 .fi-ta-header-cell-label {
@@ -195,7 +198,8 @@ td.fi-ta-cell .fi-ta-text-item-label {
 /* #### Buttons #### */
 .fi-btn-color-primary {
     @apply
-    text-white 
+    text-white
+    text-base
     bg-primary-700
     dark:bg-primary-600
     hover:bg-primary-800
@@ -207,7 +211,8 @@ td.fi-ta-cell .fi-ta-text-item-label {
 
 .fi-btn-color-success {
     @apply
-    text-white 
+    text-white
+    text-base
     bg-success-700
     dark:bg-success-600
     hover:bg-success-800
@@ -220,6 +225,7 @@ td.fi-ta-cell .fi-ta-text-item-label {
 .fi-btn-color-gray {
     @apply
     text-white
+    text-base
     dark:text-gray-400 
     bg-white
     dark:bg-gray-800

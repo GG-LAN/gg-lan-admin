@@ -1,6 +1,7 @@
 <?php
 namespace App\Observers;
 
+use App\Models\Participation;
 use App\Models\PurchasedPlace;
 use App\Models\TournamentUser;
 use App\Notifications\PlayerRegistered;
@@ -13,6 +14,8 @@ class TournamentUserObserver
         $tournament = $tournamentUser->tournament;
 
         PurchasedPlace::register($player, $tournament);
+
+        Participation::register($player, $tournament);
 
         $player->notify(new PlayerRegistered($tournament));
     }
@@ -28,5 +31,7 @@ class TournamentUserObserver
         $tournament = $tournamentUser->tournament;
 
         PurchasedPlace::unregister($player, $tournament);
+
+        Participation::unregister($player, $tournament);
     }
 }

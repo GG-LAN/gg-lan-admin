@@ -2,6 +2,8 @@
 namespace App\Observers;
 
 // use App\Models\PurchasedPlace;
+
+use App\Models\Participation;
 use App\Models\Team;
 use App\Notifications\TeamRegistered;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
@@ -25,6 +27,10 @@ class TeamObserver implements ShouldHandleEventsAfterCommit
     public function updating(Team $team): void
     {
         if ($team->isDirty("registration_state") && $team->registration_state == Team::REGISTERED) {
+            foreach ($team->users as $player) {
+                Participation::register($player, $team->tournament, $team);
+            }
+
             $team->notify(new TeamRegistered);
         }
     }

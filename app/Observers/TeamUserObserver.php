@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Observers;
 
+use App\Models\Participation;
 use App\Models\PurchasedPlace;
 use App\Models\Team;
 use App\Models\TeamUser;
@@ -12,12 +12,15 @@ class TeamUserObserver implements ShouldHandleEventsAfterCommit
 {
     public function created(TeamUser $teamUser): void
     {
-        $user = $teamUser->user;
-        $team = $teamUser->team;
+        $user       = $teamUser->user;
+        $team       = $teamUser->team;
         $tournament = $team->tournament;
 
         // Register a not_paid purchased_place after attaching a player to a team
         PurchasedPlace::register($user, $tournament);
+
+        // Register participation after attaching a player to a team
+        Participation::register($user, $tournament, $team);
 
         // Updates the registration_state accordingly to if the team is full and if the tournament is full.
         $this->updateTeamRegistrationState($team);
@@ -28,12 +31,15 @@ class TeamUserObserver implements ShouldHandleEventsAfterCommit
 
     public function deleted(TeamUser $teamUser): void
     {
-        $user = $teamUser->user;
-        $team = $teamUser->team;
+        $user       = $teamUser->user;
+        $team       = $teamUser->team;
         $tournament = $team->tournament;
 
         // Remove the purchased_place after detaching(removing) a player to a team
         PurchasedPlace::unregister($user, $tournament);
+
+        // Remove the participation after detaching(removing) a player to a team
+        Participation::unregister($user, $tournament, $team);
 
         // Updates the registration_state accordingly to if the team is full and if the tournament is full.
         $needToRegisterOldestPendingTeam = $this->updateTeamRegistrationState($team);
@@ -83,7 +89,7 @@ class TeamUserObserver implements ShouldHandleEventsAfterCommit
         // If we find a team, update the registration_state of this team to Team::REGISTERED
         if ($team) {
             $team->registration_state_updated_at = now()->toDateTimeString();
-            $team->registration_state = Team::REGISTERED;
+            $team->registration_state            = Team::REGISTERED;
             $team->save();
         }
     }

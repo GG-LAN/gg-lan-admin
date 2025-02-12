@@ -62,7 +62,7 @@
 }
 
 .fi-section {
-    @apply shadow-md;
+    @apply shadow-md dark:shadow-none ring-0;
 }
 
 .fi-section-content-ctn {

@@ -1,8 +1,6 @@
 <?php
-
 namespace App\Models;
 
-use App\Models\Setting;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Number;
@@ -29,11 +27,11 @@ class TournamentPrice extends Model
 
     public static function createProduct(array $attributes)
     {
-        if (!Setting::get('stripe_api_key')) {
+        if (! config("app.stripe_key")) {
             return null;
         }
 
-        $stripe = new Stripe(Setting::get('stripe_api_key'));
+        $stripe = new Stripe(config("app.stripe_key"));
 
         $product = $stripe->products->create($attributes);
 
@@ -42,21 +40,21 @@ class TournamentPrice extends Model
 
     public static function create(array $attributes)
     {
-        if (!Setting::get('stripe_api_key')) {
+        if (! config("app.stripe_key")) {
             return null;
         }
 
-        $stripe = new Stripe(Setting::get('stripe_api_key'));
+        $stripe = new Stripe(config("app.stripe_key"));
 
         $price = $stripe->prices->create([
-            "nickname" => $attributes["name"],
-            "currency" => $attributes["currency"],
+            "nickname"    => $attributes["name"],
+            "currency"    => $attributes["currency"],
             "unit_amount" => $attributes["unit_amount"] * 100,
-            "product" => $attributes["product"],
+            "product"     => $attributes["product"],
         ]);
 
         $attributes["price_id"] = $price->id;
-        $attributes['price'] = Number::currency($attributes["unit_amount"], in: $attributes["currency"], locale: config('app.locale'));
+        $attributes['price']    = Number::currency($attributes["unit_amount"], in: $attributes["currency"], locale: config('app.locale'));
 
         // Create row in DB
         $model = static::query()->create($attributes);
@@ -66,33 +64,33 @@ class TournamentPrice extends Model
 
     public static function getStripePrice(string $price_id)
     {
-        if (!Setting::get('stripe_api_key')) {
+        if (! config("app.stripe_key")) {
             return null;
         }
 
-        $stripe = new Stripe(Setting::get('stripe_api_key'));
+        $stripe = new Stripe(config("app.stripe_key"));
 
         return $stripe->prices->retrieve($price_id);
     }
 
     public function getStripePriceAttribute()
     {
-        if (!Setting::get('stripe_api_key')) {
+        if (! config("app.stripe_key")) {
             return null;
         }
 
-        $stripe = new Stripe(Setting::get('stripe_api_key'));
+        $stripe = new Stripe(config("app.stripe_key"));
 
         return $stripe->prices->retrieve($this->price_id);
     }
 
     public static function archiveTournamentProduct(Tournament $tournament): void
     {
-        if (!Setting::get('stripe_api_key')) {
+        if (! config("app.stripe_key")) {
             return;
         }
 
-        $stripe = new Stripe(Setting::get('stripe_api_key'));
+        $stripe = new Stripe(config("app.stripe_key"));
 
         $priceId = $tournament->currentPrice()->price_id;
 

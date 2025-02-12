@@ -128,4 +128,6 @@ return [
     'app_front_url_forgot_password' => env("APP_FRONT_URL_FORGOT_PASSWORD"),
 
     'mapbox_token' => env("MAPBOX_TOKEN"),
+
+    'stripe_key' => env("STRIPE_KEY")
 ];

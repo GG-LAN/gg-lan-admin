@@ -63,7 +63,6 @@
     "Birth date": "Date de naissance",
     "Dates Start | End": "Dates Début | Fin",
     "Type": "Type",
-    "Places": "Places",
     "Cashprize": "Cashprize (€)",
     "Online Payments": "Paiements en ligne",
     "Cancel": "Annuler",
@@ -86,5 +85,10 @@
     "No existing tournaments": "Aucun tournoi existant",
     "Create Tournament": "Créer un tournoi",
     "By Team": "En Équipe",
-    "Solo": "En solo"
+    "Solo": "En solo",
+    "Start date": "Date de début",
+    "End date": "Date de fin",
+    "Places": "Nombre de slots",
+    "Delete Tournament": "Supprimer le tournoi",
+    "Delete": "Supprimer"
 }

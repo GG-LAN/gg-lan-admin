@@ -4,18 +4,26 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TournamentResource\Pages;
 use App\Models\Game;
 use App\Models\Tournament;
+use App\Models\TournamentPrice;
 use Carbon\Carbon;
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\ActionSize;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Actions\Action as ActionTable;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -25,7 +33,7 @@ class TournamentResource extends Resource
 {
     protected static ?string $model = Tournament::class;
 
-    protected static ?string $navigationIcon = 'fas-trophy';
+    protected static ?string $navigationIcon = "fas-trophy";
 
     public static function getModelLabel(): string
     {
@@ -39,7 +47,7 @@ class TournamentResource extends Resource
 
     public static function getNavigationGroup(): string
     {
-        return __('Tournaments');
+        return __("Tournaments");
     }
 
     public static function form(Form $form): Form
@@ -47,18 +55,16 @@ class TournamentResource extends Resource
         return $form
             ->schema([
 
-                Forms\Components\DatePicker::make('start_date'),
-                Forms\Components\DatePicker::make('end_date'),
-                Forms\Components\TextInput::make('places')
+                Forms\Components\TextInput::make("places")
                     ->required()
                     ->numeric(),
 
-                Forms\Components\TextInput::make('status')
+                Forms\Components\TextInput::make("status")
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('image')
+                Forms\Components\Textarea::make("image")
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('type')
+                Forms\Components\TextInput::make("type")
                     ->maxLength(255)
                     ->default(null),
             ]);
@@ -67,69 +73,90 @@ class TournamentResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultPaginationPageOption(5)
+            ->defaultSort("id", "desc")
             ->columns([
-                TextColumn::make('name')
+                TextColumn::make("name")
                     ->label(__("Tournament"))
                     ->searchable(),
-                TextColumn::make('game.name')
+                TextColumn::make("game.name")
                     ->translateLabel()
                     ->sortable(),
-                TextColumn::make('start_end_date')
+                TextColumn::make("start_end_date")
                     ->label(__("Dates Start | End"))
                     ->state(function (Tournament $tournament) {
                         return (new Carbon($tournament->start_date))->format("d/m/Y") . " | " . (new Carbon($tournament->end_date))->format("d/m/Y");
                     }),
-                TextColumn::make('type')
+                TextColumn::make("type")
                     ->translateLabel()
                     ->formatStateUsing(fn(string $state): string => __(Str::ucFirst($state)))
                     ->searchable(),
-                TextColumn::make('places')
+                TextColumn::make("places")
                     ->translateLabel()
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('cashprize')
+                TextColumn::make("cashprize")
                     ->translateLabel()
                     ->searchable(),
-                TextColumn::make('status')
+                TextColumn::make("status")
                     ->translateLabel()
                     ->badge()
                     ->color(fn(string $state): string => match ($state) {
-                        'open'                            => 'success',
-                        'finished'                        => 'warning',
-                        'closed'                          => 'danger',
+                        "open"                            => "success",
+                        "finished"                        => "warning",
+                        "closed"                          => "danger",
                     })
                     ->formatStateUsing(fn(string $state): string => __(Str::ucfirst($state)))
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('created_at')
+                TextColumn::make("created_at")
                     ->translateLabel()
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                TextColumn::make("updated_at")
                     ->translateLabel()
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                SelectFilter::make('status')
+                SelectFilter::make("status")
                     ->options([
-                        'open'     => __("Open"),
-                        'finished' => __("Finished"),
-                        'closed'   => __("Closed"),
+                        "open"     => __("Open"),
+                        "finished" => __("Finished"),
+                        "closed"   => __("Closed"),
                     ])
-                    ->default('open'),
+                    ->multiple()
+                    ->default(["open", "closed"]),
             ])
             ->actions([
-                // Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    ActionTable::make("delete")
+                        ->translateLabel()
+                        ->icon("fas-trash-can")
+                        ->color("danger")
+                        ->modalHeading(__("Delete Tournament"))
+                        ->action(function (Tournament $record) {
+                            $record->delete();
+
+                            Notification::make()
+                                ->title(__("responses.tournament.deleted"))
+                                ->success()
+                                ->send();
+                        })
+                        ->requiresConfirmation(),
+                ])
+                    ->size(ActionSize::Medium)
+                    ->icon('fas-ellipsis-vertical')
+                    ->color("gray"),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->emptyStateIcon('fas-trophy')
+            ->emptyStateIcon("fas-trophy")
             ->emptyStateHeading(function (Table $table) {
                 $status = __($table->getFilter("status")->getState()["value"]);
 
@@ -150,9 +177,9 @@ class TournamentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTournaments::route('/'),
-            // 'create' => Pages\CreateTournament::route('/create'),
-            // 'edit' => Pages\EditTournament::route('/{record}/edit'),
+            "index" => Pages\ListTournaments::route("/"),
+            // "create" => Pages\CreateTournament::route("/create"),
+            // "edit" => Pages\EditTournament::route("/{record}/edit"),
         ];
     }
 
@@ -166,7 +193,7 @@ class TournamentResource extends Resource
 
         return $action
             ->label(__("Create Tournament"))
-            ->icon('fas-plus')
+            ->icon("fas-plus")
             ->color("success")
             ->button()
             ->modal()
@@ -177,35 +204,42 @@ class TournamentResource extends Resource
                     ->description("")
                     ->icon("fas-trophy")
                     ->schema([
-                        TextInput::make('name')
+                        TextInput::make("name")
                             ->translateLabel()
                             ->required()
                             ->maxLength(255)
                             ->placeholder("GG-LAN #18 CS2")
                             ->columnspan(1),
-                        TextInput::make('cashprize')
+                        TextInput::make("cashprize")
                             ->translateLabel()
                             ->maxLength(255)
                             ->placeholder("XXX €")
                             ->columnspan(1),
-                        Select::make('game')
+                        Select::make("game")
                             ->translateLabel()
                             ->required()
                             ->options([
                                 __("By Team") => Game::teamGame()
                                     ->orderBy("name")
                                     ->get()
-                                    ->pluck('name', 'id')
+                                    ->pluck("name", "id")
                                     ->toArray(),
                                 __("Solo")    => Game::soloGame()
                                     ->orderBy("name")
                                     ->get()
-                                    ->pluck('name', 'id')
+                                    ->pluck("name", "id")
                                     ->toArray(),
                             ])
                             ->searchable()
-                            ->columnSpanFull(),
-                        Textarea::make('description')
+                            ->columnspan(1),
+                        TextInput::make("places")
+                            ->translateLabel()
+                            ->required()
+                            ->numeric()
+                            ->minValue(1)
+                            ->inputMode("decimal")
+                            ->columnspan(1),
+                        Textarea::make("description")
                             ->translateLabel()
                             ->required()
                             ->placeholder(__("Short description of the tournament"))
@@ -215,14 +249,98 @@ class TournamentResource extends Resource
                 Step::make(__("Dates"))
                     ->columns(2)
                     ->description("")
-                    ->icon("fas-calendar"),
+                    ->icon("fas-calendar")
+                    ->schema([
+                        DatePicker::make("start_date")
+                            ->translateLabel()
+                            ->required()
+                            ->live()
+                            ->afterStateUpdated(fn(?string $state, Set $set) => $set("end_date", (new Carbon($state))->addDay()->format("Y-m-d"))),
+                        DatePicker::make("end_date")
+                            ->translateLabel()
+                            ->required(),
+                    ]),
                 Step::make(__("Payment"))
-                    ->columns(2)
                     ->description("")
-                    ->icon("fas-money-bill"),
+                    ->icon("fas-money-bill")
+                    ->schema([
+                        TextInput::make("normal_price")
+                            ->translateLabel()
+                            ->numeric()
+                            ->minValue(1)
+                            ->inputMode("decimal")
+                            ->prefixIcon("fab-stripe-s")
+                            ->suffixIcon("fas-euro-sign")
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(fn(?string $state, Set $set) => $set("last_week_price", $state)),
+                        Toggle::make("has_last_week_price")
+                            ->default(false)
+                            ->live(),
+                        TextInput::make("last_week_price")
+                            ->translateLabel()
+                            ->numeric()
+                            ->minValue(1)
+                            ->inputMode("decimal")
+                            ->prefixIcon("fab-stripe-s")
+                            ->suffixIcon("fas-euro-sign")
+                            ->hidden(fn(Get $get) => ! $get("has_last_week_price")),
+                    ]),
             ])
             ->action(function (array $data): void {
-                //
+                $game = Game::find($data["game"]);
+
+                $tournament = Tournament::create([
+                    "name"        => $data["name"],
+                    "description" => $data["description"],
+                    "game_id"     => $game->id,
+                    "start_date"  => $data["start_date"],
+                    "end_date"    => $data["end_date"],
+                    "places"      => $data["places"],
+                    "cashprize"   => $data["cashprize"],
+                    "status"      => "closed",
+                    "type"        => $game->places > 1 ? "team" : "solo",
+                ]);
+
+                // Create Stripe Product
+                $product = TournamentPrice::createProduct([
+                    "name" => $tournament->name,
+                ]);
+
+                $normalPrice   = $data["normal_price"];
+                $lastWeekPrice = $data["normal_price"];
+
+                if ($data["has_last_week_price"]) {
+                    $lastWeekPrice = $data["last_week_price"];
+                }
+
+                // Normal price
+                TournamentPrice::create([
+                    "name"          => $tournament->name,
+                    "tournament_id" => $tournament->id,
+                    "type"          => "normal",
+                    "currency"      => "eur",
+                    "unit_amount"   => $normalPrice,
+                    "product"       => $product->id,
+                    "active"        => true,
+                ]);
+
+                // Last week price
+                TournamentPrice::create([
+                    "name"          => $tournament->name . " Last Week",
+                    "tournament_id" => $tournament->id,
+                    "type"          => "last_week",
+                    "currency"      => "eur",
+                    "unit_amount"   => $lastWeekPrice,
+                    "product"       => $product->id,
+                ]);
+
+                Notification::make()
+                    ->title(__("responses.tournament.created"))
+                    ->success()
+                    ->send();
             });
+        // ->successRedirectUrl(fn(Tournament $record): string => route('tournaments.show', [
+        // 'record' => $record,
+        // ]));
     }
 }

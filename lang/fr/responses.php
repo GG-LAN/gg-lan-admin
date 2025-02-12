@@ -43,6 +43,7 @@ return [
         "not_registered"      => "Vous n'êtes pas inscrit dans ce tournois.",
         "not_solo"            => "Vous ne pouvez pas inscrire un joueur sur un tournois qui n'est pas en solo.",
         "not_team_tournament" => "Ce n'est pas un tournois en équipe.",
+        "no_tournament_found" => "Aucun tournoi :status actuellement",
     ],
     "player"          => [
         "created" => "Le joueur a bien été créé !",

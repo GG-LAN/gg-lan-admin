@@ -5,7 +5,6 @@
     "Player info": "Informations du joueur",
     "Teams": "Équipes",
     "Team": "Équipe",
-    "Solo": "Solo",
     "Solo tournaments": "Tournois solo",
     "Tournament": "Tournoi",
     "Tournaments": "Tournois",
@@ -18,6 +17,9 @@
     "Closed": "Fermé",
     "Finished": "Terminé",
     "Open": "Ouvert",
+    "closed": "fermé",
+    "finished": "terminé",
+    "open": "ouvert",
     "Team Picture": "Image de l'équipe",
     "Team Info": "Informations de l'équipe",
     "Team members": "Membres de l'équipe",
@@ -62,7 +64,7 @@
     "Dates Start | End": "Dates Début | Fin",
     "Type": "Type",
     "Places": "Places",
-    "Cashprice (€)": "Cashprize (€)",
+    "Cashprize": "Cashprize (€)",
     "Online Payments": "Paiements en ligne",
     "Cancel": "Annuler",
     "Address": "Adresse",
@@ -80,5 +82,9 @@
     "Email address copied !": "Adresse email copiée !",
     "Delete Player": "Supprimer le joueur",
     "Add": "Ajouter",
-    "No existing participations": "Aucune participation existante"
+    "No existing participations": "Aucune participation existante",
+    "No existing tournaments": "Aucun tournoi existant",
+    "Create Tournament": "Créer un tournoi",
+    "By Team": "En Équipe",
+    "Solo": "En solo"
 }

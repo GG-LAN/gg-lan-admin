@@ -246,3 +246,8 @@ td.fi-ta-cell .fi-ta-text-item-label {
 .fi-modal-window {
     @apply bg-gray-100 dark:bg-gray-800;
 }
+
+/* #### Wizard #### */
+.fi-fo-wizard-header {
+    @apply bg-gray-100 dark:bg-gray-800;
+}

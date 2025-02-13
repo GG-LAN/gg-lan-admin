@@ -170,6 +170,14 @@ class Tournament extends Model
             ->join("tournaments", "tournaments.id", "=", "tournament_prices.tournament_id");
     }
 
+    public static function allPaymentsQuery(string $status = "open"): Builder
+    {
+        return PurchasedPlace::query()
+            ->where("tournaments.status", $status)
+            ->join("tournament_prices", "tournament_prices.id", "=", "purchased_places.tournament_price_id")
+            ->join("tournaments", "tournaments.id", "=", "tournament_prices.tournament_id");
+    }
+
     public static function getOpenTournaments()
     {
         return (new static )->where('status', 'open')->get();

@@ -136,12 +136,12 @@ class TeamFactory extends Factory
 
             $team->users()->attach($captain, ["captain" => true]);
 
-            PurchasedPlace::register($captain, $team->tournament);
+            PurchasedPlace::register($captain, $team->tournament, true);
 
             foreach ($players as $player) {
                 $team->users()->attach($player, ["captain" => false]);
 
-                PurchasedPlace::register($player, $team->tournament);
+                PurchasedPlace::register($player, $team->tournament, [true, false][fake()->numberBetween(0, 1)]);
             }
 
             $team->registration_state            = $pending ? "pending" : "registered";

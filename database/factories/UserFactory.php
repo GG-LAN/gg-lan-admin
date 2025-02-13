@@ -70,7 +70,7 @@ class UserFactory extends Factory
 
             $tournament->players()->attach($user);
 
-            PurchasedPlace::register($user, $tournament);
+            PurchasedPlace::register($user, $tournament, [true, false][fake()->numberBetween(0, 1)]);
             Participation::register($user, $tournament);
         });
     }
@@ -102,7 +102,7 @@ class UserFactory extends Factory
 
             $tournament->players()->attach($user);
 
-            PurchasedPlace::register($user, $tournament);
+            PurchasedPlace::register($user, $tournament, [true, false][fake()->numberBetween(0, 1)]);
             Participation::register($user, $tournament);
         });
     }

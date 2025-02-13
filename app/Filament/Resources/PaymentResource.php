@@ -12,6 +12,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class PaymentResource extends Resource
 {
@@ -52,9 +53,21 @@ class PaymentResource extends Resource
             ->columns([
                 TextColumn::make("user.pseudo")
                     ->label(__("Player"))
-                    ->searchable(),
+                    ->searchable()
+                    ->url(function (Model $record): ?string {
+                        return route(
+                            'filament.admin.resources.players.view',
+                            ['record' => $record->user_id]
+                        );
+                    }),
                 TextColumn::make("tournamentPrice.tournament.name")
-                    ->translateLabel(),
+                    ->translateLabel()
+                    ->url(function (Model $record): ?string {
+                        return route(
+                            'filament.admin.resources.tournaments.view',
+                            ['record' => $record->tournament->id]
+                        );
+                    }),
                 TextColumn::make("paid")
                     ->label(__("Status"))
                     ->badge()

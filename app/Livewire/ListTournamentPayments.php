@@ -1,6 +1,7 @@
 <?php
 namespace App\Livewire;
 
+use App\Filament\Resources\PlayerResource\Pages\ShowPlayer;
 use App\Models\Tournament;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -9,6 +10,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 
 class ListTournamentPayments extends Component implements HasForms, HasTable
@@ -49,7 +51,10 @@ class ListTournamentPayments extends Component implements HasForms, HasTable
             ])
             ->bulkActions([
                 // ...
-            ]);
+            ])
+            ->recordUrl(
+                fn(Model $purchasedPlace): string => ShowPlayer::getUrl([$purchasedPlace->user->id]),
+            );
     }
 
     public function render()

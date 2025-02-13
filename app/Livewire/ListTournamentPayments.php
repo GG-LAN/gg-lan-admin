@@ -1,7 +1,6 @@
 <?php
 namespace App\Livewire;
 
-use App\Models\PurchasedPlace;
 use App\Models\Tournament;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -23,9 +22,8 @@ class ListTournamentPayments extends Component implements HasForms, HasTable
     {
         return $table
             ->defaultPaginationPageOption(5)
-            ->defaultSort("created_at", "desc")
             ->selectable()
-            ->query(PurchasedPlace::query())
+            ->query($this->tournament->paymentsQuery())
             ->columns([
                 TextColumn::make('user.pseudo')
                     ->label(__("Player"))

@@ -5,6 +5,7 @@ use App\Models\Setting;
 use App\Models\Team;
 use App\Observers\TournamentObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -159,6 +160,14 @@ class Tournament extends Model
         }
 
         return collect($paymentList);
+    }
+
+    public function paymentsQuery(): Builder
+    {
+        return PurchasedPlace::query()
+            ->where("tournaments.id", $this->id)
+            ->join("tournament_prices", "tournament_prices.id", "=", "purchased_places.tournament_price_id")
+            ->join("tournaments", "tournaments.id", "=", "tournament_prices.tournament_id");
     }
 
     public static function getOpenTournaments()

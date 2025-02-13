@@ -8,6 +8,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -48,7 +49,14 @@ class ListTournamentTeams extends Component implements HasForms, HasTable
                     ->sortable(),
             ])
             ->filters([
-                // ...
+                SelectFilter::make("registration_state")
+                    ->label(__("Status"))
+                    ->options([
+                        "registered" => __("Registered"),
+                        "pending"    => __("Pending"),
+                        "not_full"   => __("Not_full"),
+                    ])
+                    ->multiple(),
             ])
             ->actions([
                 // ...

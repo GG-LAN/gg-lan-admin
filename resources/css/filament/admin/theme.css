@@ -222,6 +222,20 @@ td.fi-ta-cell .fi-ta-text-item-label {
     duration-150;
 }
 
+.fi-btn-color-danger {
+    @apply
+    shadow
+    text-white
+    text-base
+    bg-danger-700
+    dark:bg-danger-600
+    hover:bg-danger-800
+    dark:hover:bg-danger-700
+    transition
+    ease-in-out
+    duration-150;
+}
+
 .fi-btn-color-gray {
     @apply
     shadow

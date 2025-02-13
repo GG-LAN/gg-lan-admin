@@ -5,6 +5,7 @@ use App\Filament\Resources\TournamentResource;
 use App\Filament\Resources\TournamentResource\Widgets\TournamentFilling;
 use App\Models\Game;
 use App\Models\Tournament;
+use Filament\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
@@ -39,6 +40,41 @@ class ShowTournament extends Page implements HasForms
     {
         return [
             TournamentFilling::make(["tournament" => $this->record]),
+        ];
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make(__("Open Tournament"))
+                ->translateLabel()
+                ->icon("fas-check")
+                ->color("success")
+                ->hidden(fn(): bool => ($this->record->status != "closed"))
+                ->requiresConfirmation()
+                ->action(function () {
+                    $this->record->status = "open";
+                    $this->record->save();
+
+                    Notification::make()
+                        ->title(__("responses.tournament.opened"))
+                        ->success()
+                        ->send();
+                }),
+            Action::make("delete")
+                ->translateLabel()
+                ->icon("fas-trash-can")
+                ->color("danger")
+                ->modalHeading(__("Delete Tournament"))
+                ->action(function (Tournament $record) {
+                    $record->delete();
+
+                    Notification::make()
+                        ->title(__("responses.tournament.deleted"))
+                        ->success()
+                        ->send();
+                })
+                ->requiresConfirmation(),
         ];
     }
 

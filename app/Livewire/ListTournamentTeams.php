@@ -31,8 +31,7 @@ class ListTournamentTeams extends Component implements HasForms, HasTable
                     ->label(__("Team"))
                     ->sortable(),
                 TextColumn::make("captain.pseudo")
-                    ->translateLabel()
-                    ->sortable(),
+                    ->translateLabel(),
                 TextColumn::make("registration_state_updated_at")
                     ->label(__("Registered / Pending"))
                     ->since()

@@ -35,7 +35,11 @@
         </div>
 
         <div class="col-span-3">
-            @livewire("list-tournament-teams", ["tournament" => $this->record])
+            @if ($this->record->type == "team")
+                @livewire("list-tournament-teams", ["tournament" => $this->record])
+            @else
+                @livewire("list-tournament-players", ["tournament" => $this->record])
+            @endif
         </div>
 
         <div class="col-span-2">

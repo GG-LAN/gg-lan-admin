@@ -46,5 +46,9 @@
             @livewire("list-tournament-prices", ["tournament" => $this->record])
         </div>
 
+        <div class="col-span-1">
+            @livewire("list-tournament-payments", ["tournament" => $this->record])
+        </div>
+
     </div>
 </x-filament-panels::page>

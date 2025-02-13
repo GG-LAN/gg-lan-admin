@@ -24,6 +24,7 @@ class ListTournamentPrices extends Component implements HasForms, HasTable
     {
         return $table
             ->selectable()
+            ->paginated(false)
             ->query(TournamentPrice::where("tournament_id", $this->tournament->id))
             ->columns([
                 TextColumn::make('name')

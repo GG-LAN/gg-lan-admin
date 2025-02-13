@@ -47,6 +47,7 @@ class PaymentResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultPaginationPageOption(5)
             ->query(Tournament::allPaymentsQuery())
             ->columns([
                 TextColumn::make("user.pseudo")

@@ -2,6 +2,7 @@
 namespace App\Filament\Resources\TournamentResource\Pages;
 
 use App\Filament\Resources\TournamentResource;
+use App\Filament\Resources\TournamentResource\Widgets\TournamentFilling;
 use App\Models\Game;
 use App\Models\Tournament;
 use Filament\Forms\Components\DatePicker;
@@ -32,6 +33,13 @@ class ShowTournament extends Page implements HasForms
     public function getTitle(): string | Htmlable
     {
         return $this->record->name;
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            TournamentFilling::make(["tournament" => $this->record]),
+        ];
     }
 
     public function mount(): void

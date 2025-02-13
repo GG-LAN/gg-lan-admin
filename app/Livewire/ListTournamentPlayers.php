@@ -1,6 +1,7 @@
 <?php
 namespace App\Livewire;
 
+use App\Filament\Resources\PlayerResource\Pages\ShowPlayer;
 use App\Models\Tournament;
 use App\Models\TournamentUser;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -9,6 +10,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -48,7 +50,10 @@ class ListTournamentPlayers extends Component implements HasForms, HasTable
             ])
             ->bulkActions([
                 // ...
-            ]);
+            ])
+            ->recordUrl(
+                fn(Model $tournamentUser): string => ShowPlayer::getUrl([$tournamentUser->user_id]),
+            );
     }
 
     public function render()

@@ -10,6 +10,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -30,9 +31,21 @@ class ListTournamentTeams extends Component implements HasForms, HasTable
             ->columns([
                 TextColumn::make('name')
                     ->label(__("Team"))
-                    ->sortable(),
+                    ->sortable()
+                    ->url(function (Model $record): string {
+                        return route(
+                            'filament.admin.resources.teams.view',
+                            ['record' => $record->id]
+                        );
+                    }),
                 TextColumn::make("captain.pseudo")
-                    ->translateLabel(),
+                    ->translateLabel()
+                    ->url(function (Model $record): string {
+                        return route(
+                            'filament.admin.resources.players.view',
+                            ['record' => $record->captain->id]
+                        );
+                    }),
                 TextColumn::make("registration_state_updated_at")
                     ->label(__("Registered / Pending"))
                     ->since()

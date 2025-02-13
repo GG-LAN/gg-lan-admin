@@ -181,7 +181,7 @@ class PlayerResource extends Resource
     {
         return [
             'index' => Pages\ListPlayers::route('/'),
-            'view'  => ShowPlayer::route('/{record}/edit'),
+            'view'  => ShowPlayer::route('/{record}'),
         ];
     }
 }

@@ -9,6 +9,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Livewire\Component;
 
@@ -37,7 +38,11 @@ class ListTournamentPrices extends Component implements HasForms, HasTable
                     ->sortable(),
             ])
             ->filters([
-                // ...
+                TernaryFilter::make("active")
+                    ->label(__("Status"))
+                    ->trueLabel(__("Active"))
+                    ->falseLabel(__("Inactive"))
+                    ->default(true),
             ])
             ->actions([
                 // ...

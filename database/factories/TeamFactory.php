@@ -101,7 +101,7 @@ class TeamFactory extends Factory
                 $captain = User::factory()->create();
             }
 
-            $players = User::factory(4)->create();
+            $players = User::factory(fake()->numberBetween(1, 3))->create();
 
             $team->users()->attach($captain, ["captain" => true]);
 

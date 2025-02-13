@@ -144,7 +144,8 @@ class TeamFactory extends Factory
                 PurchasedPlace::register($player, $team->tournament);
             }
 
-            $team->registration_state = $pending ? "pending" : "registered";
+            $team->registration_state            = $pending ? "pending" : "registered";
+            $team->registration_state_updated_at = now()->toDateTimeString();
 
             $team->save();
 

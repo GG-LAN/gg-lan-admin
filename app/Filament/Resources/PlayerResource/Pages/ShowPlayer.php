@@ -12,6 +12,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
+use Filament\Support\Enums\IconPosition;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
@@ -100,6 +101,29 @@ class ShowPlayer extends Page implements HasForms, HasTable
                         $team = $participation->team;
                         return $team != null ? $team->name : "Solo";
                     })
+                    ->icon(function (string $state, Participation $participation) {
+                        if ($state == "Solo") {
+                            return;
+                        }
+
+                        if ($participation->team->captain->id == $this->record->id) {
+                            return "fas-star";
+                        }
+
+                        return "fas-user";
+                    })
+                    ->iconColor(function (string $state, Participation $participation) {
+                        if ($state == "Solo") {
+                            return;
+                        }
+
+                        if ($participation->team->captain->id == $this->record->id) {
+                            return "success";
+                        }
+
+                        return "danger";
+                    })
+                    ->iconPosition(IconPosition::After)
                     ->url(function (Participation $record): ?string {
                         if (! $record->team_id) {
                             return null;

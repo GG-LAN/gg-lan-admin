@@ -3,6 +3,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Auth\Login;
 use Croustibat\FilamentJobsMonitor\FilamentJobsMonitorPlugin;
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -179,6 +180,11 @@ class AdminPanelProvider extends PanelProvider
 
     public function boot(): void
     {
+        Filament::registerNavigationGroups([
+            __("Players"),
+            __("Tournaments"),
+        ]);
+
         FilamentIcon::register([
             "tables::header-cell.sort-button"          => "fas-sort",
             "tables::header-cell.sort-asc-button"      => "fas-sort-up",

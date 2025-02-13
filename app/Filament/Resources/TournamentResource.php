@@ -36,6 +36,8 @@ class TournamentResource extends Resource
 
     protected static ?string $navigationIcon = "fas-trophy";
 
+    protected static ?int $navigationSort = 1;
+
     public static function getModelLabel(): string
     {
         return __("Tournament");

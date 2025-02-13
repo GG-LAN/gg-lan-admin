@@ -99,10 +99,26 @@ class ShowPlayer extends Page implements HasForms, HasTable
                     ->state(function (Participation $participation) {
                         $team = $participation->team;
                         return $team != null ? $team->name : "Solo";
+                    })
+                    ->url(function (Participation $record): ?string {
+                        if (! $record->team_id) {
+                            return null;
+                        }
+
+                        return route(
+                            'filament.admin.resources.teams.view',
+                            ['record' => $record->team_id]
+                        );
                     }),
                 TextColumn::make("tournament.name")
                     ->translateLabel()
-                    ->sortable(),
+                    ->sortable()
+                    ->url(function (Participation $record): string {
+                        return route(
+                            'filament.admin.resources.tournaments.view',
+                            ['record' => $record->tournament_id]
+                        );
+                    }),
                 TextColumn::make("status")
                     ->translateLabel()
                     ->badge()

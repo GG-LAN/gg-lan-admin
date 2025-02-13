@@ -1,6 +1,6 @@
 <x-filament-panels::page>
-    <div class="grid grid-cols-3 gap-4">
-        <x-filament::section class="col-span-2">
+    <div class="grid grid-cols-4 gap-4">
+        <x-filament::section class="col-span-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4"> {{ __("Tournament Info") }}</h2>
 
             <form wire:submit.prevent="updateInfos" id="formInfos">
@@ -27,5 +27,15 @@
                 </div>
             </form>
         </x-filament::section>
+
+        <div class="col-span-4 my-4">
+            <span class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-gray-400">
+                {{ __("Relative Informations") }}
+            </span>
+        </div>
+
+        <div class="col-span-2">
+            @livewire("list-tournament-prices", ["tournament" => $this->record])
+        </div>
     </div>
 </x-filament-panels::page>

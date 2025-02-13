@@ -19,7 +19,6 @@ use Illuminate\Contracts\Support\Htmlable;
 class ShowTournament extends Page implements HasForms
 {
     use InteractsWithForms;
-    // use InteractsWithTable;
 
     protected static string $resource = TournamentResource::class;
 
@@ -155,5 +154,4 @@ class ShowTournament extends Page implements HasForms
             ->success()
             ->send();
     }
-
 }

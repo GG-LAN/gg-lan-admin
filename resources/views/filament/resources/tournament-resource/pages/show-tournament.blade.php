@@ -42,6 +42,10 @@
             @endif
         </div>
 
+        <div class="col-span-3">
+            <hr class="border-gray-400 dark:border-white/5">
+        </div>
+
         <div class="col-span-2">
             @livewire("list-tournament-prices", ["tournament" => $this->record])
         </div>

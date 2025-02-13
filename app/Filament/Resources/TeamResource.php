@@ -2,6 +2,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TeamResource\Pages;
+use App\Filament\Resources\TeamResource\Pages\ShowTeam;
 use App\Models\Team;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -110,6 +111,7 @@ class TeamResource extends Resource
     {
         return [
             'index' => Pages\ListTeams::route('/'),
+            'view'  => ShowTeam::route("/{record}"),
         ];
     }
 }

@@ -5,6 +5,7 @@ use App\Models\TeamUser;
 use App\Models\Tournament;
 use App\Observers\TeamObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -68,5 +69,11 @@ class Team extends Model
     public function getTournamentNameAttribute()
     {
         return "{$this->tournament->name}";
+    }
+
+    public function playersQuery(): Builder
+    {
+        return TeamUser::query()
+            ->where("team_id", $this->id);
     }
 }

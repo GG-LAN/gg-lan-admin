@@ -183,6 +183,7 @@ class AdminPanelProvider extends PanelProvider
         Filament::registerNavigationGroups([
             __("Players"),
             __("Tournaments"),
+            __("Settings"),
         ]);
 
         FilamentIcon::register([

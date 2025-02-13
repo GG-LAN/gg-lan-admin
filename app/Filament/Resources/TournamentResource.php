@@ -159,7 +159,11 @@ class TournamentResource extends Resource
             ])
             ->emptyStateIcon("fas-trophy")
             ->emptyStateHeading(function (Table $table) {
-                $status = __($table->getFilter("status")->getState()["value"]);
+                $statusFilter = $table->getFilter("status")->getState();
+
+                $statusFilterValue = isset($statusFilter["value"]) ? $statusFilter["value"] : "open";
+
+                $status = __($statusFilterValue);
 
                 return __("responses.tournament.no_tournament_found", ["status" => $status]);
             })

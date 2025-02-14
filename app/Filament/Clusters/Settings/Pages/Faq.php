@@ -32,7 +32,7 @@ class Faq extends Page implements HasTable
 
     public function getTitle(): string | Htmlable
     {
-        return __("FAQ");
+        return __("Settings");
     }
 
     public static function getNavigationLabel(): string

@@ -37,8 +37,36 @@
     @apply text-gray-700 dark:text-gray-200 !important;
 }
 
-.fi-active > .fi-sidebar-item-button .fi-sidebar-item-icon {
+/* .fi-active > .fi-sidebar-item-button .fi-sidebar-item-icon {
     @apply text-danger-600 dark:text-danger-600 !important;
+} */
+
+.fi-sidebar-nav a[href*="dashboard"] svg {
+    @apply text-violet-600 dark:text-violet-500;
+}
+
+.fi-sidebar-nav a[href*="players"] svg {
+    @apply text-primary-600 dark:text-primary-500;
+}
+
+.fi-sidebar-nav a[href*="teams"] svg {
+    @apply text-warning-600 dark:text-warning-500;
+}
+
+.fi-sidebar-nav a[href*="tournaments"] svg {
+    @apply text-danger-600 dark:text-danger-500;
+}
+
+.fi-sidebar-nav a[href*="payments"] svg {
+    @apply text-success-600 dark:text-success-500;
+}
+
+.fi-sidebar-nav a[href*="games"] svg {
+    @apply text-gray-600 dark:text-gray-500;
+}
+
+.fi-sidebar-nav a[href*="settings"] svg {
+    @apply text-gray-600 dark:text-gray-500;
 }
 
 

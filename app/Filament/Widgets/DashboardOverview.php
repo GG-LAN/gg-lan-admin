@@ -24,7 +24,8 @@ class DashboardOverview extends BaseWidget
                 ->color("primary")
                 ->chart($this->chartPlayers())
                 ->extraAttributes([
-                    "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-primary-400 dark:to-primary-900 fi-wi-stats-icon-primary fi-wi-stats-dark-text-white",
+                    "class"      => "cursor-pointer bg-gradient-to-tr from-transparent dark:from-gray-900 to-primary-400 dark:to-primary-900 fi-wi-stats-icon-primary fi-wi-stats-dark-text-white",
+                    "wire:click" => "redirectToPlayers()",
                 ]),
 
             Stat::make(__("Registered Teams"), $this->countRegisteredTeams())
@@ -32,7 +33,8 @@ class DashboardOverview extends BaseWidget
                 ->color("warning")
                 ->chart($this->chartRegisteredTeams())
                 ->extraAttributes([
-                    "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-warning-400 dark:to-warning-900 fi-wi-stats-icon-warning fi-wi-stats-dark-text-white",
+                    "class"      => "cursor-pointer bg-gradient-to-tr from-transparent dark:from-gray-900 to-warning-400 dark:to-warning-900 fi-wi-stats-icon-warning fi-wi-stats-dark-text-white",
+                    "wire:click" => "redirectToRegisteredTeams()",
                 ]),
 
             Stat::make(__("Not complete Teams"), $this->countNotFullTeams())
@@ -40,7 +42,8 @@ class DashboardOverview extends BaseWidget
                 ->color("danger")
                 ->chart($this->chartNotFullTeams())
                 ->extraAttributes([
-                    "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-danger-400 dark:to-danger-900 fi-wi-stats-icon-danger fi-wi-stats-dark-text-white",
+                    "class"      => "cursor-pointer bg-gradient-to-tr from-transparent dark:from-gray-900 to-danger-400 dark:to-danger-900 fi-wi-stats-icon-danger fi-wi-stats-dark-text-white",
+                    "wire:click" => "redirectToNotFullTeams()",
                 ]),
 
             Stat::make(__("Online Payments"), $this->countPayments())
@@ -48,7 +51,8 @@ class DashboardOverview extends BaseWidget
                 ->chart($this->chartPayments())
                 ->color("success")
                 ->extraAttributes([
-                    "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-success-400 dark:to-success-900 fi-wi-stats-icon-success fi-wi-stats-dark-text-white",
+                    "class"      => "cursor-pointer bg-gradient-to-tr from-transparent dark:from-gray-900 to-success-400 dark:to-success-900 fi-wi-stats-icon-success fi-wi-stats-dark-text-white",
+                    "wire:click" => "redirectToPayments()",
                 ]),
 
         ];
@@ -190,5 +194,33 @@ class DashboardOverview extends BaseWidget
         }
 
         return $chart;
+    }
+
+    public function redirectToPlayers()
+    {
+        $route = route("filament.admin.resources.players.index");
+
+        return redirect($route);
+    }
+
+    public function redirectToRegisteredTeams()
+    {
+        $route = route("filament.admin.resources.teams.index") . "?tableFilters[registration_state][values][0]=registered";
+
+        return redirect($route);
+    }
+
+    public function redirectToNotFullTeams()
+    {
+        $route = route("filament.admin.resources.teams.index") . "?tableFilters[registration_state][values][0]=not_full";
+
+        return redirect($route);
+    }
+
+    public function redirectToPayments()
+    {
+        $route = route("filament.admin.resources.payments.index");
+
+        return redirect($route);
     }
 }

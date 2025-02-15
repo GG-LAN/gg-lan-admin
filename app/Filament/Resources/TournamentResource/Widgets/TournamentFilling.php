@@ -24,7 +24,8 @@ class TournamentFilling extends BaseWidget
                 ->chart($this->chartPayments())
                 ->color("success")
                 ->extraAttributes([
-                    "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-success-400 dark:to-success-900 fi-wi-stats-icon-success fi-wi-stats-dark-text-white",
+                    "class"      => "cursor-pointer bg-gradient-to-tr from-transparent dark:from-gray-900 to-success-400 dark:to-success-900 fi-wi-stats-icon-success fi-wi-stats-dark-text-white",
+                    "wire:click" => "redirectToPayments()",
                 ]),
         ];
     }
@@ -141,5 +142,12 @@ class TournamentFilling extends BaseWidget
         }
 
         return $chart;
+    }
+
+    public function redirectToPayments()
+    {
+        $route = route("filament.admin.resources.payments.index") . "?tableFilters[paid][value]=1&tableFilters[tournament][values][0]={$this->tournament->id}";
+
+        return redirect($route);
     }
 }

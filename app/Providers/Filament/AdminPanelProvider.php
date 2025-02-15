@@ -137,6 +137,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('')
+            ->profile(isSimple: true)
             ->login(Login::class)
             ->revealablePasswords(false)
             ->favicon("/favicon.png")

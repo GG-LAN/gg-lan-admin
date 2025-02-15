@@ -178,6 +178,21 @@ class Tournament extends Model
             ->join("tournaments", "tournaments.id", "=", "tournament_prices.tournament_id");
     }
 
+    public function teamsQuery($registrationState = "registered"): Builder
+    {
+        return self::query()
+            ->where("tournaments.id", $this->id)
+            ->where("teams.registration_state", $registrationState)
+            ->join("teams", "teams.tournament_id", "=", "tournaments.id");
+    }
+
+    public function playersQuery(): Builder
+    {
+        return self::query()
+            ->where("tournaments.id", $this->id)
+            ->join("tournament_user", "tournament_user.tournament_id", "=", "tournaments.id");
+    }
+
     public static function getOpenTournaments()
     {
         return (new static )->where('status', 'open')->get();

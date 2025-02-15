@@ -5,6 +5,7 @@ use App\Models\Tournament;
 use App\Models\User;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Flowframe\Trend\Trend;
 use Illuminate\Database\Eloquent\Collection;
 
 class DashboardOverview extends BaseWidget
@@ -20,18 +21,24 @@ class DashboardOverview extends BaseWidget
         return [
             Stat::make(__("Players"), $this->countPlayers())
                 ->icon("fas-user")
+                ->color("primary")
+                ->chart($this->chartPlayers())
                 ->extraAttributes([
                     "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-primary-400 dark:to-primary-900 fi-wi-stats-icon-primary fi-wi-stats-dark-text-white",
                 ]),
 
             Stat::make(__("Registered Teams"), $this->countRegisteredTeams())
                 ->icon("fas-users")
+                ->color("warning")
+                ->chart($this->chartRegisteredTeams())
                 ->extraAttributes([
                     "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-warning-400 dark:to-warning-900 fi-wi-stats-icon-warning fi-wi-stats-dark-text-white",
                 ]),
 
             Stat::make(__("Not complete Teams"), $this->countNotFullTeams())
                 ->icon("fas-users")
+                ->color("danger")
+                ->chart($this->chartNotFullTeams())
                 ->extraAttributes([
                     "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-danger-400 dark:to-danger-900 fi-wi-stats-icon-danger fi-wi-stats-dark-text-white",
                 ]),
@@ -52,6 +59,28 @@ class DashboardOverview extends BaseWidget
         return User::all()->count();
     }
 
+    private function chartPlayers(): array
+    {
+        $weeks = Trend::query(User::query())
+            ->dateColumn("created_at")
+            ->between(
+                start: now()->startOfDay()->subMonths(2),
+                end: now()
+            )
+            ->perWeek()
+            ->count();
+
+        foreach ($weeks as $key => $week) {
+            if (! isset($chart[$key])) {
+                $chart[$key] = 0;
+            }
+
+            $chart[$key] += $week->aggregate;
+        }
+
+        return $chart;
+    }
+
     private function countRegisteredTeams(): string
     {
         $count = 0;
@@ -63,6 +92,32 @@ class DashboardOverview extends BaseWidget
         return $count;
     }
 
+    private function chartRegisteredTeams(): array
+    {
+        $chart = [];
+
+        foreach ($this->tournaments as $tournament) {
+            $weeks = Trend::query($tournament->teamsQuery("registered"))
+                ->dateColumn("teams.registration_state_updated_at")
+                ->between(
+                    start: now()->startOfDay()->subMonths(2),
+                    end: now()
+                )
+                ->perWeek()
+                ->count();
+
+            foreach ($weeks as $key => $week) {
+                if (! isset($chart[$key])) {
+                    $chart[$key] = 0;
+                }
+
+                $chart[$key] += $week->aggregate;
+            }
+        }
+
+        return $chart;
+    }
+
     private function countNotFullTeams(): string
     {
         $count = 0;
@@ -72,6 +127,32 @@ class DashboardOverview extends BaseWidget
         }
 
         return $count;
+    }
+
+    private function chartNotFullTeams(): array
+    {
+        $chart = [];
+
+        foreach ($this->tournaments as $tournament) {
+            $weeks = Trend::query($tournament->teamsQuery("not_full"))
+                ->dateColumn("teams.created_at")
+                ->between(
+                    start: now()->startOfDay()->subMonths(2),
+                    end: now()
+                )
+                ->perWeek()
+                ->count();
+
+            foreach ($weeks as $key => $week) {
+                if (! isset($chart[$key])) {
+                    $chart[$key] = 0;
+                }
+
+                $chart[$key] += $week->aggregate;
+            }
+        }
+
+        return $chart;
     }
 
     private function countPayments(): string
@@ -87,26 +168,24 @@ class DashboardOverview extends BaseWidget
 
     private function chartPayments(): array
     {
-        $chart = [
-            0 => 0,
-            1 => 0,
-            2 => 0,
-            3 => 0,
-        ];
+        $chart = [];
 
         foreach ($this->tournaments as $tournament) {
-            $startDate = now()->startOfDay()->subWeek();
-            $endDate   = now();
+            $weeks = Trend::query($tournament->paymentsQuery()->where("paid", true))
+                ->dateColumn("purchased_places.updated_at")
+                ->between(
+                    start: now()->startOfDay()->subMonths(2),
+                    end: now()
+                )
+                ->perWeek()
+                ->count();
 
-            for ($i = 0; $i < 4; $i++) {
-                $purchasedPlaces = $tournament->purchasedPlaces()->where("paid", true);
-
-                if ($i != 0) {
-                    $endDate   = $startDate;
-                    $startDate = $startDate->copy()->subWeek();
+            foreach ($weeks as $key => $week) {
+                if (! isset($chart[$key])) {
+                    $chart[$key] = 0;
                 }
 
-                $chart[$i] += $purchasedPlaces->whereBetween("purchased_places.updated_at", [$startDate, $endDate])->count();
+                $chart[$key] += $week->aggregate;
             }
         }
 

@@ -15,7 +15,7 @@ class TournamentFilling extends BaseWidget
             Stat::make(__("Tournmanent Filling"), $this->tournamentFilling())
                 ->icon("fas-trophy")
                 ->extraAttributes([
-                    "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-danger-400 dark:to-danger-900",
+                    "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-danger-400 dark:to-danger-900 fi-wi-stats-icon-danger fi-wi-stats-dark-text-white",
                 ]),
 
             $this->tournament->type == "team" ? $this->teamsRegistered() : $this->playersRegistered(),
@@ -25,7 +25,7 @@ class TournamentFilling extends BaseWidget
             Stat::make(__("Online Payments"), $this->onlinePayments())
                 ->icon('fas-money-bill')
                 ->extraAttributes([
-                    "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-success-400 dark:to-success-900",
+                    "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-success-400 dark:to-success-900 fi-wi-stats-icon-success fi-wi-stats-dark-text-white",
                 ]),
         ];
     }
@@ -52,7 +52,7 @@ class TournamentFilling extends BaseWidget
         return Stat::make(__("Registered Teams"), $countRegistered)
             ->icon("fas-users")
             ->extraAttributes([
-                "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-primary-400 dark:to-primary-900",
+                "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-primary-400 dark:to-primary-900 fi-wi-stats-icon-primary fi-wi-stats-dark-text-white",
             ]);
     }
 
@@ -66,7 +66,7 @@ class TournamentFilling extends BaseWidget
         return Stat::make(__("Not complete Teams"), $count)
             ->icon("fas-users")
             ->extraAttributes([
-                "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-warning-400 dark:to-warning-900",
+                "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-warning-400 dark:to-warning-900 fi-wi-stats-icon-warning fi-wi-stats-dark-text-white",
             ]);
     }
 
@@ -77,7 +77,7 @@ class TournamentFilling extends BaseWidget
         return Stat::make(__("Registered Players"), $count)
             ->icon("fas-users")
             ->extraAttributes([
-                "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-blue-400 dark:to-blue-900",
+                "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-primary-400 dark:to-primary-900 fi-wi-stats-icon-primary fi-wi-stats-dark-text-white",
             ]);
     }
 

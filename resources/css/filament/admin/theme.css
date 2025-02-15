@@ -224,6 +224,25 @@ td.fi-ta-cell .fi-ta-text-item-label {
     @apply font-semibold;
 }
 
+.fi-wi-stats-dark-text-white .fi-wi-stats-overview-stat-label{
+    @apply text-gray-950 dark:text-white;
+}
+
+.fi-wi-stats-icon-primary .fi-wi-stats-overview-stat-icon {
+    @apply text-primary-500 dark:text-primary-400;
+}
+
+.fi-wi-stats-icon-success .fi-wi-stats-overview-stat-icon {
+    @apply text-success-500 dark:text-success-400;
+}
+
+.fi-wi-stats-icon-warning .fi-wi-stats-overview-stat-icon {
+    @apply text-warning-500 dark:text-warning-400;
+}
+
+.fi-wi-stats-icon-danger .fi-wi-stats-overview-stat-icon {
+    @apply text-danger-500 dark:text-danger-400;
+}
 
 /* #### Buttons #### */
 .fi-btn-color-primary {

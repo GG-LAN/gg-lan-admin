@@ -3,7 +3,15 @@
 @config 'tailwind.config.js';
 
 .fi-body {
-    @apply bg-gray-100 dark:bg-gray-900;
+    @apply
+    bg-gray-100
+    dark:bg-gray-900
+    overflow-y-auto
+    [&::-webkit-scrollbar]:w-2
+    [&::-webkit-scrollbar-thumb]:bg-gray-300
+    [&::-webkit-scrollbar-thumb]:rounded-full
+    dark:[&::-webkit-scrollbar-thumb]:bg-gray-800
+    dark:[&::-webkit-scrollbar-thumb]:rounded-full;
 }
 
 /* #### Simple #### */
@@ -40,6 +48,16 @@
 /* .fi-active > .fi-sidebar-item-button .fi-sidebar-item-icon {
     @apply text-danger-600 dark:text-danger-600 !important;
 } */
+
+.fi-sidebar-nav {
+    @apply
+    overflow-y-auto
+    [&::-webkit-scrollbar]:w-2
+    [&::-webkit-scrollbar-thumb]:bg-gray-300
+    [&::-webkit-scrollbar-thumb]:rounded-full
+    dark:[&::-webkit-scrollbar-thumb]:bg-gray-800
+    dark:[&::-webkit-scrollbar-thumb]:rounded-full;
+}
 
 .fi-sidebar-nav a[href*="dashboard"] svg {
     @apply text-violet-600 dark:text-violet-500;
@@ -131,7 +149,13 @@
 }
 
 .fi-input-wrp {
-    @apply bg-gray-50 dark:bg-gray-700;
+    @apply bg-gray-50 dark:bg-gray-700
+    overflow-y-auto
+    [&::-webkit-scrollbar]:w-2
+    [&::-webkit-scrollbar-thumb]:bg-gray-300
+    [&::-webkit-scrollbar-thumb]:rounded-full
+    dark:[&::-webkit-scrollbar-thumb]:bg-gray-700
+    dark:[&::-webkit-scrollbar-thumb]:rounded-full;
 }
 
 #richeditor .fi-input-wrp {

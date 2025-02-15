@@ -94,7 +94,7 @@
 }
 
 .fi-section-content-ctn {
-    @apply bg-white rounded-lg dark:bg-gray-800 text-gray-900 dark:text-white;
+    @apply bg-white rounded-lg dark:bg-gray-800 text-gray-900 dark:text-white border-t border-gray-200 dark:border-white/10;
 }
 
 .fi-section-content {
@@ -141,7 +141,7 @@
 
 /* #### Table #### */
 .fi-ta-empty-state {
-    @apply bg-white dark:bg-gray-800;
+    @apply bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-white/10;
 }
 
 .fi-ta-ctn, .fi-ta-selection-indicator {

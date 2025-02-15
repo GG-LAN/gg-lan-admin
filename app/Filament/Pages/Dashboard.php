@@ -2,6 +2,8 @@
 namespace App\Filament\Pages;
 
 use App\Filament\Widgets\DashboardOverview;
+use App\Filament\Widgets\TournamentFillingChart;
+use App\Models\Tournament;
 use Filament\Pages\Page;
 
 class Dashboard extends Page
@@ -21,6 +23,18 @@ class Dashboard extends Page
     {
         return [
             DashboardOverview::class,
+            ...$this->tournamentFillingCharts(),
         ];
+    }
+
+    private function tournamentFillingCharts()
+    {
+        $charts = [];
+
+        foreach (Tournament::getOpenTournaments() as $tournament) {
+            $charts[] = TournamentFillingChart::make(["tournament" => $tournament]);
+        }
+
+        return $charts;
     }
 }

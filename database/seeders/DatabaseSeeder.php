@@ -2,6 +2,7 @@
 namespace Database\Seeders;
 
 use App\Models\Faq;
+use App\Models\Location;
 use Database\Seeders\TeamSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Database\Seeder;
@@ -21,5 +22,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Faq::factory(4)->create();
+
+        Location::factory()->create();
     }
 }

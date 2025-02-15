@@ -225,7 +225,7 @@ td.fi-ta-cell .fi-ta-text-item-label {
 }
 
 .fi-wi-stats-dark-text-white .fi-wi-stats-overview-stat-label{
-    @apply text-gray-950 dark:text-white;
+    @apply text-gray-950 dark:text-white uppercase;
 }
 
 .fi-wi-stats-icon-primary .fi-wi-stats-overview-stat-icon {

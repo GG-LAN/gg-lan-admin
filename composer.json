@@ -9,6 +9,7 @@
         "cheesegrits/filament-google-maps": "^3.0",
         "croustibat/filament-jobs-monitor": "^2.5",
         "filament/filament": "^3.2",
+        "flowframe/laravel-trend": "^0.3.0",
         "intervention/image": "^3.7",
         "laravel/breeze": "^2.0",
         "laravel/framework": "^11.0",

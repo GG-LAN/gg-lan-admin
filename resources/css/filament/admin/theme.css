@@ -87,6 +87,14 @@
     @apply text-gray-600 dark:text-gray-500;
 }
 
+.fi-sidebar-nav a[href*="queue-monitors"] svg {
+    @apply text-warning-600 dark:text-warning-500;
+}
+
+.fi-sidebar-nav a[href*="logs"] svg {
+    @apply text-danger-600 dark:text-danger-500;
+}
+
 
 /* #### Topbar #### */
 .fi-topbar nav, .fi-sidebar-header {

@@ -1,17 +1,20 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
-use App\Models\Setting;
+use App\Models\Location;
 
 class SettingController extends Controller
 {
     public function location()
     {
-        $location = Setting::get("lan_location");
+        $location = Location::firstOrCreate();
 
-        return ApiResponse::success("", json_decode($location));
+        return ApiResponse::success("", [
+            "address"   => $location->address,
+            "longitude" => $location->longitude,
+            "latitude"  => $location->latitude,
+        ]);
     }
 }

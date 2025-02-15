@@ -31,7 +31,22 @@ class TeamObserver implements ShouldHandleEventsAfterCommit
                 Participation::register($player, $team->tournament, $team);
             }
 
+            $team->send_notif = true;
+        }
+
+        if ($team->isDirty("registration_state") && $team->registration_state != Team::REGISTERED) {
+            $team->send_notif = false;
+        }
+    }
+
+    public function updated(Team $team): void
+    {
+        if ($team->send_notif) {
             $team->notify(new TeamRegistered);
+
+            $team->updateQuietly([
+                "send_notif" => false,
+            ]);
         }
     }
 

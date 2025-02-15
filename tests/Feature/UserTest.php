@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Game;
 use App\Models\Team;
 use App\Models\Tournament;
 use App\Models\User;
@@ -417,22 +416,14 @@ it("can't leave a team if auth user is not the same as player", function () {
 });
 
 test("Leaving a team that is full and registered will also update his registration state", function () {
-    $tournament = Tournament::factory()
-        ->createQuietly([
-            "status"  => "open",
-            "type"    => "team",
-            "places"  => 1,
-            "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
-        ]);
-
     $player = User::factory()->createQuietly();
 
     $team = Team::factory()
+        ->openTournament(1)
         ->hasAttached(User::factory()->createQuietly(), ['captain' => true])
         ->hasAttached(User::factory()->count(3))
         ->hasAttached($player)
-        ->for($tournament)
-        ->createQuietly(["registration_state" => Team::REGISTERED]);
+        ->create(["registration_state" => Team::REGISTERED]);
 
     $this->actingAs($player)->post('/api/players/' . $player->id . '/leaveTeam/' . $team->id);
 
@@ -443,22 +434,14 @@ test("Leaving a team that is full and registered will also update his registrati
 });
 
 test("Leaving a team that is full and pending will also update his registration state", function () {
-    $tournament = Tournament::factory()
-        ->createQuietly([
-            "status"  => "open",
-            "type"    => "team",
-            "places"  => 1,
-            "game_id" => Game::factory()->createQuietly(["places" => 5])->id,
-        ]);
-
     $player = User::factory()->createQuietly();
 
     $team = Team::factory()
+        ->openTournament(1)
         ->hasAttached(User::factory()->createQuietly(), ['captain' => true])
         ->hasAttached(User::factory()->count(3))
         ->hasAttached($player)
-        ->for($tournament)
-        ->createQuietly(["registration_state" => Team::PENDING]);
+        ->create(["registration_state" => Team::PENDING]);
 
     $this->actingAs($player)->post('/api/players/' . $player->id . '/leaveTeam/' . $team->id);
 

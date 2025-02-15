@@ -1,9 +1,8 @@
 <?php
 namespace App\Filament\Pages;
 
+use App\Filament\Widgets\DashboardOverview;
 use Filament\Pages\Page;
-use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
 
 class Dashboard extends Page
 {
@@ -21,8 +20,7 @@ class Dashboard extends Page
     public function getHeaderWidgets(): array
     {
         return [
-            AccountWidget::class,
-            FilamentInfoWidget::class,
+            DashboardOverview::class,
         ];
     }
 }

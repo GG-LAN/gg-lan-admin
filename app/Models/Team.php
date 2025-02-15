@@ -27,6 +27,21 @@ class Team extends Model
 
     protected $appends = ['captain', 'captain_id', 'team_slots'];
 
+    public function scopeRegistered(Builder $query): void
+    {
+        $query->where("registration_state", "registered");
+    }
+
+    public function scopePending(Builder $query): void
+    {
+        $query->where("registration_state", "pending");
+    }
+
+    public function scopeNotFull(Builder $query): void
+    {
+        $query->where("registration_state", "not_full");
+    }
+
     public function users()
     {
         return $this->belongsToMany('App\Models\User')

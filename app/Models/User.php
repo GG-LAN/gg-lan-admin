@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements MustVerifyEmail, FilamentUser
+class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasAvatar
 {
     use HasFactory, Notifiable, HasApiTokens;
 
@@ -56,6 +57,11 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->admin;
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return "https://api.dicebear.com/9.x/bottts-neutral/svg?seed={$this->pseudo}";
     }
 
     public function teams()

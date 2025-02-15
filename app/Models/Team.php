@@ -19,7 +19,7 @@ class Team extends Model
     public const REGISTERED = "registered";
 
     protected $fillable = [
-        'name', 'description', 'image', 'tournament_id',
+        'name', 'description', 'image', 'tournament_id', 'send_notif',
     ];
 
     protected $with = ['users'];

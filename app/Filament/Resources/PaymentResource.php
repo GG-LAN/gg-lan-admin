@@ -37,6 +37,21 @@ class PaymentResource extends Resource
         return __('Tournaments');
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return PurchasedPlace::query()
+            ->where("paid", true)
+            ->where("tournaments.status", "open")
+            ->join("tournament_prices", "tournament_prices.id", "=", "purchased_places.tournament_price_id")
+            ->join("tournaments", "tournaments.id", "=", "tournament_prices.tournament_id")
+            ->count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return "success";
+    }
+
     public static function form(Form $form): Form
     {
         return $form

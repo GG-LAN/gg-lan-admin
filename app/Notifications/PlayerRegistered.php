@@ -79,7 +79,7 @@ class PlayerRegistered extends Notification
                 "value"  => "
                     {$gameEmoji}{$this->tournament->name}
                     {$this->tournament->places} slots
-                    {$this->tournament->register_count} équipes inscrites
+                    {$this->tournament->register_count} joueurs inscrits
                     {$availableSlots} slots disponible
                 ",
             ]);

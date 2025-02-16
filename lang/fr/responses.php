@@ -73,6 +73,7 @@ return [
         "cant_remove_captain" => "Vous ne pouvez pas retirer le capitaine de l'équipe.",
         "player_removed"      => "Le joueur a été retiré de l'équipe avec succès !",
         "captain_cant_leave"  => "Le capitaine ne peut pas quitter l'équipe.",
+        "promoted"            => "Le joueur a bien été promu au rang de capitaine",
     ],
     "profile"         => [
         "updated" => "Votre profil a bien été mis à jour !",

@@ -160,6 +160,31 @@ class ShowTeam extends Page implements HasForms, HasTable
                 //
             ])
             ->actions([
+                Action::make("promote_player")
+                    ->icon("fas-star")
+                    ->iconButton()
+                    ->color("success")
+                    ->requiresConfirmation()
+                    ->tooltip(__("Promote player to captain of the team"))
+                    ->hidden(fn(Model $record): bool => $record->captain)
+                    ->modalHeading(__("Promote player"))
+                    ->modalIcon("fas-star")
+                    ->action(function (Model $teamUser) {
+                        $teamUser->team->users()->where("captain", true)->update([
+                            "captain" => false,
+                        ]);
+
+                        $teamUser->update([
+                            "captain" => true,
+                        ]);
+
+                        Notification::make()
+                            ->title(__("responses.team.promoted"))
+                            ->success()
+                            ->send();
+
+                    }),
+
                 Action::make("remove_player")
                     ->icon("fas-user-minus")
                     ->iconButton()
@@ -167,6 +192,8 @@ class ShowTeam extends Page implements HasForms, HasTable
                     ->requiresConfirmation()
                     ->tooltip(__("Remove player from the team"))
                     ->hidden(fn(Model $record): bool => $record->captain)
+                    ->modalHeading(__("Remove player from the team"))
+                    ->modalIcon("fas-user-minus")
                     ->action(function (Model $teamUser) {
                         $teamUser->team->users()->detach($teamUser->user);
 

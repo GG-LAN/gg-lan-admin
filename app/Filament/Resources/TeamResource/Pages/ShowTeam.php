@@ -11,6 +11,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
@@ -159,7 +160,22 @@ class ShowTeam extends Page implements HasForms, HasTable
                 //
             ])
             ->actions([
-                // ...
+                Action::make("remove_player")
+                    ->icon("fas-user-minus")
+                    ->iconButton()
+                    ->color("danger")
+                    ->requiresConfirmation()
+                    ->tooltip(__("Remove player from the team"))
+                    ->hidden(fn(Model $record): bool => $record->captain)
+                    ->action(function (Model $teamUser) {
+                        $teamUser->team->users()->detach($teamUser->user);
+
+                        Notification::make()
+                            ->title(__("responses.team.player_removed"))
+                            ->success()
+                            ->send();
+
+                    }),
             ])
             ->bulkActions([
                 // ...

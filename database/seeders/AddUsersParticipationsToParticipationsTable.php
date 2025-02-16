@@ -16,6 +16,8 @@ class AddUsersParticipationsToParticipationsTable extends Seeder
     {
         $users = User::all();
 
+        Participation::all()->each->delete();
+
         foreach ($users as $user) {
             $user->teams->each(function (Team $team) use ($user) {
                 $participation = new Participation;

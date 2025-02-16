@@ -346,6 +346,10 @@ td.fi-ta-cell .fi-ta-text-item-label {
 }
 
 /* #### Buttons #### */
+.fi-ta-actions {
+    @apply gap-4;
+}
+
 .fi-btn-color-primary {
     @apply
     shadow
@@ -397,6 +401,48 @@ td.fi-ta-cell .fi-ta-text-item-label {
     dark:bg-gray-800
     hover:bg-gray-100
     dark:hover:bg-gray-700
+    transition
+    ease-in-out
+    duration-150;
+}
+
+.fi-icon-btn.fi-color-success {
+    @apply
+    shadow
+    text-white
+    text-base
+    bg-success-700
+    dark:bg-success-600
+    hover:bg-success-800
+    dark:hover:bg-success-700
+    transition
+    ease-in-out
+    duration-150;
+}
+
+.fi-icon-btn.fi-color-primary {
+    @apply
+    shadow
+    text-white
+    text-base
+    bg-primary-700
+    dark:bg-primary-600
+    hover:bg-primary-800
+    dark:hover:bg-primary-700
+    transition
+    ease-in-out
+    duration-150;
+}
+
+.fi-icon-btn.fi-color-danger {
+    @apply
+    shadow
+    text-white
+    text-base
+    bg-danger-700
+    dark:bg-danger-600
+    hover:bg-danger-800
+    dark:hover:bg-danger-700
     transition
     ease-in-out
     duration-150;

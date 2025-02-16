@@ -7,7 +7,9 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\ActionSize;
 use Filament\Tables;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -73,10 +75,16 @@ class GameResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
-                    ->iconButton(),
-                Tables\Actions\DeleteAction::make()
-                    ->iconButton(),
+
+                ActionGroup::make([
+                    Tables\Actions\EditAction::make()
+                        ->color("primary")
+                        ->icon("fas-pen-to-square"),
+                    Tables\Actions\DeleteAction::make(),
+                ])
+                    ->size(ActionSize::Medium)
+                    ->icon('fas-ellipsis-vertical')
+                    ->color("gray"),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

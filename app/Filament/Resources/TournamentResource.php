@@ -345,8 +345,5 @@ class TournamentResource extends Resource
                     ->success()
                     ->send();
             });
-        // ->successRedirectUrl(fn(Tournament $record): string => route('tournaments.show', [
-        // 'record' => $record,
-        // ]));
     }
 }

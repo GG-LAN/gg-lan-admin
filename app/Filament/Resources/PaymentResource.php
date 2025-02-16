@@ -5,13 +5,14 @@ use App\Filament\Resources\PaymentResource\Pages;
 use App\Models\PurchasedPlace;
 use App\Models\Tournament;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class PaymentResource extends Resource
@@ -64,7 +65,7 @@ class PaymentResource extends Resource
     {
         return $table
             ->defaultPaginationPageOption(5)
-            ->query(Tournament::allPaymentsQuery())
+            ->selectable()
             ->columns([
                 TextColumn::make("user.pseudo")
                     ->label(__("Player"))
@@ -102,16 +103,29 @@ class PaymentResource extends Resource
                     ->translateLabel()
                     ->multiple()
                     ->relationship('tournamentPrice.tournament', 'name', fn(Builder $query) => $query->where('status', 'open'))
-                    ->preload(),
+                    ->preload()
+                    ->default(function () {
+                        return Tournament::getOpenTournaments()->pluck("id")->toArray();
+                    }),
             ])
             ->actions([
-                //
+                Action::make("register_payment")
+                    ->color("success")
+                    ->icon("fas-money-bill")
+                    ->iconButton()
+                    ->visible(fn(PurchasedPlace $payment): bool => ! $payment->paid)
+                    ->action(function (PurchasedPlace $payment) {
+                        $payment->update([
+                            "paid" => true,
+                        ]);
+
+                        Notification::make()
+                            ->title(__("responses.payment.registered"))
+                            ->success()
+                            ->send();
+                    }),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+            ->bulkActions([]);
     }
 
     public static function getRelations(): array

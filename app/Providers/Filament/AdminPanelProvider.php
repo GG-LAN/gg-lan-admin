@@ -176,7 +176,11 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->databaseTransactions()
-            ->spa();
+            ->spa()
+            ->spaUrlExceptions(fn(): array=> [
+                url("/logs"),
+                url("/settings/location"),
+            ]);
     }
 
     public function boot(): void

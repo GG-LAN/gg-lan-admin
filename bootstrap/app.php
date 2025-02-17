@@ -60,5 +60,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Delete tokens expired in personal_access_tokens table
         $schedule->command("sanctum:prune-expired")->daily();
+
+        $schedule->command('clean:directories')->daily();
     })
     ->create();

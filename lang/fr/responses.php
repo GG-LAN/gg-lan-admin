@@ -59,7 +59,7 @@ return [
         "cant_delete" => "Vous n'êtes pas autorisé à supprimer un jeu.",
     ],
     "team"            => [
-        "deleted"             => "l'équipe a bien été supprimée !",
+        "deleted"             => "L'équipe a bien été supprimée !",
         "updated"             => "L'équipe a bien été mise à jour !",
         "register"            => [
             "cant_solo"   => "Vous ne pouvez pas inscrire une équipe dans un tournoi solo.",

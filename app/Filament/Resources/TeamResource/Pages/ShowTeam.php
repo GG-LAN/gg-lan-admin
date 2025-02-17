@@ -4,6 +4,7 @@ namespace App\Filament\Resources\TeamResource\Pages;
 use App\Filament\Resources\PlayerResource\Pages\ShowPlayer;
 use App\Filament\Resources\TeamResource;
 use App\Models\Team;
+use Filament\Actions\Action;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -11,7 +12,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
-use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\Action as ActionTable;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
@@ -101,6 +102,28 @@ class ShowTeam extends Page implements HasForms, HasTable
         }
     }
 
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make("delete")
+                ->translateLabel()
+                ->icon("fas-trash-can")
+                ->color("danger")
+                ->modalHeading(__("Delete Team"))
+                ->action(function () {
+                    $this->record->delete();
+
+                    Notification::make()
+                        ->title(__("responses.team.deleted"))
+                        ->success()
+                        ->send();
+
+                    return redirect()->route("filament.admin.resources.teams.index");
+                })
+                ->requiresConfirmation(),
+        ];
+    }
+
     public function mount(): void
     {
         $this->form->fill([
@@ -160,7 +183,7 @@ class ShowTeam extends Page implements HasForms, HasTable
                 //
             ])
             ->actions([
-                Action::make("promote_player")
+                ActionTable::make("promote_player")
                     ->icon("fas-star")
                     ->iconButton()
                     ->color("success")
@@ -185,7 +208,7 @@ class ShowTeam extends Page implements HasForms, HasTable
 
                     }),
 
-                Action::make("remove_player")
+                ActionTable::make("remove_player")
                     ->icon("fas-user-minus")
                     ->iconButton()
                     ->color("danger")

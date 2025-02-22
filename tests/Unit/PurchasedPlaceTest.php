@@ -16,6 +16,7 @@ test("Registering a place with paid @ true register the info in the database", f
     $this->assertDatabaseHas("purchased_places", [
         "id"                  => $purchasedPlace->id,
         "user_id"             => $this->user->id,
+        "tournament_id"       => $this->tournament->id,
         "tournament_price_id" => $this->tournament->currentPrice()->id,
         "paid"                => true,
     ]);
@@ -28,7 +29,8 @@ test("Registering a place with paid @ false register the info in the database", 
     $this->assertDatabaseHas("purchased_places", [
         "id"                  => $purchasedPlace->id,
         "user_id"             => $this->user->id,
-        "tournament_price_id" => $this->tournament->currentPrice()->id,
+        "tournament_id"       => $this->tournament->id,
+        "tournament_price_id" => null,
         "paid"                => false,
     ]);
 });
@@ -43,6 +45,7 @@ test("Registering a place for a user that already have a purchased place with pa
     $this->assertDatabaseHas("purchased_places", [
         "id"                  => $purchasedPlace->id,
         "user_id"             => $this->user->id,
+        "tournament_id"       => $this->tournament->id,
         "tournament_price_id" => $this->tournament->currentPrice()->id,
         "paid"                => true,
     ]);
@@ -58,7 +61,8 @@ test("Registering a place for a user that already have a purchased place with pa
     $this->assertDatabaseHas("purchased_places", [
         "id"                  => $purchasedPlace->id,
         "user_id"             => $this->user->id,
-        "tournament_price_id" => $this->tournament->currentPrice()->id,
+        "tournament_id"       => $this->tournament->id,
+        "tournament_price_id" => null,
         "paid"                => false,
     ]);
 });

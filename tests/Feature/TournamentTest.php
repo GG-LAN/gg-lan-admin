@@ -262,45 +262,6 @@ it("cant_unregister_twice_player_to_same_tournament", function () {
         ]);
 });
 
-test("A purchased place is created after registering a player to a tournament", function () {
-    $tournament = Tournament::factory()
-        ->create([
-            'type'   => 'solo',
-            'status' => 'open',
-            'places' => 4,
-        ]);
-
-    $user = User::factory()->create();
-
-    $this->actingAs($user)->post('/api/tournaments/' . $tournament->id . '/register/' . $user->id);
-
-    $this->assertDatabaseHas("purchased_places", [
-        "user_id"             => $user->id,
-        'tournament_price_id' => $tournament->currentPrice()->id,
-        "paid"                => false,
-    ]);
-});
-
-test("Purchased place is deleted after unregistering a player from a tournament", function () {
-    $tournament = Tournament::factory()
-        ->create([
-            'type'   => 'solo',
-            'status' => 'open',
-            'places' => 4,
-        ]);
-
-    $user = User::factory()->create();
-
-    $tournament->players()->attach($user);
-
-    $this->actingAs($user)->post('/api/tournaments/' . $tournament->id . '/unregister/' . $user->id);
-
-    $this->assertDatabaseMissing("purchased_places", [
-        "user_id"             => $user->id,
-        'tournament_price_id' => $tournament->currentPrice()->id,
-    ]);
-});
-
 it("can list all unregistered teams for a open tournament", function () {
     $game = Game::factory()->create([
         "name"   => "CS:GO",

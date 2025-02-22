@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 
 use App\Helpers\ApiResponse;
@@ -29,7 +28,7 @@ class PurchasedPlaceController extends Controller
      */
     public function registerPurchase(User $user, Tournament $tournament): JsonResponse
     {
-        if (Auth::user()->id != $user->id) {
+        if (auth()->user()->id != $user->id) {
             return ApiResponse::forbidden(__("responses.purchasedPlaces.cant_register"), []);
         }
 

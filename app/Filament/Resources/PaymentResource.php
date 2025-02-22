@@ -124,6 +124,21 @@ class PaymentResource extends Resource
                             ->success()
                             ->send();
                     }),
+                    Action::make("delete")
+                    ->color("danger")
+                    ->icon("fas-trash-can")
+                    ->iconButton()
+                    ->requiresConfirmation()
+                    ->translateLabel()
+                    ->visible(fn(PurchasedPlace $payment): bool => ! $payment->paid)
+                    ->action(function (PurchasedPlace $payment) {
+                        $payment->delete();
+
+                        Notification::make()
+                            ->title(__("responses.payment.deleted"))
+                            ->success()
+                            ->send();
+                    }),
             ])
             ->bulkActions([]);
     }

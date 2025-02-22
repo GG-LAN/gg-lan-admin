@@ -81,6 +81,7 @@ return [
     ],
     "payment"         => [
         "registered" => "The payment has been registered !",
+        "deleted" => "The payment has been successfully deleted",
     ],
     "errors"          => [
         "something_went_wrong" => "Something went wrong...",

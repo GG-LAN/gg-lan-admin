@@ -83,6 +83,7 @@ return [
     ],
     "payment"         => [
         "registered" => "Le paiement a bien été enregistré !",
+        "deleted" => "Le paiement a bien été supprimé !",
     ],
     "errors"          => [
         "something_went_wrong" => "Quelque chose s'est mal passé...",

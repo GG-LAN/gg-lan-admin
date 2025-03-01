@@ -42,7 +42,7 @@ class TeamSeeder extends Seeder
 
         Team::factory()
             ->openTournament(1)
-            ->full($captain, pending: true)
+            ->full(pending: true)
             ->createQuietly();
 
         Team::factory()

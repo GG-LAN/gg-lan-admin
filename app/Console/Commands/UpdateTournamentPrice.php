@@ -1,11 +1,10 @@
 <?php
-
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 use App\Models\Tournament;
+use Carbon\Carbon;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class UpdateTournamentPrice extends Command
 {
@@ -58,31 +57,29 @@ class UpdateTournamentPrice extends Command
         foreach ($openTournaments as $tournament) {
             $prices = $tournament->prices;
 
-            
             // If we have 0 or 1 price, we do nothing
             if (count($prices) <= 1) {
-                    continue;
+                continue;
             }
-                
+
             $tournamentStartDate = new Carbon($tournament->start_date);
 
-            // If tournament starts in one week or less and the current price is not of type "last_week", we update the prices.active
-            if ($today->floatDiffInWeeks($tournamentStartDate) <= 1) {
+            // If tournament starts in 6 days or less and the current price is not of type "last_week", we update the prices.active
+            if ($today->floatDiffInDays($tournamentStartDate) <= 6) {
                 $currentPrice = $tournament->currentPrice();
 
                 if ($currentPrice->type != "last_week") {
                     foreach ($prices as $price) {
                         if ($price->type == "normal") {
                             $price->active = false;
-                        }
-                        else {
+                        } else {
                             $price->active = true;
                         }
-    
+
                         $price->save();
                     }
 
-                    $this->log->info("Prix mis à jour pour " . $tournament->name . " (id: ". $tournament->id .")");
+                    $this->log->info("Prix mis à jour pour " . $tournament->name . " (id: " . $tournament->id . ")");
                 }
             }
         }

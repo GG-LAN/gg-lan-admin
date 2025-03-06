@@ -4,12 +4,14 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TeamResource\Pages;
 use App\Filament\Resources\TeamResource\Pages\ShowTeam;
 use App\Models\Team;
+use App\Models\Tournament;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 class TeamResource extends Resource
@@ -92,6 +94,14 @@ class TeamResource extends Resource
                         "not_full"   => __("Not_full"),
                     ])
                     ->multiple(),
+                SelectFilter::make('tournament')
+                    ->translateLabel()
+                    ->multiple()
+                    ->relationship('tournament', 'name', fn(Builder $query) => $query->where('status', 'open'))
+                    ->preload()
+                    ->default(function () {
+                        return Tournament::getOpenTournaments()->pluck("id")->toArray();
+                    }),
             ])
             ->actions([
             ])

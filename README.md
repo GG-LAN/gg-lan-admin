@@ -1,6 +1,6 @@
 ![GG-LAN logo](https://github.com/GG-LAN/gg-lan-admin/blob/dev/public/logo.png)
 
-[![GG-LAN Testing](https://github.com/GG-LAN/gg-lan-admin/actions/workflows/testing.yml/badge.svg)](https://github.com/GG-LAN/gg-lan-admin/actions/workflows/testing.yml)
+[![GG-LAN CI/CD DEV](https://github.com/GG-LAN/gg-lan-admin/actions/workflows/actions-dev.yml/badge.svg)](https://github.com/GG-LAN/gg-lan-admin/actions/workflows/actions-dev.yml)
 
 About Laravel
 

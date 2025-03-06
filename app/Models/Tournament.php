@@ -1,7 +1,6 @@
 <?php
 namespace App\Models;
 
-use App\Models\Setting;
 use App\Models\Team;
 use App\Observers\TournamentObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -94,13 +93,13 @@ class Tournament extends Model
         return null;
     }
 
-    public function getPaymentLink(Request $request): String
+    public function getPaymentLink(Request $request): string
     {
-        if (! Setting::get('stripe_api_key')) {
+        if (! config("app.stripe_key")) {
             return null;
         }
 
-        $stripe = new Stripe(Setting::get('stripe_api_key'));
+        $stripe = new Stripe(config("app.stripe_key"));
 
         $session = $stripe->checkout->sessions->create([
             "success_url" => $request->success_url,

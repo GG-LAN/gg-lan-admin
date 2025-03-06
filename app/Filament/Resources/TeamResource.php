@@ -65,6 +65,8 @@ class TeamResource extends Resource
                         $test = $team->users->count() . " / " . $team->tournament->game->places;
                         return $test;
                     }),
+                TextColumn::make("tournament.name")
+                    ->translateLabel(),
                 TextColumn::make("registration_state")
                     ->label(__("Status"))
                     ->badge()

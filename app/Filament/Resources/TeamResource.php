@@ -11,7 +11,6 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 class TeamResource extends Resource
@@ -97,7 +96,7 @@ class TeamResource extends Resource
                 SelectFilter::make('tournament')
                     ->translateLabel()
                     ->multiple()
-                    ->relationship('tournament', 'name', fn(Builder $query) => $query->where('status', 'open'))
+                    ->relationship('tournament', 'name')
                     ->preload()
                     ->default(function () {
                         return Tournament::getOpenTournaments()->pluck("id")->toArray();

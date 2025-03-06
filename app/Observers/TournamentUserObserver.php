@@ -15,7 +15,7 @@ class TournamentUserObserver
 
         PurchasedPlace::register($player, $tournament);
 
-        Participation::register($player, $tournament);
+        Participation::register($player, $tournament, status: "registered");
 
         $player->notify(new PlayerRegistered($tournament));
     }

@@ -29,7 +29,7 @@ class Participation extends Model
         return $this->belongsTo(Tournament::class);
     }
 
-    public static function register(User $user, Tournament $tournament, ?Team $team = null): Participation
+    public static function register(User $user, Tournament $tournament, ?Team $team = null, $status = "not_full"): Participation
     {
         $participation = self::firstOrNew([
             "user_id"       => $user->id,
@@ -39,6 +39,7 @@ class Participation extends Model
         $participation->user()->associate($user);
         $participation->team()->associate($team);
         $participation->tournament()->associate($tournament);
+        $participation->status = $status;
 
         $participation->save();
 

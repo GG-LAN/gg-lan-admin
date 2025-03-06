@@ -28,7 +28,7 @@ class TeamObserver implements ShouldHandleEventsAfterCommit
     {
         if ($team->isDirty("registration_state") && $team->registration_state == Team::REGISTERED) {
             foreach ($team->users as $player) {
-                Participation::register($player, $team->tournament, $team);
+                Participation::register($player, $team->tournament, $team, status: $team->registration_state);
             }
 
             $team->send_notif = true;

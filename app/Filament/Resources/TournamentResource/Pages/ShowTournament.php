@@ -6,6 +6,7 @@ use App\Filament\Resources\TournamentResource\Widgets\TournamentFilling;
 use App\Models\Game;
 use App\Models\Tournament;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
@@ -125,6 +126,12 @@ class ShowTournament extends Page implements HasForms
                         ->success()
                         ->send();
                 }),
+            ActionGroup::make([
+                Action::make(__("Parental permission"))
+                    ->action(fn() => redirect()->route("download.parental-permission", ["tournament" => $this->record->id]))
+                    ->icon("fas-download"),
+            ])
+                ->icon("fas-ellipsis-vertical"),
             Action::make("delete")
                 ->translateLabel()
                 ->icon("fas-trash-can")

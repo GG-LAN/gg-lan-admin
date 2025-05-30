@@ -135,6 +135,9 @@ class TournamentResource extends Resource
             ])
             ->actions([
                 ActionGroup::make([
+                    ActionTable::make(__("Parental permission"))
+                        ->action(fn(Tournament $record) => redirect()->route("download.parental-permission", ["tournament" => $record->id]))
+                        ->icon("fas-download"),
                     ActionTable::make("delete")
                         ->translateLabel()
                         ->icon("fas-trash-can")

@@ -27,7 +27,7 @@ class UpdateUserRequest extends FormRequest
     public function rules() {
         return [
             'pseudo' => 'required|string|max:255',
-            'birth_date' => 'date_format:Y-m-d',
+            'birth_date' => 'required|date_format:Y-m-d',
         ];
     }
 

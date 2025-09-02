@@ -23,7 +23,7 @@ class Team extends Model
         'name', 'description', 'image', 'tournament_id', 'send_notif',
     ];
 
-    protected $with = ['users'];
+    protected $with = ['users:id,pseudo,image'];
 
     protected $appends = ['captain', 'captain_id', 'team_slots'];
 
@@ -52,7 +52,10 @@ class Team extends Model
 
     public function getCaptainAttribute()
     {
-        return $this->users()->where('captain', true)->first();
+        return $this->users()
+            ->where('captain', true)
+            ->select(["users.id", "users.pseudo", "users.image"])
+            ->first();
     }
 
     public function getCaptainIdAttribute()

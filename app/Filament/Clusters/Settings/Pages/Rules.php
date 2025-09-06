@@ -53,7 +53,7 @@ class Rules extends Page implements HasForms
                     ->schema([
                         RichEditor::make("content")
                             ->label(__("Rules"))
-                            ->extraInputAttributes(["style" => "max-height: 30rem;"])
+                            ->extraInputAttributes(["style" => "max-height: 40rem;"])
                             ->disableGrammarly(),
                     ]),
             ])

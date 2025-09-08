@@ -50,7 +50,7 @@ return [
         /*
          * Hide the `Try It` feature. Enabled by default.
          */
-        'hide_try_it'               => false,
+        'hide_try_it'               => env("SCRAMBLE_HIDE_TRY_IT"),
 
         /*
          * Hide the schemas in the Table of Contents. Enabled by default.

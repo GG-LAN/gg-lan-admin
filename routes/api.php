@@ -117,6 +117,9 @@ Route::controller(FaqController::class)->group(function () {
 Route::controller(SettingController::class)->group(function () {
     Route::get('/location', 'location')->name('settings.location.api');
 });
+Route::controller(SettingController::class)->group(function () {
+    Route::get('/volunteer-form-link', 'volunteerFormLink')->name('settings.volunteerFormLink.api');
+});
 
 /*
 |--------------------------------------------------------------------------

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Location;
+use App\Models\VolunteerFormLink;
 
 class SettingController extends Controller
 {
@@ -15,6 +16,13 @@ class SettingController extends Controller
             "address"   => $location->address,
             "longitude" => $location->longitude,
             "latitude"  => $location->latitude,
+        ]);
+    }
+
+    public function volunteerFormLink()
+    {
+        return ApiResponse::success("", [
+            "link" => VolunteerFormLink::firstOrCreate()->link,
         ]);
     }
 }

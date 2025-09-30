@@ -192,6 +192,37 @@ test("Purchased place is delete for the player that has been removed from a team
     ]);
 });
 
+test("Purchased place is not deleted for the player that has been removed from a team if the place has been paid", function () {
+    $tournament = Tournament::factory()
+        ->createQuietly([
+            'type'   => 'team',
+            'status' => 'open',
+            'places' => 4,
+        ]);
+
+    $captain = User::factory()->createQuietly();
+
+    $team = Team::factory()
+        ->hasAttached($captain, ['captain' => true])
+        ->hasAttached(User::factory()->count(2))
+        ->for($tournament)
+        ->createQuietly();
+
+    $player = User::factory()->createQuietly();
+
+    $this->actingAs($captain)->post('/api/teams/' . $team->id . '/addPlayer/' . $player->id);
+
+    PurchasedPlace::register($player, $tournament, true);
+
+    $this->actingAs($captain)->post('/api/teams/' . $team->id . '/removePlayer/' . $player->id);
+
+    $this->assertDatabaseHas("purchased_places", [
+        "user_id"       => $player->id,
+        "tournament_id" => $tournament->id,
+        "paid"          => 1,
+    ]);
+});
+
 test("A purchased place is created after registering a player to a tournament", function () {
     $tournament = Tournament::factory()
         ->create([
@@ -229,5 +260,28 @@ test("Purchased place is deleted after unregistering a player from a tournament"
     $this->assertDatabaseMissing("purchased_places", [
         "user_id"             => $user->id,
         'tournament_price_id' => $tournament->currentPrice()->id,
+    ]);
+});
+
+test("Purchased place is not deleted after unregistering a player from a tournament if the place has been paid", function () {
+    $tournament = Tournament::factory()
+        ->create([
+            'type'   => 'solo',
+            'status' => 'open',
+            'places' => 4,
+        ]);
+
+    $user = User::factory()->create();
+
+    $tournament->players()->attach($user);
+
+    PurchasedPlace::register($user, $tournament, true);
+
+    $this->actingAs($user)->post('/api/tournaments/' . $tournament->id . '/unregister/' . $user->id);
+
+    $this->assertDatabaseHas("purchased_places", [
+        "user_id"             => $user->id,
+        "tournament_price_id" => $tournament->currentPrice()->id,
+        "paid"                => 1,
     ]);
 });

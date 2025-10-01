@@ -62,5 +62,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command("sanctum:prune-expired")->daily();
 
         $schedule->command('clean:directories')->daily();
+
+        $schedule->command("model:prune")->daily();
     })
     ->create();

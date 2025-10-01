@@ -110,7 +110,7 @@ class PaymentResource extends Resource
                 SelectFilter::make('tournament')
                     ->translateLabel()
                     ->multiple()
-                    ->relationship('tournamentPrice.tournament', 'name', fn(Builder $query) => $query->where('status', 'open'))
+                    ->relationship('tournament', 'name', fn(Builder $query) => $query->where('status', 'open'))
                     ->preload()
                     ->default(function () {
                         return Tournament::getOpenTournaments()->pluck("id")->toArray();

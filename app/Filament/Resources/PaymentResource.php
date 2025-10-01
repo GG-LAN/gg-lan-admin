@@ -76,7 +76,7 @@ class PaymentResource extends Resource
                             ['record' => $record->user_id]
                         );
                     }),
-                TextColumn::make("tournamentPrice.tournament.name")
+                TextColumn::make("tournament.name")
                     ->translateLabel()
                     ->url(function (Model $record): ?string {
                         return route(
@@ -84,12 +84,20 @@ class PaymentResource extends Resource
                             ['record' => $record->tournament->id]
                         );
                     }),
+                // TextColumn::make("tournamentPrice.tournament.name")
+                //     ->translateLabel()
+                //     ->url(function (Model $record): ?string {
+                //         return route(
+                //             'filament.admin.resources.tournaments.view',
+                //             ['record' => $record->tournament->id]
+                //         );
+                //     }),
                 TextColumn::make("paid")
                     ->label(__("Status"))
                     ->badge()
                     ->color(fn(bool $state): string => match ($state) {
-                        true                            => "success",
-                        false                           => "danger",
+                        true  => "success",
+                        false => "danger",
                     })
                     ->formatStateUsing(fn(string $state): string => $state ? __("Payment validated") : __("Waiting for payment")),
             ])
@@ -124,7 +132,7 @@ class PaymentResource extends Resource
                             ->success()
                             ->send();
                     }),
-                    Action::make("delete")
+                Action::make("delete")
                     ->color("danger")
                     ->icon("fas-trash-can")
                     ->iconButton()

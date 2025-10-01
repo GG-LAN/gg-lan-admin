@@ -22,7 +22,7 @@ class PurgeUnverifiedAccount extends Command
      *
      * @var string
      */
-    protected $description = 'Delete account that has been created since at least 1 month and are unverified';
+    protected $description = 'Delete account that has been created since at least 1 year and are unverified';
 
     /**
      * Log object
@@ -57,17 +57,17 @@ class PurgeUnverifiedAccount extends Command
         $users = User::where('email_verified_at', null)->get();
         $countDeletedAccounts = 0;
 
-        // If createdAt + 1 month is inferior to today, 
-        // it means that the account has been created for at least 1 month and need to be deleted
+        // If createdAt + 1 year is inferior to today, 
+        // it means that the account has been created for at least 1 year and need to be deleted
         foreach ($users as $user) {
             $this->info($user->created_at);
             $createdAt = new Carbon($user->created_at);
-            $createdAtPlusOneMonth = $createdAt->addMonth();
+            $createdAtPlusOneYear = $createdAt->addYear();
 
-            $this->info($createdAtPlusOneMonth);
+            $this->info($createdAtPlusOneYear);
 
-            // If the account exist for more than 1 month, delete the account
-            if ($today->greaterThan($createdAtPlusOneMonth)) {
+            // If the account exist for more than 1 year, delete the account
+            if ($today->greaterThan($createdAtPlusOneYear)) {
                 // If there is an access token related to the account, delete the token
                 $accessToken = AccessToken::where("tokenable_id", $user->id)->first();
                 if ($accessToken) {

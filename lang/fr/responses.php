@@ -83,7 +83,7 @@ return [
     ],
     "payment"         => [
         "registered" => "Le paiement a bien été enregistré !",
-        "deleted" => "Le paiement a bien été supprimé !",
+        "deleted"    => "Le paiement a bien été supprimé !",
     ],
     "errors"          => [
         "something_went_wrong" => "Quelque chose s'est mal passé...",
@@ -105,5 +105,8 @@ return [
         "only_admin"     => "Seuls les administrateurs sont autorisés à supprimer un joueur.",
         "team_left"      => "Vous avez quitté l'équipe avec succès!",
         "player_not_you" => "Vous n'êtes pas le joueur.",
+    ],
+    "faceit"          => [
+        "user_not_found" => "L'utilisateur n'existe pas.",
     ],
 ];

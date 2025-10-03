@@ -3,10 +3,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Players\LinkFaceitAccountRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
 use App\Models\Team;
 use App\Models\User;
+use App\Services\Faceit;
 use Auth;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -117,5 +120,26 @@ class UserController extends Controller
         $team->users()->detach($player);
 
         return ApiResponse::success(__("responses.users.team_left"), []);
+    }
+
+    /**
+     * Link Faceit account with nickname
+     */
+    public function linkFaceitAccount(User $player, LinkFaceitAccountRequest $request): JsonResponse
+    {
+        $faceitPlayer = Faceit::getPlayerByNickname($request->nickname);
+
+        if (! $faceitPlayer) {
+            return ApiResponse::unprocessable(__("responses.faceit.user_not_found"), []);
+        }
+
+        $faceitAccount = $player->linkFaceitAccount($faceitPlayer->only([
+            "player_id",
+            "nickname",
+            "steam_id_64",
+            "games",
+        ]));
+
+        return ApiResponse::success("", $faceitAccount);
     }
 }

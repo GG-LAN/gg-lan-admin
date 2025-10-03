@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use App\Traits\HasFaceit;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
@@ -13,7 +14,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasAvatar
 {
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens, HasFaceit;
 
     /**
      * The attributes that are mass assignable.

@@ -81,7 +81,7 @@ return [
     ],
     "payment"         => [
         "registered" => "The payment has been registered !",
-        "deleted" => "The payment has been successfully deleted",
+        "deleted"    => "The payment has been successfully deleted",
     ],
     "errors"          => [
         "something_went_wrong" => "Something went wrong...",
@@ -103,5 +103,8 @@ return [
         "only_admin"     => "Only admin are allowed to delete a player.",
         "team_left"      => "You've successfully left the team!",
         "player_not_you" => "You're not the player.",
+    ],
+    "faceit"          => [
+        "user_not_found" => "The user does not exist.",
     ],
 ];

@@ -148,6 +148,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::put('players/{player}', 'update');
         Route::delete('players/{player}', 'delete');
         Route::post('players/{player}/leaveTeam/{team}', 'leaveTeam');
+
+        Route::post('players/{player}/link-faceit-account', 'linkFaceitAccount');
     });
 
     /*

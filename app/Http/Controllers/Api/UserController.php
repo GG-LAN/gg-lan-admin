@@ -54,7 +54,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $player)
     {
         $player->update([
-            "pseudo" => $request->pseudo,
+            "pseudo"     => $request->pseudo,
             "birth_date" => $request->birth_date,
         ]);
 
@@ -108,7 +108,7 @@ class UserController extends Controller
         }
 
         // If the player isn't in the team
-        if (!$team->users->where('id', $player->id)->first()) {
+        if (! $team->users->where('id', $player->id)->first()) {
             return ApiResponse::forbidden(__("responses.team.player_not_in_team"), []);
         }
 

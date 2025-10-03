@@ -2,10 +2,12 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Providers\Socialite\FaceitProvider;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Socialite\Facades\Socialite;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,12 +34,21 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->configureScramble();
+
+        $this->configureSocialite();
     }
 
     private function configureScramble(): void
     {
         Gate::define('viewApiDocs', function (User $user) {
             return $user->isAdmin();
+        });
+    }
+
+    private function configureSocialite(): void
+    {
+        Socialite::extend('faceit', function ($app) {
+            return Socialite::buildProvider(FaceitProvider::class, config("services.faceit"));
         });
     }
 }

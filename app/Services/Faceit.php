@@ -24,4 +24,22 @@ class Faceit
 
         return $result;
     }
+
+    public static function getPlayerById(string $player_id)
+    {
+        $url = config("services.faceit.api_url");
+
+        $response = Http::withHeaders([
+            "Authorization" => "Bearer " . config("services.faceit.api_key"),
+        ])
+            ->get($url . "/players/{$player_id}");
+
+        $result = $response->collect();
+
+        if ($result->has("errors")) {
+            return null;
+        }
+
+        return $result;
+    }
 }

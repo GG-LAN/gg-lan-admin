@@ -64,5 +64,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command('clean:directories')->daily();
 
         $schedule->command("model:prune")->daily();
+
+        $schedule->command("faceit:update-accounts")->weeklyOn(5, "1:00");
     })
     ->create();

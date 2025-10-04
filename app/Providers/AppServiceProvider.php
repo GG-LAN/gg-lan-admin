@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->configureScramble();
 
-        $this->configureSocialite();
+        // $this->configureSocialite();
     }
 
     private function configureScramble(): void

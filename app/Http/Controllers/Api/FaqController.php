@@ -1,17 +1,19 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 
-use App\Models\Faq;
-use Inertia\Inertia;
 use App\Helpers\ApiResponse;
-use Illuminate\Http\Request;
-use App\Http\Requests\Faqs\StoreFaqRequest;
-use App\Http\Requests\Faqs\UpdateFaqRequest;
+use App\Models\Faq;
+use Illuminate\Http\JsonResponse;
 
 class FaqController extends Controller
 {
-    public function index() {
+    /**
+     * Get the faqs
+     *
+     * @unauthenticated
+     */
+    public function index(): JsonResponse
+    {
         return ApiResponse::success("", Faq::all());
     }
 }

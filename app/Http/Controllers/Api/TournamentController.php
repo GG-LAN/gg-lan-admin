@@ -13,29 +13,40 @@ use Illuminate\Support\Facades\Auth;
 class TournamentController extends Controller
 {
     /**
-     * Return all tournaments
+     * Get all tournaments
+     * 
+     * @unauthenticated
      */
-    public function index()
+    public function index(): JsonResponse
     {
         return ApiResponse::success("", Tournament::without('players', 'teams')->get());
     }
 
     /**
-     * Return a paginate version of all the tournaments
+     * Get a paginate version of all the tournaments
+     * 
+     * @unauthenticated
      */
-    public function index_paginate($item_per_page)
+    public function index_paginate($item_per_page): JsonResponse
     {
         return ApiResponse::success("", Tournament::without('players', 'teams')->paginate($item_per_page));
     }
 
     /**
-     * Return a tournament
+     * Get a tournament
+     * 
+     * @unauthenticated
      */
     public function show(Tournament $tournament): JsonResponse
     {
         return ApiResponse::success("", $tournament);
     }
 
+    /**
+     * Get purchased places of a tournament
+     *
+     * @unauthenticated
+     */
     public function showPurchasedPlaces(Tournament $tournament): JsonResponse
     {
         if (! $tournament) {
@@ -93,7 +104,9 @@ class TournamentController extends Controller
     }
 
     /**
-     * Return all the price for each open tournaments
+     * Get all the price for each open tournaments
+     * 
+     * @unauthenticated
      */
     public function prices(): JsonResponse
     {
@@ -117,14 +130,22 @@ class TournamentController extends Controller
         return ApiResponse::success("", $prices);
     }
 
-    public function getPaymentLink(GetPaymentLinkRequest $request, Tournament $tournament)
+    /**
+     * Get a payment link for a tournament
+     */
+    public function getPaymentLink(GetPaymentLinkRequest $request, Tournament $tournament): JsonResponse
     {
         return ApiResponse::success("", [
             "payment_url" => $tournament->getPaymentLink($request),
         ]);
     }
 
-    public function availableTeams(Tournament $tournament)
+    /**
+     * Get all the available teams for a tournament
+     *
+     * @unauthenticated
+     */
+    public function availableTeams(Tournament $tournament): JsonResponse
     {
         if ($tournament->status != "open") {
             return ApiResponse::forbidden(__('responses.tournament.not_exists'), []);

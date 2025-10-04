@@ -11,9 +11,9 @@ use Illuminate\Http\JsonResponse;
 class PurchasedPlaceController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get all the purchased places
      *
-     * @return \Illuminate\Http\Response
+     * @unauthenticated
      */
     public function index(): JsonResponse
     {
@@ -22,9 +22,6 @@ class PurchasedPlaceController extends Controller
 
     /**
      * Register the purchase of a user
-     *
-     * @param  User  $user
-     * @return \Illuminate\Http\Response
      */
     public function registerPurchase(User $user, Tournament $tournament): JsonResponse
     {
@@ -40,10 +37,9 @@ class PurchasedPlaceController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Get a purchased place
      *
-     * @param  \App\Models\PurchasedPlace  $purchasedPlace
-     * @return \Illuminate\Http\Response
+     * @unauthenticated
      */
     public function show(PurchasedPlace $purchasedPlace): JsonResponse
     {

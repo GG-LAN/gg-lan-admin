@@ -9,9 +9,11 @@ use App\Models\Team;
 use App\Models\User;
 use App\Services\Faceit;
 use Auth;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+#[Group('Player')] // Scramble Api Doc Group
 class UserController extends Controller
 {
 
@@ -23,17 +25,19 @@ class UserController extends Controller
     }
 
     /**
-     * Return all the players
+     * Get all the players
      *
-     * @return array
+     * @unauthenticated
      */
-    public function index()
+    public function index(): JsonResponse
     {
         return ApiResponse::success("", User::all($this->fieldsToShow));
     }
 
     /**
-     * Return a paginate version of all the players
+     * Get a paginate version of all the players
+     *
+     * @unauthenticated
      */
     public function index_paginate(Request $request, $item_per_page)
     {
@@ -41,7 +45,9 @@ class UserController extends Controller
     }
 
     /**
-     * Return a player
+     * Get a player
+     *
+     * @unauthenticated
      */
     public function show(User $player)
     {
@@ -49,7 +55,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update a user
+     * Update a player
      */
     public function update(UpdateUserRequest $request, User $player)
     {
@@ -62,14 +68,11 @@ class UserController extends Controller
     }
 
     /**
-     * Delete a user
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * Delete a player
      */
-    public function delete(User $player)
+    public function delete(User $player): JsonResponse
     {
-        if (Auth::user()->admin) {
+        if (auth()->user()->admin) {
             $player->delete();
 
             return ApiResponse::success(__("responses.users.deleted"), []);
@@ -78,7 +81,12 @@ class UserController extends Controller
         }
     }
 
-    public function playerTournaments(User $player)
+    /**
+     * Get tournaments of a player
+     *
+     * @unauthenticated
+     */
+    public function playerTournaments(User $player): JsonResponse
     {
         $tournaments = [];
 
@@ -95,15 +103,23 @@ class UserController extends Controller
         return ApiResponse::success("", $tournaments);
     }
 
-    public function playerTeams(User $player)
+    /**
+     * Get teams of a player
+     *
+     * @unauthenticated
+     */
+    public function playerTeams(User $player): JsonResponse
     {
         return ApiResponse::success("", $player->teams);
     }
 
-    public function leaveTeam(User $player, Team $team)
+    /**
+     * Player leave specific team
+     */
+    public function leaveTeam(User $player, Team $team): JsonResponse
     {
         // If the auth user isn't the same user that tries to leave the team
-        if (Auth::user()->id != $player->id) {
+        if (auth()->user()->id != $player->id) {
             return ApiResponse::forbidden(__("responses.users.player_not_you"), []);
         }
 

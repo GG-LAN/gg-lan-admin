@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 
 use App\Helpers\ApiResponse;
@@ -19,7 +18,10 @@ use Illuminate\Support\Facades\Password;
 class AuthController extends Controller
 {
 
-    public function user()
+    /**
+     * Get authenticated user
+     */
+    public function user(): JsonResponse
     {
         return ApiResponse::success(
             "",
@@ -30,14 +32,16 @@ class AuthController extends Controller
     }
 
     /**
-     * Register api
+     * Register user
+     * 
+     * @unauthenticated
      */
     public function register(RegisterRequest $request): JsonResponse
     {
         $input = $request->all();
 
         $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
+        $user              = User::create($input);
         $user["api_token"] = $user->createToken('GG-LAN')->plainTextToken;
 
         Mail::to($user)->send(new VerificationMail($user));
@@ -46,12 +50,12 @@ class AuthController extends Controller
     }
 
     /**
-     * Login api
+     * Login user
      */
     public function login(LoginSanctumRequest $request): JsonResponse
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'email'    => ['required', 'email'],
             'password' => ['required'],
         ]);
 
@@ -69,7 +73,12 @@ class AuthController extends Controller
         }
     }
 
-    public function logout()
+    /**
+     * Logout user
+     *
+     * @unauthenticated
+     */
+    public function logout(): JsonResponse
     {
         $user = Auth::user();
 
@@ -80,16 +89,18 @@ class AuthController extends Controller
 
     /**
      * Email verification of the user
+     * 
+     * @unauthenticated
      */
     public function verify(Request $request, $id): JsonResponse
     {
-        if (!$request->hasValidSignature()) {
+        if (! $request->hasValidSignature()) {
             return ApiResponse::unauthorized(__("responses.register.url_invalid"), []);
         }
 
         $user = User::findOrFail($id);
 
-        if (!$user->hasVerifiedEmail()) {
+        if (! $user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
 
             return ApiResponse::success(__("responses.register.email.verified"), []);
@@ -117,6 +128,8 @@ class AuthController extends Controller
 
     /**
      * Generic response when trying to do actions with unverified user
+     * 
+     * @unauthenticated
      */
     public function notVerified(): JsonResponse
     {
@@ -125,13 +138,15 @@ class AuthController extends Controller
 
     /**
      * Send an email to reset the password & create a reset token
+     * 
+     * @unauthenticated
      */
     public function forgotPassword(ForgotPasswordRequest $request): JsonResponse
     {
         $user = User::where("email", $request->email)->first();
 
         // If no user found, generic response
-        if (!$user) {
+        if (! $user) {
             return ApiResponse::success(__("responses.register.email.forgotP_sent"), []);
         }
 
@@ -145,12 +160,14 @@ class AuthController extends Controller
 
     /**
      * Resetting password & changing it
+     * 
+     * @unauthenticated
      */
     public function resetPassword(ResetPasswordRequest $request): JsonResponse
     {
         $user = User::where("email", $request->email)->first();
 
-        if (!$user) {
+        if (! $user) {
             return ApiResponse::badRequest(__("responses.went_wrong"), []);
         }
 

@@ -13,25 +13,31 @@ use Illuminate\Support\Facades\Auth;
 class TeamController extends Controller
 {
     /**
-     * Return all the teams
+     * Get all the teams
+     * 
+     * @unauthenticated
      */
-    public function index()
+    public function index(): JsonResponse
     {
         return ApiResponse::success("", Team::without('users')->withCount('users')->get());
     }
 
     /**
-     * Return a paginate version of all the teams
+     * Get a paginate version of all the teams
+     * 
+     * @unauthenticated
      */
-    public function index_paginate($item_per_page)
+    public function index_paginate($item_per_page): JsonResponse
     {
         return ApiResponse::success("", Team::without('users')->withCount('users')->paginate($item_per_page));
     }
 
     /**
-     * Return a team
+     * Get a team
+     * 
+     * @unauthenticated
      */
-    public function show(Team $team)
+    public function show(Team $team): JsonResponse
     {
         return ApiResponse::success("", $team);
     }

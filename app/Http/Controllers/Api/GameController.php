@@ -1,45 +1,44 @@
 <?php
 namespace App\Http\Controllers\Api;
 
-use Auth;
-use App\Models\Game;
 use App\Helpers\ApiResponse;
+use App\Models\Game;
 use Illuminate\Http\JsonResponse;
-use App\Http\Requests\Games\StoreGameRequest;
-use App\Http\Requests\Games\UpdateGameRequest;
 
 class GameController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
 
     }
-    
+
     /**
-     * Return all the games
+     * Get all the games
      *
-     * @return array
+     * @unauthenticated
      */
-    public function index() {
+    public function index(): JsonResponse
+    {
         return ApiResponse::success("", Game::all());
     }
 
     /**
-     * Return a paginate version of all the games
+     * Get a paginate version of all the games
      *
-     * @param int $item_per_page
-     * @return array
+     * @unauthenticated
      */
-    public function index_paginate($item_per_page) {
+    public function index_paginate($item_per_page): JsonResponse
+    {
         return ApiResponse::success("", Game::paginate($item_per_page));
     }
 
     /**
-     * Return a player
+     * Get a game
      *
-     * @param int $id
-     * @return Game
+     * @unauthenticated
      */
-    public function show(Game $game) {
+    public function show(Game $game): JsonResponse
+    {
         return ApiResponse::success("", $game);
     }
 }

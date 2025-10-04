@@ -3,6 +3,9 @@ namespace App\Providers;
 
 use App\Models\User;
 use App\Providers\Socialite\FaceitProvider;
+use Dedoc\Scramble\Scramble;
+use Dedoc\Scramble\Support\Generator\OpenApi;
+use Dedoc\Scramble\Support\Generator\SecurityScheme;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
@@ -43,6 +46,13 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('viewApiDocs', function (User $user) {
             return $user->isAdmin();
         });
+
+        Scramble::configure()
+            ->withDocumentTransformers(function (OpenApi $openApi) {
+                $openApi->secure(
+                    SecurityScheme::http('bearer')
+                );
+            });
     }
 
     private function configureSocialite(): void

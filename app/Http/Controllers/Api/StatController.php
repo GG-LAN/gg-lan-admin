@@ -1,53 +1,77 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
-use App\Models\Tournament;
 use App\Helpers\ApiResponse;
-use Illuminate\Http\Request;
 use App\Models\PurchasedPlace;
+use App\Models\Tournament;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Number;
 
-class StatController extends Controller {
-    public function players() {
+class StatController extends Controller
+{
+
+    /**
+     * Get count of all players
+     *
+     * @unauthenticated
+     */
+    public function players(): JsonResponse
+    {
         return ApiResponse::success("", User::all()->count());
     }
 
-    public function teamsStat() {
+    /**
+     * Get count of all teams in open tournaments
+     *
+     * @unauthenticated
+     */
+    public function teamsStat(): JsonResponse
+    {
         $tournaments = Tournament::getOpenTournaments();
-        $teamsCount = 0;
+        $teamsCount  = 0;
 
         foreach ($tournaments as $tournament) {
             $teamsCount += $tournament->teams()->count();
         }
-        
+
         return ApiResponse::success("", $teamsCount);
     }
 
-    public function payments() {
+    /**
+     * Get count of all purchased places in open tournaments
+     *
+     * @unauthenticated
+     */
+    public function payments(): JsonResponse
+    {
         return ApiResponse::success("", PurchasedPlace::forOpenTournaments()->where('paid', true)->count());
     }
 
-    public function tournamentsFilling() {
+    /**
+     * Get tournaments fillings
+     *
+     * @unauthenticated
+     */
+    public function tournamentsFilling(): JsonResponse
+    {
         $tournaments = Tournament::getOpenTournaments();
 
         $totalRegistration = 0;
-                
+
         $results = [
             "series" => [],
-            "labels" => []
+            "labels" => [],
         ];
-        
+
         foreach ($tournaments as $tournament) {
             $totalRegistration = 0;
-            
+
             array_push($results["labels"], $tournament->name);
-            
+
             if ($tournament->type == "team") {
                 $totalRegistration += $tournament->teams()->where('registration_state', 'registered')->count();
-            }
-            else {
+            } else {
                 $totalRegistration += $tournament->players()->count();
             }
 

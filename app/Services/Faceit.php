@@ -5,18 +5,14 @@ use Illuminate\Support\Facades\Http;
 
 class Faceit
 {
-    public function __construct(
-        private $base_url = "https://open.faceit.com/data/v4"
-    ) {}
-
     public static function getPlayerByNickname(string $nickname)
     {
-        $faceit = new self();
+        $url = config("services.faceit.api_url");
 
         $response = Http::withHeaders([
             "Authorization" => "Bearer " . config("services.faceit.api_key"),
         ])
-            ->get($faceit->base_url . "/players", [
+            ->get($url . "/players", [
                 "nickname" => $nickname,
             ]);
 

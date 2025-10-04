@@ -36,7 +36,8 @@ return [
         'client_secret' => env('FACEIT_CLIENT_SECRET'),
         'redirect'      => env('FACEIT_REDIRECT_URI'),
 
-        'api_key' => env("FACEIT_API_KEY")
+        'api_url'       => env("FACEIT_API_URL", "https://open.faceit.com/data/v4"),
+        'api_key'       => env("FACEIT_API_KEY"),
     ],
 
 ];

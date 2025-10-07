@@ -6,6 +6,7 @@ use App\Providers\Socialite\FaceitProvider;
 use Dedoc\Scramble\Scramble;
 use Dedoc\Scramble\Support\Generator\OpenApi;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
@@ -39,6 +40,8 @@ class AppServiceProvider extends ServiceProvider
         $this->configureScramble();
 
         // $this->configureSocialite();
+
+        $this->configureResource();
     }
 
     private function configureScramble(): void
@@ -60,5 +63,10 @@ class AppServiceProvider extends ServiceProvider
         Socialite::extend('faceit', function ($app) {
             return Socialite::buildProvider(FaceitProvider::class, config("services.faceit"));
         });
+    }
+
+    private function configureResource(): void
+    {
+        JsonResource::withoutWrapping();
     }
 }

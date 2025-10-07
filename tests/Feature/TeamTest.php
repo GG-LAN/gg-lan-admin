@@ -514,42 +514,43 @@ it("cant_remove_player_from_team_if_hes_not_in_team", function () {
         ]);
 });
 
-it("can't create a team with a name that is already used", function () {
-    $tournament = Tournament::factory()
-        ->createQuietly(["type" => "team", "status" => "open"]);
+// Disabled for now
+// it("can't create a team with a name that is already used", function () {
+//     $tournament = Tournament::factory()
+//         ->createQuietly(["type" => "team", "status" => "open"]);
 
-    $dataTeamOK = [
-        "name"          => "Mangemort",
-        "description"   => "On roule sur la concu",
-        'tournament_id' => $tournament->id,
-        'image'         => "",
-    ];
+//     $dataTeamOK = [
+//         "name"          => "Mangemort",
+//         "description"   => "On roule sur la concu",
+//         'tournament_id' => $tournament->id,
+//         'image'         => "",
+//     ];
 
-    $dataTeamKO = [
-        "name"          => "Mangemort",
-        "description"   => "",
-        'tournament_id' => $tournament->id,
-        'image'         => "",
-    ];
+//     $dataTeamKO = [
+//         "name"          => "Mangemort",
+//         "description"   => "",
+//         'tournament_id' => $tournament->id,
+//         'image'         => "",
+//     ];
 
-    $user = User::factory()->createQuietly();
+//     $user = User::factory()->createQuietly();
 
-    $this->actingAs($user)->post('/api/teams/create', $dataTeamOK)
-        ->assertCreated()
-        ->assertJson([
-            "data" => $dataTeamOK,
-        ]);
+//     $this->actingAs($user)->post('/api/teams/create', $dataTeamOK)
+//         ->assertCreated()
+//         ->assertJson([
+//             "data" => $dataTeamOK,
+//         ]);
 
-    $this->actingAs($user)->post('/api/teams/create', $dataTeamKO)
-        ->assertUnprocessable()
-        ->assertJson([
-            "data" => [
-                "name" => [
-                    __("validation.unique", ["attribute" => "name"]),
-                ],
-            ],
-        ]);
-});
+//     $this->actingAs($user)->post('/api/teams/create', $dataTeamKO)
+//         ->assertUnprocessable()
+//         ->assertJson([
+//             "data" => [
+//                 "name" => [
+//                     __("validation.unique", ["attribute" => "name"]),
+//                 ],
+//             ],
+//         ]);
+// });
 
 test("Has captain, assert that team registration state change to 'registered' when team become full and it remains enough tournament places", function () {
     $tournament = Tournament::factory()

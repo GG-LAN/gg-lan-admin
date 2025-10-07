@@ -44,7 +44,7 @@ class UserController extends Controller
      */
     public function show(User $player)
     {
-        return ApiResponse::success("", new UserResource($player));
+        return ApiResponse::success("", new UserResource($player->load("faceitAccount")));
     }
 
     /**
@@ -149,6 +149,6 @@ class UserController extends Controller
             "games",
         ]));
 
-        return ApiResponse::success("", $faceitAccount);
+        return ApiResponse::success("", new UserResource($player->load("faceitAccount")));
     }
 }

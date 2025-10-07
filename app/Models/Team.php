@@ -23,10 +23,6 @@ class Team extends Model
         'name', 'description', 'image', 'tournament_id', 'send_notif',
     ];
 
-    protected $with = ['users:id,pseudo,image'];
-
-    protected $appends = ['captain', 'captain_id', 'team_slots'];
-
     public function scopeRegistered(Builder $query): void
     {
         $query->where("registration_state", "registered");

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 use App\Helpers\ApiResponse;
 use App\Http\Requests\Teams\StoreTeamRequest;
 use App\Http\Requests\Teams\UpdateApiTeamRequest;
+use App\Http\Resources\TeamResource;
 use App\Models\Team;
 use App\Models\Tournament;
 use App\Models\User;
@@ -19,7 +20,10 @@ class TeamController extends Controller
      */
     public function index(): JsonResponse
     {
-        return ApiResponse::success("", Team::without('users')->withCount('users')->get());
+        return ApiResponse::success("", Team::all()
+                ->loadCount("users")
+                ->toResourceCollection()
+        );
     }
 
     /**
@@ -29,7 +33,7 @@ class TeamController extends Controller
      */
     public function index_paginate($item_per_page): JsonResponse
     {
-        return ApiResponse::success("", Team::without('users')->withCount('users')->paginate($item_per_page));
+        return ApiResponse::success("", Team::paginate($item_per_page));
     }
 
     /**
@@ -39,7 +43,7 @@ class TeamController extends Controller
      */
     public function show(Team $team): JsonResponse
     {
-        return ApiResponse::success("", $team);
+        return ApiResponse::success("", new TeamResource($team->load("users")));
     }
 
     /**
@@ -65,7 +69,7 @@ class TeamController extends Controller
             'tournament_id' => $request->tournament_id,
         ]);
 
-        return ApiResponse::created("", $team);
+        return ApiResponse::created("", new TeamResource($team->load("users")));
     }
 
     /**
@@ -79,7 +83,7 @@ class TeamController extends Controller
             "image" => $request->image,
         ]);
 
-        return ApiResponse::success("", $team);
+        return ApiResponse::success("", new TeamResource($team->load("users")));
     }
 
     /**
@@ -96,7 +100,7 @@ class TeamController extends Controller
 
             $team->users()->attach($player);
 
-            return ApiResponse::success(__("responses.team.player_added"), $team);
+            return ApiResponse::success(__("responses.team.player_added"), new TeamResource($team->load("users")));
         } else {
             return ApiResponse::forbidden(__("responses.team.full"), []);
         }
@@ -124,7 +128,7 @@ class TeamController extends Controller
 
         $team->users()->detach($player);
 
-        return ApiResponse::success(__("responses.team.player_removed"), $team);
+        return ApiResponse::success(__("responses.team.player_removed"), new TeamResource($team->load("users")));
     }
 
     /**

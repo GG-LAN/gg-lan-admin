@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Resources;
 
+use App\Models\TeamUser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,6 +18,9 @@ class UserResource extends JsonResource
             "id"         => $this->id,
             "pseudo"     => $this->pseudo,
             "image"      => $this->image,
+            "pivot"      => $this->whenPivotLoaded(new TeamUser(), function () {
+                return $this->pivot;
+            }),
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
         ];

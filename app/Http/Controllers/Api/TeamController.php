@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 use App\Helpers\ApiResponse;
 use App\Http\Requests\Teams\StoreTeamRequest;
 use App\Http\Requests\Teams\UpdateApiTeamRequest;
+use App\Http\Resources\TeamCollection;
 use App\Http\Resources\TeamResource;
 use App\Models\Team;
 use App\Models\Tournament;
@@ -20,10 +21,7 @@ class TeamController extends Controller
      */
     public function index(): JsonResponse
     {
-        return ApiResponse::success("", Team::all()
-                ->loadCount("users")
-                ->toResourceCollection()
-        );
+        return ApiResponse::success("", new TeamCollection(Team::all()->loadCount("users")));
     }
 
     /**

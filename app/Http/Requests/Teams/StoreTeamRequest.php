@@ -26,7 +26,7 @@ class StoreTeamRequest extends FormRequest
      */
     public function rules() {
         return [
-            'name'          => 'required|string|max:50|unique:teams',
+            'name'          => 'required|string|max:50',
             'description'   => 'string|nullable|max:250',
             'tournament_id' => 'required|numeric|exists:tournaments,id',
             'image'         => 'url|nullable'

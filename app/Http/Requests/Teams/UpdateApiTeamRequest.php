@@ -1,12 +1,9 @@
 <?php
-
 namespace App\Http\Requests\Teams;
 
-use App\ApiCode;
-use App\Models\Team;
 use App\Helpers\ApiResponse;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateApiTeamRequest extends FormRequest
@@ -16,7 +13,8 @@ class UpdateApiTeamRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize() {
+    public function authorize()
+    {
         return $this->route("team")->captain_id == $this->user()->id;
     }
 
@@ -25,20 +23,23 @@ class UpdateApiTeamRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() {
+    public function rules()
+    {
         return [
-            'name'        => 'required|string|max:50|unique:teams',
+            'name'        => 'required|string|max:50',
             'description' => 'string|nullable|max:250',
-            'image'       => 'url|nullable'
+            'image'       => 'url|nullable',
         ];
     }
 
-    public function failedAuthorization() {
+    public function failedAuthorization()
+    {
         throw new HttpResponseException(ApiResponse::forbidden(__("responses.team.not_captain"), []));
-        
+
     }
 
-    public function failedValidation(Validator $validator): void {
+    public function failedValidation(Validator $validator): void
+    {
         throw new HttpResponseException(ApiResponse::unprocessable(__("responses.validation.error"), $validator->errors()));
     }
 }

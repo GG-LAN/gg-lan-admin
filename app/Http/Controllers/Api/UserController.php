@@ -5,6 +5,7 @@ use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Players\LinkFaceitAccountRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
+use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\Team;
 use App\Models\User;
@@ -24,7 +25,7 @@ class UserController extends Controller
      */
     public function index(): JsonResponse
     {
-        return ApiResponse::success("", User::all()->toResourceCollection());
+        return ApiResponse::success("", new UserCollection(User::all()));
     }
 
     /**

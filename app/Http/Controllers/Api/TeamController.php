@@ -15,7 +15,7 @@ class TeamController extends Controller
 {
     /**
      * Get all the teams
-     * 
+     *
      * @unauthenticated
      */
     public function index(): JsonResponse
@@ -28,7 +28,7 @@ class TeamController extends Controller
 
     /**
      * Get a paginate version of all the teams
-     * 
+     *
      * @unauthenticated
      */
     public function index_paginate($item_per_page): JsonResponse
@@ -38,7 +38,7 @@ class TeamController extends Controller
 
     /**
      * Get a team
-     * 
+     *
      * @unauthenticated
      */
     public function show(Team $team): JsonResponse
@@ -63,9 +63,9 @@ class TeamController extends Controller
 
         // Create the team
         $team = Team::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'image' => $request->image,
+            'name'          => $request->name,
+            'description'   => $request->description,
+            'image'         => $request->image,
             'tournament_id' => $request->tournament_id,
         ]);
 
@@ -78,9 +78,9 @@ class TeamController extends Controller
     public function update(UpdateApiTeamRequest $request, Team $team): JsonResponse
     {
         $team->update([
-            "name" => $request->name,
+            "name"        => $request->name,
             "description" => $request->description,
-            "image" => $request->image,
+            "image"       => $request->image,
         ]);
 
         return ApiResponse::success("", new TeamResource($team->load("users")));
@@ -117,7 +117,7 @@ class TeamController extends Controller
         }
 
         // If the player is not in the team
-        if (!$team->users->where('id', $player->id)->first()) {
+        if (! $team->users->where('id', $player->id)->first()) {
             return ApiResponse::forbidden(__("responses.team.player_not_in_team"), []);
         }
 

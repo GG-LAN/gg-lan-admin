@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\ApiResponse;
 use App\Http\Requests\Tournaments\GetPaymentLinkRequest;
+use App\Http\Resources\TournamentResource;
 use App\Models\Team;
 use App\Models\Tournament;
 use App\Models\TournamentPrice;
@@ -19,7 +20,7 @@ class TournamentController extends Controller
      */
     public function index(): JsonResponse
     {
-        return ApiResponse::success("", Tournament::without('players', 'teams')->get());
+        return ApiResponse::success("", Tournament::all()->toResourceCollection());
     }
 
     /**
@@ -29,7 +30,7 @@ class TournamentController extends Controller
      */
     public function index_paginate($item_per_page): JsonResponse
     {
-        return ApiResponse::success("", Tournament::without('players', 'teams')->paginate($item_per_page));
+        return ApiResponse::success("", Tournament::paginate($item_per_page));
     }
 
     /**
@@ -39,7 +40,11 @@ class TournamentController extends Controller
      */
     public function show(Tournament $tournament): JsonResponse
     {
-        return ApiResponse::success("", $tournament);
+        // return ApiResponse::success("", $tournament);
+        return ApiResponse::success("", new TournamentResource($tournament->load([
+            "players",
+            "teams",
+        ])));
     }
 
     /**
@@ -79,7 +84,10 @@ class TournamentController extends Controller
         if (! $tournament->checkPlayerIsRegistered($player)) {
             $tournament->players()->attach($player);
 
-            return ApiResponse::success(__("responses.tournament.registered"), $tournament);
+            return ApiResponse::success(__("responses.tournament.registered"), new TournamentResource($tournament->load([
+                "players",
+                "teams",
+            ])));
         }
 
         return ApiResponse::forbidden(__("responses.tournament.already_registered"), []);
@@ -97,7 +105,10 @@ class TournamentController extends Controller
         if ($tournament->checkPlayerIsRegistered($player)) {
             $tournament->players()->detach($player);
 
-            return ApiResponse::success(__("responses.tournament.unregistered"), $tournament);
+            return ApiResponse::success(__("responses.tournament.unregistered"), new TournamentResource($tournament->load([
+                "players",
+                "teams",
+            ])));
         }
 
         return ApiResponse::forbidden(__("responses.tournament.not_registered"), []);

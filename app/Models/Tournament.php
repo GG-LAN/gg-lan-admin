@@ -93,7 +93,7 @@ class Tournament extends Model
         return null;
     }
 
-    public function getPaymentLink(Request $request): string
+    public function getPaymentLink(Request $request): ?string
     {
         if (! config("app.stripe_key")) {
             return null;

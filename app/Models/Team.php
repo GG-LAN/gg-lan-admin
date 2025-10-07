@@ -90,4 +90,14 @@ class Team extends Model
         return TeamUser::query()
             ->where("team_id", $this->id);
     }
+
+    public function getAverageEloCs2Attribute(): int
+    {
+        $players = $this
+            ->users()
+            ->with("faceitAccount")
+            ->get();
+
+        return round($players->avg("faceitAccount.elo_cs2"));
+    }
 }

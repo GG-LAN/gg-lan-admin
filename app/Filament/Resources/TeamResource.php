@@ -79,6 +79,9 @@ class TeamResource extends Resource
                     })
                     ->formatStateUsing(fn(string $state): string => __(Str::ucfirst($state)))
                     ->sortable(),
+                TextColumn::make('average_elo_cs2')
+                    ->label(__("Average Elo CS2"))
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
                     ->translateLabel()
                     ->dateTime("d/m/Y")

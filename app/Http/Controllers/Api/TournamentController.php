@@ -16,7 +16,7 @@ class TournamentController extends Controller
 {
     /**
      * Get all tournaments
-     * 
+     *
      * @unauthenticated
      */
     public function index(): JsonResponse
@@ -26,7 +26,7 @@ class TournamentController extends Controller
 
     /**
      * Get a paginate version of all the tournaments
-     * 
+     *
      * @unauthenticated
      */
     public function index_paginate($item_per_page): JsonResponse
@@ -36,7 +36,7 @@ class TournamentController extends Controller
 
     /**
      * Get a tournament
-     * 
+     *
      * @unauthenticated
      */
     public function show(Tournament $tournament): JsonResponse
@@ -117,7 +117,7 @@ class TournamentController extends Controller
 
     /**
      * Get all the price for each open tournaments
-     * 
+     *
      * @unauthenticated
      */
     public function prices(): JsonResponse

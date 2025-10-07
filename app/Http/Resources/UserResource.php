@@ -18,7 +18,6 @@ class UserResource extends JsonResource
             "id"             => $this->id,
             "pseudo"         => $this->pseudo,
             "image"          => $this->image,
-            "test"           => "oui",
             "pivot"          => $this->whenPivotLoaded(new TeamUser(), function () {
                 return $this->pivot;
             }),

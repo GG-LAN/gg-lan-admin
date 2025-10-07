@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\ApiResponse;
 use App\Http\Requests\Tournaments\GetPaymentLinkRequest;
+use App\Http\Resources\TournamentCollection;
 use App\Http\Resources\TournamentResource;
 use App\Models\Team;
 use App\Models\Tournament;
@@ -20,7 +21,7 @@ class TournamentController extends Controller
      */
     public function index(): JsonResponse
     {
-        return ApiResponse::success("", Tournament::all()->toResourceCollection());
+        return ApiResponse::success("", new TournamentCollection(Tournament::all()));
     }
 
     /**

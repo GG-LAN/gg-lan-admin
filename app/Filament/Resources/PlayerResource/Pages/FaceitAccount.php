@@ -21,6 +21,8 @@ class FaceitAccount extends Page implements HasForms
 
     protected static ?string $navigationIcon = 'fas-gamepad';
 
+    protected static ?string $navigationLabel = "Faceit";
+
     protected static string $view = 'filament.resources.player-resource.pages.faceit-account';
 
     public User $record;
@@ -30,10 +32,6 @@ class FaceitAccount extends Page implements HasForms
     public function getTitle(): string | Htmlable
     {
         return $this->record->pseudo;
-    }
-    public static function getNavigationLabel(): string
-    {
-        return __("Faceit Account");
     }
 
     public function getSubNavigationParameters(): array

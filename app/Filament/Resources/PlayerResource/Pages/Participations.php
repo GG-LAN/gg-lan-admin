@@ -24,8 +24,6 @@ class Participations extends Page implements HasTable
 
     protected static string $view = 'filament.resources.player-resource.pages.participations';
 
-    protected static ?string $breadcrumb = "Karyawan";
-
     public User $record;
 
     public function getTitle(): string | Htmlable

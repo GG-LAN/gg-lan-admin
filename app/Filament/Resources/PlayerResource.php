@@ -2,6 +2,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PlayerResource\Pages;
+use App\Filament\Resources\PlayerResource\Pages\FaceitAccount;
 use App\Filament\Resources\PlayerResource\Pages\Participations;
 use App\Filament\Resources\PlayerResource\Pages\ShowPlayer;
 use App\Models\User;
@@ -193,6 +194,7 @@ class PlayerResource extends Resource
             'index'          => Pages\ListPlayers::route('/'),
             'view'           => ShowPlayer::route('/{record}'),
             'participations' => Participations::route('/{record}/participations'),
+            'faceit'         => FaceitAccount::route("/{record}/faceit-account"),
         ];
     }
 
@@ -201,6 +203,7 @@ class PlayerResource extends Resource
         return $page->generateNavigationItems([
             ShowPlayer::class,
             Participations::class,
+            FaceitAccount::class,
         ]);
     }
 }

@@ -14,21 +14,6 @@ it("can get games", function () {
     ]);
 });
 
-it("can get games with pagination", function () {
-    Game::factory(10)->create();
-
-    $item_per_page = 5;
-    $games = Game::paginate($item_per_page);
-    
-    $response = $this->get('/api/games/paginate/'.$item_per_page);
-
-    $result = json_decode($response->getContent(), true);
-    
-    $response->assertOk();
-
-    $this->assertEquals($item_per_page, count($result['data']['data']));
-});
-
 it("can get a game", function () {
     $game = Game::factory()->create();
 

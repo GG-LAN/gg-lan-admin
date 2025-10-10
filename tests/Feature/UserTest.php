@@ -16,21 +16,6 @@ it("can get players", function () {
         ]);
 });
 
-it("can get players with pagination", function () {
-    User::factory(10)->createQuietly();
-
-    $item_per_page = 5;
-    $users         = User::paginate($item_per_page, ['id', 'pseudo', 'image', 'created_at', 'updated_at']);
-
-    $response = $this->get('/api/players/paginate/' . $item_per_page);
-
-    $result = json_decode($response->getContent(), true);
-
-    $response->assertOk();
-
-    $this->assertEquals($item_per_page, count($result['data']['data']));
-});
-
 it("can get a player", function () {
     $user = User::factory()->createQuietly();
 

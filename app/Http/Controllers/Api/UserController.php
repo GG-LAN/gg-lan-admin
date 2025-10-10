@@ -29,16 +29,6 @@ class UserController extends Controller
     }
 
     /**
-     * Get a paginate version of all the players
-     *
-     * @unauthenticated
-     */
-    public function index_paginate(Request $request, $item_per_page)
-    {
-        return ApiResponse::success("", User::paginate($item_per_page, ['id', 'pseudo', 'image', 'created_at', 'updated_at']));
-    }
-
-    /**
      * Get a player
      *
      * @unauthenticated

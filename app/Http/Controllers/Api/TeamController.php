@@ -25,16 +25,6 @@ class TeamController extends Controller
     }
 
     /**
-     * Get a paginate version of all the teams
-     *
-     * @unauthenticated
-     */
-    public function index_paginate($item_per_page): JsonResponse
-    {
-        return ApiResponse::success("", Team::paginate($item_per_page));
-    }
-
-    /**
      * Get a team
      *
      * @unauthenticated

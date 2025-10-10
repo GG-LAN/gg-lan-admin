@@ -25,16 +25,6 @@ class TournamentController extends Controller
     }
 
     /**
-     * Get a paginate version of all the tournaments
-     *
-     * @unauthenticated
-     */
-    public function index_paginate($item_per_page): JsonResponse
-    {
-        return ApiResponse::success("", Tournament::paginate($item_per_page));
-    }
-
-    /**
      * Get a tournament
      *
      * @unauthenticated

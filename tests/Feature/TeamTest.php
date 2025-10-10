@@ -18,23 +18,6 @@ it("get_teams", function () {
         ]);
 });
 
-it("get_teams_with_pagination", function () {
-    Team::factory(10)
-        ->hasAttached(User::factory()->createQuietly(), ['captain' => true])
-        ->createQuietly();
-
-    $item_per_page = 5;
-    $teams         = Team::paginate($item_per_page);
-
-    $response = $this->get('/api/teams/paginate/' . $item_per_page);
-
-    $result = json_decode($response->getContent(), true);
-
-    $response->assertOk();
-
-    $this->assertEquals($item_per_page, count($result['data']['data']));
-});
-
 it("get_team", function () {
     $team = Team::factory()
         ->hasAttached(User::factory()->createQuietly(), ['captain' => true])

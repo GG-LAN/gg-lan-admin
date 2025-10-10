@@ -16,21 +16,6 @@ it("can_get_tournaments", function () {
         ]);
 });
 
-it("can_get_tournaments_with_pagination", function () {
-    Tournament::factory(10)->create();
-
-    $item_per_page = 5;
-    $tournaments   = Tournament::paginate($item_per_page);
-
-    $response = $this->get('/api/tournaments/paginate/' . $item_per_page);
-
-    $result = json_decode($response->getContent(), true);
-
-    $response->assertOk();
-
-    $this->assertEquals($item_per_page, count($result['data']['data']));
-});
-
 it("can_get_tournament", function () {
     $tournament = Tournament::factory()
         ->create();

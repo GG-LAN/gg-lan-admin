@@ -23,16 +23,6 @@ class GameController extends Controller
     }
 
     /**
-     * Get a paginate version of all the games
-     *
-     * @unauthenticated
-     */
-    public function index_paginate($item_per_page): JsonResponse
-    {
-        return ApiResponse::success("", Game::paginate($item_per_page));
-    }
-
-    /**
      * Get a game
      *
      * @unauthenticated

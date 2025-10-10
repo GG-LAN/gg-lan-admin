@@ -132,6 +132,23 @@ class PaymentResource extends Resource
                             ->success()
                             ->send();
                     }),
+                Action::make("unregister_payment")
+                    ->color("warning")
+                    ->icon("fas-clock-rotate-left")
+                    ->iconButton()
+                    ->requiresConfirmation()
+                    ->translateLabel()
+                    ->visible(fn(PurchasedPlace $payment): bool => $payment->paid)
+                    ->action(function (PurchasedPlace $payment) {
+                        $payment->update([
+                            "paid" => false,
+                        ]);
+
+                        Notification::make()
+                            ->title(__("responses.payment.unregistered"))
+                            ->success()
+                            ->send();
+                    }),
                 Action::make("delete")
                     ->color("danger")
                     ->icon("fas-trash-can")

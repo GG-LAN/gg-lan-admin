@@ -2,6 +2,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PlayerResource\Pages;
+use App\Filament\Resources\PlayerResource\Pages\Participations;
 use App\Filament\Resources\PlayerResource\Pages\ShowPlayer;
 use App\Models\User;
 use Carbon\Carbon;
@@ -10,6 +11,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
+use Filament\Pages\Page;
+use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\ActionSize;
 use Filament\Tables;
@@ -29,6 +32,8 @@ class PlayerResource extends Resource
     protected static ?string $navigationIcon = 'fas-user';
 
     protected static ?int $navigationSort = 1;
+
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Start;
 
     public static function getModelLabel(): string
     {
@@ -185,8 +190,17 @@ class PlayerResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPlayers::route('/'),
-            'view'  => ShowPlayer::route('/{record}'),
+            'index'          => Pages\ListPlayers::route('/'),
+            'view'           => ShowPlayer::route('/{record}'),
+            'participations' => Participations::route('/{record}/participations'),
         ];
+    }
+
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            ShowPlayer::class,
+            Participations::class,
+        ]);
     }
 }

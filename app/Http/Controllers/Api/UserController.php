@@ -5,6 +5,8 @@ use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Players\LinkFaceitAccountRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
+use App\Http\Resources\TeamCollection;
+use App\Http\Resources\TournamentCollection;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\Team;
@@ -13,7 +15,6 @@ use App\Services\Faceit;
 use Auth;
 use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 #[Group('Player')] // Scramble Api Doc Group
 class UserController extends Controller
@@ -84,7 +85,7 @@ class UserController extends Controller
             array_push($tournaments, $team->tournament);
         }
 
-        return ApiResponse::success("", $tournaments);
+        return ApiResponse::success("", new TournamentCollection($tournaments));
     }
 
     /**
@@ -94,7 +95,7 @@ class UserController extends Controller
      */
     public function playerTeams(User $player): JsonResponse
     {
-        return ApiResponse::success("", $player->teams);
+        return ApiResponse::success("", new TeamCollection($player->teams));
     }
 
     /**

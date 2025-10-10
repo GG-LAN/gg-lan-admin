@@ -30,6 +30,7 @@ class Participations extends Page implements HasTable
     {
         return $this->record->pseudo;
     }
+
     public static function getNavigationLabel(): string
     {
         return __("Participations");

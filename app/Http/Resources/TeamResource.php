@@ -22,7 +22,7 @@ class TeamResource extends JsonResource
             "captain"                       => new UserResource($this->captain),
             "team_slots"                    => $this->team_slots,
             "users_count"                   => $this->whenCounted("users"),
-            "users"                         => UserResource::collection($this->whenLoaded("users")),
+            "users"                         => UserResource::collection($this->users),
 
             "registration_state_updated_at" => $this->registration_state_updated_at,
             "updated_at"                    => $this->updated_at,

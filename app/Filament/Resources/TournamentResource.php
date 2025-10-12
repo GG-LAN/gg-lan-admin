@@ -105,9 +105,9 @@ class TournamentResource extends Resource
                     ->translateLabel()
                     ->badge()
                     ->color(fn(string $state): string => match ($state) {
-                        "open"                            => "success",
-                        "finished"                        => "warning",
-                        "closed"                          => "danger",
+                        "open"     => "success",
+                        "finished" => "warning",
+                        "closed"   => "danger",
                     })
                     ->formatStateUsing(fn(string $state): string => __(Str::ucfirst($state)))
                     ->sortable()
@@ -273,6 +273,10 @@ class TournamentResource extends Resource
                     ->description("")
                     ->icon("fas-money-bill")
                     ->schema([
+                        Toggle::make("has_price")
+                            ->translateLabel()
+                            ->default(false)
+                            ->live(),
                         TextInput::make("normal_price")
                             ->translateLabel()
                             ->numeric()
@@ -281,9 +285,12 @@ class TournamentResource extends Resource
                             ->prefixIcon("fab-stripe-s")
                             ->suffixIcon("fas-euro-sign")
                             ->live(onBlur: true)
+                            ->hidden(fn(Get $get) => ! $get("has_price"))
                             ->afterStateUpdated(fn(?string $state, Set $set) => $set("last_week_price", $state)),
                         Toggle::make("has_last_week_price")
+                            ->translateLabel()
                             ->default(false)
+                            ->hidden(fn(Get $get) => ! $get("has_price"))
                             ->live(),
                         TextInput::make("last_week_price")
                             ->translateLabel()
@@ -292,7 +299,7 @@ class TournamentResource extends Resource
                             ->inputMode("decimal")
                             ->prefixIcon("fab-stripe-s")
                             ->suffixIcon("fas-euro-sign")
-                            ->hidden(fn(Get $get) => ! $get("has_last_week_price")),
+                            ->hidden(fn(Get $get) => ! $get("has_last_week_price") || ! $get("has_price")),
                     ]),
             ])
             ->action(function (array $data): void {
@@ -310,38 +317,40 @@ class TournamentResource extends Resource
                     "type"        => $game->places > 1 ? "team" : "solo",
                 ]);
 
-                // Create Stripe Product
-                $product = TournamentPrice::createProduct([
-                    "name" => $tournament->name,
-                ]);
+                // Create Stripe Product if wanted
+                if ($data["has_price"]) {
+                    $product = TournamentPrice::createProduct([
+                        "name" => $tournament->name,
+                    ]);
 
-                $normalPrice   = $data["normal_price"];
-                $lastWeekPrice = $data["normal_price"];
+                    $normalPrice   = $data["normal_price"];
+                    $lastWeekPrice = $data["normal_price"];
 
-                if ($data["has_last_week_price"]) {
-                    $lastWeekPrice = $data["last_week_price"];
+                    if ($data["has_last_week_price"]) {
+                        $lastWeekPrice = $data["last_week_price"];
+                    }
+
+                    // Normal price
+                    TournamentPrice::create([
+                        "name"          => $tournament->name,
+                        "tournament_id" => $tournament->id,
+                        "type"          => "normal",
+                        "currency"      => "eur",
+                        "unit_amount"   => $normalPrice,
+                        "product"       => $product->id,
+                        "active"        => true,
+                    ]);
+
+                    // Last week price
+                    TournamentPrice::create([
+                        "name"          => $tournament->name . " Last Week",
+                        "tournament_id" => $tournament->id,
+                        "type"          => "last_week",
+                        "currency"      => "eur",
+                        "unit_amount"   => $lastWeekPrice,
+                        "product"       => $product->id,
+                    ]);
                 }
-
-                // Normal price
-                TournamentPrice::create([
-                    "name"          => $tournament->name,
-                    "tournament_id" => $tournament->id,
-                    "type"          => "normal",
-                    "currency"      => "eur",
-                    "unit_amount"   => $normalPrice,
-                    "product"       => $product->id,
-                    "active"        => true,
-                ]);
-
-                // Last week price
-                TournamentPrice::create([
-                    "name"          => $tournament->name . " Last Week",
-                    "tournament_id" => $tournament->id,
-                    "type"          => "last_week",
-                    "currency"      => "eur",
-                    "unit_amount"   => $lastWeekPrice,
-                    "product"       => $product->id,
-                ]);
 
                 Notification::make()
                     ->title(__("responses.tournament.created"))

@@ -108,5 +108,9 @@
     "Parental permission": "Autorisation parentale",
     "Volunteer Form Link": "Lien Formulaire Bénévole",
     "Link": "Lien",
-    "Average Elo CS2": "Elo Moyen CS2"
+    "Average Elo CS2": "Elo Moyen CS2",
+    "Normal price": "Prix standard",
+    "Last week price": "Prix de dernière semaine",
+    "Has price": "Le tournoi a un prix ?",
+    "Has last week price": "Prix différent sur la dernière semaine d'inscription ?"
 }

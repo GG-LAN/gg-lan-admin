@@ -31,12 +31,12 @@ class TournamentResource extends JsonResource
 
             "players"        => $this->when(
                 $this->type == "solo",
-                UserResource::collection($this->whenLoaded("players"))
+                UserResource::collection($this->players)
             ),
             
             "teams"          => $this->when(
                 $this->type == "team",
-                TeamResource::collection($this->whenLoaded("teams"))
+                TeamResource::collection($this->teams)
             ),
 
             "updated_at"     => $this->updated_at,

@@ -31,11 +31,7 @@ class TournamentController extends Controller
      */
     public function show(Tournament $tournament): JsonResponse
     {
-        // return ApiResponse::success("", $tournament);
-        return ApiResponse::success("", new TournamentResource($tournament->load([
-            "players",
-            "teams",
-        ])));
+        return ApiResponse::success("", new TournamentResource($tournament));
     }
 
     /**
@@ -75,10 +71,7 @@ class TournamentController extends Controller
         if (! $tournament->checkPlayerIsRegistered($player)) {
             $tournament->players()->attach($player);
 
-            return ApiResponse::success(__("responses.tournament.registered"), new TournamentResource($tournament->load([
-                "players",
-                "teams",
-            ])));
+            return ApiResponse::success(__("responses.tournament.registered"), new TournamentResource($tournament));
         }
 
         return ApiResponse::forbidden(__("responses.tournament.already_registered"), []);
@@ -96,10 +89,7 @@ class TournamentController extends Controller
         if ($tournament->checkPlayerIsRegistered($player)) {
             $tournament->players()->detach($player);
 
-            return ApiResponse::success(__("responses.tournament.unregistered"), new TournamentResource($tournament->load([
-                "players",
-                "teams",
-            ])));
+            return ApiResponse::success(__("responses.tournament.unregistered"), new TournamentResource($tournament));
         }
 
         return ApiResponse::forbidden(__("responses.tournament.not_registered"), []);

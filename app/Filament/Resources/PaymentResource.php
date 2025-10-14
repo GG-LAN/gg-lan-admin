@@ -118,6 +118,7 @@ class PaymentResource extends Resource
             ])
             ->actions([
                 Action::make("register_payment")
+                    ->tooltip(__("Register payment"))
                     ->color("success")
                     ->icon("fas-money-bill")
                     ->iconButton()
@@ -133,6 +134,7 @@ class PaymentResource extends Resource
                             ->send();
                     }),
                 Action::make("unregister_payment")
+                    ->tooltip(__("Unregister payment"))
                     ->color("warning")
                     ->icon("fas-clock-rotate-left")
                     ->iconButton()
@@ -150,6 +152,7 @@ class PaymentResource extends Resource
                             ->send();
                     }),
                 Action::make("delete")
+                    ->tooltip(__("Delete payment"))
                     ->color("danger")
                     ->icon("fas-trash-can")
                     ->iconButton()

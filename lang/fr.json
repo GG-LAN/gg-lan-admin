@@ -112,5 +112,8 @@
     "Normal price": "Prix standard",
     "Last week price": "Prix de dernière semaine",
     "Has price": "Le tournoi a un prix ?",
-    "Has last week price": "Prix différent sur la dernière semaine d'inscription ?"
+    "Has last week price": "Prix différent sur la dernière semaine d'inscription ?",
+    "Register payment": "Valider le paiement",
+    "Unregister payment": "Invalider le paiement",
+    "Delete payment": "Supprimer le paiement"
 }

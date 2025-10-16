@@ -28,12 +28,13 @@ class TournamentResource extends JsonResource
             "register_count" => $this->register_count,
             "isFull"         => $this->isFull,
             "price"          => $this->price,
+            "external_url"   => $this->external_url,
 
             "players"        => $this->when(
                 $this->type == "solo",
                 UserResource::collection($this->players)
             ),
-            
+
             "teams"          => $this->when(
                 $this->type == "team",
                 TeamResource::collection($this->teams)

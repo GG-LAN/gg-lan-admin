@@ -17,7 +17,7 @@ class Tournament extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'description', 'game_id', 'start_date', 'end_date', 'places', 'cashprize', 'status', 'image', 'type',
+        'name', 'description', 'game_id', 'start_date', 'end_date', 'places', 'cashprize', 'status', 'image', 'type', 'external_url',
     ];
 
     protected $appends = ['register_count', 'isFull', 'price'];

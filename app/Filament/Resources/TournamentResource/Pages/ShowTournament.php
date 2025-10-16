@@ -152,11 +152,12 @@ class ShowTournament extends Page implements HasForms
     public function mount(): void
     {
         $this->formInfos->fill([
-            "name"        => $this->record->name,
-            "cashprize"   => $this->record->cashprize,
-            "description" => $this->record->description,
-            "game"        => $this->record->game->id,
-            "places"      => $this->record->places,
+            "name"         => $this->record->name,
+            "cashprize"    => $this->record->cashprize,
+            "description"  => $this->record->description,
+            "game"         => $this->record->game->id,
+            "places"       => $this->record->places,
+            "external_url" => $this->record->external_url,
         ]);
 
         $this->formDates->fill([
@@ -221,6 +222,12 @@ class ShowTournament extends Page implements HasForms
                             ->minValue(1)
                             ->inputMode("decimal")
                             ->columnspan(1),
+                        TextInput::make("external_url")
+                            ->translateLabel()
+                            ->url()
+                            ->required()
+                            ->columnspan(2)
+                            ->hidden($this->record->type != "external"),
                     ]),
             ])
             ->statePath('dataInfos');
@@ -245,11 +252,12 @@ class ShowTournament extends Page implements HasForms
         $data = $this->formInfos->getState();
 
         $this->record->update([
-            "name"        => $data["name"],
-            "cashprize"   => $data["cashprize"],
-            "description" => $data["description"],
-            "game_id"     => $data["game"],
-            "places"      => $data["places"],
+            "name"         => $data["name"],
+            "cashprize"    => $data["cashprize"],
+            "description"  => $data["description"],
+            "game_id"      => $data["game"],
+            "places"       => $data["places"],
+            "external_url" => $data["external_url"],
         ]);
 
         Notification::make()

@@ -115,5 +115,7 @@
     "Has last week price": "Prix différent sur la dernière semaine d'inscription ?",
     "Register payment": "Valider le paiement",
     "Unregister payment": "Invalider le paiement",
-    "Delete payment": "Supprimer le paiement"
+    "Delete payment": "Supprimer le paiement",
+    "Is external": "S'agit-il d'un tournoi externe ?",
+    "External url": "Url de la page du tournoi externe"
 }

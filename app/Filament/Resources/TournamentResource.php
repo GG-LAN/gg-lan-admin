@@ -254,6 +254,20 @@ class TournamentResource extends Resource
                             ->placeholder(__("Short description of the tournament"))
                             ->autosize()
                             ->columnSpanFull(),
+                        Toggle::make("is_external")
+                            ->translateLabel()
+                            ->default(false)
+                            ->live()
+                            ->columnspan(2),
+                        TextInput::make("external_url")
+                            ->translateLabel()
+                            ->url()
+                            ->placeholder("https://...")
+                            ->prefixIcon("fas-globe")
+                            ->live(onBlur: true)
+                            ->required()
+                            ->hidden(fn(Get $get) => ! $get("is_external"))
+                            ->columnspan(1),
                     ]),
                 Step::make(__("Dates"))
                     ->columns(2)
@@ -305,16 +319,26 @@ class TournamentResource extends Resource
             ->action(function (array $data): void {
                 $game = Game::find($data["game"]);
 
+                $type = "";
+
+                if ($data["is_external"]) {
+                    $type = "external";
+                }
+                else {
+                    $type = $game->places > 1 ? "team" : "solo";
+                }
+
                 $tournament = Tournament::create([
-                    "name"        => $data["name"],
-                    "description" => $data["description"],
-                    "game_id"     => $game->id,
-                    "start_date"  => $data["start_date"],
-                    "end_date"    => $data["end_date"],
-                    "places"      => $data["places"],
-                    "cashprize"   => $data["cashprize"],
-                    "status"      => "closed",
-                    "type"        => $game->places > 1 ? "team" : "solo",
+                    "name"         => $data["name"],
+                    "description"  => $data["description"],
+                    "game_id"      => $game->id,
+                    "start_date"   => $data["start_date"],
+                    "end_date"     => $data["end_date"],
+                    "places"       => $data["places"],
+                    "cashprize"    => $data["cashprize"],
+                    "status"       => "closed",
+                    "type"         => $type,
+                    "external_url" => $data["external_url"],
                 ]);
 
                 // Create Stripe Product if wanted

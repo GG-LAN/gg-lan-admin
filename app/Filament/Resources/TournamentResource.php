@@ -2,23 +2,25 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TournamentResource\Pages;
+use App\Filament\Resources\TournamentResource\Pages\Payments;
+use App\Filament\Resources\TournamentResource\Pages\Registrations;
 use App\Filament\Resources\TournamentResource\Pages\ShowTournament;
 use App\Models\Game;
 use App\Models\Tournament;
 use App\Models\TournamentPrice;
 use Carbon\Carbon;
 use Filament\Actions\Action;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Wizard\Step;
-use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Notifications\Notification;
+use Filament\Pages\Page;
+use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\ActionSize;
 use Filament\Support\Enums\MaxWidth;
@@ -38,6 +40,8 @@ class TournamentResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Start;
+
     public static function getModelLabel(): string
     {
         return __("Tournament");
@@ -51,26 +55,6 @@ class TournamentResource extends Resource
     public static function getNavigationGroup(): string
     {
         return __("Tournaments");
-    }
-
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-
-                Forms\Components\TextInput::make("places")
-                    ->required()
-                    ->numeric(),
-
-                Forms\Components\TextInput::make("status")
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make("image")
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make("type")
-                    ->maxLength(255)
-                    ->default(null),
-            ]);
     }
 
     public static function table(Table $table): Table
@@ -176,20 +160,24 @@ class TournamentResource extends Resource
                 self::createTournamentAction("table"),
             ]);
     }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
+    
     public static function getPages(): array
     {
         return [
-            "index" => Pages\ListTournaments::route("/"),
-            "view"  => ShowTournament::route("/{record}"),
+            "index"         => Pages\ListTournaments::route("/"),
+            "view"          => ShowTournament::route("/{record}"),
+            "registrations" => Registrations::route("/{record}/registrations"),
+            "payments"      => Payments::route("/{record}/payments"),
         ];
+    }
+
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            ShowTournament::class,
+            Registrations::class,
+            Payments::class,
+        ]);
     }
 
     public static function createTournamentAction(?string $type = null)
@@ -323,8 +311,7 @@ class TournamentResource extends Resource
 
                 if ($data["is_external"]) {
                     $type = "external";
-                }
-                else {
+                } else {
                     $type = $game->places > 1 ? "team" : "solo";
                 }
 

@@ -27,32 +27,5 @@
                 </div>
             </form>
         </x-filament::section>
-
-        <div class="col-span-3 my-4">
-            <span class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-gray-400">
-                {{ __("Relative Informations") }}
-            </span>
-        </div>
-
-        <div class="col-span-3">
-            @if ($this->record->type == "team")
-                @livewire("list-tournament-teams", ["tournament" => $this->record])
-            @else
-                @livewire("list-tournament-players", ["tournament" => $this->record])
-            @endif
-        </div>
-
-        <div class="col-span-3">
-            <hr class="border-gray-400 dark:border-white/5">
-        </div>
-
-        <div class="col-span-2">
-            @livewire("list-tournament-prices", ["tournament" => $this->record])
-        </div>
-
-        <div class="col-span-1">
-            @livewire("list-tournament-payments", ["tournament" => $this->record])
-        </div>
-
     </div>
 </x-filament-panels::page>

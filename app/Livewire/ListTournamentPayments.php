@@ -34,8 +34,8 @@ class ListTournamentPayments extends Component implements HasForms, HasTable
                     ->label(__("Status"))
                     ->badge()
                     ->color(fn(bool $state): string => match ($state) {
-                        true                            => "success",
-                        false                           => "danger",
+                        true  => "success",
+                        false => "danger",
                     })
                     ->formatStateUsing(fn(string $state): string => $state ? __("Payment validated") : __("Waiting for payment")),
             ])
@@ -43,8 +43,7 @@ class ListTournamentPayments extends Component implements HasForms, HasTable
                 TernaryFilter::make("paid")
                     ->label(__("Status"))
                     ->trueLabel(__("Payment validated"))
-                    ->falseLabel(__("Waiting for payment"))
-                    ->default(true),
+                    ->falseLabel(__("Waiting for payment")),
             ])
             ->actions([
                 // ...

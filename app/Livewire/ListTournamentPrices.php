@@ -42,8 +42,7 @@ class ListTournamentPrices extends Component implements HasForms, HasTable
                 TernaryFilter::make("active")
                     ->label(__("Status"))
                     ->trueLabel(__("Active"))
-                    ->falseLabel(__("Inactive"))
-                    ->default(true),
+                    ->falseLabel(__("Inactive")),
             ])
             ->actions([
                 // ...

@@ -1,7 +1,6 @@
 <?php
 namespace App\Filament\Resources\TournamentResource\Pages;
 
-use App\Filament\Resources\TournamentResource;
 use App\Filament\Resources\TournamentResource\Widgets\TournamentFilling;
 use App\Models\Game;
 use App\Models\Tournament;
@@ -16,89 +15,21 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Filament\Resources\Pages\Page;
-use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Support\HtmlString;
-use Illuminate\Support\Str;
 
-class ShowTournament extends Page implements HasForms
+class ShowTournament extends TournamentPage implements HasForms
 {
     use InteractsWithForms;
 
-    protected static string $resource = TournamentResource::class;
+    protected static ?string $navigationIcon = 'fas-trophy';
 
     protected static string $view = 'filament.resources.tournament-resource.pages.show-tournament';
-
-    public Tournament $record;
 
     public ?array $dataInfos = [];
     public ?array $dataDates = [];
 
-    public function getTitle(): string | Htmlable
+    public static function getNavigationLabel(): string
     {
-        return $this->record->name;
-    }
-
-    public function getSubheading(): string | Htmlable | null
-    {
-        $statusLabel = __(Str::ucfirst($this->record->status));
-
-        switch ($this->record->status) {
-            case 'open':
-                return new HtmlString("
-                    <div class='flex w-max'>
-                        <span
-                            style='--c-50:var(--success-50);--c-400:var(--success-400);--c-600:var(--success-600);'
-                            class='fi-badge flex items-center justify-center gap-x-1 rounded-md text-xs font-medium ring-1 ring-inset px-2 min-w-[theme(spacing.6)] py-1 fi-color-custom bg-custom-50 text-custom-600 ring-custom-600/10 dark:bg-custom-400/10 dark:text-custom-400 dark:ring-custom-400/30 fi-color-success'
-                        >
-                            <span class='grid'>
-                                <span class='truncate'>
-                                    {$statusLabel}
-                                </span>
-                            </span>
-                        </span>
-                    </div>
-                ");
-                break;
-
-            case 'closed':
-                return new HtmlString("
-                    <div class='flex w-max'>
-                        <span
-                            style='--c-50:var(--danger-50);--c-400:var(--danger-400);--c-600:var(--danger-600);'
-                            class='fi-badge flex items-center justify-center gap-x-1 rounded-md text-xs font-medium ring-1 ring-inset px-2 min-w-[theme(spacing.6)] py-1 fi-color-custom bg-custom-50 text-custom-600 ring-custom-600/10 dark:bg-custom-400/10 dark:text-custom-400 dark:ring-custom-400/30 fi-color-danger'
-                        >
-                            <span class='grid'>
-                                <span class='truncate'>
-                                    {$statusLabel}
-                                </span>
-                            </span>
-                        </span>
-                    </div>
-                ");
-                break;
-
-            case 'finished':
-                return new HtmlString("
-                    <div class='flex w-max'>
-                        <span
-                            style='--c-50:var(--warning-50);--c-400:var(--warning-400);--c-600:var(--warning-600);'
-                            class='fi-badge flex items-center justify-center gap-x-1 rounded-md text-xs font-medium ring-1 ring-inset px-2 min-w-[theme(spacing.6)] py-1 fi-color-custom bg-custom-50 text-custom-600 ring-custom-600/10 dark:bg-custom-400/10 dark:text-custom-400 dark:ring-custom-400/30 fi-color-warning'
-                        >
-                            <span class='grid'>
-                                <span class='truncate'>
-                                    {$statusLabel}
-                                </span>
-                            </span>
-                        </span>
-                    </div>
-                ");
-                break;
-
-            default:
-                return null;
-                break;
-        }
+        return __("Tournament");
     }
 
     protected function getHeaderWidgets(): array
@@ -154,6 +85,8 @@ class ShowTournament extends Page implements HasForms
         $this->formInfos->fill([
             "name"         => $this->record->name,
             "cashprize"    => $this->record->cashprize,
+            "start_date"   => $this->record->start_date,
+            "end_date"     => $this->record->end_date,
             "description"  => $this->record->description,
             "game"         => $this->record->game->id,
             "places"       => $this->record->places,
@@ -226,7 +159,7 @@ class ShowTournament extends Page implements HasForms
                             ->translateLabel()
                             ->url()
                             ->required()
-                            ->columnspan(2)
+                            ->columnSpanFull()
                             ->hidden($this->record->type != "external"),
                     ]),
             ])
@@ -239,26 +172,31 @@ class ShowTournament extends Page implements HasForms
             ->schema([
                 DatePicker::make("start_date")
                     ->translateLabel()
-                    ->required(),
+                    ->required()
+                    ->columnspan(1),
                 DatePicker::make("end_date")
                     ->translateLabel()
-                    ->required(),
+                    ->required()
+                    ->columnspan(1),
             ])
             ->statePath('dataDates');
     }
 
     public function updateInfos(): void
     {
-        $data = $this->formInfos->getState();
+        $updateArray = [
+            "name"        => $this->dataInfos["name"],
+            "cashprize"   => $this->dataInfos["cashprize"],
+            "description" => $this->dataInfos["description"],
+            "game_id"     => $this->dataInfos["game"],
+            "places"      => $this->dataInfos["places"],
+        ];
 
-        $this->record->update([
-            "name"         => $data["name"],
-            "cashprize"    => $data["cashprize"],
-            "description"  => $data["description"],
-            "game_id"      => $data["game"],
-            "places"       => $data["places"],
-            "external_url" => $data["external_url"],
-        ]);
+        if ($this->record->type == "external") {
+            $updateArray["external_url"] = $this->dataInfos["external_url"];
+        }
+
+        $this->record->update($updateArray);
 
         Notification::make()
             ->title(__("responses.tournament.updated"))
@@ -268,9 +206,7 @@ class ShowTournament extends Page implements HasForms
 
     public function updateDates(): void
     {
-        $data = $this->formDates->getState();
-
-        $this->record->update($data);
+        $this->record->update($this->dataDates);
 
         Notification::make()
             ->title(__("responses.tournament.updated"))

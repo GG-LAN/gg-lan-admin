@@ -62,6 +62,7 @@ class ShowTournament extends TournamentPage implements HasForms
                     ->action(fn() => redirect()->route("download.parental-permission", ["tournament" => $this->record->id]))
                     ->icon("fas-download"),
             ])
+                ->button()
                 ->icon("fas-ellipsis-vertical"),
             Action::make("delete")
                 ->translateLabel()

@@ -4,8 +4,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TournamentResource\Pages;
 use App\Filament\Resources\TournamentResource\Pages\Payments;
 use App\Filament\Resources\TournamentResource\Pages\Registrations;
-use App\Filament\Resources\TournamentResource\Pages\ShowTournament;
 use App\Filament\Resources\TournamentResource\Pages\TournamentSettings;
+use App\Filament\Resources\TournamentResource\Pages\ViewTournament;
 use App\Models\Game;
 use App\Models\Tournament;
 use App\Models\TournamentPrice;
@@ -31,7 +31,9 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Arr;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 
 class TournamentResource extends Resource
@@ -163,11 +165,73 @@ class TournamentResource extends Resource
             ]);
     }
 
+    public static function getSubheading(Tournament $record): string | Htmlable | null
+    {
+        $statusLabel = __(Str::ucfirst($record->status));
+
+        switch ($record->status) {
+            case 'open':
+                return new HtmlString("
+                    <div class='flex w-max'>
+                        <span
+                            style='--c-50:var(--success-50);--c-400:var(--success-400);--c-600:var(--success-600);'
+                            class='fi-badge flex items-center justify-center gap-x-1 rounded-md text-xs font-medium ring-1 ring-inset px-2 min-w-[theme(spacing.6)] py-1 fi-color-custom bg-custom-50 text-custom-600 ring-custom-600/10 dark:bg-custom-400/10 dark:text-custom-400 dark:ring-custom-400/30 fi-color-success'
+                        >
+                            <span class='grid'>
+                                <span class='truncate'>
+                                    {$statusLabel}
+                                </span>
+                            </span>
+                        </span>
+                    </div>
+                ");
+                break;
+
+            case 'closed':
+                return new HtmlString("
+                    <div class='flex w-max'>
+                        <span
+                            style='--c-50:var(--danger-50);--c-400:var(--danger-400);--c-600:var(--danger-600);'
+                            class='fi-badge flex items-center justify-center gap-x-1 rounded-md text-xs font-medium ring-1 ring-inset px-2 min-w-[theme(spacing.6)] py-1 fi-color-custom bg-custom-50 text-custom-600 ring-custom-600/10 dark:bg-custom-400/10 dark:text-custom-400 dark:ring-custom-400/30 fi-color-danger'
+                        >
+                            <span class='grid'>
+                                <span class='truncate'>
+                                    {$statusLabel}
+                                </span>
+                            </span>
+                        </span>
+                    </div>
+                ");
+                break;
+
+            case 'finished':
+                return new HtmlString("
+                    <div class='flex w-max'>
+                        <span
+                            style='--c-50:var(--warning-50);--c-400:var(--warning-400);--c-600:var(--warning-600);'
+                            class='fi-badge flex items-center justify-center gap-x-1 rounded-md text-xs font-medium ring-1 ring-inset px-2 min-w-[theme(spacing.6)] py-1 fi-color-custom bg-custom-50 text-custom-600 ring-custom-600/10 dark:bg-custom-400/10 dark:text-custom-400 dark:ring-custom-400/30 fi-color-warning'
+                        >
+                            <span class='grid'>
+                                <span class='truncate'>
+                                    {$statusLabel}
+                                </span>
+                            </span>
+                        </span>
+                    </div>
+                ");
+                break;
+
+            default:
+                return null;
+                break;
+        }
+    }
+
     public static function getPages(): array
     {
         return [
             "index"         => Pages\ListTournaments::route("/"),
-            "view"          => ShowTournament::route("/{record}"),
+            "view"          => ViewTournament::route("/{record}"),
             "registrations" => Registrations::route("/{record}/registrations"),
             "payments"      => Payments::route("/{record}/payments"),
             "settings"      => TournamentSettings::route("/{record}/settings"),
@@ -177,7 +241,7 @@ class TournamentResource extends Resource
     public static function getRecordSubNavigation(Page $page): array
     {
         return $page->generateNavigationItems([
-            ShowTournament::class,
+            ViewTournament::class,
             Registrations::class,
             Payments::class,
             TournamentSettings::class,

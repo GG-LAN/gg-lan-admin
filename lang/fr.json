@@ -121,6 +121,10 @@
     "Registrations": "Inscriptions",
     "Discord notif": "Envoyer une notification sur discord",
     "Discord Notifications": "Notifications Discord",
-    "If we want that a registration to the tournament send a discord notification": "Si une inscription doit envoyer une notification sur discord",
-    "Send a Discord announcement after each registration": "Envoyer une annonce sur discord pour chaque inscription"
+    "If we want that a registration to the tournament send a discord notification": "Si une inscription doit envoyer une notification sur discord.",
+    "Send a Discord announcement after each registration": "Envoyer une annonce sur discord pour chaque inscription",
+    "Saved": "Sauvegardé",
+    "Open the tournament to start the registrations.": "Ouvrez le tournoi pour lancer les inscriptions.",
+    "Download": "Télécharger",
+    "Download the parental permission for this tournament.": "Télécharger l'autorisation parentale pour ce tournoi."
 }

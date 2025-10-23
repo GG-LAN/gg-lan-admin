@@ -116,11 +116,19 @@
 }
 
 .fi-section {
-    @apply shadow-md dark:shadow-none ring-0;
+    @apply shadow-md dark:shadow-none ring-0 rounded-lg;
+}
+
+.fi-section-header {
+    @apply rounded-t-lg;
+}
+
+.fi-section-header, .fi-section-content-ctn {
+    @apply bg-white dark:bg-gray-800 text-gray-900 dark:text-white ;
 }
 
 .fi-section-content-ctn {
-    @apply bg-white rounded-lg dark:bg-gray-800 text-gray-900 dark:text-white border-t border-gray-200 dark:border-white/10;
+    @apply rounded-b-lg;
 }
 
 .fi-section-content {

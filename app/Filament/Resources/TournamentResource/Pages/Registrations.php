@@ -15,6 +15,29 @@ class Registrations extends TournamentPage
         return __("Registrations");
     }
 
+    public function getBreadcrumb(): string
+    {
+        return $this->record->name;
+    }
+
+    public function getBreadcrumbs(): array
+    {
+        $resource = static::getResource();
+
+        $breadcrumbs = [
+            $resource::getUrl() => $resource::getBreadcrumb(),
+            ...(filled($breadcrumb = $this->getBreadcrumb()) ? [$breadcrumb] : []),
+        ];
+
+        if (filled($cluster = static::getCluster())) {
+            return $cluster::unshiftClusterBreadcrumbs($breadcrumbs);
+        }
+
+        $breadcrumbs[] = __("Registrations");
+
+        return $breadcrumbs;
+    }
+
     protected function getHeaderWidgets(): array
     {
         return [

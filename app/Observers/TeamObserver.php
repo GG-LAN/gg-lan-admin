@@ -41,7 +41,7 @@ class TeamObserver implements ShouldHandleEventsAfterCommit
 
     public function updated(Team $team): void
     {
-        if ($team->send_notif) {
+        if ($team->send_notif && $team->tournament->discord_notif) {
             $team->notify(new TeamRegistered);
 
             $team->updateQuietly([

@@ -5,6 +5,8 @@ use App\Models\Game;
 use App\Models\Team;
 use App\Models\Tournament;
 use App\Models\User;
+use App\Notifications\TeamRegistered;
+use Illuminate\Support\Facades\Notification;
 
 it("get_teams", function () {
     $teams = Team::factory(10)
@@ -697,4 +699,62 @@ test("Has captain, assert that removing a player from the team that is full and 
         "id"                 => $team->id,
         "registration_state" => Team::NOT_FULL,
     ]);
+});
+
+test("Registering a team will send a discord notification if tournament is setup to do so", function () {
+    $tournament = Tournament::factory()
+        ->createQuietly([
+            "status"        => "open",
+            "type"          => "team",
+            "places"        => 10,
+            "game_id"       => Game::factory()->createQuietly(["places" => 5])->id,
+            "discord_notif" => true,
+        ]);
+
+    $captain = User::factory()->createQuietly();
+
+    $lastPlayer = User::factory()->createQuietly();
+
+    // Create a team with 4 players total.
+    $team = Team::factory()
+        ->hasAttached($captain, ['captain' => true])
+        ->hasAttached(User::factory()->count(3))
+        ->for($tournament)
+        ->createQuietly(["registration_state" => Team::NOT_FULL]);
+
+    Notification::fake();
+
+    $this->actingAs($captain)->post('/api/teams/' . $team->id . '/addPlayer/' . $lastPlayer->id);
+
+    Notification::assertSentTo(
+        [$team], TeamRegistered::class
+    );
+});
+
+test("Registering a team will not send a discord notification if tournament is setup to do so", function () {
+    $tournament = Tournament::factory()
+        ->createQuietly([
+            "status"        => "open",
+            "type"          => "team",
+            "places"        => 10,
+            "game_id"       => Game::factory()->createQuietly(["places" => 5])->id,
+            "discord_notif" => false,
+        ]);
+
+    $captain = User::factory()->createQuietly();
+
+    $lastPlayer = User::factory()->createQuietly();
+
+    // Create a team with 4 players total.
+    $team = Team::factory()
+        ->hasAttached($captain, ['captain' => true])
+        ->hasAttached(User::factory()->count(3))
+        ->for($tournament)
+        ->createQuietly(["registration_state" => Team::NOT_FULL]);
+
+    Notification::fake();
+
+    $this->actingAs($captain)->post('/api/teams/' . $team->id . '/addPlayer/' . $lastPlayer->id);
+
+    Notification::assertNothingSent();
 });

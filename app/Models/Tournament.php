@@ -17,10 +17,29 @@ class Tournament extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'description', 'game_id', 'start_date', 'end_date', 'places', 'cashprize', 'status', 'image', 'type', 'external_url',
+        'name',
+        'description',
+        'game_id',
+        'start_date',
+        'end_date',
+        'places',
+        'cashprize',
+        'status',
+        'image',
+        'type',
+        'external_url',
+        'discord_notif',
     ];
 
-    protected $appends = ['register_count', 'isFull', 'price'];
+    protected $hidden = [
+        'discord_notif',
+    ];
+
+    protected $appends = [
+        'register_count',
+        'isFull',
+        'price',
+    ];
 
     /**
      * The attributes that should be cast to native types.

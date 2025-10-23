@@ -26,6 +26,7 @@ class TournamentFactory extends Factory
             'status'      => ['open', 'closed', 'finished'][rand(0, 2)],
             // 'image'       => $this->faker->imageUrl(640, 480),
             'type'        => ['solo', 'team'][rand(0, 1)],
+            'discord_notif' => true
         ];
     }
 

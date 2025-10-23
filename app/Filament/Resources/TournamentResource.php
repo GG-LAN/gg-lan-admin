@@ -5,6 +5,7 @@ use App\Filament\Resources\TournamentResource\Pages;
 use App\Filament\Resources\TournamentResource\Pages\Payments;
 use App\Filament\Resources\TournamentResource\Pages\Registrations;
 use App\Filament\Resources\TournamentResource\Pages\ShowTournament;
+use App\Filament\Resources\TournamentResource\Pages\TournamentSettings;
 use App\Models\Game;
 use App\Models\Tournament;
 use App\Models\TournamentPrice;
@@ -160,7 +161,7 @@ class TournamentResource extends Resource
                 self::createTournamentAction("table"),
             ]);
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -168,6 +169,7 @@ class TournamentResource extends Resource
             "view"          => ShowTournament::route("/{record}"),
             "registrations" => Registrations::route("/{record}/registrations"),
             "payments"      => Payments::route("/{record}/payments"),
+            "settings"    => TournamentSettings::route("/{record}/settings"),
         ];
     }
 
@@ -177,6 +179,7 @@ class TournamentResource extends Resource
             ShowTournament::class,
             Registrations::class,
             Payments::class,
+            TournamentSettings::class,
         ]);
     }
 

@@ -118,5 +118,8 @@
     "Delete payment": "Supprimer le paiement",
     "Is external": "S'agit-il d'un tournoi externe ?",
     "External url": "Url de la page du tournoi externe",
-    "Registrations": "Inscriptions"
+    "Registrations": "Inscriptions",
+    "Discord notif": "Envoyer une notification sur discord",
+    "Discord Notifications": "Notifications Discord",
+    "If we want that a registration to the tournament send a discord notification": "Si une inscription doit envoyer une notification sur discord"
 }

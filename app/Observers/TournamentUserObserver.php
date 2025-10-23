@@ -17,7 +17,9 @@ class TournamentUserObserver
 
         Participation::register($player, $tournament, status: "registered");
 
-        $player->notify(new PlayerRegistered($tournament));
+        if ($tournament->discord_notif) {
+            $player->notify(new PlayerRegistered($tournament));
+        }
     }
 
     public function updated(TournamentUser $tournamentUser): void

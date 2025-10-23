@@ -2,6 +2,7 @@
 namespace App\Filament\Resources\TournamentResource\Pages;
 
 use App\Filament\Resources\TournamentResource;
+use Filament\Actions\Action;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
@@ -30,6 +31,7 @@ class TournamentSettings extends EditRecord
         return $form
             ->schema([
                 Section::make(__("Discord Notifications"))
+                    ->icon("fab-discord")
                     ->extraAttributes(['class' => 'rounded-b-lg'])
                     ->description(__("If we want that a registration to the tournament send a discord notification"))
                     ->schema([
@@ -38,9 +40,19 @@ class TournamentSettings extends EditRecord
                             ->onIcon("fas-check")
                             ->offIcon("fas-xmark"),
                     ])
-                    ->icon("fab-discord")
                     ->collapsible()
                     ->persistCollapsed(),
             ]);
+
+    }
+
+    protected function getFormActions(): array
+    {
+        return [
+            Action::make("update")
+                ->translateLabel()
+                ->color("success")
+                ->action('save'),
+        ];
     }
 }

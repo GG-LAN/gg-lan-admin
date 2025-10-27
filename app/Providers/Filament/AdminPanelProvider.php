@@ -151,7 +151,7 @@ class AdminPanelProvider extends PanelProvider
             ->favicon("/favicon.png")
             ->brandLogo("/logo.png")
             ->colors($this->colors)
-            // ->viteTheme("resources/css/filament/admin/theme.css")
+            ->viteTheme("resources/css/filament/gg-lan/theme.css")
             ->maxContentWidth(MaxWidth::Full)
             ->simplePageMaxContentWidth(MaxWidth::ExtraLarge)
             ->font('Inter')
@@ -225,8 +225,11 @@ class AdminPanelProvider extends PanelProvider
         ]);
 
         FilamentColor::register([
-            "primary" => Color::Red,
-            "danger"  => Color::Red,
+            "primary" => Color::hex("#ff0000"),
+            "success" => Color::hex("#22c55e"),
+            "info"    => Color::hex("#3b82f6"),
+            "warning" => Color::hex("#facc15"),
+            "danger"  => Color::hex("#ef4444"),
         ]);
 
         FilamentView::registerRenderHook(

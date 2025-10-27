@@ -24,7 +24,8 @@ class DashboardOverview extends BaseWidget
                 ->color("primary")
                 ->chart($this->chartPlayers())
                 ->extraAttributes([
-                    "class"      => "cursor-pointer bg-gradient-to-tr from-transparent dark:from-gray-900 to-primary-400 dark:to-primary-900 fi-wi-stats-icon-primary fi-wi-stats-dark-text-white",
+                    // "class"      => "cursor-pointer bg-gradient-to-tr from-transparent dark:from-gray-900 to-primary-400 dark:to-primary-900 fi-wi-stats-icon-primary fi-wi-stats-dark-text-white",
+                    "class"      => "cursor-pointer",
                     "wire:click" => "redirectToPlayers()",
                 ]),
 
@@ -33,7 +34,8 @@ class DashboardOverview extends BaseWidget
                 ->color("warning")
                 ->chart($this->chartRegisteredTeams())
                 ->extraAttributes([
-                    "class"      => "cursor-pointer bg-gradient-to-tr from-transparent dark:from-gray-900 to-warning-400 dark:to-warning-900 fi-wi-stats-icon-warning fi-wi-stats-dark-text-white",
+                    // "class"      => "cursor-pointer bg-gradient-to-tr from-transparent dark:from-gray-900 to-warning-400 dark:to-warning-900 fi-wi-stats-icon-warning fi-wi-stats-dark-text-white",
+                    "class"      => "cursor-pointer",
                     "wire:click" => "redirectToRegisteredTeams()",
                 ]),
 
@@ -42,7 +44,8 @@ class DashboardOverview extends BaseWidget
                 ->color("danger")
                 ->chart($this->chartNotFullTeams())
                 ->extraAttributes([
-                    "class"      => "cursor-pointer bg-gradient-to-tr from-transparent dark:from-gray-900 to-danger-400 dark:to-danger-900 fi-wi-stats-icon-danger fi-wi-stats-dark-text-white",
+                    // "class"      => "cursor-pointer bg-gradient-to-tr from-transparent dark:from-gray-900 to-danger-400 dark:to-danger-900 fi-wi-stats-icon-danger fi-wi-stats-dark-text-white",
+                    "class"      => "cursor-pointer",
                     "wire:click" => "redirectToNotFullTeams()",
                 ]),
 
@@ -51,7 +54,8 @@ class DashboardOverview extends BaseWidget
                 ->chart($this->chartPayments())
                 ->color("success")
                 ->extraAttributes([
-                    "class"      => "cursor-pointer bg-gradient-to-tr from-transparent dark:from-gray-900 to-success-400 dark:to-success-900 fi-wi-stats-icon-success fi-wi-stats-dark-text-white",
+                    // "class"      => "cursor-pointer bg-gradient-to-tr from-transparent dark:from-gray-900 to-success-400 dark:to-success-900 fi-wi-stats-icon-success fi-wi-stats-dark-text-white",
+                    "class"      => "cursor-pointer",
                     "wire:click" => "redirectToPayments()",
                 ]),
 

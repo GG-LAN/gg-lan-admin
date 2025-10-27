@@ -18,7 +18,8 @@ class TournamentPayments extends BaseWidget
                 ->chart($this->chartPayments())
                 ->color("success")
                 ->extraAttributes([
-                    "class"      => "cursor-pointer bg-gradient-to-tr from-transparent dark:from-gray-900 to-success-400 dark:to-success-900 fi-wi-stats-icon-success fi-wi-stats-dark-text-white",
+                    // "class"      => "cursor-pointer bg-gradient-to-tr from-transparent dark:from-gray-900 to-success-400 dark:to-success-900 fi-wi-stats-icon-success fi-wi-stats-dark-text-white",
+                    "class"      => "cursor-pointer",
                     "wire:click" => "redirectToPayments()",
                 ]),
         ];

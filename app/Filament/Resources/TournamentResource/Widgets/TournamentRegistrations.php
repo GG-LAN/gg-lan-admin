@@ -27,7 +27,7 @@ class TournamentRegistrations extends BaseWidget
         return Stat::make(__("Registered Teams"), $countRegistered)
             ->icon("fas-users")
             ->extraAttributes([
-                "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-primary-400 dark:to-primary-900 fi-wi-stats-icon-primary fi-wi-stats-dark-text-white",
+                // "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-primary-400 dark:to-primary-900 fi-wi-stats-icon-primary fi-wi-stats-dark-text-white",
             ]);
     }
 
@@ -41,7 +41,7 @@ class TournamentRegistrations extends BaseWidget
         return Stat::make(__("Not complete Teams"), $count)
             ->icon("fas-users")
             ->extraAttributes([
-                "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-warning-400 dark:to-warning-900 fi-wi-stats-icon-warning fi-wi-stats-dark-text-white",
+                // "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-warning-400 dark:to-warning-900 fi-wi-stats-icon-warning fi-wi-stats-dark-text-white",
             ]);
     }
 
@@ -52,7 +52,7 @@ class TournamentRegistrations extends BaseWidget
         return Stat::make(__("Registered Players"), $count)
             ->icon("fas-users")
             ->extraAttributes([
-                "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-primary-400 dark:to-primary-900 fi-wi-stats-icon-primary fi-wi-stats-dark-text-white",
+                // "class" => "bg-gradient-to-tr from-transparent dark:from-gray-900 to-primary-400 dark:to-primary-900 fi-wi-stats-icon-primary fi-wi-stats-dark-text-white",
             ]);
     }
 }

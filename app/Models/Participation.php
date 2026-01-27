@@ -56,6 +56,10 @@ class Participation extends Model
             })
             ->first();
 
+        if (! $participation) {
+            return;
+        }
+
         $participation->delete();
     }
 }

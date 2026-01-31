@@ -5,10 +5,6 @@
         </div>
 
         <div class="col-span-3">
-            <hr class="border-gray-400 dark:border-white/5">
-        </div>
-
-        <div class="col-span-3">
             @livewire("list-tournament-payments", ["tournament" => $this->record])
         </div>
     </div>

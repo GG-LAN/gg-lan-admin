@@ -314,6 +314,7 @@ class TournamentResource extends Resource
                             ->label(__("Send a Discord announcement after each registration"))
                             ->onIcon("fab-discord")
                             ->offIcon("fas-xmark")
+                            ->default(true)
                             ->columnSpan(2),
                         Toggle::make("is_external")
                             ->translateLabel()

@@ -13,17 +13,5 @@
                 </div>
             </form>
         </x-filament::section>
-
-        <div class="col-span-3 my-4">
-            <span class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-gray-400">
-                {{ __("Relative Informations") }}
-            </span>
-        </div>
-
-        <div class="col-span-3">
-            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4"> {{ __("Team members") }}</h2>
-
-            {{ $this->table }}
-        </div>
     </div>
 </x-filament-panels::page>

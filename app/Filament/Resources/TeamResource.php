@@ -2,10 +2,13 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TeamResource\Pages;
-use App\Filament\Resources\TeamResource\Pages\ShowTeam;
+use App\Filament\Resources\TeamResource\Pages\TeamMembers;
+use App\Filament\Resources\TeamResource\Pages\ViewTeam;
 use App\Models\Team;
 use App\Models\Tournament;
 use Filament\Forms\Form;
+use Filament\Pages\Page;
+use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -21,6 +24,8 @@ class TeamResource extends Resource
     protected static ?string $navigationIcon = 'fas-users';
 
     protected static ?int $navigationSort = 2;
+
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Start;
 
     public static function getModelLabel(): string
     {
@@ -73,9 +78,9 @@ class TeamResource extends Resource
                     ->label(__("Status"))
                     ->badge()
                     ->color(fn(string $state): string => match ($state) {
-                        "registered"                      => "success",
-                        "pending"                         => "warning",
-                        "not_full"                        => "danger",
+                        "registered" => "success",
+                        "pending"    => "warning",
+                        "not_full"   => "danger",
                     })
                     ->formatStateUsing(fn(string $state): string => __(Str::ucfirst($state)))
                     ->sortable(),
@@ -125,8 +130,17 @@ class TeamResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTeams::route('/'),
-            'view'  => ShowTeam::route("/{record}"),
+            'index'   => Pages\ListTeams::route('/'),
+            'view'    => ViewTeam::route("/{record}"),
+            'members' => TeamMembers::route("/{record}/members"),
         ];
+    }
+
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            ViewTeam::class,
+            TeamMembers::class,
+        ]);
     }
 }

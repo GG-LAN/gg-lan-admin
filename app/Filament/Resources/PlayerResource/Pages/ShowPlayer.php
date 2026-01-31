@@ -2,7 +2,6 @@
 namespace App\Filament\Resources\PlayerResource\Pages;
 
 use App\Filament\Resources\PlayerResource;
-use App\Models\Participation;
 use App\Models\User;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
@@ -12,19 +11,11 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
-use Filament\Support\Enums\IconPosition;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Support\Str;
 
 class ShowPlayer extends Page implements HasForms
 {
     use InteractsWithForms;
-    
 
     protected static string $resource = PlayerResource::class;
 
@@ -107,7 +98,5 @@ class ShowPlayer extends Page implements HasForms
             ->send();
 
     }
-
-    
 
 }

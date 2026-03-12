@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 use App\Helpers\ApiResponse;
 use App\Http\Requests\Teams\StoreTeamRequest;
 use App\Http\Requests\Teams\UpdateApiTeamRequest;
+use App\Http\Resources\TeamCollection;
+use App\Http\Resources\TeamResource;
 use App\Models\Team;
 use App\Models\Tournament;
 use App\Models\User;
@@ -14,32 +16,22 @@ class TeamController extends Controller
 {
     /**
      * Get all the teams
-     * 
+     *
      * @unauthenticated
      */
     public function index(): JsonResponse
     {
-        return ApiResponse::success("", Team::without('users')->withCount('users')->get());
-    }
-
-    /**
-     * Get a paginate version of all the teams
-     * 
-     * @unauthenticated
-     */
-    public function index_paginate($item_per_page): JsonResponse
-    {
-        return ApiResponse::success("", Team::without('users')->withCount('users')->paginate($item_per_page));
+        return ApiResponse::success("", new TeamCollection(Team::all()->loadCount("users")));
     }
 
     /**
      * Get a team
-     * 
+     *
      * @unauthenticated
      */
     public function show(Team $team): JsonResponse
     {
-        return ApiResponse::success("", $team);
+        return ApiResponse::success("", new TeamResource($team->load("users")));
     }
 
     /**
@@ -59,13 +51,13 @@ class TeamController extends Controller
 
         // Create the team
         $team = Team::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'image' => $request->image,
+            'name'          => $request->name,
+            'description'   => $request->description,
+            'image'         => $request->image,
             'tournament_id' => $request->tournament_id,
         ]);
 
-        return ApiResponse::created("", $team);
+        return ApiResponse::created("", new TeamResource($team->load("users")));
     }
 
     /**
@@ -74,12 +66,12 @@ class TeamController extends Controller
     public function update(UpdateApiTeamRequest $request, Team $team): JsonResponse
     {
         $team->update([
-            "name" => $request->name,
+            "name"        => $request->name,
             "description" => $request->description,
-            "image" => $request->image,
+            "image"       => $request->image,
         ]);
 
-        return ApiResponse::success("", $team);
+        return ApiResponse::success("", new TeamResource($team->load("users")));
     }
 
     /**
@@ -96,7 +88,7 @@ class TeamController extends Controller
 
             $team->users()->attach($player);
 
-            return ApiResponse::success(__("responses.team.player_added"), $team);
+            return ApiResponse::success(__("responses.team.player_added"), new TeamResource($team->load("users")));
         } else {
             return ApiResponse::forbidden(__("responses.team.full"), []);
         }
@@ -113,7 +105,7 @@ class TeamController extends Controller
         }
 
         // If the player is not in the team
-        if (!$team->users->where('id', $player->id)->first()) {
+        if (! $team->users->where('id', $player->id)->first()) {
             return ApiResponse::forbidden(__("responses.team.player_not_in_team"), []);
         }
 
@@ -124,7 +116,7 @@ class TeamController extends Controller
 
         $team->users()->detach($player);
 
-        return ApiResponse::success(__("responses.team.player_removed"), $team);
+        return ApiResponse::success(__("responses.team.player_removed"), new TeamResource($team->load("users")));
     }
 
     /**

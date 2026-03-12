@@ -51,7 +51,6 @@ Route::controller(AuthController::class)->group(function () {
  */
 Route::controller(UserController::class)->group(function () {
     Route::get('players', 'index');
-    Route::get('players/paginate/{item_per_page}', 'index_paginate');
     Route::get('players/{player}', 'show');
     Route::get('players/{player}/tournaments', 'playerTournaments');
     Route::get('players/{player}/teams', 'playerTeams');
@@ -64,7 +63,6 @@ Route::controller(UserController::class)->group(function () {
  */
 Route::controller(GameController::class)->group(function () {
     Route::get('games', 'index')->name('games.index.api');
-    Route::get('games/paginate/{item_per_page}', 'index_paginate');
     Route::get('games/{game}', 'show')->name('games.show.api');
 });
 
@@ -75,7 +73,6 @@ Route::controller(GameController::class)->group(function () {
  */
 Route::controller(TeamController::class)->group(function () {
     Route::get('teams', 'index');
-    Route::get('teams/paginate/{item_per_page}', 'index_paginate');
     Route::get('teams/{team}', 'show');
 });
 
@@ -88,7 +85,6 @@ Route::controller(TournamentController::class)->group(function () {
     Route::get('tournaments', 'index');
     Route::get('tournaments/prices', 'prices');
     Route::get('tournaments/{tournament}/available-teams', 'availableTeams');
-    Route::get('tournaments/paginate/{item_per_page}', 'index_paginate');
     Route::get('tournaments/{tournament}', 'show')->name('tournaments.show.api');
     Route::get('tournaments/{tournament}/purchasedPlaces', 'showPurchasedPlaces');
 });

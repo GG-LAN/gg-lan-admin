@@ -80,8 +80,9 @@ return [
         "updated" => "Your password has been updated !",
     ],
     "payment"         => [
-        "registered" => "The payment has been registered !",
-        "deleted"    => "The payment has been successfully deleted",
+        "registered"   => "The payment has been registered !",
+        "unregistered" => "The payment has been unregistered !",
+        "deleted"      => "The payment has been successfully deleted",
     ],
     "errors"          => [
         "something_went_wrong" => "Something went wrong...",

@@ -1,6 +1,7 @@
 <?php
 namespace Database\Factories;
 
+use App\Models\FaceitAccount;
 use App\Models\Game;
 use App\Models\Participation;
 use App\Models\PurchasedPlace;
@@ -27,6 +28,19 @@ class UserFactory extends Factory
             'remember_token'    => Str::random(10),
             'pseudo'            => $this->faker->name,
         ];
+    }
+
+    public function configure(): Factory
+    {
+        return $this->afterCreating(function (User $user) {
+            FaceitAccount::create([
+                "user_id"     => $user->id,
+                "nickname"    => $user->pseudo,
+                "player_id"   => $this->faker->uuid(),
+                "steam_id_64" => $this->faker->randomNumber(8, true),
+                "elo_cs2"     => $this->faker->randomNumber(4, true),
+            ]);
+        });
     }
 
     /**

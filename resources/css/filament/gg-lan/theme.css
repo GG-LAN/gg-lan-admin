@@ -1,0 +1,228 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+/* Badge */
+.fi-icon-btn-badge-ctn {
+    @apply bg-transparent !important;
+}
+
+.fi-badge {
+    @apply text-sm font-medium me-2 px-2.5 py-0.5 rounded-full ring-0 !important;
+}
+
+/* Sidebar */
+.fi-sidebar-item-label {
+    @apply text-base !important;
+}
+
+/* Table */
+.fi-ta-header-cell-label {
+    @apply
+    text-xs
+    uppercase
+    font-bold
+    text-gray-700
+    dark:text-gray-400;
+}
+
+td.fi-ta-cell:nth-child(2) .fi-ta-text-item-label {
+    @apply
+    text-gray-900
+    dark:text-white
+    whitespace-nowrap;
+}
+
+td.fi-ta-cell .fi-ta-text-item-label {
+    @apply
+    text-base
+    font-medium
+    text-gray-500
+    dark:text-gray-400;
+}
+
+.fi-ta-text {
+    @apply px-3 py-5;
+}
+
+
+
+
+
+
+.fi-fo-rich-editor-editor {
+    a {
+        cursor: pointer;
+        border-bottom-width: 1px;
+        border-color: currentColor;
+        background-color: rgb(245 83 83 / var(--tw-bg-opacity, 1));
+        --tw-bg-opacity: 0;
+        --tw-text-opacity: 1;
+        color: rgb(245 83 83 / var(--tw-text-opacity, 1));
+        transition-property: all;
+        transition-duration: .2s;
+        transition-timing-function: cubic-bezier(.4,0,.2,1);
+        animation-duration: .2s;
+        animation-timing-function: cubic-bezier(.4,0,.2,1);
+        text-decoration: none !important;
+    }
+
+    a:visited {
+        color: #4b2175
+    }
+
+    a:hover {
+        --tw-bg-opacity: .1
+    }
+
+    a:hover:visited {
+        background-color: #4b2175
+    }
+
+    a:is(.dark) {
+        background-color: rgb(250 142 142 / var(--tw-bg-opacity, 1));
+        --tw-bg-opacity: 0;
+        --tw-text-opacity: 1;
+        color: rgb(250 142 142 / var(--tw-text-opacity, 1))
+    }
+
+    a:visited:is(.dark) {
+        color: #c79bf2
+    }
+
+    a:hover:is(.dark ) {
+        --tw-bg-opacity: .1
+    }
+
+    a:hover:visited:is(.dark) {
+        background-color: #c79bf2
+    }
+
+    a span {
+        text-decoration-color: transparent!important
+    }
+
+    h2 {
+        margin-top: 2.5rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: .025em;
+        --tw-text-opacity: 1;
+        color: rgb(142 153 171 / var(--tw-text-opacity, 1))
+    }
+
+    h3 {
+        font-weight: 700
+    }
+
+    p:not(:last-child) {
+        margin-bottom: .75rem
+    }
+
+    h2+p {
+        margin-top: .75rem
+    }
+
+    h3+p {
+        margin-top: .75rem
+    }
+
+    strong {
+        font-weight: 700
+    }
+
+    em {
+        font-style: italic
+    }
+
+    p:last-child {
+        --tw-text-opacity: 1;
+        color: rgb(142 153 171 / var(--tw-text-opacity, 1));
+        text-align: right;
+        font-size: .875rem;
+        line-height: 1.25rem
+    }
+
+    ol>* {
+        margin-top: .25rem
+    }
+
+    ol li::marker {
+        content: none;
+    }
+
+    ol ol {
+        counter-reset: outer-counter;
+        margin-left: 3rem
+    }
+
+    ol ol li {
+        counter-increment: outer-counter
+    }
+
+    ol ol li::marker {
+        content: counter(outer-counter,upper-roman) ". ";
+        font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;
+        font-size: .875rem;
+        line-height: 1.25rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        --tw-text-opacity: 1;
+        color: rgb(245 83 83 / var(--tw-text-opacity, 1))
+    }
+
+    ol ol ol {
+        counter-reset: inner-counter;
+        margin-left: 2.5rem
+    }
+
+    ol ol ol li {
+        counter-increment: inner-counter
+    }
+
+    ol ol ol li::marker {
+        content: counter(outer-counter,upper-roman) "." counter(inner-counter,upper-roman) ". "
+    }
+
+    ul {
+        margin-left: 1.5rem;
+        list-style-type: disc
+    }
+
+    ul>:not([hidden])~:not([hidden]) {
+        --tw-space-y-reverse: 0;
+        margin-top: calc(.25rem * calc(1 - var(--tw-space-y-reverse)));
+        margin-bottom: calc(.25rem * var(--tw-space-y-reverse))
+    }
+
+    p+ol {
+        counter-reset: outer-counter
+    }
+
+    p+ol>:not([hidden])~:not([hidden]) {
+        --tw-space-y-reverse: 0;
+        margin-top: calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));
+        margin-bottom: calc(1.25rem * var(--tw-space-y-reverse))
+    }
+
+    p+ol li {
+        counter-increment: outer-counter
+    }
+
+    p+ol li::marker {
+        content: counter(outer-counter,upper-roman) ". ";
+        font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;
+        font-size: .875rem;
+        line-height: 1.25rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        --tw-text-opacity: 1;
+        color: rgb(245 83 83 / var(--tw-text-opacity, 1))
+    }
+}
+
+.fi-fo-rich-editor-editor>:not([hidden])~:not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(2.5rem * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(2.5rem * var(--tw-space-y-reverse))
+}

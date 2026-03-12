@@ -118,6 +118,7 @@ class PaymentResource extends Resource
             ])
             ->actions([
                 Action::make("register_payment")
+                    ->tooltip(__("Register payment"))
                     ->color("success")
                     ->icon("fas-money-bill")
                     ->iconButton()
@@ -132,7 +133,26 @@ class PaymentResource extends Resource
                             ->success()
                             ->send();
                     }),
+                Action::make("unregister_payment")
+                    ->tooltip(__("Unregister payment"))
+                    ->color("warning")
+                    ->icon("fas-clock-rotate-left")
+                    ->iconButton()
+                    ->requiresConfirmation()
+                    ->translateLabel()
+                    ->visible(fn(PurchasedPlace $payment): bool => $payment->paid)
+                    ->action(function (PurchasedPlace $payment) {
+                        $payment->update([
+                            "paid" => false,
+                        ]);
+
+                        Notification::make()
+                            ->title(__("responses.payment.unregistered"))
+                            ->success()
+                            ->send();
+                    }),
                 Action::make("delete")
+                    ->tooltip(__("Delete payment"))
                     ->color("danger")
                     ->icon("fas-trash-can")
                     ->iconButton()

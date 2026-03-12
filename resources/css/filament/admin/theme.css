@@ -116,11 +116,19 @@
 }
 
 .fi-section {
-    @apply shadow-md dark:shadow-none ring-0;
+    @apply shadow-md dark:shadow-none ring-0 rounded-lg;
+}
+
+.fi-section-header {
+    @apply rounded-t-lg;
+}
+
+.fi-section-header, .fi-section-content-ctn {
+    @apply bg-white dark:bg-gray-800 text-gray-900 dark:text-white ;
 }
 
 .fi-section-content-ctn {
-    @apply bg-white rounded-lg dark:bg-gray-800 text-gray-900 dark:text-white border-t border-gray-200 dark:border-white/10;
+    @apply rounded-b-lg;
 }
 
 .fi-section-content {
@@ -485,6 +493,20 @@ td.fi-ta-cell .fi-ta-text-item-label {
     duration-150;
 }
 
+.fi-btn-color-warning {
+    @apply
+    shadow
+    text-white
+    text-base
+    bg-warning-700
+    dark:bg-warning-600
+    hover:bg-warning-800
+    dark:hover:bg-warning-700
+    transition
+    ease-in-out
+    duration-150;
+}
+
 .fi-btn-color-danger {
     @apply
     shadow
@@ -522,6 +544,20 @@ td.fi-ta-cell .fi-ta-text-item-label {
     dark:bg-success-600
     hover:bg-success-800
     dark:hover:bg-success-700
+    transition
+    ease-in-out
+    duration-150;
+}
+
+.fi-icon-btn.fi-color-warning {
+    @apply
+    shadow
+    text-white
+    text-base
+    bg-warning-700
+    dark:bg-warning-600
+    hover:bg-warning-800
+    dark:hover:bg-warning-700
     transition
     ease-in-out
     duration-150;

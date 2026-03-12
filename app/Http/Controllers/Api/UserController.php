@@ -5,25 +5,20 @@ use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Players\LinkFaceitAccountRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
+use App\Http\Resources\TeamCollection;
+use App\Http\Resources\TournamentCollection;
+use App\Http\Resources\UserCollection;
+use App\Http\Resources\UserResource;
 use App\Models\Team;
 use App\Models\User;
 use App\Services\Faceit;
 use Auth;
 use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 #[Group('Player')] // Scramble Api Doc Group
 class UserController extends Controller
 {
-
-    private $fieldsToShow;
-
-    public function __construct()
-    {
-        $this->fieldsToShow = ['id', 'pseudo', 'image', 'created_at', 'updated_at'];
-    }
-
     /**
      * Get all the players
      *
@@ -31,17 +26,7 @@ class UserController extends Controller
      */
     public function index(): JsonResponse
     {
-        return ApiResponse::success("", User::all($this->fieldsToShow));
-    }
-
-    /**
-     * Get a paginate version of all the players
-     *
-     * @unauthenticated
-     */
-    public function index_paginate(Request $request, $item_per_page)
-    {
-        return ApiResponse::success("", User::paginate($item_per_page, $this->fieldsToShow));
+        return ApiResponse::success("", new UserCollection(User::all()));
     }
 
     /**
@@ -51,7 +36,7 @@ class UserController extends Controller
      */
     public function show(User $player)
     {
-        return ApiResponse::success("", $player->only($this->fieldsToShow));
+        return ApiResponse::success("", new UserResource($player->load("faceitAccount")));
     }
 
     /**
@@ -64,7 +49,7 @@ class UserController extends Controller
             "birth_date" => $request->birth_date,
         ]);
 
-        return ApiResponse::success("", $player);
+        return ApiResponse::success("", new UserResource($player));
     }
 
     /**
@@ -100,7 +85,7 @@ class UserController extends Controller
             array_push($tournaments, $team->tournament);
         }
 
-        return ApiResponse::success("", $tournaments);
+        return ApiResponse::success("", new TournamentCollection($tournaments));
     }
 
     /**
@@ -110,7 +95,7 @@ class UserController extends Controller
      */
     public function playerTeams(User $player): JsonResponse
     {
-        return ApiResponse::success("", $player->teams);
+        return ApiResponse::success("", new TeamCollection($player->teams));
     }
 
     /**
@@ -156,6 +141,6 @@ class UserController extends Controller
             "games",
         ]));
 
-        return ApiResponse::success("", $faceitAccount);
+        return ApiResponse::success("", new UserResource($player->load("faceitAccount")));
     }
 }

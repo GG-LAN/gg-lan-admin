@@ -5,6 +5,8 @@ use App\Models\PurchasedPlace;
 use App\Models\Team;
 use App\Models\Tournament;
 use App\Models\User;
+use App\Notifications\PlayerRegistered;
+use Illuminate\Support\Facades\Notification;
 
 it("can_get_tournaments", function () {
     $tournaments = Tournament::factory(10)->create();
@@ -14,21 +16,6 @@ it("can_get_tournaments", function () {
         ->assertJson([
             "data" => $tournaments->toArray(),
         ]);
-});
-
-it("can_get_tournaments_with_pagination", function () {
-    Tournament::factory(10)->create();
-
-    $item_per_page = 5;
-    $tournaments   = Tournament::paginate($item_per_page);
-
-    $response = $this->get('/api/tournaments/paginate/' . $item_per_page);
-
-    $result = json_decode($response->getContent(), true);
-
-    $response->assertOk();
-
-    $this->assertEquals($item_per_page, count($result['data']['data']));
 });
 
 it("can_get_tournament", function () {
@@ -395,4 +382,40 @@ it("don't list unregistered teams if the tournament is closed/finished", functio
             "data"    => [],
         ]);
 
+});
+
+it("will send a discord notification if the tournament is setup to do so when registering a player", function () {
+    $tournament = Tournament::factory()
+        ->create([
+            'type'          => 'solo',
+            'status'        => 'open',
+            'discord_notif' => true,
+        ]);
+
+    $user = User::factory()->create();
+
+    Notification::fake();
+
+    $this->actingAs($user)->post('/api/tournaments/' . $tournament->id . '/register/' . $user->id);
+
+    Notification::assertSentTo(
+        [$user], PlayerRegistered::class
+    );
+});
+
+it("will not send a discord notification if the tournament is setup to do so when registering a player", function () {
+    $tournament = Tournament::factory()
+        ->create([
+            'type'          => 'solo',
+            'status'        => 'open',
+            'discord_notif' => false,
+        ]);
+
+    $user = User::factory()->create();
+
+    Notification::fake();
+
+    $this->actingAs($user)->post('/api/tournaments/' . $tournament->id . '/register/' . $user->id);
+
+    Notification::assertNothingSent();
 });

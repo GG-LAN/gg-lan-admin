@@ -17,12 +17,29 @@ class Tournament extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'description', 'game_id', 'start_date', 'end_date', 'places', 'cashprize', 'status', 'image', 'type',
+        'name',
+        'description',
+        'game_id',
+        'start_date',
+        'end_date',
+        'places',
+        'cashprize',
+        'status',
+        'image',
+        'type',
+        'external_url',
+        'discord_notif',
     ];
 
-    protected $with = ['teams', 'players'];
+    protected $hidden = [
+        'discord_notif',
+    ];
 
-    protected $appends = ['register_count', 'isFull', 'price'];
+    protected $appends = [
+        'register_count',
+        'isFull',
+        'price',
+    ];
 
     /**
      * The attributes that should be cast to native types.
@@ -93,7 +110,7 @@ class Tournament extends Model
         return null;
     }
 
-    public function getPaymentLink(Request $request): string
+    public function getPaymentLink(Request $request): ?string
     {
         if (! config("app.stripe_key")) {
             return null;

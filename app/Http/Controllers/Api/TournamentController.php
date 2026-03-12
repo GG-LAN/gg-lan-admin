@@ -3,6 +3,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\ApiResponse;
 use App\Http\Requests\Tournaments\GetPaymentLinkRequest;
+use App\Http\Resources\TournamentCollection;
+use App\Http\Resources\TournamentResource;
 use App\Models\Team;
 use App\Models\Tournament;
 use App\Models\TournamentPrice;
@@ -14,32 +16,22 @@ class TournamentController extends Controller
 {
     /**
      * Get all tournaments
-     * 
+     *
      * @unauthenticated
      */
     public function index(): JsonResponse
     {
-        return ApiResponse::success("", Tournament::without('players', 'teams')->get());
-    }
-
-    /**
-     * Get a paginate version of all the tournaments
-     * 
-     * @unauthenticated
-     */
-    public function index_paginate($item_per_page): JsonResponse
-    {
-        return ApiResponse::success("", Tournament::without('players', 'teams')->paginate($item_per_page));
+        return ApiResponse::success("", new TournamentCollection(Tournament::all()));
     }
 
     /**
      * Get a tournament
-     * 
+     *
      * @unauthenticated
      */
     public function show(Tournament $tournament): JsonResponse
     {
-        return ApiResponse::success("", $tournament);
+        return ApiResponse::success("", new TournamentResource($tournament));
     }
 
     /**
@@ -79,7 +71,7 @@ class TournamentController extends Controller
         if (! $tournament->checkPlayerIsRegistered($player)) {
             $tournament->players()->attach($player);
 
-            return ApiResponse::success(__("responses.tournament.registered"), $tournament);
+            return ApiResponse::success(__("responses.tournament.registered"), new TournamentResource($tournament));
         }
 
         return ApiResponse::forbidden(__("responses.tournament.already_registered"), []);
@@ -97,7 +89,7 @@ class TournamentController extends Controller
         if ($tournament->checkPlayerIsRegistered($player)) {
             $tournament->players()->detach($player);
 
-            return ApiResponse::success(__("responses.tournament.unregistered"), $tournament);
+            return ApiResponse::success(__("responses.tournament.unregistered"), new TournamentResource($tournament));
         }
 
         return ApiResponse::forbidden(__("responses.tournament.not_registered"), []);
@@ -105,7 +97,7 @@ class TournamentController extends Controller
 
     /**
      * Get all the price for each open tournaments
-     * 
+     *
      * @unauthenticated
      */
     public function prices(): JsonResponse

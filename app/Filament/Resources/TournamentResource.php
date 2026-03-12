@@ -2,23 +2,26 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TournamentResource\Pages;
-use App\Filament\Resources\TournamentResource\Pages\ShowTournament;
+use App\Filament\Resources\TournamentResource\Pages\Payments;
+use App\Filament\Resources\TournamentResource\Pages\Registrations;
+use App\Filament\Resources\TournamentResource\Pages\TournamentSettings;
+use App\Filament\Resources\TournamentResource\Pages\ViewTournament;
 use App\Models\Game;
 use App\Models\Tournament;
 use App\Models\TournamentPrice;
 use Carbon\Carbon;
 use Filament\Actions\Action;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Wizard\Step;
-use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Notifications\Notification;
+use Filament\Pages\Page;
+use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\ActionSize;
 use Filament\Support\Enums\MaxWidth;
@@ -28,6 +31,9 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Arr;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 
 class TournamentResource extends Resource
@@ -37,6 +43,8 @@ class TournamentResource extends Resource
     protected static ?string $navigationIcon = "fas-trophy";
 
     protected static ?int $navigationSort = 1;
+
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Start;
 
     public static function getModelLabel(): string
     {
@@ -51,26 +59,6 @@ class TournamentResource extends Resource
     public static function getNavigationGroup(): string
     {
         return __("Tournaments");
-    }
-
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-
-                Forms\Components\TextInput::make("places")
-                    ->required()
-                    ->numeric(),
-
-                Forms\Components\TextInput::make("status")
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make("image")
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make("type")
-                    ->maxLength(255)
-                    ->default(null),
-            ]);
     }
 
     public static function table(Table $table): Table
@@ -105,9 +93,9 @@ class TournamentResource extends Resource
                     ->translateLabel()
                     ->badge()
                     ->color(fn(string $state): string => match ($state) {
-                        "open"                            => "success",
-                        "finished"                        => "warning",
-                        "closed"                          => "danger",
+                        "open"     => "success",
+                        "finished" => "warning",
+                        "closed"   => "danger",
                     })
                     ->formatStateUsing(fn(string $state): string => __(Str::ucfirst($state)))
                     ->sortable()
@@ -177,19 +165,87 @@ class TournamentResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
+    public static function getSubheading(Tournament $record): string | Htmlable | null
     {
-        return [
-            //
-        ];
+        $statusLabel = __(Str::ucfirst($record->status));
+
+        switch ($record->status) {
+            case 'open':
+                return new HtmlString("
+                    <div class='flex w-max'>
+                        <span
+                            style='--c-50:var(--success-50);--c-400:var(--success-400);--c-600:var(--success-600);'
+                            class='fi-badge flex items-center justify-center gap-x-1 rounded-md text-xs font-medium ring-1 ring-inset px-2 min-w-[theme(spacing.6)] py-1 fi-color-custom bg-custom-50 text-custom-600 ring-custom-600/10 dark:bg-custom-400/10 dark:text-custom-400 dark:ring-custom-400/30 fi-color-success'
+                        >
+                            <span class='grid'>
+                                <span class='truncate'>
+                                    {$statusLabel}
+                                </span>
+                            </span>
+                        </span>
+                    </div>
+                ");
+                break;
+
+            case 'closed':
+                return new HtmlString("
+                    <div class='flex w-max'>
+                        <span
+                            style='--c-50:var(--danger-50);--c-400:var(--danger-400);--c-600:var(--danger-600);'
+                            class='fi-badge flex items-center justify-center gap-x-1 rounded-md text-xs font-medium ring-1 ring-inset px-2 min-w-[theme(spacing.6)] py-1 fi-color-custom bg-custom-50 text-custom-600 ring-custom-600/10 dark:bg-custom-400/10 dark:text-custom-400 dark:ring-custom-400/30 fi-color-danger'
+                        >
+                            <span class='grid'>
+                                <span class='truncate'>
+                                    {$statusLabel}
+                                </span>
+                            </span>
+                        </span>
+                    </div>
+                ");
+                break;
+
+            case 'finished':
+                return new HtmlString("
+                    <div class='flex w-max'>
+                        <span
+                            style='--c-50:var(--warning-50);--c-400:var(--warning-400);--c-600:var(--warning-600);'
+                            class='fi-badge flex items-center justify-center gap-x-1 rounded-md text-xs font-medium ring-1 ring-inset px-2 min-w-[theme(spacing.6)] py-1 fi-color-custom bg-custom-50 text-custom-600 ring-custom-600/10 dark:bg-custom-400/10 dark:text-custom-400 dark:ring-custom-400/30 fi-color-warning'
+                        >
+                            <span class='grid'>
+                                <span class='truncate'>
+                                    {$statusLabel}
+                                </span>
+                            </span>
+                        </span>
+                    </div>
+                ");
+                break;
+
+            default:
+                return null;
+                break;
+        }
     }
 
     public static function getPages(): array
     {
         return [
-            "index" => Pages\ListTournaments::route("/"),
-            "view"  => ShowTournament::route("/{record}"),
+            "index"         => Pages\ListTournaments::route("/"),
+            "view"          => ViewTournament::route("/{record}"),
+            "registrations" => Registrations::route("/{record}/registrations"),
+            "payments"      => Payments::route("/{record}/payments"),
+            "settings"      => TournamentSettings::route("/{record}/settings"),
         ];
+    }
+
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            ViewTournament::class,
+            Registrations::class,
+            Payments::class,
+            TournamentSettings::class,
+        ]);
     }
 
     public static function createTournamentAction(?string $type = null)
@@ -254,6 +310,28 @@ class TournamentResource extends Resource
                             ->placeholder(__("Short description of the tournament"))
                             ->autosize()
                             ->columnSpanFull(),
+                        Toggle::make("discord_notif")
+                            ->label(__("Send a Discord announcement after each registration"))
+                            ->onIcon("fab-discord")
+                            ->offIcon("fas-xmark")
+                            ->default(true)
+                            ->columnSpan(2),
+                        Toggle::make("is_external")
+                            ->translateLabel()
+                            ->default(false)
+                            ->onIcon("fas-check")
+                            ->offIcon("fas-xmark")
+                            ->live()
+                            ->columnspan(2),
+                        TextInput::make("external_url")
+                            ->translateLabel()
+                            ->url()
+                            ->placeholder("https://...")
+                            ->prefixIcon("fas-globe")
+                            ->live(onBlur: true)
+                            ->required()
+                            ->hidden(fn(Get $get) => ! $get("is_external"))
+                            ->columnspan(1),
                     ]),
                 Step::make(__("Dates"))
                     ->columns(2)
@@ -273,6 +351,12 @@ class TournamentResource extends Resource
                     ->description("")
                     ->icon("fas-money-bill")
                     ->schema([
+                        Toggle::make("has_price")
+                            ->translateLabel()
+                            ->default(false)
+                            ->onIcon("fas-check")
+                            ->offIcon("fas-xmark")
+                            ->live(),
                         TextInput::make("normal_price")
                             ->translateLabel()
                             ->numeric()
@@ -281,9 +365,14 @@ class TournamentResource extends Resource
                             ->prefixIcon("fab-stripe-s")
                             ->suffixIcon("fas-euro-sign")
                             ->live(onBlur: true)
+                            ->hidden(fn(Get $get) => ! $get("has_price"))
                             ->afterStateUpdated(fn(?string $state, Set $set) => $set("last_week_price", $state)),
                         Toggle::make("has_last_week_price")
+                            ->translateLabel()
                             ->default(false)
+                            ->onIcon("fas-check")
+                            ->offIcon("fas-xmark")
+                            ->hidden(fn(Get $get) => ! $get("has_price"))
                             ->live(),
                         TextInput::make("last_week_price")
                             ->translateLabel()
@@ -292,56 +381,68 @@ class TournamentResource extends Resource
                             ->inputMode("decimal")
                             ->prefixIcon("fab-stripe-s")
                             ->suffixIcon("fas-euro-sign")
-                            ->hidden(fn(Get $get) => ! $get("has_last_week_price")),
+                            ->hidden(fn(Get $get) => ! $get("has_last_week_price") || ! $get("has_price")),
                     ]),
             ])
             ->action(function (array $data): void {
                 $game = Game::find($data["game"]);
 
-                $tournament = Tournament::create([
-                    "name"        => $data["name"],
-                    "description" => $data["description"],
-                    "game_id"     => $game->id,
-                    "start_date"  => $data["start_date"],
-                    "end_date"    => $data["end_date"],
-                    "places"      => $data["places"],
-                    "cashprize"   => $data["cashprize"],
-                    "status"      => "closed",
-                    "type"        => $game->places > 1 ? "team" : "solo",
-                ]);
+                $type = "";
 
-                // Create Stripe Product
-                $product = TournamentPrice::createProduct([
-                    "name" => $tournament->name,
-                ]);
-
-                $normalPrice   = $data["normal_price"];
-                $lastWeekPrice = $data["normal_price"];
-
-                if ($data["has_last_week_price"]) {
-                    $lastWeekPrice = $data["last_week_price"];
+                if ($data["is_external"]) {
+                    $type = "external";
+                } else {
+                    $type = $game->places > 1 ? "team" : "solo";
                 }
 
-                // Normal price
-                TournamentPrice::create([
-                    "name"          => $tournament->name,
-                    "tournament_id" => $tournament->id,
-                    "type"          => "normal",
-                    "currency"      => "eur",
-                    "unit_amount"   => $normalPrice,
-                    "product"       => $product->id,
-                    "active"        => true,
+                $tournament = Tournament::create([
+                    "name"          => $data["name"],
+                    "description"   => $data["description"],
+                    "game_id"       => $game->id,
+                    "start_date"    => $data["start_date"],
+                    "end_date"      => $data["end_date"],
+                    "places"        => $data["places"],
+                    "cashprize"     => $data["cashprize"],
+                    "status"        => "closed",
+                    "type"          => $type,
+                    "external_url"  => Arr::exists($data, "external_url") ? $data["external_url"] : null,
+                    "discord_notif" => $data["discord_notif"],
                 ]);
 
-                // Last week price
-                TournamentPrice::create([
-                    "name"          => $tournament->name . " Last Week",
-                    "tournament_id" => $tournament->id,
-                    "type"          => "last_week",
-                    "currency"      => "eur",
-                    "unit_amount"   => $lastWeekPrice,
-                    "product"       => $product->id,
-                ]);
+                // Create Stripe Product if wanted
+                if ($data["has_price"]) {
+                    $product = TournamentPrice::createProduct([
+                        "name" => $tournament->name,
+                    ]);
+
+                    $normalPrice   = $data["normal_price"];
+                    $lastWeekPrice = $data["normal_price"];
+
+                    if ($data["has_last_week_price"]) {
+                        $lastWeekPrice = $data["last_week_price"];
+                    }
+
+                    // Normal price
+                    TournamentPrice::create([
+                        "name"          => $tournament->name,
+                        "tournament_id" => $tournament->id,
+                        "type"          => "normal",
+                        "currency"      => "eur",
+                        "unit_amount"   => $normalPrice,
+                        "product"       => $product->id,
+                        "active"        => true,
+                    ]);
+
+                    // Last week price
+                    TournamentPrice::create([
+                        "name"          => $tournament->name . " Last Week",
+                        "tournament_id" => $tournament->id,
+                        "type"          => "last_week",
+                        "currency"      => "eur",
+                        "unit_amount"   => $lastWeekPrice,
+                        "product"       => $product->id,
+                    ]);
+                }
 
                 Notification::make()
                     ->title(__("responses.tournament.created"))

@@ -28,7 +28,7 @@ class PurchasedPlaceController extends Controller
         if (auth()->user()->id != $user->id) {
             return ApiResponse::forbidden(__("responses.purchasedPlaces.cant_register"), []);
         }
-
+        
         // Update purchased place
         $purchasedPlace = PurchasedPlace::register($user, $tournament, true);
 
